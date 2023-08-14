@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Button Click Example</title>
+</head>
+<body>
+  <input
+    id = 'button1'
+    type = 'button'
+    onclick= 'postData()'
+    value= "clickButton"/>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    function postData() {
+    axios.post('/hello', {
+        gender: 'Men',
+        name: "Kim"
+    })
+    .then(function (response) {
+    	console.log(response);
+    })
+    .catch(function (error) {
+    	console.log(error);
+    });
+    
+    //window.location.href = "http://localhost:8080/hello"
+}
+  </script>
+</body>
+</html>

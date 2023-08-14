@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gender Selection</title>
+</head>
+<body>
+    <h1>Select Your Gender {{.UserID}}</h1>
+    <button id="male-button">Male</button>
+    <button id="female-button">Female</button>
+    <button id="next-button">Next</button>
+    <input type="radio" name="genderRadio" id="male" value="male">Male
+    <input type="radio" name="genderRadio" id="Female" value="Female">Female
+
+    <script>
+        var t = document.getElementById('male')
+        t.addEventListener('change', function(){
+            selectGender('male')
+        })
+        var t = document.getElementById('Female')
+        t.addEventListener('change', function(){
+            selectGender('Female')
+        })
+        document.getElementById('male-button').addEventListener('click', function() {
+            handleGenderSelection('male');
+        });
+
+        document.getElementById('female-button').addEventListener('click', function() {
+            handleGenderSelection('female');
+        });
+
+        document.getElementById('next-button').addEventListener('click', function() {
+            navigateToNextScren();
+        });
+
+        function handleGenderSelection(gender) {
+            console.log('Selected Gender:', gender);
+        }
+
+        function selectGender(gender) {
+            console.log('Selcted Gender', gender);
+        }
+
+        function navigateToNextScreen() {
+            console.log('Navigating to the next screen...');
+            // 여기에 다음 화면으로 이동하는 로직을 추가할 수 있습니다.
+        }
+    </script>
+</body>
+</html>
