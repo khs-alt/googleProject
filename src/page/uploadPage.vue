@@ -32,6 +32,7 @@
                                 <img :src="originalFile"  width="100" height="100">
                             </template> -->
                             <div class="file-upload-list__item__data-name">{{ originalFile.name }}</div>
+                            <!-- TODO: 바뀐 비디오 이름 말고 원래 비디오 이름도 같이 출력하기 -->
                         </div>
                     </div>
                 </div>
@@ -56,6 +57,7 @@
                                 <img :src="artifactFile"  width="100" height="100">
                             </template> -->
                             <div class="file-upload-list__item__data-name">{{ artifactFile.name }}</div>
+                            <!-- TODO: 바뀐 비디오 이름 말고 원래 비디오 이름도 같이 출력하기 -->
                         </div>
                     </div>
                 </div>
@@ -90,7 +92,6 @@
                 <div style="display: flex;">
                     <div v-for="(item, index) in clickTagBtn" :key="index">{{ item }}</div>
                 </div>
-                <!-- <div>clickedTagBtn: {{ clickedTagBtn }}</div> -->
                 <div style="style=display: flex;">
                     <div class="width-style" style="display: flex; margin-left: 10px; margin-top: 15px;">Upload Options</div>
                     <div style="display: flex;" role="group" aria-label="Basic checkbox toggle button group">
@@ -136,14 +137,7 @@ export default {
         this.getTag();
     },
     methods: {
-        displayMedia(file) {
-            // 파일을 URL로 변환하여 미리 보여주는 영역에 표시
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                this.mediaUrl = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        },
+        // TODO: tag 클릭시 해당 tag에 해당하는 video list 가져오기
         navigateTo(item) {
             if (item === 'Home') {
                 this.$router.push('/');
@@ -256,7 +250,7 @@ export default {
         },
         deleteTag() {
             if (this.clickedTagBtn.length == 0){
-                alert("Please Clicked Button")
+                alert("Please Clicke the Button")
             }else{
             axios
                 .post(this.baseUrl + '/deleteTag', {
@@ -277,12 +271,8 @@ export default {
             axios
                 .get(this.baseUrl + '/getTag')
                 .then((response) => {
-                    if (response != null) {
-                        console.log(response.data);
-                        if(response.data == null){
-                            console.log(response.data);
-                        }
-                        else{
+                    if (response.data != null) {
+                        if(response.data != null){
                             this.tag = response.data;
                         }
                         this.isClicked = [];
@@ -341,19 +331,6 @@ export default {
                 console.log("added tag:", tagName);
             }
         },
-        // // data에 추가된 태그 보내는 method
-        // postDataTag() {
-        //     console.log("postDataTag");
-        //     const data = this.clickedTagBtn;
-        //     axios
-        //         .post(this.baseUrl + '/postDataTag', data)
-        //         .then((response) => {
-        //             console.log(response.data);
-        //         })
-        //         .catch((error) => {
-        //             console.log(error);
-        //         })
-        // },
         onOriginalClick() {
             this.$refs.originalFileInput.click()
             console.log(this.$refs.originalFileInput)

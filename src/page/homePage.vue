@@ -10,7 +10,7 @@
                         <button class="signup-btn-style">Home</button>
                     </a>
                     <a href="/signup" style="margin-right: 10px;">
-                        <button class="signup-btn-style">Sign up</button>
+                        <button class="signup-btn-style">Sign Up</button>
                     </a>
                     <a href="/admin">
                         <button class="signup-btn-style">Admin</button>

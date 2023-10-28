@@ -7,7 +7,7 @@
                     <button class="signup-btn-style">Home</button>
                 </a>
                 <a href="/signup">
-                    <button class="signup-btn-style">Sign up</button>
+                    <button class="signup-btn-style">Sign Up</button>
                 </a>
             </div>
         </div>

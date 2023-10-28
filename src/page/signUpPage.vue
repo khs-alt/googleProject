@@ -6,9 +6,6 @@
                 <a href="/" style="margin-right: 10px;">
                     <button class="signup-btn-style">Home</button>
                 </a>
-                <a href="/signup">
-                    <button class="signup-btn-style">Sign up</button>
-                </a>
             </div>
         </div>
     </div>

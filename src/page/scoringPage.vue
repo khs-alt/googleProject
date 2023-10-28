@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div style="margin-left: 50px; margin-right: 50px;">
+        <div style="margin-left: 50px; margin-right: 50px; max-width: 100%;">
             <div style="margin-bottom: 5px;">
                 <button @click="seekBackward" @mouseover="isMouseOverMinus = true" @mouseout="isMouseOverMinus = false"
                     :class="{ 'btn-style': !isMouseOverMinus, 'clicked-btn-style': isMouseOverMinus }"
@@ -50,20 +50,20 @@
                     style="margin-left: 2%;">+1
                     frame</button>
             </div>
-            <div style="display: flex; min-width: 1200px;">
+            <div style="display: flex; margin-left: auto; margin-right: auto;">
                 <div style="margin-left: auto; margin-right: auto; display: flex;">
-                    <button v-on="click" class="btn-style" style="font-size: large; width: 120px; height: 62px;"
+                    <button v-on="click" class="btn-style" style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
                         @click="changeBackVideo">back</button>
                     <button v-for="a in 5" ref="score" :key="a" v-on:click="clickedButton = a"
-                        style="width: 80px; font-size:x-large;"
+                        style="width: 80px; height: 55px; font-size:x-large; padding-top: 9px;"
                         :class="{ 'clicked-btn-style': isPressed[a], 'btn-style': !isPressed[a] }"
                         @click="toggleButton(a)">{{ a }}</button>
-                    <button v-on="click" class="btn-style" style="font-size: large; width: 120px; height: 62px;"
+                    <button v-on="click" class="btn-style" style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
                         @click="changeNextVideo">next</button>
                 </div>
             </div>
             <div>
-                <button v-on="click" class="btn-style" style="width: 150px; height: 75px; font-size: x-large;"
+                <button v-on="click" class="btn-style" style="width: 130px; height: 60px; font-size: x-large; padding: 9px;"
                     @click="submitScoring()">submit</button>
             </div>
         </div>
