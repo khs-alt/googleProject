@@ -20,11 +20,14 @@
                                 ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
                                 :src="leftOriginalVideo()"  @wheel="handleWheel" @click="setZoomCenter">
                             </video>
-                            <!-- TODO: 비디오 이름 파싱해서 보여주기  -->
-                            <!-- <div>{{ this.originalVideoNameList }}</div> -->
                         </div>
                     </transition>
+                    <div>
+                        <h5 style="margin-top: 8px;">{{ this.originalVideoNameList[videoNameIndex] }}</h5>
+                    </div>
                 </div>
+
+
                 <div style="margin: 15px;">
                     <transition name="fade" mode="out-in" appear>
                         <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
@@ -32,19 +35,20 @@
                                 ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" 
                                 :src="rightArtifactVideo()"  @wheel="handleWheel" @click="setZoomCenter">
                             </video>
-                            <!-- TODO: 비디오 이름 파싱해서 보여주기  -->
-                            <!-- <div>{{ this.artifactVideoNameList }}</div> -->
                         </div>
                     </transition>
+                    <div>
+                        <h5 style="margin-top: 8px;">{{ this.artifactVideoNameList[videoNameIndex] }}</h5>
+                    </div>
                 </div>
             </div>
         </div>
         <div>
-            <h3>Progess Bar</h3>
+            <!-- <h3>Progess Bar</h3>
             <div>
-                <!-- TODO: progess bar 수정 필요 -->
-                <!-- <progress style="width: 100%;" :value="currentPage" max="100"></progress> -->
-            </div>
+                TODO: progess bar 수정 필요
+                <progress style="width: 100%;" :value="currentPage" max="100"></progress>
+            </div> -->
         </div>
         <div style="margin-left: 50px; margin-right: 50px; max-width: 100%;">
             <div style="margin-bottom: 5px;">
@@ -118,14 +122,18 @@ export default {
             videoList: [],
             originalVideoNameList: [],
             artifactVideoNameList: [],
+            videoNameIndex: 0,
         }
     },
     created() { },
     mounted() {
         this.changeVideoButton;
         this.getVideoIndexCurrentPage();
+        this.addEventVideoPlay();
     },
     methods: {
+        // TODO: backend에서 leftVideFrame, rightVideoFrame을 받아와서 leftVideoFrame, rightVideoFrame에 저장해야 함.
+
         zoomIn() {
             this.zoom += 0.1;
             this.updateVideoStyle();
@@ -144,14 +152,12 @@ export default {
         },
         setZoomCenter(event) {
             const rect = this.$refs.videoNoartifact.getBoundingClientRect();
-            // const rect2 = this.$refs.video2.getBoundingClientRect();
             this.zoomCenterX = ((event.clientX - rect.left) / rect.width) * 100;
             this.zoomCenterY = ((event.clientY - rect.top) / rect.height) * 100;
-
-            // this.zoomCenterX = ((event.clientX - rect2.left) / rect2.width) * 100;
-            // this.zoomCenterY = ((event.clientY - rect2.top) / rect2.height) * 100;
             this.updateVideoStyle();
         },
+        // TODO: 마우스 휠로만 확대축소 가능하게 만들기 (마우스 휠 이벤트)
+        // TODO: drag and drop 으로 확대/축소한 상태에서 이동 가능하게 만들기
         handleWheel(event) {
             if (event.shiftKey) {
                 if (event.deltaY < 0) {
@@ -181,16 +187,24 @@ export default {
                     this.originalVideoNameList = response.data.originalVideoNameList;
                     this.artifactVideoNameList = response.data.artifactVideoNameList;
 
+                    console.log("getVideoIndexCurrentPage response")
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoList)
                     console.log("original video name list: ", this.originalVideoNameList)
                     console.log("artifact video name list: ", this.artifactVideoNameList)
-
                     this.parsingStringToIntArray();
                     this.parsingOriginalNameList();
                     this.parsingArtifactNameList();
                     this.leftOriginalVideo();
                     this.rightArtifactVideo();
+
+                    // 원래는 백에서 index를 받아와야하는데, 여기서는 index를 받아오지 않고, 프론트에서 videoList에서 index를 찾아서 videoNameIndex에 저장
+                    for(var i = 0; i < this.videoList.length; i++){
+                        if(this.videoIndex[i] == this.currentPage){
+                            this.videoNameIndex = i
+                            console.log("videoNameIndex: ", this.videoNameIndex)
+                        }
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -201,21 +215,16 @@ export default {
             for (var i in temp) {
                 this.videoIndex.push(parseInt(temp[i]));
             }
+            console.log("parsingStringToIntArray")
             console.log("video index: ", this.videoIndex);
-            console.log("video index length" + this.videoIndex.length);
+            console.log("video index length: " + this.videoIndex.length);
         },
         parsingOriginalNameList() {
-            var temp = this.originalVideoNameList.split(",");
-            for (var i in temp) {
-                this.videoIndex.push(parseInt(temp[i]));
-            }
+            this.originalVideoNameList = this.originalVideoNameList.split(",");
             console.log("original name: ", this.originalVideoNameList);
         },
         parsingArtifactNameList(){
-            var temp = this.artifactVideoNameList.split(",");
-            for (var i in temp) {
-                this.videoIndex.push(parseInt(temp[i]));
-            }
+            this.artifactVideoNameList = this.artifactVideoNameList.split(",");
             console.log("artifact index: ", this.artifactVideoNameList);
         },
         navigateTo(item) {
@@ -224,12 +233,14 @@ export default {
             }
         },
         leftOriginalVideo() {
+            console.log("leftOriginalVideo")
             console.log("original page url: ",this.baseUrl + "/postvideo/original/" + (this.currentPage))
             return String(this.baseUrl + "/postvideo/original/" + (this.currentPage))
         },
         rightArtifactVideo() {
+            console.log("rightArtifactVideo")
             console.log("artifact page url: ",this.baseUrl + "/postvideo/artifact/" + (this.currentPage))
-            return String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage))
+            return String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage))   
         },
         submitScoring() {
             for (var i = 0; i < 10; i++) {
@@ -282,13 +293,16 @@ export default {
                 alert("Please choose score.")
             } else {
                 this.userScoring = this.clickedButton
-                // this.leftOriginalVideo()
-                // this.rightArtifactVideo()
+                console.log("changeNextVideo")
                 console.log("user scoring: ", this.userScoring)
                 console.log("current user:", this.currentUser)
                 console.log("current page: ", this.currentPage)
                 console.log("test code: ", this.testCode)
                 
+                console.log(this.currentPage)
+                console.log(this.videoIndex)
+                console.log(this.videoIndex[this.videoIndex.length - 1])
+
                 if(this.currentPage == this.videoIndex[this.videoIndex.length - 1]){
                     alert("This is the last page");
                     console.log("This is the last page");
@@ -299,14 +313,16 @@ export default {
                             Title: "scoring data",
                             Score: this.userScoring,
                             CurrentUser: this.currentUser,
-                            ImageId: parseInt(this.currentPage),
+                            ImageId: parseInt(this.currentPage) + 1,
                             TestCode: this.testCode
                         })
                         .then(res => {
                             //after post we have to init data form userScoring and currentPage
-                            console.log("response: ", res)
+                            console.log("response: ", res.data)
                             this.userScoring = 0
                             this.isPressed = [false, false, false, false, false]
+                            this.videoNameIndex += 1
+                            console.log("videoNameIndex: ", this.videoNameIndex)
                             
                             for (var i = 0; i < this.videoIndex.length; i++) {
                                 console.log("video index : ", this.videoIndex[i])
@@ -327,18 +343,24 @@ export default {
         // 이전 비디오로 비디오 변경
         changeBackVideo() {
             this.isPressed = [false, false, false, false, false]
-                for (var i = 0; i < this.videoIndex.length; i++) {
-                    if (this.currentPage == this.videoIndex[0]) {
-                        alert("This is the first page. current page: " + this.currentPage);
-                        console.log("first page", this.currentPage);
-                        return;
-                    } else if (this.videoIndex[i] == this.currentPage) {
+            console.log("changeBackVideo")
+
+            if(this.currentPage == this.videoIndex[0]){
+                alert("This is the first page.");
+                console.log("first page: ", this.currentPage);
+                return;
+            }else{
+                for (var i = 1; i < this.videoIndex.length; i++) {
+                    if (this.videoIndex[i] == this.currentPage) {
+                        this.videoNameIndex -= 1
                         this.currentPage = this.videoIndex[i - 1];
-                        //alert("prev page : " + this.currentPage);
-                        console.log("prev page : " + this.currentPage);
+                        console.log("video index : ", this.videoIndex[i])
+                        console.log("prev page: " + this.currentPage);
+                        console.log("videoNameIndex: ", this.videoNameIndex)
                         return;
                     }
                 }
+            }
         },
         // score button 눌렸는지 안눌렸는지 확인하는 method
         toggleButton(index) {
@@ -347,20 +369,29 @@ export default {
         },
         // video 2개 동시에 플레이 시키는 method
         playVideos() {
-            const video1 = document.getElementById('videoNoartifact');
-            const video2 = document.getElementById('videoYesartifact');
+            var video1 = document.getElementById('videoNoartifact');
+            var video2 = document.getElementById('videoYesartifact');
             if (video1 && video2) {
+                video1.currentTime = video2.currentTime;
                 video1.play();
-                video2.play();
             }
+        },
+        addEventVideoPlay(){
+            var video1 = document.getElementById('videoNoartifact');
+            video1.addEventListener("play",function(){
+                    document.getElementById('videoYesartifact').play();
+                });
+            video1.addEventListener("pause",function(){
+                document.getElementById('videoYesartifact').pause();
+            })
         },
         // video 2개 동시에 Stop 시키는 method
         pauseVideos() {
-            const video1 = document.getElementById('videoNoartifact');
-            const video2 = document.getElementById('videoYesartifact');
+            var video1 = document.getElementById('videoNoartifact');
+            var video2 = document.getElementById('videoYesartifact');
             if (video1 && video2) {
+                video1.currentTime = video2.currentTime;
                 video1.pause();
-                video2.pause();
             }
         },
         // Play Video/Stop 및 text 변경 버튼
@@ -376,17 +407,20 @@ export default {
         seekBackward() {
             const video1 = this.$refs.videoNoartifact; // 비디오 엘리먼트 가져오기
             const video2 = this.$refs.videoYesartifact;
+            // TODO: backend 에서 비디오 프레임 보내주는 거 받아와서 이동하도록 수정해야 함.
             if (video1 && video2) {
-                video1.currentTime -= (1 / 29.96); // 1/29.96초씩 뒤로 이동
-                video2.currentTime -= (1 / 29.96);
+                video1.currentTime -= 1/29.96; // 1/29.96초씩 뒤로 이동
+                video2.currentTime -= 1/29.96;
             }
         },
         seekForward() {
             const video1 = this.$refs.videoNoartifact; // 비디오 엘리먼트 가져오기
             const video2 = this.$refs.videoYesartifact;
+            // TODO: backend 에서 비디오 프레임 보내주는 거 받아와서 이동하도록 수정해야 함.
+            // TODO: 비디오 프레임
             if (video1 && video2) {
-                video1.currentTime += (1 / 29.96); // 1/29.96초씩 앞으로 이동
-                video2.currentTime += (1 / 29.96);
+                video1.currentTime += 1/29.96; // 1/29.96초씩 앞으로 이동
+                video2.currentTime += 1/29.96;
             }
         },
     },

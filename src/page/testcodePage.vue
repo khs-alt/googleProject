@@ -42,10 +42,8 @@
                                 {{ item }}
                             </button>
                         </div>
-                        <div v-for="(item, index) in clickedTagBtn" :key="index">{{ item }}</div>
                     </div>
                 </div>
-
             </div>
             <button @click="generateTestcode" class="btn-style"> Generate TestCode </button>
         </div>
@@ -53,17 +51,18 @@
         <div style="display: flex; flex-direction: column;">
             <div style="margin-left: auto; margin-right: auto; display: flex; flex-direction: column;">
                 <div v-for="(tagItem, index) in existTestcode.tags" :key="tagItem">
-                    <div style="margin: 10px; display: flex; justify-content: space-between;">
-                        <span>{{ tagItem }}</span>
-                        <span> = </span>
-                        <span>{{ existTestcode.testcode[index] }}</span>
+                    <div style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex; justify-content: space-between;">
+                        <div>{{ existTestcode.testcode[index] }}</div>
+                        <div>{{ tagItem }}</div>
                     </div>
                 </div>
             </div>
         </div>
         <div>
             <h3>video list</h3>
-            {{ this.videoFromTag }}
+            <div v-for="item in videoFromTag" :key="item">
+                {{ item }}
+            </div>
         </div>
     </div>
 </template>

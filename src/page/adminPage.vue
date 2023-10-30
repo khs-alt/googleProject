@@ -57,6 +57,12 @@ export default {
     created() {},
     mounted() {},
     methods: {
+        // TODO: export page 메인 admin page를 만들기 
+        // export 할 때 점수는 평균으로
+        // Tag를 선택하여 export 할 수 있도록 하기
+        // 반환 데이터
+        // originalVideoName, desoisedVideoName, Score(Laebled)
+        
         goToPage() {
             this.$router.push({
                 path: '/admin/upload',
