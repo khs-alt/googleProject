@@ -17,19 +17,35 @@
         <div class="wrapping">
             <div class="container">
                 <!-- 태그 -->
-                <div>
+                <!-- <div>
                     <h3>Tag</h3>
                     <div class="tagWrapper">
                         <div>
-                            <button @click="selectAllTags" class="btn-style">All</button>
+                            <button @click="selectAllTags(); getVideoListFromTag()" class="btn-style">All</button>
                             <button v-for="(item, index) in tag" :key="index" ref="tag"
                                 :class="{ 'btn-style': !clickedTagBtn.includes(item), 'clicked-btn-style': clickedTagBtn.includes(item) }"
-                                @click="clickTagBtn(index)" @mouseover="mouseOver(index)" @mouseout="mouseOut(index)">
+                                @click="clickTagBtn(index); getVideoListFromTag()" @mouseover="mouseOver(index)" @mouseout="mouseOut(index)">
                                 {{ item }}</button>
                         </div>
                         <div v-for="(item, index) in clickTagBtn" :key="index">{{ item }}</div>
                     </div>
+                </div> -->
+                <div>
+                    <h3>Tag</h3>
+                    <div class="tagWrapper">
+                        <div>
+                            <button @click="selectAllTags(); getVideoListFromTag()" class="btn-style">All</button>
+                            <button v-for="(item, index) in tag" :key="index" ref="tag"
+                                :class="{ 'btn-style': !clickedTagBtn.includes(item), 'clicked-btn-style': clickedTagBtn.includes(item) }"
+                                @click="clickTagBtn(index); getVideoListFromTag()" @mouseover="mouseOver(index)"
+                                @mouseout="mouseOut(index)">
+                                {{ item }}
+                            </button>
+                        </div>
+                        <div v-for="(item, index) in clickedTagBtn" :key="index">{{ item }}</div>
+                    </div>
                 </div>
+
             </div>
             <button @click="generateTestcode" class="btn-style"> Generate TestCode </button>
         </div>
@@ -44,6 +60,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div>
+            <h3>video list</h3>
+            {{ this.videoFromTag }}
         </div>
     </div>
 </template>
@@ -61,6 +81,8 @@ export default {
             clickedTagBtn: [],
             testcode: '',
             existTestcode: [],
+            // click된 video list 
+            videoFromTag: [],
         }
     },
     mounted() {
@@ -68,11 +90,37 @@ export default {
         this.getTestcodeWithTag();
     },
     methods: {
-        selectAllTags() {
-            if(this.tag.length === 0) {
-                alert("There is no tag");
+        // TODO: tag를 누르면 거기에 있는 data list 이름이 보이게 만들기
+        // ex) ALL 누르면 모든 비디오 영상이 나오고, bright 누르면 bright태그에 있는 모든 영상 리스트 보여주기 
+        // TODO: 선택된 테그의 리스트에 그 비디오를 추가하기
+
+        async getVideoListFromTag() {
+            console.log("get video list from\n tag: ", this.clickedTagBtn);
+            this.videoFromTag = [];
+            
+            if(this.clickedTagBtn.length === 0) {
+                console.log("There are no clicked tags");
                 return;
             } 
+            await axios
+                .get(this.baseUrl + '/getVideoListFromTag', {
+                    params: {
+                        tag: this.clickedTagBtn
+                    }
+                })
+                .then((response) => {
+                    console.log("get video list from tag: " + response.data);
+                    this.videoFromTag = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        },
+        selectAllTags() {
+            if (this.tag.length === 0) {
+                alert("There is no tag");
+                return;
+            }
             if (this.clickedTagBtn.length === this.tag.length) { // 이미 모든 태그가 선택되었을 경우
                 this.clickedTagBtn = [];
                 this.isClicked = this.tag.map(() => false);

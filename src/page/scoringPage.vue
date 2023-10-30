@@ -20,6 +20,8 @@
                                 ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
                                 :src="leftOriginalVideo()"  @wheel="handleWheel" @click="setZoomCenter">
                             </video>
+                            <!-- TODO: 비디오 이름 파싱해서 보여주기  -->
+                            <!-- <div>{{ this.originalVideoNameList }}</div> -->
                         </div>
                     </transition>
                 </div>
@@ -30,9 +32,18 @@
                                 ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" 
                                 :src="rightArtifactVideo()"  @wheel="handleWheel" @click="setZoomCenter">
                             </video>
+                            <!-- TODO: 비디오 이름 파싱해서 보여주기  -->
+                            <!-- <div>{{ this.artifactVideoNameList }}</div> -->
                         </div>
                     </transition>
                 </div>
+            </div>
+        </div>
+        <div>
+            <h3>Progess Bar</h3>
+            <div>
+                <!-- TODO: progess bar 수정 필요 -->
+                <!-- <progress style="width: 100%;" :value="currentPage" max="100"></progress> -->
             </div>
         </div>
         <div style="margin-left: 50px; margin-right: 50px; max-width: 100%;">
@@ -53,7 +64,7 @@
             <div style="display: flex; margin-left: auto; margin-right: auto;">
                 <div style="margin-left: auto; margin-right: auto; display: flex;">
                     <button v-on="click" class="btn-style" style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
-                        @click="changeBackVideo">back</button>
+                        @click="changeBackVideo">prev</button>
                     <button v-for="a in 5" ref="score" :key="a" v-on:click="clickedButton = a"
                         style="width: 80px; height: 55px; font-size:x-large; padding-top: 9px;"
                         :class="{ 'clicked-btn-style': isPressed[a], 'btn-style': !isPressed[a] }"
@@ -71,6 +82,7 @@
 </template>
 
 <!-- TODO: 원래 기록되어있던 점수가 눌러있는 상태로 나오게 -->
+
 <script>
 import axios from 'axios'
 export default {
@@ -88,7 +100,6 @@ export default {
             currentPage: this.$route.query.currentPage,
             currentUser: this.$route.query.userName,
             testCode: this.$route.query.testcode,
-            lastPage: false,
             videoButtonText: "Play Video",
             baseUrl: "http://localhost:8000",
             leftVideoUrl: "",
@@ -105,6 +116,8 @@ export default {
             zoomCenterY: 50,  // percentage, 50% is the center
             // video url list
             videoList: [],
+            originalVideoNameList: [],
+            artifactVideoNameList: [],
         }
     },
     created() { },
@@ -141,16 +154,13 @@ export default {
         },
         handleWheel(event) {
             if (event.shiftKey) {
-                // deltaY 값이 양수면 휠을 위로 굴렸다는 의미이므로 확대, 음수면 축소
                 if (event.deltaY < 0) {
                     this.zoomIn();
                 } else {
                     this.zoomOut();
                 }
-                // 확대/축소 중심점 설정
                 this.setZoomCenter(event);
 
-                // 기본 휠 이벤트(스크롤) 방지
                 event.preventDefault();
             }
         },
@@ -168,9 +178,17 @@ export default {
                 .then((response) => {
                     this.currentPage = response.data.currentPage;
                     this.videoList = response.data.videoList;
+                    this.originalVideoNameList = response.data.originalVideoNameList;
+                    this.artifactVideoNameList = response.data.artifactVideoNameList;
+
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoList)
+                    console.log("original video name list: ", this.originalVideoNameList)
+                    console.log("artifact video name list: ", this.artifactVideoNameList)
+
                     this.parsingStringToIntArray();
+                    this.parsingOriginalNameList();
+                    this.parsingArtifactNameList();
                     this.leftOriginalVideo();
                     this.rightArtifactVideo();
                 })
@@ -184,13 +202,25 @@ export default {
                 this.videoIndex.push(parseInt(temp[i]));
             }
             console.log("video index: ", this.videoIndex);
+            console.log("video index length" + this.videoIndex.length);
         },
-
+        parsingOriginalNameList() {
+            var temp = this.originalVideoNameList.split(",");
+            for (var i in temp) {
+                this.videoIndex.push(parseInt(temp[i]));
+            }
+            console.log("original name: ", this.originalVideoNameList);
+        },
+        parsingArtifactNameList(){
+            var temp = this.artifactVideoNameList.split(",");
+            for (var i in temp) {
+                this.videoIndex.push(parseInt(temp[i]));
+            }
+            console.log("artifact index: ", this.artifactVideoNameList);
+        },
         navigateTo(item) {
             if (item === 'Home') {
                 this.$router.push('/');
-            } else {
-                alert("Still developed")
             }
         },
         leftOriginalVideo() {
@@ -228,7 +258,6 @@ export default {
 
                         for (var i in this.videoIndex.length) {
                             if (this.videoIndex[i] == this.videoIndex[this.videoIndex.length - 1]) {
-                                this.lastPage = true;
                                 console.log("This is the last page");
                                 console.log("last page: ", this.currentPage);
                                 alert("Successfully submitted. This is the last page.")
@@ -248,6 +277,7 @@ export default {
         },
         // 다음 비디오로 비디오 변경
         changeNextVideo() {
+
             if (this.clickedButton == 0) {
                 alert("Please choose score.")
             } else {
@@ -259,50 +289,47 @@ export default {
                 console.log("current page: ", this.currentPage)
                 console.log("test code: ", this.testCode)
                 
-                axios
-                    .post(this.baseUrl + "/postdata", {
-                        Title: "scoring data",
-                        Score: this.userScoring,
-                        CurrentUser: this.currentUser,
-                        ImageId: parseInt(this.currentPage),
-                        TestCode: this.testCode
-                    })
-                    .then(res => {
-                        console.log(res.data)
-                        //after post we have to init data form userScoring and currentPage
-                        // this.currentPage = this.currentPage + 1
-                        this.userScoring = 0
-                        this.isPressed = [false, false, false, false, false, false, false, false, false, false]
-
-                        for (var i = 0; i < this.videoIndex.length; i++) {
-                            if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
-                                this.lastPage = true;
-                                alert("This is the last page");
-                                console.log("This is the last page");
-                                return;
-                            } else if (this.videoIndex[i] == this.currentPage) {
-                                this.currentPage = this.videoIndex[i + 1];
-                                //alert("next page : " + this.currentPage);
-                                console.log("next page : " + this.currentPage);
-                                this.lastPage = false;
-                                return;
+                if(this.currentPage == this.videoIndex[this.videoIndex.length - 1]){
+                    alert("This is the last page");
+                    console.log("This is the last page");
+                    return;
+                }else{
+                    axios
+                        .post(this.baseUrl + "/postdata", {
+                            Title: "scoring data",
+                            Score: this.userScoring,
+                            CurrentUser: this.currentUser,
+                            ImageId: parseInt(this.currentPage),
+                            TestCode: this.testCode
+                        })
+                        .then(res => {
+                            //after post we have to init data form userScoring and currentPage
+                            console.log("response: ", res)
+                            this.userScoring = 0
+                            this.isPressed = [false, false, false, false, false]
+                            
+                            for (var i = 0; i < this.videoIndex.length; i++) {
+                                console.log("video index : ", this.videoIndex[i])
+                                if (this.videoIndex[i] == this.currentPage) {
+                                    this.currentPage = this.videoIndex[i + 1];
+                                    console.log("next page : " + this.currentPage);
+                                    return;
+                                }
                             }
-                        }
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        })
+                }
+                
             }
-            // if (this.currentPage >= this.maxVideonum - 1) {
-            //     this.lastPage = true
-            // }
         },
         // 이전 비디오로 비디오 변경
         changeBackVideo() {
-            this.isPressed = [false, false, false, false, false, false, false, false, false, false]
+            this.isPressed = [false, false, false, false, false]
                 for (var i = 0; i < this.videoIndex.length; i++) {
                     if (this.currentPage == this.videoIndex[0]) {
-                        alert("This is the first page. current page: ", this.currentPage);
+                        alert("This is the first page. current page: " + this.currentPage);
                         console.log("first page", this.currentPage);
                         return;
                     } else if (this.videoIndex[i] == this.currentPage) {
@@ -312,15 +339,10 @@ export default {
                         return;
                     }
                 }
-                // this.currentPage -= 1
-            
-            // if (this.currentPage < this.maxVideonum) {
-            //     this.lastPage = false
-            // }
         },
         // score button 눌렸는지 안눌렸는지 확인하는 method
         toggleButton(index) {
-            this.isPressed = [false, false, false, false, false, false, false, false, false, false]
+            this.isPressed = [false, false, false, false, false]
             this.isPressed[index] = !this.isPressed[index]
         },
         // video 2개 동시에 플레이 시키는 method
