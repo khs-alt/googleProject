@@ -110,7 +110,7 @@ export default {
             currentPage: this.$route.query.currentPage,
             currentUser: this.$route.query.userName,
             testCode: this.$route.query.testcode,
-            videoButtonText: "Play Video",
+            videoButtonText: "Play",
             baseUrl: "http://localhost:8000",
             leftVideoUrl: "",
             rightVideoUrl: "",
@@ -152,11 +152,63 @@ export default {
         // TODO: 비디오 drag & drop 할 때, 비디오가 화면 밖으로 없어지는 현상 수정 필요
         async isVideoPaused() {
             var video1 = document.getElementById('videoNoartifact');
+            var video2 = document.getElementById('videoYesartifact');
             console.log("isVideoPaused: " + this.videoButtonText)
+        
             
             video1.addEventListener("ended", () => {
-                this.videoButtonText = "Play Video"; 
-                console.log("video ended: " + this.videoButtonText)
+                this.videoButtonText = "Play"; 
+                // if(video2.currentTime < video2.duration){
+                //     video2.currentTime = video2.duration;
+                // }
+                // // video2.currentTime = video1.duration;
+                // console.log("video1: " + video1.currentTime)
+                // console.log("video2: " + video2.currentTime)
+                // console.log("video1 duration: " + video1.duration)
+                if(video1.currentTime < video2.currentTime) {
+                    console.log("video1 ended: " + video1.currentTime)
+                    video1.pause();
+                    video2.pause();
+                    video1.currentTime = 0;
+                    video2.currentTime = 0;
+                    // document.getElementById("videoNoartifact").currentTime = video2.currentTime;
+                    // document.getElementById("videoNoartifact").currentTime = video2.currentTime;
+                }else{
+                    console.log("video2 ended: " + video2.currentTime)
+                    // document.getElementById("videoYesartifact").currentTime = video1.currentTime;
+                    // document.getElementById("videoYesartifact").currentTime = video1.currentTime;
+                    video1.pause();
+                    video2.pause();
+                    video1.currentTime = 0;
+                    video2.currentTime = 0;
+                }
+            });
+            video2.addEventListener("ended", () => {
+                this.videoButtonText = "Play"; 
+                // if(video1.currentTime < video1.duration){
+                //     video1.currentTime = video1.duration;
+                // }
+                // // video1.currentTime = video2.duration;
+                // console.log("video2 duration: " + video2.duration)
+                // console.log("video1: " + video1.currentTime)
+                // console.log("video2: " + video2.currentTime)
+                if(video1.currentTime < video2.currentTime) {
+                    // document.getElementById("videoNoartifact").currentTime = video2.currentTime;
+                    // document.getElementById("videoNoartifact").currentTime = video2.currentTime;
+                    console.log("video1 ended: " + video1.currentTime)
+                    video1.pause();
+                    video2.pause();
+                    video1.currentTime = 0;
+                    video2.currentTime = 0;
+                }else{
+                    // document.getElementById("videoYesartifact").currentTime = video1.currentTime;
+                    // document.getElementById("videoYesartifact").currentTime = video1.currentTime;
+                    console.log("video2 ended: " + video2.currentTime)
+                    video1.pause();
+                    video2.pause();
+                    video1.currentTime = 0;
+                    video2.currentTime = 0;
+                }
             });
         },
 
@@ -512,7 +564,7 @@ export default {
             this.isPressed[index] = !this.isPressed[index]
         },
         // video 2개 동시에 플레이 시키는 method
-        // TODO: play Video 버튼 아이콘으로 변경 필요
+        // TODO: play 버튼 아이콘으로 변경 필요
         playVideos() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
@@ -544,15 +596,15 @@ export default {
                 video1.pause();
             }
         },
-        // Play Video/Stop 및 text 변경 버튼
+        // Play/Stop 및 text 변경 버튼
         changeVideoButton() {
             console.log("changeVideoButton\n" + this.videoButtonText)
-            if (this.videoButtonText == "Play Video") {
+            if (this.videoButtonText == "Play") {
                 this.playVideos();
-                this.videoButtonText = "Stop Video";
+                this.videoButtonText = "Stop";
             } else {
                 this.pauseVideos();
-                this.videoButtonText = "Play Video";
+                this.videoButtonText = "Play";
             }
             console.log("after changeVideoButton\n" + this.videoButtonText)
         },
