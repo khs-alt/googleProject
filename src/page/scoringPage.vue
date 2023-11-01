@@ -18,7 +18,9 @@
                         <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
                             <video id="videoNoartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
                                 ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
-                                :src="leftOriginalVideo()"  @wheel="handleWheel" @click="setZoomCenter">
+                                :src="leftOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
+                                @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
+                                onChange="isVideoPaused">
                             </video>
                         </div>
                     </transition>
@@ -32,8 +34,10 @@
                     <transition name="fade" mode="out-in" appear>
                         <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
                             <video id="videoYesartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
-                                ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" 
-                                :src="rightArtifactVideo()"  @wheel="handleWheel" @click="setZoomCenter">
+                                ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
+                                :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
+                                @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
+                                onChange="isVideoPaused">
                             </video>
                         </div>
                     </transition>
@@ -59,7 +63,7 @@
                 <button id="videoButton" key="videoButton" @click="changeVideoButton" @mouseover="isMouseOverPlay = true"
                     @mouseout="isMouseOverPlay = false"
                     :class="{ 'btn-style': !isMouseOverPlay, 'clicked-btn-style': isMouseOverPlay }">{{
-                        videoButtonText }}</button> 
+                        videoButtonText }}</button>
                 <button @click="seekForward" @mouseover="isMouseOverPlus = true" @mouseout="isMouseOverPlus = false"
                     :class="{ 'btn-style': !isMouseOverPlus, 'clicked-btn-style': isMouseOverPlus }"
                     style="margin-left: 2%;">+1
@@ -67,13 +71,15 @@
             </div>
             <div style="display: flex; margin-left: auto; margin-right: auto;">
                 <div style="margin-left: auto; margin-right: auto; display: flex;">
-                    <button v-on="click" class="btn-style" style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
+                    <button v-on="click" class="btn-style"
+                        style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
                         @click="changeBackVideo">prev</button>
                     <button v-for="a in 5" ref="score" :key="a" v-on:click="clickedButton = a"
                         style="width: 80px; height: 55px; font-size:x-large; padding-top: 9px;"
                         :class="{ 'clicked-btn-style': isPressed[a], 'btn-style': !isPressed[a] }"
                         @click="toggleButton(a)">{{ a }}</button>
-                    <button v-on="click" class="btn-style" style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
+                    <button v-on="click" class="btn-style"
+                        style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
                         @click="changeNextVideo">next</button>
                 </div>
             </div>
@@ -116,13 +122,20 @@ export default {
             zoom: 1,
             minZoom: 1,
             videoStyles: {},
-            zoomCenterX: 50, // percentage, 50% is the center
-            zoomCenterY: 50,  // percentage, 50% is the center
+            zoomCenterX: 50,
+            zoomCenterY: 50,
             // video url list
             videoList: [],
             originalVideoNameList: [],
             artifactVideoNameList: [],
             videoNameIndex: 0,
+            originalVideoFrameList: [],
+            artifactVideoFrameList: [],
+            dragging: false,
+            dragStartX: 0,
+            dragStartY: 0,
+            offsetX: 0,
+            offsetY: 0,
         }
     },
     created() { },
@@ -130,51 +143,165 @@ export default {
         this.changeVideoButton;
         this.getVideoIndexCurrentPage();
         this.addEventVideoPlay();
+        this.isVideoPaused();
+        document.addEventListener('mousemove', this.handleDragging);
+        document.addEventListener('mouseup', this.handleDragEnd);
     },
     methods: {
         // TODO: backend에서 leftVideFrame, rightVideoFrame을 받아와서 leftVideoFrame, rightVideoFrame에 저장해야 함.
+        // TODO: 비디오 drag & drop 할 때, 비디오가 화면 밖으로 없어지는 현상 수정 필요
+        async isVideoPaused() {
+            var video1 = document.getElementById('videoNoartifact');
+            console.log("isVideoPaused: " + this.videoButtonText)
+            
+            video1.addEventListener("ended", () => {
+                this.videoButtonText = "Play Video"; 
+                console.log("video ended: " + this.videoButtonText)
+            });
+        },
 
         zoomIn() {
             this.zoom += 0.1;
             this.updateVideoStyle();
         },
         zoomOut() {
-            if (this.zoom > this.minZoom + 0.1) { // minZoom + 0.1 (예를 들면, 1.1)보다 클 때만 줌아웃 가능
+            if (this.zoom > this.minZoom + 0.1) {
                 this.zoom -= 0.1;
                 this.updateVideoStyle();
             }
         },
-        updateVideoStyle() {
-            this.videoStyles = {
-                transform: `scale(${this.zoom})`,
-                transformOrigin: `${this.zoomCenterX}% ${this.zoomCenterY}%`
-            }
-        },
-        setZoomCenter(event) {
-            const rect = this.$refs.videoNoartifact.getBoundingClientRect();
-            this.zoomCenterX = ((event.clientX - rect.left) / rect.width) * 100;
-            this.zoomCenterY = ((event.clientY - rect.top) / rect.height) * 100;
+        setZoomCenter() {
+            // 가운데를 기준으로 줌 센터를 고정합니다.
+            this.zoomCenterX = 50;
+            this.zoomCenterY = 50;
             this.updateVideoStyle();
         },
-        // TODO: 마우스 휠로만 확대축소 가능하게 만들기 (마우스 휠 이벤트)
-        // TODO: drag and drop 으로 확대/축소한 상태에서 이동 가능하게 만들기
         handleWheel(event) {
-            if (event.shiftKey) {
-                if (event.deltaY < 0) {
-                    this.zoomIn();
-                } else {
-                    this.zoomOut();
-                }
-                this.setZoomCenter(event);
-
-                event.preventDefault();
+            if (event.deltaY < 0) {
+                this.zoomIn();
+            } else {
+                this.zoomOut();
+            }
+            // 스크롤 이벤트로 인한 줌 변경 시 항상 가운데를 기준으로 설정합니다.
+            this.setZoomCenter(event);
+            event.preventDefault();
+        },
+        handleDragStart(event) {
+            this.dragging = true;
+            this.dragStartX = event.clientX - this.offsetX;
+            this.dragStartY = event.clientY - this.offsetY;
+        },
+        handleDragging(event) {
+            if (this.dragging) {
+                this.offsetX = event.clientX - this.dragStartX;
+                this.offsetY = event.clientY - this.dragStartY;
+                this.updateVideoStyle();
             }
         },
+        handleDragEnd() {
+            this.dragging = false;
+        },
+        updateVideoStyle() {
+            const scale = `scale(${this.zoom})`;
+            const translate = `translate(${this.offsetX}px, ${this.offsetY}px)`;
+
+            this.videoStyles = {
+                transform: `${scale} ${translate}`,
+                transformOrigin: `${this.zoomCenterX}% ${this.zoomCenterY}%`,
+            }
+        },
+        resetZoomAndOffset() {
+            this.zoom = this.minZoom;
+            this.offsetX = 0;
+            this.offsetY = 0;
+        },
+        // zoomIn() {
+        //     this.zoom += 0.1;
+        //     this.updateVideoStyle();
+        // },
+        // zoomOut() {
+        //     if (this.zoom > this.minZoom + 0.1) {
+        //         this.zoom -= 0.1;
+        //         this.updateVideoStyle();
+        //     }
+        // },
+        // // updateVideoStyle() {
+        // //     this.videoStyles = {
+        // //         transform: `scale(${this.zoom})`,
+        // //         transformOrigin: `${this.zoomCenterX}% ${this.zoomCenterY}%`,
+        // //     }
+        // // },
+        // setZoomCenter(event) {
+        //     const rect1 = this.$refs.videoNoartifact.getBoundingClientRect();
+        //     const rect2 = this.$refs.videoYesartifact.getBoundingClientRect();
+
+        //     if (event.target.id === 'videoNoartifact') {
+        //         this.zoomCenterX = ((event.clientX - rect1.left) / rect1.width) * 100;
+        //         this.zoomCenterY = ((event.clientY - rect1.top) / rect1.height) * 100;
+        //     } else if (event.target.id === 'videoYesartifact') {
+        //         this.zoomCenterX = ((event.clientX - rect2.left) / rect2.width) * 100;
+        //         this.zoomCenterY = ((event.clientY - rect2.top) / rect2.height) * 100;
+        //     }
+        //     this.updateVideoStyle();
+        // },
+        // handleWheel(event) {
+        //     if (event.deltaY < 0) {
+        //         this.zoomIn();
+        //     } else {
+        //         this.zoomOut();
+        //     }
+        //     this.setZoomCenter(event);
+        //     event.preventDefault();
+        // },
+
+        // handleDragStart(event) {
+        //     this.dragging = true;
+        //     this.dragStartX = event.clientX;
+        //     this.dragStartY = event.clientY;
+        //     document.addEventListener('mousemove', this.handleDragging);
+        //     document.addEventListener('mouseup', this.handleDragEnd);
+        // },
+        // handleDragging(event) {
+        //     if (this.dragging) {
+        //         const dx = event.clientX - this.dragStartX;
+        //         const dy = event.clientY - this.dragStartY;
+        //         this.offsetX += dx;
+        //         this.offsetY += dy;
+        //         this.dragStartX = event.clientX;
+        //         this.dragStartY = event.clientY;
+        //         this.updateVideoStyle();
+        //     }
+        // },
+        // handleDragEnd() {
+        //     this.dragging = false;
+        //     document.removeEventListener('mousemove', this.handleDragging);
+        //     document.removeEventListener('mouseup', this.handleDragEnd);
+        // },
+        // updateVideoStyle() {
+        //     const scale = `scale(${this.zoom})`;
+        //     const translate = `translate(${this.offsetX / this.zoom}px, ${this.offsetY / this.zoom}px)`;
+
+        //     this.videoStyles = {
+        //         transform: `${scale} ${translate}`,
+        //         transformOrigin: `${this.zoomCenterX}% ${this.zoomCenterY}%`,
+        //     }
+        // },
+
+
+        // updateVideoStyle() {
+        //     this.videoStyles = {
+        //         transform: `scale(${this.zoom}) translate(${this.offsetX}px, ${this.offsetY}px)`,
+        //         transformOrigin: `${this.zoomCenterX}% ${this.zoomCenterY}%`,
+        //     }
+        // },
+
+        // TODO: drag and drop 으로 확대/축소한 상태에서 이동 가능하게 만들기
+
         // json 받아오는 형식
         // resData := map[string]string{
-		// 	"currentPage": currentPage,
-		// 	"videoList":   videoList,
-		// }
+        // 	"currentPage": currentPage,
+        // 	"videoList":   videoList,
+        // }
         async getVideoIndexCurrentPage() {
             await axios
                 .post(this.baseUrl + "/getVideoIndexCurrentPage", {
@@ -186,12 +313,16 @@ export default {
                     this.videoList = response.data.videoList;
                     this.originalVideoNameList = response.data.originalVideoNameList;
                     this.artifactVideoNameList = response.data.artifactVideoNameList;
+                    this.originalVideoFrameList = response.data.originalVideoFPSList;
+                    this.artifactVideoFrameList = response.data.artifactVideoFPSList;
 
                     console.log("getVideoIndexCurrentPage response")
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoList)
                     console.log("original video name list: ", this.originalVideoNameList)
                     console.log("artifact video name list: ", this.artifactVideoNameList)
+                    console.log("original video frame list: ", this.originalVideoFrameList)
+                    console.log("artifact video frame list: ", this.artifactVideoFrameList)
                     this.parsingStringToIntArray();
                     this.parsingOriginalNameList();
                     this.parsingArtifactNameList();
@@ -199,8 +330,8 @@ export default {
                     this.rightArtifactVideo();
 
                     // 원래는 백에서 index를 받아와야하는데, 여기서는 index를 받아오지 않고, 프론트에서 videoList에서 index를 찾아서 videoNameIndex에 저장
-                    for(var i = 0; i < this.videoList.length; i++){
-                        if(this.videoIndex[i] == this.currentPage){
+                    for (var i = 0; i < this.videoList.length; i++) {
+                        if (this.videoIndex[i] == this.currentPage) {
                             this.videoNameIndex = i
                             console.log("videoNameIndex: ", this.videoNameIndex)
                         }
@@ -223,7 +354,7 @@ export default {
             this.originalVideoNameList = this.originalVideoNameList.split(",");
             console.log("original name: ", this.originalVideoNameList);
         },
-        parsingArtifactNameList(){
+        parsingArtifactNameList() {
             this.artifactVideoNameList = this.artifactVideoNameList.split(",");
             console.log("artifact index: ", this.artifactVideoNameList);
         },
@@ -234,13 +365,13 @@ export default {
         },
         leftOriginalVideo() {
             console.log("leftOriginalVideo")
-            console.log("original page url: ",this.baseUrl + "/postvideo/original/" + (this.currentPage))
+            console.log("original page url: ", this.baseUrl + "/postvideo/original/" + (this.currentPage))
             return String(this.baseUrl + "/postvideo/original/" + (this.currentPage))
         },
         rightArtifactVideo() {
             console.log("rightArtifactVideo")
-            console.log("artifact page url: ",this.baseUrl + "/postvideo/artifact/" + (this.currentPage))
-            return String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage))   
+            console.log("artifact page url: ", this.baseUrl + "/postvideo/artifact/" + (this.currentPage))
+            return String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage))
         },
         submitScoring() {
             for (var i = 0; i < 10; i++) {
@@ -252,7 +383,7 @@ export default {
                 console.log("Please chose the score!")
             } else {
                 this.userScoring = this.clickedButton
-                
+
                 axios
                     .post(this.baseUrl + "/postdata", {
                         Title: "scoring data",
@@ -288,7 +419,6 @@ export default {
         },
         // 다음 비디오로 비디오 변경
         changeNextVideo() {
-
             if (this.clickedButton == 0) {
                 alert("Please choose score.")
             } else {
@@ -298,16 +428,16 @@ export default {
                 console.log("current user:", this.currentUser)
                 console.log("current page: ", this.currentPage)
                 console.log("test code: ", this.testCode)
-                
+
                 console.log(this.currentPage)
                 console.log(this.videoIndex)
                 console.log(this.videoIndex[this.videoIndex.length - 1])
 
-                if(this.currentPage == this.videoIndex[this.videoIndex.length - 1]){
+                if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
                     alert("This is the last page");
                     console.log("This is the last page");
                     return;
-                }else{
+                } else {
                     axios
                         .post(this.baseUrl + "/postdata", {
                             Title: "scoring data",
@@ -323,8 +453,15 @@ export default {
                             this.isPressed = [false, false, false, false, false]
                             this.videoNameIndex += 1
                             console.log("videoNameIndex: ", this.videoNameIndex)
-                            
-                            for (var i = 0; i < this.videoIndex.length; i++) {
+
+                            this.resetZoomAndOffset();
+                            this.updateVideoStyle();
+                            // var videoEelement1 = document.getElementById('videoNoartifact');
+                            // var videoEelement2 = document.getElementById('videoYesartifact');
+                            // videoEelement1.style.transform = "scale(1)";
+                            // videoEelement2.style.transform = "scale(1)";
+
+                            for (var i = 0; i < this.videoIndex.length; i++) {  
                                 console.log("video index : ", this.videoIndex[i])
                                 if (this.videoIndex[i] == this.currentPage) {
                                     this.currentPage = this.videoIndex[i + 1];
@@ -332,12 +469,13 @@ export default {
                                     return;
                                 }
                             }
+
                         })
                         .catch(error => {
                             console.error(error);
                         })
                 }
-                
+
             }
         },
         // 이전 비디오로 비디오 변경
@@ -345,11 +483,11 @@ export default {
             this.isPressed = [false, false, false, false, false]
             console.log("changeBackVideo")
 
-            if(this.currentPage == this.videoIndex[0]){
+            if (this.currentPage == this.videoIndex[0]) {
                 alert("This is the first page.");
                 console.log("first page: ", this.currentPage);
                 return;
-            }else{
+            } else {
                 for (var i = 1; i < this.videoIndex.length; i++) {
                     if (this.videoIndex[i] == this.currentPage) {
                         this.videoNameIndex -= 1
@@ -357,6 +495,12 @@ export default {
                         console.log("video index : ", this.videoIndex[i])
                         console.log("prev page: " + this.currentPage);
                         console.log("videoNameIndex: ", this.videoNameIndex)
+
+                        var videoEelement1 = document.getElementById('videoNoartifact');
+                        var videoEelement2 = document.getElementById('videoYesartifact');
+                        videoEelement1.style.transform = "scale(1)";
+                        videoEelement2.style.transform = "scale(1)";
+
                         return;
                     }
                 }
@@ -368,6 +512,7 @@ export default {
             this.isPressed[index] = !this.isPressed[index]
         },
         // video 2개 동시에 플레이 시키는 method
+        // TODO: play Video 버튼 아이콘으로 변경 필요
         playVideos() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
@@ -376,12 +521,16 @@ export default {
                 video1.play();
             }
         },
-        addEventVideoPlay(){
+        addEventVideoPlay() {
             var video1 = document.getElementById('videoNoartifact');
-            video1.addEventListener("play",function(){
-                    document.getElementById('videoYesartifact').play();
-                });
-            video1.addEventListener("pause",function(){
+            var video2 = document.getElementById('videoYesartifact');
+            document.getElementById('videoNoartifact').currentTime = video2.currentTime;
+            document.getElementById('videoNoartifact').currentTime = video2.currentTime;
+            
+            video1.addEventListener("play", function () {
+                document.getElementById('videoYesartifact').play();
+            });
+            video1.addEventListener("pause", function () {
                 document.getElementById('videoYesartifact').pause();
             })
         },
@@ -390,12 +539,14 @@ export default {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             if (video1 && video2) {
-                video1.currentTime = video2.currentTime;
+                document.getElementById('videoNoartifact').currentTime = video2.currentTime;
+                document.getElementById('videoNoartifact').currentTime = video2.currentTime;
                 video1.pause();
             }
         },
         // Play Video/Stop 및 text 변경 버튼
         changeVideoButton() {
+            console.log("changeVideoButton\n" + this.videoButtonText)
             if (this.videoButtonText == "Play Video") {
                 this.playVideos();
                 this.videoButtonText = "Stop Video";
@@ -403,25 +554,51 @@ export default {
                 this.pauseVideos();
                 this.videoButtonText = "Play Video";
             }
+            console.log("after changeVideoButton\n" + this.videoButtonText)
         },
         seekBackward() {
-            const video1 = this.$refs.videoNoartifact; // 비디오 엘리먼트 가져오기
+            const video1 = this.$refs.videoNoartifact;
             const video2 = this.$refs.videoYesartifact;
-            // TODO: backend 에서 비디오 프레임 보내주는 거 받아와서 이동하도록 수정해야 함.
-            if (video1 && video2) {
-                video1.currentTime -= 1/29.96; // 1/29.96초씩 뒤로 이동
-                video2.currentTime -= 1/29.96;
+            const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
+            const artifactFrame = this.artifactVideoFrameList[this.videoNameIndex];
+            if (originalFrame != 0 && artifactFrame != 0) {
+                const halfOriginalFrame = (1 / originalFrame) / 2;
+                const halfArtifactFrame = (1 / artifactFrame) / 2;
+
+                if (video1 && video2) {
+                    if (video1.currentTime == 0) {
+                        video1.currentTime = halfOriginalFrame;
+                        video2.currentTime = halfArtifactFrame;
+                    } else {
+                        video1.currentTime -= 1 / originalFrame;
+                        video2.currentTime -= 1 / artifactFrame;
+                    }
+                }
             }
+            console.log("current left time: " + video1.currentTime)
+            console.log("current right time: " + video2.currentTime)
         },
         seekForward() {
-            const video1 = this.$refs.videoNoartifact; // 비디오 엘리먼트 가져오기
+            const video1 = this.$refs.videoNoartifact;
             const video2 = this.$refs.videoYesartifact;
-            // TODO: backend 에서 비디오 프레임 보내주는 거 받아와서 이동하도록 수정해야 함.
-            // TODO: 비디오 프레임
-            if (video1 && video2) {
-                video1.currentTime += 1/29.96; // 1/29.96초씩 앞으로 이동
-                video2.currentTime += 1/29.96;
+            const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
+            const artifactFrame = this.artifactVideoFrameList[this.videoNameIndex];
+            if (originalFrame != 0 && artifactFrame != 0) {
+                const halfOriginalFrame = (1 / originalFrame) / 2;
+                const halfArtifactFrame = (1 / artifactFrame) / 2;
+
+                if (video1 && video2) {
+                    if (video1.currentTime == 0) {
+                        video1.currentTime = halfOriginalFrame;
+                        video2.currentTime = halfArtifactFrame;
+                    } else {
+                        video1.currentTime += 1 / originalFrame;
+                        video2.currentTime += 1 / artifactFrame;
+                    }
+                }
             }
+            console.log("current left time: " + video1.currentTime)
+            console.log("current right time: " + video2.currentTime)
         },
     },
 }

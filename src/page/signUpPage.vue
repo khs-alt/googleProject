@@ -42,13 +42,13 @@ export default {
         };
     },
     methods: {
-        // TODO: Sign Up 성공 시 alert 해주고 login page로 이동
         register() {
             axios.post(this.baseUrl + "/signUp", {
                     newId: this.id,
                     newPassword: this.password,
                 }).then(res => {
-                    alert(res.data)
+                    alert("success to sign up!")
+                    console.log(res.data)
                     this.$router.push('/');
                 })
                 .catch(error => {
@@ -56,7 +56,6 @@ export default {
                 })
             console.log('가입 정보:', this.formData)
         },
-        //home으로 이동
         navigateTo(item) {
             if (item == 'Home') {
                 this.$router.push('/');

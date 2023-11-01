@@ -18,13 +18,16 @@
                 </div>
             </div>
         </div>
+        <!-- TODO: 우리 시스템 이름 넣기 -->
         <div class="home-main-content" style="height: 93vh; margin-bottom: 0; padding-bottom: 0;">
+            <h2>Scoring / Labeling System</h2>
             <div style="padding-top: 10px; border: 0.5px; border-color: white;">
                 <div style="margin-top: 1px;"></div>
                 <div>
                     <div>
                         <!-- <button :class="{'clicked-btn-style': activeButtonIndex === 'scoring', 'btn-style': activeButtonIndex !== index}" @click="clickMenuBtn('scoring'), changeCurrentMode('Scoring')" >Scoring</button>
                     <button :class="{'clicked-btn-style': activeButtonIndex === 'labeling', 'btn-style': activeButtonIndex !== index}" @click="clickMenuBtn('labeling'), changeCurrentMode('Labeling')">Labeling</button> -->
+                        <h3>Mode</h3>
                         <button
                             :class="{ 'clicked-btn-style': activeButtonIndex === 'scoring', 'btn-style': activeButtonIndex !== 'scoring' || hoveredButton }"
                             @click="clickMenuBtn('scoring'), changeCurrentMode('Scoring')" @mouseover="onMouseOverButton"
@@ -154,7 +157,7 @@ export default {
                                 // TODO: current page로 goto 하기 
                                 this.goToPage()
                             } else {
-                                alert("Wrong")
+                                alert(res.data)
                             }
                             //after post we have to init data form userScoring and currentPage
                         })

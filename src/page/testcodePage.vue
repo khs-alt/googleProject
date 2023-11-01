@@ -16,25 +16,12 @@
     <div class="home-main-content" style="padding-bottom: 0; height: 93vh; margin: 0 0 0 0">
         <div class="wrapping">
             <div class="container">
-                <!-- 태그 -->
-                <!-- <div>
-                    <h3>Tag</h3>
-                    <div class="tagWrapper">
-                        <div>
-                            <button @click="selectAllTags(); getVideoListFromTag()" class="btn-style">All</button>
-                            <button v-for="(item, index) in tag" :key="index" ref="tag"
-                                :class="{ 'btn-style': !clickedTagBtn.includes(item), 'clicked-btn-style': clickedTagBtn.includes(item) }"
-                                @click="clickTagBtn(index); getVideoListFromTag()" @mouseover="mouseOver(index)" @mouseout="mouseOut(index)">
-                                {{ item }}</button>
-                        </div>
-                        <div v-for="(item, index) in clickTagBtn" :key="index">{{ item }}</div>
-                    </div>
-                </div> -->
                 <div>
                     <h3>Tag</h3>
                     <div class="tagWrapper">
                         <div>
-                            <button @click="selectAllTags(); getVideoListFromTag()" class="btn-style">All</button>
+                            <button @click="selectAllTags(); getVideoListFromTag()" ref="selectAllBtn"
+                                class="btn-style">All</button>
                             <button v-for="(item, index) in tag" :key="index" ref="tag"
                                 :class="{ 'btn-style': !clickedTagBtn.includes(item), 'clicked-btn-style': clickedTagBtn.includes(item) }"
                                 @click="clickTagBtn(index); getVideoListFromTag()" @mouseover="mouseOver(index)"
@@ -45,20 +32,43 @@
                     </div>
                 </div>
             </div>
-            <button @click="generateTestcode" class="btn-style"> Generate TestCode </button>
+            <button @click="generateTestcode" class="btn-style"> TestCode Generation </button>
         </div>
-        <h3 style="margin-top: 10px;">TestCode</h3>
-        <div style="display: flex; flex-direction: column;">
-            <div style="margin-left: auto; margin-right: auto; display: flex; flex-direction: column;">
-                <div v-for="(tagItem, index) in existTestcode.tags" :key="tagItem">
-                    <div style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex; justify-content: space-between;">
-                        <div>{{ existTestcode.testcode[index] }}</div>
-                        <div>{{ tagItem }}</div>
+        <div style="width: 800px; margin-left: auto; margin-right: auto;">
+            <h3 style="margin-top: 10px;">TestCode</h3>
+            <div style="display: flex; flex-direction: column;">
+                <div style="margin-left: auto; margin-right: auto; display: flex; flex-direction: column;">
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <!-- <div v-for="(tagItem, index) in existTestcode.tags" :key="tagItem"
+                            style="display: flex; justify-content: space-between;">
+                            <div
+                                style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex; justify-content: space-between;">
+                                TODO: testcode가 있는 버튼을 누르면 그 테스트 코드에 맞는 tag들을 누른 상태로 변경하고 그 tag에 맞는 video list 출력
+                                <button @click="clickTestcodeBtn(existTestcode.testcode[index])"
+                                    :class="{ 'btn-style': !clickedTestcodeBtn == (existTestcode.testcode[index]), 'clicked-btn-style': clickedTestcodeBtn.includes(tagItem) }"
+                                    style="margin-right: 10px;">{{ existTestcode.testcode[index] }}</button>
+                                <div style="margin-right: 10px;">:</div>
+                                <div>{{ tagItem }}</div>
+                            </div>
+                        </div> -->
+                        <div v-for="(tagItem, index) in existTestcode.tags" :key="tagItem"
+                            style="display: flex; justify-content: space-between;">
+                            <div
+                                style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex; justify-content: space-between;">
+                                <!--TODO: testcode가 있는 버튼을 누르면 그 테스트 코드에 맞는 tag들을 누른 상태로 변경하고 그 tag에 맞는 video list 출력 -->
+                                <button @click="clickTestcodeBtn(existTestcode.testcode[index])"
+                                    :class="['btn-style', { 'clicked-btn-style': clickedTestcodeBtn.includes(existTestcode.testcode[index]) }]"
+                                    style="margin-right: 10px;">{{ existTestcode.testcode[index] }}</button>
+                                <div style="margin-right: 10px;">:</div>
+                                <div>{{ tagItem }}</div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-        <div>
+        <div style="margin-top: 20px;">
             <h3>video list</h3>
             <div v-for="item in videoFromTag" :key="item">
                 {{ item }}
@@ -78,6 +88,7 @@ export default {
             baseUrl: "http://localhost:8000",
             tag: [],
             clickedTagBtn: [],
+            clickedTestcodeBtn: "",
             testcode: '',
             existTestcode: [],
             // click된 video list 
@@ -91,16 +102,34 @@ export default {
     methods: {
         // TODO: tag를 누르면 거기에 있는 data list 이름이 보이게 만들기
         // ex) ALL 누르면 모든 비디오 영상이 나오고, bright 누르면 bright태그에 있는 모든 영상 리스트 보여주기 
-        // TODO: 선택된 테그의 리스트에 그 비디오를 추가하기
 
+        // TODO: 클릭은 되는데 videoList가 안 옴
+        // TODO: tsetcode 버튼을 누르고 그냥 tag 버튼을 누르면 뻑 남 
+        clickTestcodeBtn(testcodeName) {
+            this.clickedTestcodeBtn = testcodeName;
+            console.log("clicked testcode button: ", this.clickedTestcodeBtn);
+
+            const index = this.existTestcode.testcode.indexOf(testcodeName);
+
+            if (index !== -1) {
+                this.clickedTagBtn = this.
+                    existTestcode.tags[index];
+                console.log("clicked tag button: ", this.clickedTagBtn)
+                this.isClicked = []
+                this.isClicked.push(this.existTestcode.tags[index])
+                console.log("clicked tag button: ", this.isClicked)
+            }
+
+            this.getVideoListFromTag();
+        },
         async getVideoListFromTag() {
             console.log("get video list from\n tag: ", this.clickedTagBtn);
             this.videoFromTag = [];
-            
-            if(this.clickedTagBtn.length === 0) {
+
+            if (this.clickedTagBtn.length === 0) {
                 console.log("There are no clicked tags");
                 return;
-            } 
+            }
             await axios
                 .get(this.baseUrl + '/getVideoListFromTag', {
                     params: {
@@ -127,14 +156,15 @@ export default {
                 this.$refs.tag.forEach((btn) => {
                     btn.className = 'btn-style';
                 });
+                this.$refs.selectAllBtn.className = 'btn-style';
             } else { // 그렇지 않은 경우
                 this.clickedTagBtn = [...this.tag];
                 this.isClicked = this.tag.map(() => true);
                 console.log("clicked tag button: " + this.isClicked);
-
                 this.$refs.tag.forEach((btn) => {
                     btn.className = 'clicked-btn-style';
                 });
+                this.$refs.selectAllBtn.className = 'clicked-btn-style';
             }
         },
         // 마우스가 버튼 위에 올라갔을 때
@@ -178,6 +208,10 @@ export default {
                 .then((response) => {
                     console.log(response.data);
                     this.existTestcode = response.data;
+                    for (var i = 0; i < this.existTestcode.tags.length; i++) {
+                        this.existTestcode.tags[i] = this.existTestcode.tags[i].replace(/,/g, ', ')
+                    }
+                    console.log("exist testcode tags: ", this.existTestcode.tags);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -235,6 +269,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import '../main.css';
-</style>
+<style lang="scss">@import '../main.css';</style>
