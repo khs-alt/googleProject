@@ -154,7 +154,6 @@ export default {
                                 // 1. 유저의 유무 isUserExist
                                 alert("log in success")
                                 this.currentUser = this.userId
-                                // TODO: current page로 goto 하기 
                                 this.goToPage()
                             } else {
                                 alert(res.data)

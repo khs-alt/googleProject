@@ -46,22 +46,20 @@ export default {
             axios.post(this.baseUrl + "/signUp", {
                     newId: this.id,
                     newPassword: this.password,
-                }).then(res => {
-                    alert("success to sign up!")
-                    console.log(res.data)
-                    this.$router.push('/');
+                }).then((res) => {
+                    // TODO: check if the id is already exist
+                    if(res.data == "No") {
+                        alert("fail to sign up!")
+                        return;
+                    }else{
+                        alert("success to sign up!")
+                        console.log(res)
+                        this.$router.push('/');
+                    }
                 })
                 .catch(error => {
                     console.error(error);
                 })
-            console.log('가입 정보:', this.formData)
-        },
-        navigateTo(item) {
-            if (item == 'Home') {
-                this.$router.push('/');
-            } else {
-                alert(item)
-            }
         },
     }
 }

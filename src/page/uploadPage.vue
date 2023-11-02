@@ -22,6 +22,7 @@
             <div @click="onOriginalClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
                 Drag & Drop Original Files
                 <!-- 업로드된 리스트 -->
+                <!-- TODO: 업로드된 리스트 안 쪽에 좀 더 깔끔하게 UI 만들기 -->
                 <div class="scrollingUploadedData">
                     <div class="file-upload-list">
                         <div class="file-upload-list__item" v-for="originalFile in originalFileList" :key="originalFile">
@@ -32,7 +33,6 @@
                                 <img :src="originalFile"  width="100" height="100">
                             </template> -->
                             <div class="file-upload-list__item__data-name">{{ originalFile.name }}</div>
-                            <!-- TODO: 바뀐 비디오 이름 말고 원래 비디오 이름도 같이 출력하기 -->
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,6 @@
                                 <img :src="artifactFile"  width="100" height="100">
                             </template> -->
                             <div class="file-upload-list__item__data-name">{{ artifactFile.name }}</div>
-                            <!-- TODO: 바뀐 비디오 이름 말고 원래 비디오 이름도 같이 출력하기 -->
                         </div>
                     </div>
                 </div>
@@ -137,7 +136,6 @@ export default {
         this.getTag();
     },
     methods: {
-        // TODO: tag 클릭시 해당 tag에 해당하는 video list 가져오기
         navigateTo(item) {
             if (item === 'Home') {
                 this.$router.push('/');

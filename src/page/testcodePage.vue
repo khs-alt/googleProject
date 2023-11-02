@@ -55,15 +55,18 @@
                             style="display: flex; justify-content: space-between;">
                             <div
                                 style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex; justify-content: space-between;">
-                                <!--TODO: testcode가 있는 버튼을 누르면 그 테스트 코드에 맞는 tag들을 누른 상태로 변경하고 그 tag에 맞는 video list 출력 -->
+                                <!-- TODO: 눌리면 class="clicked-btn-style" 안눌리면 class="btn-style" -->
                                 <button @click="clickTestcodeBtn(existTestcode.testcode[index])"
                                     :class="['btn-style', { 'clicked-btn-style': clickedTestcodeBtn.includes(existTestcode.testcode[index]) }]"
                                     style="margin-right: 10px;">{{ existTestcode.testcode[index] }}</button>
+                                    
                                 <div style="margin-right: 10px;">:</div>
                                 <div>{{ tagItem }}</div>
                             </div>
                         </div>
-
+                        <div>
+                            <button @click="clickExport">Export</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -104,21 +107,34 @@ export default {
         // ex) ALL 누르면 모든 비디오 영상이 나오고, bright 누르면 bright태그에 있는 모든 영상 리스트 보여주기 
 
         // TODO: 클릭은 되는데 videoList가 안 옴
-        // TODO: tsetcode 버튼을 누르고 그냥 tag 버튼을 누르면 뻑 남 
+        // TODO: tsetcode 버튼을 누르고 그냥 tag 버튼을 누르면 뻑 남
+        
+        clickExport(){
+            // TODO: 교수님에게 여쭤보고 구현
+            return;       
+        },
         clickTestcodeBtn(testcodeName) {
-            this.clickedTestcodeBtn = testcodeName;
+            if(this.clickTestcodeBtn == ''){
+                this.clickedTestcodeBtn = testcodeName;
+            }
             console.log("clicked testcode button: ", this.clickedTestcodeBtn);
 
-            const index = this.existTestcode.testcode.indexOf(testcodeName);
-
-            if (index !== -1) {
-                this.clickedTagBtn = this.
-                    existTestcode.tags[index];
-                console.log("clicked tag button: ", this.clickedTagBtn)
-                this.isClicked = []
-                this.isClicked.push(this.existTestcode.tags[index])
-                console.log("clicked tag button: ", this.isClicked)
+            const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
+            const tagIndex = testcodeIndex;
+            console.log("tagcode index: ", tagIndex);
+            if (testcodeIndex !== -1) {
+                for(var i = 0; i < this.tag.length; i++) {
+                    this.clickTagBtn(i);
+                }
             }
+
+            // this.clickedTagBtn = this.
+            //         existTestcode.tags[testcodeIndex];
+            //     console.log("clicked tag button: ", this.clickedTagBtn)
+            //     this.isClicked = []
+            //     this.isClicked.push(this.existTestcode.tags[testcodeIndex])
+            //     console.log("this.isClicked: ", this.isClicked)
+            // TODO: testcode에 있는 tag들의 버튼 index를 찾아서 clickTagBtn method를 실행시켜야 함
 
             this.getVideoListFromTag();
         },
@@ -249,7 +265,7 @@ export default {
             if (this.isClicked[index] == true) {
                 for (var i = 0; i < this.clickedTagBtn.length; i++) {
                     if (this.clickedTagBtn[i] === tagName) {
-                        this.$refs.tag[index].className = 'btn btn-outline-primary';
+                        this.$refs.tag[index].className = 'btn-style';
                         this.clickedTagBtn.splice(i, 1);
                         this.isClicked[index] = !this.isClicked[index];
                         i--;
@@ -259,7 +275,7 @@ export default {
                 }
             } else {
                 // this.$refs['clickedTagBtn'+ index].className = 'btn btn-outline-primary';
-                this.$refs.tag[index].className = 'btn btn-primary';
+                this.$refs.tag[index].className = 'clicked-btn-style';
                 this.isClicked[index] = !this.isClicked[index];
                 this.clickedTagBtn.push(tagName);
                 console.log("added tag:", tagName);
