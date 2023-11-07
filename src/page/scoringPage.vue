@@ -46,7 +46,7 @@
             </div>
         </div>
         <div>
-        <!-- <h3>Progess Bar</h3>
+            <!-- <h3>Progess Bar</h3>
         <div>
             TODO: progess bar 수정 필요
             <progress style="width: 100%;" :value="currentPage" max="100"></progress>
@@ -60,21 +60,23 @@
                 <button @click="seekBackward" @mouseover="isMouseOverMinus = true" @mouseout="isMouseOverMinus = false"
                     :class="{ 'btn-style': !isMouseOverMinus, 'clicked-btn-style': isMouseOverMinus }"
                     style="margin-right: 2%;">
-                    <img style="width: 50px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-18-240.png" alt="-1 frame">
+                    <img style="width: 50px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-18-240.png"
+                        alt="-1 frame">
                 </button>
                 <!-- <button id="videoButton" key="videoButton" @click="changeVideoButton" @mouseover="isMouseOverPlay = true"
                     @mouseout="isMouseOverPlay = false"
                     :class="{ 'btn-style': !isMouseOverPlay, 'clicked-btn-style': isMouseOverPlay }">
                     {{videoButtonText }}</button> -->
-                <button id="videoButton" key="videoButton" @click="changeVideoButton" @mouseover="isMouseOverPlay = true"
-                    @mouseout="isMouseOverPlay = false"
+                <button id="videoButton" key="videoButton" @click="changeVideoButton(); changeImgSource()"
+                    @mouseover="isMouseOverPlay = true" @mouseout="isMouseOverPlay = false"
                     :class="{ 'btn-style': !isMouseOverPlay, 'clicked-btn-style': isMouseOverPlay }">
                     <img style="width: 50px; height: 30px;" :src=imgSrc>
                 </button>
                 <button @click="seekForward" @mouseover="isMouseOverPlus = true" @mouseout="isMouseOverPlus = false"
                     :class="{ 'btn-style': !isMouseOverPlus, 'clicked-btn-style': isMouseOverPlus }"
                     style="margin-left: 2%;">
-                    <img style="width: 50px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-13-240.png" alt="+1 frame">
+                    <img style="width: 50px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-13-240.png"
+                        alt="+1 frame">
                 </button>
                 <button class="btn-style" @click="goToEnd">
                     <img style="width: 50p; height: 30px;" src="../images/play_icon/iconmonstr-media-control-53-240.png">
@@ -121,7 +123,7 @@ export default {
             currentUser: this.$route.query.userName,
             testCode: this.$route.query.testcode,
             videoButtonText: "Play",
-            baseUrl: "http://localhost:8000",
+            baseUrl: "http://34.64.195.7:8000",
             leftVideoUrl: "",
             rightVideoUrl: "",
             isMouseOverMinus: false,
@@ -160,7 +162,20 @@ export default {
     },
     methods: {
         // TODO: 비디오 drag & drop 할 때, 비디오가 화면 밖으로 없어지는 현상 수정 필요
-        goToBegin(){
+        clickExport() {
+            axios
+                .post(this.baseUrl + '/getCSVFile', {
+                    testcode: this.clickedTestcodeBtn
+                })
+                .then((response) => {
+                    console.log(response.data);
+                    alert("Exported testcode: " + this.clickedTestcodeBtn);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        },
+        goToBegin() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             video1.pause();
@@ -168,7 +183,7 @@ export default {
             video1.currentTime = 0;
             video2.currentTime = 0;
         },
-        goToEnd(){
+        goToEnd() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             video1.pause();
@@ -176,18 +191,17 @@ export default {
             video1.currentTime = video1.duration;
             video2.currentTime = video2.duration;
         },
-        async changeImgSource(){
-            if(this.videoButtonText == "Play"){
-                this.imgSrc = require("../images/play_icon/iconmonstr-media-control-18-240.png")
-            }else{
+        changeImgSource() {
+            if (this.videoButtonText != "Play") {
+                this.imgSrc = require("../images/play_icon/iconmonstr-media-control-5-240.png")
+            } else {
                 this.imgSrc = require("../images/play_icon/iconmonstr-media-control-48-240.png")
-            }   
+            }
         },
         async isVideoPaused() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             console.log("isVideoPaused: " + this.videoButtonText)
-
 
             video1.addEventListener("ended", () => {
                 this.videoButtonText = "Play";
@@ -204,6 +218,7 @@ export default {
                     video2.pause();
                     video1.currentTime = 0;
                     video2.currentTime = 0;
+                    this.changeImgSource();
                     // document.getElementById("videoNoartifact").currentTime = video2.currentTime;
                     // document.getElementById("videoNoartifact").currentTime = video2.currentTime;
                 } else {
@@ -214,6 +229,7 @@ export default {
                     video2.pause();
                     video1.currentTime = 0;
                     video2.currentTime = 0;
+                    this.changeImgSource();
                 }
             });
             video2.addEventListener("ended", () => {
@@ -233,6 +249,7 @@ export default {
                     video2.pause();
                     video1.currentTime = 0;
                     video2.currentTime = 0;
+                    this.changeImgSource();
                 } else {
                     // document.getElementById("videoYesartifact").currentTime = video1.currentTime;
                     // document.getElementById("videoYesartifact").currentTime = video1.currentTime;
@@ -241,6 +258,7 @@ export default {
                     video2.pause();
                     video1.currentTime = 0;
                     video2.currentTime = 0;
+                    this.changeImgSource();
                 }
             });
         },
@@ -372,10 +390,10 @@ export default {
                         // alert(res.data)
                         //after post we have to init data form userScoring and currentPage
                         this.userScoring = 0
-                        if(this.videoIndex[this.videoIndex.length - 1] == this.currentPage){
+                        if (this.videoIndex[this.videoIndex.length - 1] == this.currentPage) {
                             alert("Successfully submitted. This is the last page.")
                             return;
-                        }else{
+                        } else {
                             for (var i = 0; i < this.videoIndex.length; i++) {
                                 if (this.videoIndex[i] == this.currentPage) {
                                     this.currentPage = this.videoIndex[i + 1];
@@ -416,7 +434,7 @@ export default {
                             Title: "scoring data",
                             Score: this.userScoring,
                             CurrentUser: this.currentUser,
-                            ImageId: parseInt(this.currentPage) + 1,
+                            ImageId: parseInt(this.currentPage),
                             TestCode: this.testCode
                         })
                         .then(res => {
@@ -426,10 +444,14 @@ export default {
                             this.isPressed = [false, false, false, false, false]
                             this.videoNameIndex += 1
                             console.log("videoNameIndex: ", this.videoNameIndex)
-
+                            var curScore = res.data;
                             this.resetZoomAndOffset();
                             this.updateVideoStyle();
-                            
+
+                            if (curScore != 0) {
+                                this.isPressed[curScore] = true;
+                                console.log("isPressed: " + curScore);
+                            }
                             for (var i = 0; i < this.videoIndex.length; i++) {
                                 console.log("video index : ", this.videoIndex[i])
                                 if (this.videoIndex[i] == this.currentPage) {
@@ -462,6 +484,24 @@ export default {
                         console.log("video index : ", this.videoIndex[i])
                         console.log("prev page: " + this.currentPage);
                         console.log("videoNameIndex: ", this.videoNameIndex)
+                        var curScore = 0;
+                        axios
+                            .post(this.baseUrl + "/getUserScore", {
+                                CurrentUser: this.currentUser,
+                                ImageId: parseInt(this.currentPage),
+                                TestCode: this.testCode,
+                            })
+                            .then((response) => {
+                                curScore = this.response.data;
+                                console.log(response.data)
+                                if (curScore != 0) {
+                                    this.isPressed[curScore] = true;
+                                }
+                                console.log("curScore: " + this.curSCore);
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            })
 
                         var videoEelement1 = document.getElementById('videoNoartifact');
                         var videoEelement2 = document.getElementById('videoYesartifact');
@@ -564,7 +604,7 @@ export default {
                         video2.currentTime = halfArtifactFrame;
                     } else {
                         // TODO: 마지막 프레임을 버림
-                        if (video1.currentTime + (1 / originalFrame) * 2 >= video1.duration || video2.currentTime + (1 / artifactFrame) * 2 >= video2.duration) {
+                        if (video1.currentTime + (1 / originalFrame) * 3 >= video1.duration || video2.currentTime + (1 / artifactFrame) * 3 >= video2.duration) {
                             console.log("video1.duration: " + video1.duration)
                             console.log("video2.duration: " + video2.duration)
                             console.log("video1.currentTime: " + video1.currentTime)

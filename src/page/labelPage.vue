@@ -61,7 +61,7 @@ export default {
       currentPage: 0,
       lastPage: false,
       currentImage: 0,
-      baseUrl: "http://localhost:8000",
+      baseUrl: "http://34.64.195.7:8000",
       isSubmitted: false,
       patchSize: [],
     }

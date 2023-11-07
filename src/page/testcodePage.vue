@@ -65,7 +65,7 @@
                             </div>
                         </div>
                         <div>
-                            <button @click="clickExport">Export</button>
+                            <button class="btn-style" @click="clickExport">Export</button>
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@ export default {
         return {
             isClicked: [],
             menuBar: ['Home'],
-            baseUrl: "http://localhost:8000",
+            baseUrl: "http://34.64.195.7:8000",
             tag: [],
             clickedTagBtn: [],
             clickedTestcodeBtn: "",
@@ -108,13 +108,21 @@ export default {
 
         // TODO: 클릭은 되는데 videoList가 안 옴
         // TODO: tsetcode 버튼을 누르고 그냥 tag 버튼을 누르면 뻑 남
-        
         clickExport(){
-            // TODO: 교수님에게 여쭤보고 구현
-            return;       
+            axios
+                .post(this.baseUrl + '/getCSVFile', {
+                    testcode: this.clickedTestcodeBtn
+                })
+                .then((response) => {
+                    console.log(response.data);
+                    alert("Exported testcode: " + this.clickedTestcodeBtn);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         },
         clickTestcodeBtn(testcodeName) {
-            if(this.clickTestcodeBtn == ''){
+            if(this.clickedTestcodeBtn == ""){
                 this.clickedTestcodeBtn = testcodeName;
             }
             console.log("clicked testcode button: ", this.clickedTestcodeBtn);
