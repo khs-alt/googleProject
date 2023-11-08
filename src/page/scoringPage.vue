@@ -87,10 +87,10 @@
                     <button v-on="click" class="btn-style"
                         style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
                         @click="changeBackVideo">prev</button>
-                    <button v-for="a in 5" ref="score" :key="a" v-on:click="clickedButton = a"
+                    <button v-for="a in 6" ref="score" :key="a-1" v-on:click="clickedButton = a-1"
                         style="width: 80px; height: 55px; font-size:x-large; padding-top: 9px;"
-                        :class="{ 'clicked-btn-style': isPressed[a], 'btn-style': !isPressed[a] }"
-                        @click="toggleButton(a)">{{ a }}</button>
+                        :class="{ 'clicked-btn-style': isPressed[a-1], 'btn-style': !isPressed[a-1] }"
+                        @click="toggleButton(a-1)">{{ a-1 }}</button>
                     <button v-on="click" class="btn-style"
                         style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
                         @click="changeNextVideo">next</button>
@@ -111,12 +111,12 @@ export default {
     name: 'scoringPage',
     data() {
         return {
-            clickedButton: 0,
+            clickedButton: -1,
             noScore: false,
             maxVideonum: 3,
             userScoring: 0,
-            scoreNum: [1, 2, 3, 4, 5],
-            isPressed: [false, false, false, false, false],
+            scoreNum: [0, 1, 2, 3, 4, 5],
+            isPressed: [false, false, false, false, false, false],
             isClicked: false,
             menuBar: ['Home'],
             currentPage: this.$route.query.currentPage,
@@ -410,15 +410,16 @@ export default {
             }
         },
         changeNextVideo() {
-            if (this.clickedButton == 0) {
+            if (this.clickedButton == -1) {
                 alert("Please choose score.")
             } else {
+                this.isPressed = [false, false, false, false, false, false]
                 this.userScoring = this.clickedButton
-                console.log("changeNextVideo")
-                console.log("user scoring: ", this.userScoring)
-                console.log("current user:", this.currentUser)
-                console.log("current page: ", this.currentPage)
-                console.log("test code: ", this.testCode)
+                // console.log("changeNextVideo")
+                // console.log("user scoring: ", this.userScoring)
+                // console.log("current user:", this.currentUser)
+                // console.log("current page: ", this.currentPage)
+                // console.log("test code: ", this.testCode)
 
                 console.log(this.currentPage)
                 console.log(this.videoIndex)
@@ -441,7 +442,7 @@ export default {
                             //after post we have to init data form userScoring and currentPage
                             console.log("response: ", res.data)
                             this.userScoring = 0
-                            this.isPressed = [false, false, false, false, false]
+                            this.isPressed = [false, false, false, false, false, false]
                             this.videoNameIndex += 1
                             console.log("videoNameIndex: ", this.videoNameIndex)
                             var curScore = res.data;
@@ -469,7 +470,6 @@ export default {
             }
         },
         changeBackVideo() {
-            this.isPressed = [false, false, false, false, false]
             console.log("changeBackVideo")
 
             if (this.currentPage == this.videoIndex[0]) {
@@ -477,6 +477,7 @@ export default {
                 console.log("first page: ", this.currentPage);
                 return;
             } else {
+                this.isPressed = [false, false, false, false, false, false]
                 for (var i = 1; i < this.videoIndex.length; i++) {
                     if (this.videoIndex[i] == this.currentPage) {
                         this.videoNameIndex -= 1
@@ -492,8 +493,8 @@ export default {
                                 TestCode: this.testCode,
                             })
                             .then((response) => {
-                                curScore = this.response.data;
-                                console.log(response.data)
+                                curScore = response.data;
+                                console.log(curScore)
                                 if (curScore != 0) {
                                     this.isPressed[curScore] = true;
                                 }
@@ -514,7 +515,7 @@ export default {
         },
         // score button 눌렸는지 안눌렸는지 확인하는 method
         toggleButton(index) {
-            this.isPressed = [false, false, false, false, false]
+            this.isPressed = [false, false, false, false, false, false]
             this.isPressed[index] = !this.isPressed[index]
         },
         // video 2개 동시에 플레이 시키는 method

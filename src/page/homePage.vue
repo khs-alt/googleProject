@@ -74,7 +74,7 @@ export default {
             currentMode: 'Nothing',
             userScoring: [],
             scoreNum: [1, 2, 3, 4, 5],
-            isPressed: [false, false, false, false, false],
+            isPressed: [false, false, false, false, false, false],
             menuBar: ['Home'],
             lastPage: false,
             videoButtonText: "Play Video",
