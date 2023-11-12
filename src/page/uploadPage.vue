@@ -146,51 +146,51 @@ export default {
         uploadFiles() {
             if (this.originalFileList.length == 0 || this.artifactFileList.length == 0) {
                 alert('Please select two video files.');
-                console.log('Please select two video files.');
+                //console.log('Please select two video files.');
                 return;
             }
 
             if (this.originalFileList.length != this.artifactFileList.length) {
                 alert('Please match the number of original videos and artifact videos.');
-                console.log('Please match the number of original videos and artifact videos.');
+                //console.log('Please match the number of original videos and artifact videos.');
                 return;
             }
 
             if (this.clickedTagBtn.length == 0) {
                 alert('Please enter a Tag.');
-                console.log('Please enter a Tag.');
+                //console.log('Please enter a Tag.');
                 return;
             }
 
             if (this.clickedUploadOption == null) {
                 alert('Please select upload option.');
-                console.log('Please select upload option.');
+                //console.log('Please select upload option.');
                 return;
             }
 
             var formData = new FormData();
-            console.log("Created formData");
+            //console.log("Created formData");
 
             // original video formData에 저장
             for (let i = 0; i < this.originalFileList.length; i++) {
                 formData.append("original", this.originalFileList[i])
-                console.log("original video");
+                //console.log("original video");
                 for (let key of formData.keys()) {
-                    console.log(key);
+                    //console.log(key);
                 }
                 for (let value of formData.values()) {
-                    console.log(value);
+                    //console.log(value);
                 }
             }
             // artifact video formData에 저장
             for (let i = 0; i < this.artifactFileList.length; i++) {
                 formData.append("artifact", this.artifactFileList[i])
-                console.log("artifact video");
+                //console.log("artifact video");
                 for (let key of formData.keys()) {
-                    console.log(key);
+                    //console.log(key);
                 }
                 for (let value of formData.values()) {
-                    console.log(value);
+                    //console.log(value);
                 }
             }
             // 이 데이터에서 선택된 tag post하는 method
@@ -198,7 +198,7 @@ export default {
 
             // video sending method
             if (this.clickedUploadOption == "video") {
-                console.log("video");
+                //console.log("video");
                 axios
                     .post(this.baseUrl + '/upload/video', formData, {
                         headers: {
@@ -209,14 +209,14 @@ export default {
                         alert("Data transfer successful.");
                         this.originalFileList = [];
                         this.artifactFileList = [];
-                        console.log(response.data);
+                        //console.log(response.data);
                     })
                     .catch((error) => {
                         alert(error);
                         console.error(error);
                     });
             } else if (this.clickedUploadOption == "image") {
-                console.log("image")
+                //console.log("image")
                 // image sending method ex)upload/image
                 axios
                     .post(this.baseUrl + '/upload/image', formData, {
@@ -228,7 +228,7 @@ export default {
                         alert("Data transfer successful.");
                         this.originalFileList = [];
                         this.artifactFileList = [];
-                        console.log(response.data);
+                        //console.log(response.data);
                     })
                     .catch((error) => {
                         alert(error);
@@ -255,12 +255,12 @@ export default {
                     tags: this.clickedTagBtn
                 })
                 .then((response) => {
-                    console.log(response);
+                    //console.log(response);
                     this.getTag();
                     this.clickTagBtn = [];
                 })
                 .catch((error) => {
-                    console.log(error);
+                    //console.log(error);
                 })
             }
         },
@@ -279,7 +279,7 @@ export default {
                     }
                 })
                 .catch((error) => {
-                    console.log(error);
+                    //console.log(error);
                 })
         },
         // tag를 추가하는 method
@@ -292,23 +292,23 @@ export default {
                 return;
             }
             this.tag.push(this.tagInput)
-            console.log(this.tagInput)
+            //console.log(this.tagInput)
 
             axios
                 .post(this.baseUrl + '/addTag', {
                     tag: this.tagInput
                 })
                 .then((response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                 })
                 .catch((error) => {
-                    console.log(error);
+                    //console.log(error);
                 })
             this.tagInput = '';
         },
         clickTagBtn(index) {
             const tagName = this.tag[index];
-            console.log("index: ", index)
+            //console.log("index: ", index)
 
             if (this.isClicked[index] == true) {
                 for (var i = 0; i < this.clickedTagBtn.length; i++) {
@@ -317,7 +317,7 @@ export default {
                         this.clickedTagBtn.splice(i, 1);
                         this.isClicked[index] = !this.isClicked[index];
                         i--;
-                        console.log("removed tag:", tagName);
+                        //console.log("removed tag:", tagName);
                         break;
                     }
                 }
@@ -326,12 +326,12 @@ export default {
                 this.$refs.tag[index].className = 'clicked-btn-style';
                 this.isClicked[index] = !this.isClicked[index];
                 this.clickedTagBtn.push(tagName);
-                console.log("added tag:", tagName);
+                //console.log("added tag:", tagName);
             }
         },
         onOriginalClick() {
             this.$refs.originalFileInput.click()
-            console.log(this.$refs.originalFileInput)
+            //console.log(this.$refs.originalFileInput)
         },
         onArtifactClick() {
             this.$refs.artifactFileInput.click()
@@ -412,11 +412,11 @@ export default {
             })
         },
         originalHandleRemove(index) {
-            console.log("remove")
+            //console.log("remove")
             this.originalFileList.splice(index, 1)
         },
         artifactHandleRemove(index) {
-            console.log("remove")
+            //console.log("remove")
             this.artifactFileList.splice(index, 1)
         }
     },

@@ -94,7 +94,7 @@ export default {
                 setTimeout(() => this.passwordShake = false, 500);
                 return;
             } else {
-                console.log("wrong world")
+                //console.log("wrong world")
                 axios
                     .post(this.baseUrl + "/signUp", {
                         newId: this.id,
@@ -103,7 +103,7 @@ export default {
                     .then((res) => {
                         if (res.data == "Yes") {
                             alert("success to sign up!")
-                            console.log(res.data)
+                            //console.log(res.data)
                             this.$router.push('/')
                         } else {
                             alert("fail to sign up!")

@@ -96,11 +96,11 @@ export default {
       axios
         .get(this.baseUrl + `/patchsize`)
         .then((response) => {
-          console.log("axios get patch size success\n");
+          //console.log("axios get patch size success\n");
           this.patchSize = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         })
     },
     //TODO: Backend에서 patch image 가져오는 method 백엔드 연결 필요 
@@ -108,11 +108,11 @@ export default {
       axios
         .get(this.baseUrl + `/patch`)
         .then((response) => {
-          console.log("axios get patch image success\n");
+          //console.log("axios get patch image success\n");
           this.patchImageList = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         })
     },
     // TODO: 백엔드 연결 필요 
@@ -120,11 +120,11 @@ export default {
       axios
         .get(this.baseUrl + `/patchindex`)
         .then((response) => {
-          console.log("axios get patch index success\n");
+          //console.log("axios get patch index success\n");
           this.patchIndex = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         })
     },
 
@@ -175,7 +175,7 @@ export default {
             userCurrentPage: this.currentUser
           })
           .then(res => {
-            console.log(res)
+            //console.log(res)
             alert(res.data)
             //after post we have to init data form userScoring and currentPage
             this.isSubmitted = true
@@ -196,11 +196,11 @@ export default {
       axios
         .get(this.baseUrl + `/label/` + this.currentPage, {})
         .then((response) => {
-          console.log("axios get label image success\n");
+          //console.log("axios get label image success\n");
           this.imageList = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         })
     },
     // 다음 이미지로 변경

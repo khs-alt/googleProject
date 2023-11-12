@@ -114,22 +114,22 @@ export default {
                     testcode: this.clickedTestcodeBtn
                 })
                 .then((response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     alert("Exported testcode: " + this.clickedTestcodeBtn);
                 })
                 .catch((error) => {
-                    console.log(error);
+                    //console.log(error);
                 })
         },
         clickTestcodeBtn(testcodeName) {
             if(this.clickedTestcodeBtn == ""){
                 this.clickedTestcodeBtn = testcodeName;
             }
-            console.log("clicked testcode button: ", this.clickedTestcodeBtn);
+            //console.log("clicked testcode button: ", this.clickedTestcodeBtn);
 
             const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
             const tagIndex = testcodeIndex;
-            console.log("tagcode index: ", tagIndex);
+            //console.log("tagcode index: ", tagIndex);
             if (testcodeIndex !== -1) {
                 for(var i = 0; i < this.tag.length; i++) {
                     this.clickTagBtn(i);
@@ -138,20 +138,20 @@ export default {
 
             // this.clickedTagBtn = this.
             //         existTestcode.tags[testcodeIndex];
-            //     console.log("clicked tag button: ", this.clickedTagBtn)
+            //     //console.log("clicked tag button: ", this.clickedTagBtn)
             //     this.isClicked = []
             //     this.isClicked.push(this.existTestcode.tags[testcodeIndex])
-            //     console.log("this.isClicked: ", this.isClicked)
+            //     //console.log("this.isClicked: ", this.isClicked)
             // TODO: testcode에 있는 tag들의 버튼 index를 찾아서 clickTagBtn method를 실행시켜야 함
 
             this.getVideoListFromTag();
         },
         async getVideoListFromTag() {
-            console.log("get video list from\n tag: ", this.clickedTagBtn);
+            //console.log("get video list from\n tag: ", this.clickedTagBtn);
             this.videoFromTag = [];
 
             if (this.clickedTagBtn.length === 0) {
-                console.log("There are no clicked tags");
+                //console.log("There are no clicked tags");
                 return;
             }
             await axios
@@ -161,11 +161,11 @@ export default {
                     }
                 })
                 .then((response) => {
-                    console.log("get video list from tag: " + response.data);
+                    //console.log("get video list from tag: " + response.data);
                     this.videoFromTag = response.data;
                 })
                 .catch((error) => {
-                    console.log(error);
+                    //console.log(error);
                 })
         },
         selectAllTags() {
@@ -176,7 +176,7 @@ export default {
             if (this.clickedTagBtn.length === this.tag.length) { // 이미 모든 태그가 선택되었을 경우
                 this.clickedTagBtn = [];
                 this.isClicked = this.tag.map(() => false);
-                console.log("clicked tag button: " + this.isClicked);
+                //console.log("clicked tag button: " + this.isClicked);
                 this.$refs.tag.forEach((btn) => {
                     btn.className = 'btn-style';
                 });
@@ -184,7 +184,7 @@ export default {
             } else { // 그렇지 않은 경우
                 this.clickedTagBtn = [...this.tag];
                 this.isClicked = this.tag.map(() => true);
-                console.log("clicked tag button: " + this.isClicked);
+                //console.log("clicked tag button: " + this.isClicked);
                 this.$refs.tag.forEach((btn) => {
                     btn.className = 'clicked-btn-style';
                 });
@@ -215,11 +215,11 @@ export default {
             await axios
                 .get(this.baseUrl + '/getTag')
                 .then((response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.tag = response.data;
                 })
                 .catch((error) => {
-                    console.log(error);
+                    //console.log(error);
                 })
         },
         //     ressult := struct {
@@ -230,15 +230,15 @@ export default {
             await axios
                 .get(this.baseUrl + '/getTestcodeWithTag')
                 .then((response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.existTestcode = response.data;
                     for (var i = 0; i < this.existTestcode.tags.length; i++) {
                         this.existTestcode.tags[i] = this.existTestcode.tags[i].replace(/,/g, ', ')
                     }
-                    console.log("exist testcode tags: ", this.existTestcode.tags);
+                    //console.log("exist testcode tags: ", this.existTestcode.tags);
                 })
                 .catch((error) => {
-                    console.log(error);
+                    //console.log(error);
                 })
         },
         async generateTestcode() {
@@ -251,10 +251,10 @@ export default {
                     tags: this.clickedTagBtn
                 })
                 .then((response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     // response가 -1 이면 이미 존재하는 testcode 
                     if (response == -1) {
-                        console.log("Aleread existing testcode");
+                        //console.log("Aleread existing testcode");
                         alert("Aleread existing testcode");
                         return;
                     }
@@ -264,12 +264,12 @@ export default {
                     this.getTestcodeWithTag();
                 })
                 .catch((error) => {
-                    console.log(error);
+                    //console.log(error);
                 })
         },
         clickTagBtn(index) {
             const tagName = this.tag[index];
-            console.log("index: ", index)
+            //console.log("index: ", index)
             if (this.isClicked[index] == true) {
                 for (var i = 0; i < this.clickedTagBtn.length; i++) {
                     if (this.clickedTagBtn[i] === tagName) {
@@ -277,7 +277,7 @@ export default {
                         this.clickedTagBtn.splice(i, 1);
                         this.isClicked[index] = !this.isClicked[index];
                         i--;
-                        console.log("removed tag:", tagName);
+                        //console.log("removed tag:", tagName);
                         break;
                     }
                 }
@@ -286,7 +286,7 @@ export default {
                 this.$refs.tag[index].className = 'clicked-btn-style';
                 this.isClicked[index] = !this.isClicked[index];
                 this.clickedTagBtn.push(tagName);
-                console.log("added tag:", tagName);
+                //console.log("added tag:", tagName);
             }
         },
     },

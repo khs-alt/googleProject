@@ -139,8 +139,8 @@ export default {
                 if (this.currentMode == 'Nothing') {
                     alert("Please choose mode")
                 } else {
-                    console.log("user id: ", this.userId)
-                    console.log("user password: ", this.password)
+                    //console.log("user id: ", this.userId)
+                    //console.log("user password: ", this.password)
                     // 여기에 아이디와 비밀번호를 전송하는 로직을 추가합니다.
                     axios
                         .post(this.baseUrl + "/login", {
@@ -148,7 +148,7 @@ export default {
                             userPassword: this.password,
                             testcode: this.testcode,
                         }).then(res => {
-                            console.log("res.data: ", res.data);
+                            //console.log("res.data: ", res.data);
                             if (res.data == "Yes") {
                                 // json 파일 형식
                                 // 1. 유저의 유무 isUserExist

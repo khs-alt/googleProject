@@ -87,19 +87,19 @@
                     <button v-on="click" class="btn-style"
                         style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
                         @click="changeBackVideo">prev</button>
-                    <button v-for="a in 6" ref="score" :key="a-1" v-on:click="clickedButton = a-1"
+                    <button v-for="a in 6" ref="score" :key="a - 1" v-on:click="clickedButton = a - 1"
                         style="width: 80px; height: 55px; font-size:x-large; padding-top: 9px;"
-                        :class="{ 'clicked-btn-style': isPressed[a-1], 'btn-style': !isPressed[a-1] }"
-                        @click="toggleButton(a-1)">{{ a-1 }}</button>
+                        :class="{ 'clicked-btn-style': isPressed[a - 1], 'btn-style': !isPressed[a - 1] }"
+                        @click="toggleButton(a - 1)">{{ a - 1 }}</button>
                     <button v-on="click" class="btn-style"
-                        style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
-                        @click="changeNextVideo">next</button>
+                        style="font-size: x-large; width: 180px; height: 55px; padding-top: 6px;"
+                        @click="changeNextVideo">next {{ currentPageIndex }}/{{ totalLength }}</button>
                 </div>
             </div>
-            <div>
+            <!-- <div>
                 <button v-on="click" class="btn-style" style="width: 130px; height: 60px; font-size: x-large; padding: 9px;"
                     @click="submitScoring()">submit</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -113,7 +113,6 @@ export default {
         return {
             clickedButton: -1,
             noScore: false,
-            maxVideonum: 3,
             userScoring: 0,
             scoreNum: [0, 1, 2, 3, 4, 5],
             isPressed: [false, false, false, false, false, false],
@@ -148,6 +147,7 @@ export default {
             dragStartY: 0,
             offsetX: 0,
             offsetY: 0,
+            totalLength: 0,
             imgSrc: require("../images/play_icon/iconmonstr-media-control-48-240.png"),
         }
     },
@@ -159,6 +159,12 @@ export default {
         this.isVideoPaused();
         document.addEventListener('mousemove', this.handleDragging);
         document.addEventListener('mouseup', this.handleDragEnd);
+    },
+    computed: {
+        currentPageIndex() {
+            return parseInt(this.videoNameIndex) + 1;
+        },
+        // ... 다른 computed properties
     },
     methods: {
         // TODO: 비디오 drag & drop 할 때, 비디오가 화면 밖으로 없어지는 현상 수정 필요
@@ -201,7 +207,7 @@ export default {
         async isVideoPaused() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
-            console.log("isVideoPaused: " + this.videoButtonText)
+            //console.log("isVideoPaused: " + this.videoButtonText)
 
             video1.addEventListener("ended", () => {
                 this.videoButtonText = "Play";
@@ -209,11 +215,11 @@ export default {
                 //     video2.currentTime = video2.duration;
                 // }
                 // // video2.currentTime = video1.duration;
-                // console.log("video1: " + video1.currentTime)
-                // console.log("video2: " + video2.currentTime)
-                // console.log("video1 duration: " + video1.duration)
+                // //console.log("video1: " + video1.currentTime)
+                // //console.log("video2: " + video2.currentTime)
+                // //console.log("video1 duration: " + video1.duration)
                 if (video1.currentTime < video2.currentTime) {
-                    console.log("video1 ended: " + video1.currentTime)
+                    //console.log("video1 ended: " + video1.currentTime)
                     video1.pause();
                     video2.pause();
                     video1.currentTime = 0;
@@ -222,7 +228,7 @@ export default {
                     // document.getElementById("videoNoartifact").currentTime = video2.currentTime;
                     // document.getElementById("videoNoartifact").currentTime = video2.currentTime;
                 } else {
-                    console.log("video2 ended: " + video2.currentTime)
+                    //console.log("video2 ended: " + video2.currentTime)
                     // document.getElementById("videoYesartifact").currentTime = video1.currentTime;
                     // document.getElementById("videoYesartifact").currentTime = video1.currentTime;
                     video1.pause();
@@ -238,13 +244,13 @@ export default {
                 //     video1.currentTime = video1.duration;
                 // }
                 // // video1.currentTime = video2.duration;
-                // console.log("video2 duration: " + video2.duration)
-                // console.log("video1: " + video1.currentTime)
-                // console.log("video2: " + video2.currentTime)
+                // //console.log("video2 duration: " + video2.duration)
+                // //console.log("video1: " + video1.currentTime)
+                // //console.log("video2: " + video2.currentTime)
                 if (video1.currentTime < video2.currentTime) {
                     // document.getElementById("videoNoartifact").currentTime = video2.currentTime;
                     // document.getElementById("videoNoartifact").currentTime = video2.currentTime;
-                    console.log("video1 ended: " + video1.currentTime)
+                    //console.log("video1 ended: " + video1.currentTime)
                     video1.pause();
                     video2.pause();
                     video1.currentTime = 0;
@@ -253,7 +259,7 @@ export default {
                 } else {
                     // document.getElementById("videoYesartifact").currentTime = video1.currentTime;
                     // document.getElementById("videoYesartifact").currentTime = video1.currentTime;
-                    console.log("video2 ended: " + video2.currentTime)
+                    //console.log("video2 ended: " + video2.currentTime)
                     video1.pause();
                     video2.pause();
                     video1.currentTime = 0;
@@ -329,21 +335,27 @@ export default {
                     testcode: this.testCode,
                 })
                 .then((response) => {
-                    this.currentPage = response.data.currentPage;
+                    this.currentPage = parseInt(response.data.currentPage);//여기다 1 더해서 
                     this.videoIndex = response.data.videoList;
+                    this.totalLength = this.videoIndex.length;
                     this.originalVideoNameList = response.data.originalVideoNameList;
                     this.artifactVideoNameList = response.data.artifactVideoNameList;
                     this.originalVideoFrameList = response.data.originalVideoFPSList;
                     this.artifactVideoFrameList = response.data.artifactVideoFPSList;
+                    var curScore = 0;
+                    curScore = response.data.userScore;
                     this.videoNameIndex = this.currentPage;
-
-                    console.log("getVideoIndexCurrentPage response")
+                    if (curScore != -1) {
+                        this.isPressed[curScore] = true;
+                        this.clickedButton = curScore;
+                    }
+                    //console.log("getVideoIndexCurrentPage response")
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoIndex)
-                    console.log("original video name list: ", this.originalVideoNameList)
-                    console.log("artifact video name list: ", this.artifactVideoNameList)
-                    console.log("original video frame list: ", this.originalVideoFrameList)
-                    console.log("artifact video frame list: ", this.artifactVideoFrameList)
+                    //console.log("original video name list: ", this.originalVideoNameList)
+                    //console.log("artifact video name list: ", this.artifactVideoNameList)
+                    //console.log("original video frame list: ", this.originalVideoFrameList)
+                    //console.log("artifact video frame list: ", this.artifactVideoFrameList)
                     this.leftOriginalVideo();
                     this.rightArtifactVideo();
                 })
@@ -357,23 +369,19 @@ export default {
             }
         },
         leftOriginalVideo() {
-            console.log("leftOriginalVideo")
-            console.log("original page url: ", this.baseUrl + "/postvideo/original/" + (this.currentPage))
             return String(this.baseUrl + "/postvideo/original/" + (this.currentPage))
         },
         rightArtifactVideo() {
-            console.log("rightArtifactVideo")
-            console.log("artifact page url: ", this.baseUrl + "/postvideo/artifact/" + (this.currentPage))
             return String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage))
         },
         submitScoring() {
-            for (var i = 0; i < 10; i++) {
+            for (var i = 0; i < 5; i++) {
                 if (this.isPressed[i]) {
                     this.isClicked = true
                 }
             }
             if (this.isClicked == false) {
-                console.log("Please chose the score!")
+                //console.log("Please chose the score!")
             } else {
                 this.userScoring = this.clickedButton
 
@@ -386,18 +394,18 @@ export default {
                         TestCode: this.testCode
                     })
                     .then(res => {
-                        console.log(res)
-                        // alert(res.data)
+                        // console.log(this.currentPage)
+                        console.log(res.data)
+                        //alert(res.data)
                         //after post we have to init data form userScoring and currentPage
                         this.userScoring = 0
                         if (this.videoIndex[this.videoIndex.length - 1] == this.currentPage) {
                             alert("Successfully submitted. This is the last page.")
-                            return;
                         } else {
                             for (var i = 0; i < this.videoIndex.length; i++) {
                                 if (this.videoIndex[i] == this.currentPage) {
                                     this.currentPage = this.videoIndex[i + 1];
-                                    console.log("next page : " + this.currentPage);
+                                    //console.log("next page : " + this.currentPage);
                                     alert("Successfully submitted.")
                                     return;
                                 }
@@ -413,21 +421,29 @@ export default {
             if (this.clickedButton == -1) {
                 alert("Please choose score.")
             } else {
-                this.isPressed = [false, false, false, false, false, false]
                 this.userScoring = this.clickedButton
-                // console.log("changeNextVideo")
-                // console.log("user scoring: ", this.userScoring)
-                // console.log("current user:", this.currentUser)
-                // console.log("current page: ", this.currentPage)
-                // console.log("test code: ", this.testCode)
-
-                console.log(this.currentPage)
-                console.log(this.videoIndex)
-                console.log(this.videoIndex[this.videoIndex.length - 1])
-
+                //console.log("changeNextVideo")
+                //console.log("user scoring: ", this.userScoring)
+                //console.log("current user:", this.currentUser)
+                console.log("next current page: ", this.currentPage)
+                //console.log("test code: ", this.testCode)
+                //console.log(this.videoIndex)
+                //console.log(this.videoIndex[this.videoIndex.length - 1])
+                //마지막 페이지 확인
                 if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
-                    alert("This is the last page");
-                    console.log("This is the last page");
+                    axios
+                        .post(this.baseUrl + "/postdata", {
+                            Title: "scoring data",
+                            Score: this.userScoring,
+                            CurrentUser: this.currentUser,
+                            ImageId: parseInt(this.currentPage),
+                            TestCode: this.testCode
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        })
+                    alert("This is the last page of this test code. Thank you!");
+                    //console.log("This is the last page");
                     return;
                 } else {
                     axios
@@ -440,24 +456,25 @@ export default {
                         })
                         .then(res => {
                             //after post we have to init data form userScoring and currentPage
-                            console.log("response: ", res.data)
+                            //console.log("response: ", res.data)
                             this.userScoring = 0
                             this.isPressed = [false, false, false, false, false, false]
                             this.videoNameIndex += 1
-                            console.log("videoNameIndex: ", this.videoNameIndex)
+                            //console.log("videoNameIndex: ", this.videoNameIndex)
                             var curScore = res.data;
+                            //console.log("next button curScore: " + curScore)
                             this.resetZoomAndOffset();
                             this.updateVideoStyle();
-
-                            if (curScore != 0) {
+                            if (curScore != -1) {
                                 this.isPressed[curScore] = true;
-                                console.log("isPressed: " + curScore);
+                                this.clickedButton = curScore;
+                                //console.log("isPressed: " + curScore);
                             }
                             for (var i = 0; i < this.videoIndex.length; i++) {
-                                console.log("video index : ", this.videoIndex[i])
+                                //console.log("video index : ", this.videoIndex[i])
                                 if (this.videoIndex[i] == this.currentPage) {
                                     this.currentPage = this.videoIndex[i + 1];
-                                    console.log("next page : " + this.currentPage);
+                                    //console.log("next page : " + this.currentPage);
                                     return;
                                 }
                             }
@@ -469,12 +486,12 @@ export default {
 
             }
         },
+
         changeBackVideo() {
-            console.log("changeBackVideo")
 
             if (this.currentPage == this.videoIndex[0]) {
                 alert("This is the first page.");
-                console.log("first page: ", this.currentPage);
+                //console.log("first page: ", this.currentPage);
                 return;
             } else {
                 this.isPressed = [false, false, false, false, false, false]
@@ -482,9 +499,9 @@ export default {
                     if (this.videoIndex[i] == this.currentPage) {
                         this.videoNameIndex -= 1
                         this.currentPage = this.videoIndex[i - 1];
-                        console.log("video index : ", this.videoIndex[i])
-                        console.log("prev page: " + this.currentPage);
-                        console.log("videoNameIndex: ", this.videoNameIndex)
+                        //console.log("video index : ", this.videoIndex[i])
+                        //console.log("prev page: " + this.currentPage);
+                        //console.log("videoNameIndex: ", this.videoNameIndex)
                         var curScore = 0;
                         axios
                             .post(this.baseUrl + "/getUserScore", {
@@ -494,11 +511,16 @@ export default {
                             })
                             .then((response) => {
                                 curScore = response.data;
-                                console.log(curScore)
-                                if (curScore != 0) {
+                                //console.log(curScore)
+                                if (curScore != -1) {
                                     this.isPressed[curScore] = true;
+                                    this.clickedButton = curScore;
+                                } else {
+                                    curScore = -1
+                                    this.clickedButton = curScore;
+                                    this.isPressed = [false, false, false, false, false, false]
                                 }
-                                console.log("curScore: " + this.curSCore);
+                                //console.log("curScore: " + curScore);
                             })
                             .catch((err) => {
                                 console.log(err);
@@ -553,7 +575,7 @@ export default {
         },
         // Play/Stop 및 text 변경 버튼
         changeVideoButton() {
-            console.log("changeVideoButton\n" + this.videoButtonText)
+            //console.log("changeVideoButton\n" + this.videoButtonText)
             if (this.videoButtonText == "Play") {
                 this.playVideos();
                 this.videoButtonText = "Stop";
@@ -562,7 +584,7 @@ export default {
                 this.videoButtonText = "Play";
                 this.pauseVideos();
             }
-            console.log("after changeVideoButton\n" + this.videoButtonText)
+            //console.log("after changeVideoButton\n" + this.videoButtonText)
         },
         seekBackward() {
             const video1 = this.$refs.videoNoartifact;
@@ -573,8 +595,8 @@ export default {
             if (originalFrame != 0 && artifactFrame != 0) {
                 const halfOriginalFrame = (1 / originalFrame) / 2;
                 const halfArtifactFrame = (1 / artifactFrame) / 2;
-                console.log("original frame: " + originalFrame)
-                console.log("artifact frame: " + artifactFrame)
+                //console.log("original frame: " + originalFrame)
+                //console.log("artifact frame: " + artifactFrame)
 
                 if (video1 && video2) {
                     if (video1.currentTime == 0) {
@@ -586,8 +608,8 @@ export default {
                     }
                 }
             }
-            console.log("current left time: " + video1.currentTime)
-            console.log("current right time: " + video2.currentTime)
+            //console.log("current left time: " + video1.currentTime)
+            //console.log("current right time: " + video2.currentTime)
         },
         seekForward() {
             const video1 = this.$refs.videoNoartifact;
@@ -597,8 +619,8 @@ export default {
             if (originalFrame != 0 && artifactFrame != 0) {
                 const halfOriginalFrame = (1 / originalFrame) / 2;
                 const halfArtifactFrame = (1 / artifactFrame) / 2;
-                console.log("original frame: " + originalFrame)
-                console.log("artifact frame: " + artifactFrame)
+                //console.log("original frame: " + originalFrame)
+                //console.log("artifact frame: " + artifactFrame)
                 if (video1 && video2) {
                     if (video1.currentTime == 0 || video2.currentTime == 0) {
                         video1.currentTime = halfOriginalFrame;
@@ -606,10 +628,10 @@ export default {
                     } else {
                         // TODO: 마지막 프레임을 버림
                         if (video1.currentTime + (1 / originalFrame) * 3 >= video1.duration || video2.currentTime + (1 / artifactFrame) * 3 >= video2.duration) {
-                            console.log("video1.duration: " + video1.duration)
-                            console.log("video2.duration: " + video2.duration)
-                            console.log("video1.currentTime: " + video1.currentTime)
-                            console.log("video2.currentTime: " + video2.currentTime)
+                            //console.log("video1.duration: " + video1.duration)
+                            //console.log("video2.duration: " + video2.duration)
+                            //console.log("video1.currentTime: " + video1.currentTime)
+                            //console.log("video2.currentTime: " + video2.currentTime)
                             return;
                         }
                         video1.currentTime += 1 / originalFrame;
@@ -617,8 +639,8 @@ export default {
                     }
                 }
             }
-            console.log("current left time: " + video1.currentTime)
-            console.log("current right time: " + video2.currentTime)
+            //console.log("current left time: " + video1.currentTime)
+            //console.log("current right time: " + video2.currentTime)
         },
     },
 }

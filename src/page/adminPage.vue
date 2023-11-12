@@ -77,7 +77,7 @@ export default {
         },
         submitCredentials() {
             if (this.userId && this.password) {
-                console.log(this.userId, this.password)
+                //console.log(this.userId, this.password)
 
                 axios.post(this.baseUrl + "/admin/login", {
                         adminId: this.userId,
