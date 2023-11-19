@@ -6,13 +6,13 @@
                 <img :src="temp" style="max-width:100%; height: 50px; margin-right: auto; margin-left: 10px; float: left; margin-top: 8px;" />
             </div> -->
                 <div class="menu-content">
-                    <a href="/" style="margin-right: 10px;">
+                    <a href="/dev/" style="margin-right: 10px;">
                         <button class="signup-btn-style">Home</button>
                     </a>
-                    <a href="/signup" style="margin-right: 10px;">
+                    <a href="/dev/signup" style="margin-right: 10px;">
                         <button class="signup-btn-style">Sign Up</button>
                     </a>
-                    <a href="/admin">
+                    <a href="/dev/admin">
                         <button class="signup-btn-style">Admin</button>
                     </a>
                 </div>
@@ -111,7 +111,7 @@ export default {
         goToPage() {
             if (this.currentMode == 'Scoring') {
                 this.$router.push({
-                    path: '/scoring',
+                    path: '/dev/scoring',
                     query: {
                         userName: this.userId,
                         currentPage: this.currentPage,
@@ -121,7 +121,7 @@ export default {
             }
             if (this.currentMode == 'Labeling') {
                 this.$router.push({
-                    path: '/label',
+                    path: '/dev/label',
                     query: {
                         userName: this.userId,
                         currentPage: this.currentPage,
