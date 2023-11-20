@@ -23,13 +23,31 @@
         </div>
       </div> -->
       <div class="images">
-        <img :src="originalImage" ref="img" :style="{width: resizeWidth + 'px', height: resizeHeight + 'px'}" class="imageStyle" />
+        <div v-for="i in patchRow" :key="i">
+          <div v-for="j in patchColumn" :key="j">
+            <div class="labeled-border"
+              :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+              v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
+            </div>
+          </div>
+        </div>
+        <img :src="originalImage" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
+          class="imageStyle" />
         <div class="currentBorder"
           :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
         </div>
       </div>
       <div class="images">
-        <img :src="artifactImage" ref="img" :style="{width: resizeWidth + 'px', height: resizeHeight + 'px'}" class="imageStyle" />
+        <div v-for="i in patchRow" :key="i">
+          <div v-for="j in patchColumn" :key="j">
+            <div class="labeled-border"
+              :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+              v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
+            </div>
+          </div>
+        </div>
+        <img :src="artifactImage" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
+          class="imageStyle" />
         <div class="currentBorder"
           :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
         </div>
@@ -38,27 +56,27 @@
     </div>
     <div class="patchbtnContainor">
       <div>
-        <div class="patch-container">
-          <div class="selected-patch-image">
-            <img :src="originalImage" class="selected-patch" :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }"
-              alt="original">
+        <div class="patch-containor">
+          <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+            <img :src="originalImage" class="selected-patch"
+              :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="original">
           </div>
-          <label>: original</label>
-          <div class="selected-patch-image">
-            <img :src="artifactImage" class="selected-patch" :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }"
-              alt="artifact">
+          <label class="textLabel">: original</label>
+          <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+            <img :src="artifactImage" class="selected-patch"
+              :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="artifact">
           </div>
-          <label>: artifact</label>
+          <label class="textLabel">: artifact</label>
         </div>
       </div>
       <div class="btnContainor">
-        <button v-for="a in 6" :key="a" @click="labeling(a - 1)" class="scoreButton"
+        <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="scoreButton"
           :class="{ 'pressed': this.isPressed === a - 1 }">{{ buttonString[a - 1]
           }}</button>
       </div>
       <div class="btnContainor">
-        <button class="scoreButton" @click="changeBackImage()">Previous Page</button>
-        <button class="scoreButton" @click="changeNextImage()">Next Page</button>
+        <button class="scoreButton" @click="changePreviousPage()">Previous Page</button>
+        <button class="scoreButton" @click="changeNextPage()">Next Page</button>
       </div>
     </div>
   </div>
@@ -78,7 +96,7 @@ export default {
       originalImage: require('../images/addPadding.png'),
       artifactImage: require('../images/addPadding.png'),
       //patchImageList: [require('../images/1.jpg'), require('../images/1.jpg')], //Patch 이미지 리스트
-      borderBox: 144, //Patch 이미지의 크기
+      borderBox: 224, //Patch 이미지의 크기
       borderBoxResize: 0, //축소된 patch 이미지의 크기
       leftValue: 0, //borderBox의 left값
       topValue: 0,  //borderBox의 top값
@@ -93,8 +111,8 @@ export default {
       imageHeight: 0, //이미지의 세로
       resizeWidth: 0, //축소된 이미지의 가로
       resizeHeight: 0, //축소된 이미지의 세로
-      i: 0, //patch 이미지의 가로 인덱스
-      j: 0, //patch 이미지의 세로 인덱스
+      i: 0, //patch 이미지의 세로 인덱스
+      j: 0, //patch 이미지의 가로 인덱스
       userLabeling: [],  //사용자가 부여한 점수
       isPressed: -1, //눌린 점수 체크
       clickedButton: 0, //눌린 버튼 체크
@@ -109,7 +127,7 @@ export default {
     this.getImages();
   },
   mounted() {
-    this.getPatchImagesTemp();
+    //this.getPatchImagesTemp();
     this.getImgaeSize();
     this.resizeImage();
     window.addEventListener('keydown', this.keydown);
@@ -119,14 +137,93 @@ export default {
   },
 
   methods: {
+    // TODO: 임시로 로컬에서 patch 이미지 가져오는 method 백엔드 연결하면 삭제하기
+    // 임시로 로컬에서 patch 이미지 가져오는 method
+    // async getPatchImagesTemp() {
+    //   for (let i = 0; i < this.patchRow; i++) {
+    //     for (let j = 0; j < this.patchColumn; j++) {
+    //       let image = require(`../images/patches/original/denoised_frame_0001_30000_patch_${i}_${j}.png`)
+    //       this.originalPatchImageList.push(image)
+
+    //     }
+    //   }
+    //   for (let i = 0; i < this.patchRow; i++) {
+    //     for (let j = 0; j < this.patchColumn; j++) {
+    //       let image = require(`../images/patches/artifact/denoised_frame_0002_30000_patch_${i}_${j}.png`)
+    //       this.artifactPatchImageList.push(image)
+    //     }
+    //   }
+    // },
+
+    // Backend에서 patch size(행렬) 가져오는 method
+    // TODO: 백엔드 연결 필요
+    getPatchSize() {
+      axios
+        .get(this.baseUrl + `/patchsize`)
+        .then((response) => {
+          console.log("axios get patch size success\n");
+          this.patchSize = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+    //TODO: Backend에서 patch image 가져오는 method 백엔드 연결 필요 
+    getPatchImages() {
+      axios
+        .get(this.baseUrl + `/patch`)
+        .then((response) => {
+          console.log("axios get patch image success\n");
+          this.patchImageList = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+    // TODO: 백엔드 연결 필요
+    getPatchIndex() {
+      axios
+        .get(this.baseUrl + `/patchindex`)
+        .then((response) => {
+          console.log("axios get patch index success\n");
+          this.patchIndex = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+
+    //홈으로 가게 하는 함수
+    navigateTo(item) {
+      if (item === 'Home') {
+        this.$router.push('/');
+      } else {
+        alert("Still developed")
+      }
+    },
+
+    //Backend에서 greed image 가져오는 method
+    getImages() {
+      axios
+        .get(this.baseUrl + `/label/` + this.currentPage, {})
+        .then((response) => {
+          console.log("axios get label image success\n");
+          this.imageList = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+
     //이미지의 사이즈를 구하는 함수
     getImgaeSize() {
       let img = new Image();
       img.src = this.originalImage;
+      console.log("image name: " + img);
       this.imageWidth = img.width;
       this.imageHeight = img.height;
       this.patchColumn = Math.floor(this.imageWidth / this.borderBox);
-      this.patchRow = Math.floor(this.imageHeight / this.borderBox);
+      this.patchRow = Math.floor(this.imageHeight / this.borderBox) + 1;
       this.patchLength = this.patchColumn * this.patchRow;
       this.setPatch(this.i, this.j);
 
@@ -138,6 +235,7 @@ export default {
       console.log(this.patchLength);
     },
 
+    //이미지 크기 축소시키는 함수
     resizeImage() {
       this.resizeWidth = this.imageWidth * 0.25;
       this.resizeHeight = this.imageHeight * 0.25;
@@ -145,33 +243,29 @@ export default {
       console.log("축소된 이미지 사이즈");
       console.log(this.resizeWidth);
       console.log(this.resizeHeight);
+      console.log(this.borderBoxResize);
     },
-
 
     //patch 이미지의 위치를 조정하는 함수
     setPatch(i, j) {
-      if (i < 0) { //<-화살표 방향
-        if (j <= 0) this.j = this.patchRow; //맨 윗줄일 때
-        else this.j--;
-        this.i = this.patchColumn - 1;
-        console.log("왼쪽으로가!");
-      } else if (i > this.patchColumn - 1) { //->화살표 방향
-        if (j >= this.patchRow) this.j = 0;
-        else this.j++;
-        this.i = 0;
-        console.log("오른쪽으로가!");
-      } else if (j < 0) { //^ 방향
-        this.j = this.patchRow;
-        console.log("위로가!");
-      } else if (j > this.patchRow) { //v 방향
+      if (j < 0) { //<-화살표 방향
+        if (i <= 0) this.i = this.patchRow - 1; //맨 윗줄일 때
+        else this.i--;
+        this.j = this.patchColumn - 1;
+      } else if (j > this.patchColumn - 1) { //->화살표 방향
+        if (i >= this.patchRow - 1) this.i = 0;
+        else this.i++;
         this.j = 0;
-        console.log("아래로가!");
+      } else if (i < 0) { //^ 방향
+        this.i = this.patchRow - 1;
+      } else if (i > this.patchRow - 1) { //v 방향
+        this.i = 0;
       }
-      console.log("i: " + this.i + " j: " + this.j);
-      this.rightValue = this.i * this.borderBox; //patch 이미지의 위치값
-      this.bottomValue = this.j * this.borderBox; //patch 이미지의 위치값
-      this.leftValue = this.i * this.borderBoxResize; //borderBox의 위치값
-      this.topValue = this.j * this.borderBoxResize;  //borderBox의 위치값
+      this.rightValue = this.j * this.borderBox; //patch 이미지의 위치값
+      this.bottomValue = this.i * this.borderBox; //patch 이미지의 위치값
+      this.leftValue = this.j * this.borderBoxResize; //borderBox의 위치값
+      this.topValue = this.i * this.borderBoxResize;  //borderBox의 위치값
+      this.patchIndex = this.j + (this.i * this.patchColumn); //patch 이미지의 인덱스
     },
 
     //키보드 이벤트 함수
@@ -216,127 +310,45 @@ export default {
 
     //테두리 주는 함수
     addBorder(index) {
-      if (this.patchIndex === index) {
-        return 'highlight-border';
-      } else if (this.userLabeling[index] > 0) {
-        return 'labeling-complate';
-      } else {
-        return '';
+      let i = Math.floor(index / this.patchColumn);
+      let j = index % this.patchColumn;
+      if (this.userLabeling[index] > 0) {
+        return { left: j * this.borderBox + 'px', top: i * this.borderBox + 'px' };
       }
-    },
-
-    // TODO: 임시로 로컬에서 patch 이미지 가져오는 method 백엔드 연결하면 삭제하기
-    // 임시로 로컬에서 patch 이미지 가져오는 method
-    async getPatchImagesTemp() {
-      for (let i = 0; i < this.patchRow; i++) {
-        for (let j = 0; j < this.patchColumn; j++) {
-          let image = require(`../images/patches/original/denoised_frame_0001_30000_patch_${i}_${j}.png`)
-          this.originalPatchImageList.push(image)
-
-        }
-      }
-      for (let i = 0; i < this.patchRow; i++) {
-        for (let j = 0; j < this.patchColumn; j++) {
-          let image = require(`../images/patches/artifact/denoised_frame_0002_30000_patch_${i}_${j}.png`)
-          this.artifactPatchImageList.push(image)
-        }
-      }
-    },
-
-    // Backend에서 patch size(행렬) 가져오는 method
-    // TODO: 백엔드 연결 필요
-    getPatchSize() {
-      axios
-        .get(this.baseUrl + `/patchsize`)
-        .then((response) => {
-          console.log("axios get patch size success\n");
-          this.patchSize = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
-    //TODO: Backend에서 patch image 가져오는 method 백엔드 연결 필요 
-    getPatchImages() {
-      axios
-        .get(this.baseUrl + `/patch`)
-        .then((response) => {
-          console.log("axios get patch image success\n");
-          this.patchImageList = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
-    // TODO: 백엔드 연결 필요 
-    getPatchIndex() {
-      axios
-        .get(this.baseUrl + `/patchindex`)
-        .then((response) => {
-          console.log("axios get patch index success\n");
-          this.patchIndex = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
-
-    //홈으로 가게 하는 함수
-    navigateTo(item) {
-      if (item === 'Home') {
-        this.$router.push('/');
-      } else {
-        alert("Still developed")
-      }
-    },
-
-    // Backend에서 greed image 가져오는 method
-    getImages() {
-      axios
-        .get(this.baseUrl + `/label/` + this.currentPage, {})
-        .then((response) => {
-          console.log("axios get label image success\n");
-          this.imageList = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
+      return {};
     },
 
     // 점수 부여 및 다음 Patch 이미지로 변경
     labeling(num) {
-      console.log(this.patchIndex);
+      console.log("index: " + this.patchIndex);
       this.userLabeling[this.patchIndex] = num;
       console.log(this.userLabeling);
-      if (this.patchIndex + 1 >= this.patchLength) {
-        alert("this is last patch image");
-      } else this.changeNextPatchImage();
+      this.changeNextPatchImage();
     },
 
     changeNextPatchImage() {
       // this.patchIndex = this.patchIndex + 1 > this.patchLength - 1 ? 0 : this.patchIndex + 1;
       // console.log(this.patchIndex);
 
-      // if (this.userLabeling[this.patchIndex] >= 0) {
-      //   this.isPressed = this.userLabeling[this.patchIndex];
-      //   return;
-      // }
-
-      // this.isPressed = -1;
-      this.setPatch(++this.i, this.j);
+      this.setPatch(this.i, ++this.j);
+      if (this.userLabeling[this.patchIndex] >= 0) {
+        this.isPressed = this.userLabeling[this.patchIndex];
+        return;
+      }
+      this.isPressed = -1;
     },
 
-    // 이전 이미지로 변경
+    // 이전 patch로 변경
     changeBackPatchImage() {
       // this.patchIndex = this.patchIndex - 1 < 0 ? this.patchLength - 1 : this.patchIndex - 1;
       // console.log(this.patchIndex);
-      // if (this.userLabeling[this.patchIndex] >= 0) {
-      //   this.isPressed = this.userLabeling[this.patchIndex];
-      //   return;
-      // }
 
-      // this.isPressed = this.userLabeling[this.patchIndex];
-      this.setPatch(--this.i, this.j);
+      this.setPatch(this.i, --this.j);
+      if (this.userLabeling[this.patchIndex] >= 0) {
+        this.isPressed = this.userLabeling[this.patchIndex];
+        return;
+      }
+      this.isPressed = this.userLabeling[this.patchIndex];
     },
 
     //위 화살표 누르면 한 줄 위로 올라가는 method
@@ -347,8 +359,8 @@ export default {
       //   this.patchIndex -= this.patchColumn;
       // }
 
-      // this.isPressed = this.userLabeling[this.patchIndex];
-      this.setPatch(this.i, --this.j);
+      this.setPatch(--this.i, this.j);
+      this.isPressed = this.userLabeling[this.patchIndex];
     },
 
     //아래 화살표 누르면 한 줄 아래로 내려가는 method
@@ -359,8 +371,8 @@ export default {
       //   this.patchIndex += this.patchColumn;
       // }
 
-      // this.isPressed = this.userLabeling[this.patchIndex];
-      this.setPatch(this.i, ++this.j);
+      this.setPatch(++this.i, this.j);
+      this.isPressed = this.userLabeling[this.patchIndex];
     },
 
     //부여된 점수 back-end로 전송
@@ -385,7 +397,7 @@ export default {
         })
     },
 
-    changeBackImage() {
+    changePreviousPage() {
       if (this.currentPage === 0) {
         alert("this is first image");
       } else {
@@ -394,7 +406,7 @@ export default {
       }
     },
 
-    changeNextImage() {
+    changeNextPage() {
       if (this.currentPage >= this.patchLength) {
         alert("this is last image");
       } else {

@@ -10,13 +10,13 @@ import testcodePage from "../page/testcodePage"
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: "/dev/", name: "homePage", component: homePage },
-        { path: "/dev/scoring", name: "scoring", component: ScoringPage },
-        { path: "/dev/label", name: "label", component: Label },
-        { path: "/dev/signUp", name: "signUp", component: signUp },
-        { path: "/dev/admin", name: "admin", component: admin },
-        { path: "/dev/admin/upload", name: "adminUploadPage", component: adminUploadPage },
-        { path: "/dev/admin/testcode", name: "testcodePage", component: testcodePage },
+        { path: "/", name: "homePage", component: homePage },
+        { path: "/scoring", name: "scoring", component: ScoringPage },
+        { path: "/label", name: "label", component: Label },
+        { path: "/signUp", name: "signUp", component: signUp },
+        { path: "/admin", name: "admin", component: admin },
+        { path: "/admin/upload", name: "adminUploadPage", component: adminUploadPage },
+        { path: "/admin/testcode", name: "testcodePage", component: testcodePage },
     ]
 });
 
