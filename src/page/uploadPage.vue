@@ -124,7 +124,7 @@ export default {
             tagInput: "",
             tag: [],
             clickedTagBtn: [],
-            uploadOptions: ['video', 'image'],
+            uploadOptions: ['video'],
             activeButtonIndex: null,
             clickedUploadOption: null,
             uploadedOriginalFiles: [],
@@ -176,10 +176,10 @@ export default {
                 formData.append("original", this.originalFileList[i])
                 //console.log("original video");
                 for (let key of formData.keys()) {
-                    //console.log(key);
+                    console.log(key);
                 }
                 for (let value of formData.values()) {
-                    //console.log(value);
+                    console.log(value);
                 }
             }
             // artifact video formData에 저장
@@ -187,10 +187,10 @@ export default {
                 formData.append("artifact", this.artifactFileList[i])
                 //console.log("artifact video");
                 for (let key of formData.keys()) {
-                    //console.log(key);
+                    console.log(key);
                 }
                 for (let value of formData.values()) {
-                    //console.log(value);
+                    console.log(value);
                 }
             }
             // 이 데이터에서 선택된 tag post하는 method
@@ -209,7 +209,7 @@ export default {
                         alert("Data transfer successful.");
                         this.originalFileList = [];
                         this.artifactFileList = [];
-                        //console.log(response.data);
+                        console.log(response.data);
                     })
                     .catch((error) => {
                         alert(error);
@@ -228,7 +228,7 @@ export default {
                         alert("Data transfer successful.");
                         this.originalFileList = [];
                         this.artifactFileList = [];
-                        //console.log(response.data);
+                        console.log(response.data);
                     })
                     .catch((error) => {
                         alert(error);
@@ -255,12 +255,12 @@ export default {
                     tags: this.clickedTagBtn
                 })
                 .then((response) => {
-                    //console.log(response);
+                    console.log(response);
                     this.getTag();
                     this.clickTagBtn = [];
                 })
                 .catch((error) => {
-                    //console.log(error);
+                    console.log(error);
                 })
             }
         },
@@ -279,7 +279,7 @@ export default {
                     }
                 })
                 .catch((error) => {
-                    //console.log(error);
+                    console.log(error);
                 })
         },
         // tag를 추가하는 method
@@ -299,10 +299,10 @@ export default {
                     tag: this.tagInput
                 })
                 .then((response) => {
-                    //console.log(response.data);
+                    console.log(response.data);
                 })
                 .catch((error) => {
-                    //console.log(error);
+                    console.log(error);
                 })
             this.tagInput = '';
         },

@@ -423,7 +423,7 @@ export default {
             } else {
                 this.userScoring = this.clickedButton
                 //console.log("changeNextVideo")
-                //console.log("user scoring: ", this.userScoring)
+                console.log("user scoring: ", this.userScoring)
                 //console.log("current user:", this.currentUser)
                 console.log("next current page: ", this.currentPage)
                 //console.log("test code: ", this.testCode)
@@ -483,12 +483,11 @@ export default {
                             console.error(error);
                         })
                 }
-
+                this.clickedButton = -1
             }
         },
 
         changeBackVideo() {
-
             if (this.currentPage == this.videoIndex[0]) {
                 alert("This is the first page.");
                 //console.log("first page: ", this.currentPage);
@@ -533,6 +532,7 @@ export default {
                         return;
                     }
                 }
+                this.clickedButton = -1
             }
         },
         // score button 눌렸는지 안눌렸는지 확인하는 method
