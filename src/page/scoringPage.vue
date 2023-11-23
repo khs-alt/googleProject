@@ -422,13 +422,8 @@ export default {
                 alert("Please choose score.")
             } else {
                 this.userScoring = this.clickedButton
-                //console.log("changeNextVideo")
                 console.log("user scoring: ", this.userScoring)
-                //console.log("current user:", this.currentUser)
                 console.log("next current page: ", this.currentPage)
-                //console.log("test code: ", this.testCode)
-                //console.log(this.videoIndex)
-                //console.log(this.videoIndex[this.videoIndex.length - 1])
                 //마지막 페이지 확인
                 if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
                     axios

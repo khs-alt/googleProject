@@ -114,11 +114,11 @@ export default {
                     testcode: this.clickedTestcodeBtn
                 })
                 .then((response) => {
-                    //console.log(response.data);
+                    console.log(response.data);
                     alert("Exported testcode: " + this.clickedTestcodeBtn);
                 })
                 .catch((error) => {
-                    //console.log(error);
+                    console.log(error);
                 })
         },
         clickTestcodeBtn(testcodeName) {
@@ -128,7 +128,7 @@ export default {
             //console.log("clicked testcode button: ", this.clickedTestcodeBtn);
 
             const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
-            const tagIndex = testcodeIndex;
+            //const tagIndex = testcodeIndex;
             //console.log("tagcode index: ", tagIndex);
             if (testcodeIndex !== -1) {
                 for(var i = 0; i < this.tag.length; i++) {
@@ -165,7 +165,7 @@ export default {
                     this.videoFromTag = response.data;
                 })
                 .catch((error) => {
-                    //console.log(error);
+                    console.log(error);
                 })
         },
         selectAllTags() {
@@ -219,7 +219,7 @@ export default {
                     this.tag = response.data;
                 })
                 .catch((error) => {
-                    //console.log(error);
+                    console.log(error);
                 })
         },
         //     ressult := struct {
@@ -238,7 +238,7 @@ export default {
                     //console.log("exist testcode tags: ", this.existTestcode.tags);
                 })
                 .catch((error) => {
-                    //console.log(error);
+                    console.log(error);
                 })
         },
         async generateTestcode() {
@@ -264,7 +264,7 @@ export default {
                     this.getTestcodeWithTag();
                 })
                 .catch((error) => {
-                    //console.log(error);
+                    console.log(error);
                 })
         },
         clickTagBtn(index) {
