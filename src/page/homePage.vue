@@ -144,9 +144,10 @@ export default {
                     // 여기에 아이디와 비밀번호를 전송하는 로직을 추가합니다.
                     axios
                         .post(this.baseUrl + "/login", {
-                            userID: this.userId,
-                            userPassword: this.password,
-                            testcode: this.testcode,
+                            current_mode: this.currentMode,
+                            user_id: this.userId,
+                            user_password: this.password,
+                            test_code: this.testcode,
                         }).then(res => {
                             //console.log("res.data: ", res.data);
                             if (res.data == "Yes") {

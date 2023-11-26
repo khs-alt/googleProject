@@ -1,28 +1,19 @@
 <template>
-  <div class="menu">
-    <button class="btn-style" @click="navigateTo(this.menuBar)">{{ this.menuBar }}</button>
-  </div>
+  <div class="body-style">
+        <div class="menu">
+            <div class="menu-header">
+                <div class="menu-content">
+                    <a href="/" style="margin-right: 10px;">
+                        <button class="signup-btn-style">Home</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
   <div class="labelContainor">
     <div class="imageContainor">
-      <!-- <div class="image-grid-wrapper">
-        <div class="image-grid">
-          <div v-for="(item, index) in originalPatchImageList" :key="index"
-            :class="addBorder(index)"
-            class="image-grid-item">
-            <img :src="item" class="imageStyle" />
-          </div>
-        </div>
-      </div>
-      <div class="image-grid-wrapper">
-        <div class="image-grid">
-          <div v-for="(item, index) in artifactPatchImageList" :key="index"
-            :class="addBorder(index)"
-            class="image-grid-item">
-            <img :src="item" class="imageStyle" />
-          </div>
-        </div>
-      </div> -->
       <div class="images">
+        <!-- <p>{{this.imageNameList[this.currentPage]}}</p> -->
         <div v-for="i in patchRow" :key="i">
           <div v-for="j in patchColumn" :key="j">
             <div class="labeled-border"
@@ -39,6 +30,7 @@
         </div>
       </div>
       <div class="images">
+        <!-- <p>{{this.imageNameList[this.currentPage]}}</p> -->
         <div v-for="i in patchRow" :key="i">
           <div v-for="j in patchColumn" :key="j">
             <div class="labeled-border"
@@ -84,8 +76,6 @@
   </div>
 </template>
 
-
-
 <script>
 import axios from 'axios'
 export default {
@@ -101,10 +91,13 @@ export default {
       artifactPatchImageList: [],
       //currentPage: this.$route.query.currentPage,
       currentPage: 0,
-      // originalImage: require('../images/addPadding.png'),
-      // artifactImage: require('../images/addPadding.png'),
+      //originalImage: require('../images/addPadding.png'),
+      //artifactImage: require('../images/addPadding.png'),
       //originalImage: "http://localhost:8000/postimage/original/0",
       //artifactImage: "http://localhost:8000/postimage/artifact/0",
+      //imageList: this.$route.query.imageList,
+      // 임시로 배열에 데이터 넣어줬음 -> 백엔드 연결 시 삭제 필요 11/26
+      imageNameList: ["hi", "hello", "bye", "goodbye"],
       //patchImageList: [require('../images/1.jpg'), require('../images/1.jpg')], //Patch 이미지 리스트
       borderBox: 224, //Patch 이미지의 크기
       borderBoxResize: 0, //축소된 patch 이미지의 크기
@@ -133,32 +126,56 @@ export default {
     }
   },
   created() {
-    this.getImages();
   },
   mounted() {
     //this.getPatchImagesTemp();
     //비동기 처리를 막기 위해 getImageSize 이후에 resizeImage를 호출하도록 변경
-    this.getImgaeSize().then(() => {
-    this.resizeImage();
-  }).catch((error) => {
-    console.error(error);
-  });
+    this.getImageSize()
+    .then(() => {
+      this.resizeImage();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
     window.addEventListener('keydown', this.keydown);
     this.getUserLabeling();
+    this.getImageNameList();
+    this.getImageIndexCurrentPage();
+    //this.currentUserInfo();
+    
   },
   unmounted() {
     window.removeEventListener('keydown', this.keydown);
-  },
+  }, 
 
   methods: {
     serveOriginalImage() {
-      return String(this.baseUrl + "/postimage/original/" + this.currentPage)
+      return String(this.baseUrl + "/postimage/original/" + (this.currentPage))
     },
     serveArtifactImage() {
       return String(this.baseUrl + "/postimage/artifact/" + (this.currentPage))
     },
 
     // Backend에서 patch size(행렬) 가져오는 method
+    async getImageIndexCurrentPage(){
+      await axios
+        .post(this.baseUrl + "/getImageIndexCurrentPage", {
+          userID: this.currentUser,
+          testcode: this.testCode,
+        })
+        .then((response) => {
+          console.log(response.data)
+          //사용자가 입력한 데이터가 없을 경우
+          this.currentPage = response.data.current_page;
+          console.log("current page is")
+          console.log(this.currentPage)
+          this.serveOriginalImage();
+          this.serveArtifactImage();
+        })
+          .catch((error) => {
+            console.log(error);
+          })
+    },
     // TODO: 백엔드 연결 필요
     getPatchSize() {
       axios
@@ -200,6 +217,19 @@ export default {
         })
     },
 
+    //TODO: nameList를 가져오는 함수
+    getImageNameList() {
+      axios
+        .get(this.baseUrl + `/imageNameList`)
+        .then((response) => {
+          console.log("axios get image list success\n");
+          this.imageNameList = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+
     //홈으로 가게 하는 함수
     navigateTo(item) {
       if (item === 'Home') {
@@ -208,29 +238,21 @@ export default {
         alert("Still developed")
       }
     },
-
-    //Backend에서 greed image 가져오는 method
-    getImages() {
-      axios
-        .get(this.baseUrl + "/postimage/original/" + this.currentPage, {})
-        // .then((response) => {
-        //   //이미지 가져오는 함수 다만 original과 artifact가 나눠져 있지 않음
-        //   console.log("axios get label image success\n");
-        //   //this.imageList = response.data;
-        // })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
-
+    
     //라벨링 여부에 따라 userLabeling 가져오는 함수
     getUserLabeling() {
       axios
-        .get(this.baseUrl + "/getUserImageScore", {})
+        .post(this.baseUrl + "/getUserImageScore", {
+          current_user: this.currentUser,
+          image_id: this.currentPage,
+        })
+        //Backend에서 들어간 iamge_id의 다음 id를 가져오는 기능이 내장됨
+        //따라서 그 다음 image_id값에 접근함
         .then((response) => {
-          if(response.data != -1) {
+          console.log(response.data)
+          if(response.data.patch != [-1]) { //r
           console.log("axios get label image success\n");
-          this.userLabeling = response.data;
+          this.userLabeling = response.data.patch;
             return;
           }
           else {
@@ -244,9 +266,10 @@ export default {
 
 //이미지의 사이즈를 구하는 함수
 // getImgaeSize를 Promise를 반환하는 함수로 변경
-getImgaeSize() {
+getImageSize() {
   return new Promise((resolve, reject) => {
     let img = new Image();
+    console.log("-------------------");
     img.src = this.serveOriginalImage();
     console.log("image name: " + img.src);
 
@@ -364,9 +387,6 @@ resizeImage() {
     },
 
     changeNextPatchImage() {
-      // this.patchIndex = this.patchIndex + 1 > this.patchLength - 1 ? 0 : this.patchIndex + 1;
-      // console.log(this.patchIndex);
-
       this.setPatch(this.i, ++this.j);
       if (this.userLabeling[this.patchIndex] >= 0) {
         this.isPressed = this.userLabeling[this.patchIndex];
@@ -377,9 +397,6 @@ resizeImage() {
 
     // 이전 patch로 변경
     changeBackPatchImage() {
-      // this.patchIndex = this.patchIndex - 1 < 0 ? this.patchLength - 1 : this.patchIndex - 1;
-      // console.log(this.patchIndex);
-
       this.setPatch(this.i, --this.j);
       if (this.userLabeling[this.patchIndex] >= 0) {
         this.isPressed = this.userLabeling[this.patchIndex];
@@ -390,24 +407,12 @@ resizeImage() {
 
     //위 화살표 누르면 한 줄 위로 올라가는 method
     changeUpImage() {
-      // if (this.patchIndex - this.patchColumn <= 0) {
-      //   this.patchIndex = this.patchLength - (this.patchColumn - this.patchIndex);
-      // } else {
-      //   this.patchIndex -= this.patchColumn;
-      // }
-
       this.setPatch(--this.i, this.j);
       this.isPressed = this.userLabeling[this.patchIndex];
     },
 
     //아래 화살표 누르면 한 줄 아래로 내려가는 method
     changeDowmImage() {
-      // if (this.patchIndex + this.patchColumn >= this.patchLength) {
-      //   this.patchIndex = this.patchColumn - (this.patchLength - this.patchIndex);
-      // } else {
-      //   this.patchIndex += this.patchColumn;
-      // }
-
       this.setPatch(++this.i, this.j);
       this.isPressed = this.userLabeling[this.patchIndex];
     },
@@ -439,7 +444,8 @@ resizeImage() {
             this.userLabeling = response.data.score;
             console.log("labeing data is")
             console.log(this.userLabeling)
-            //this.userLabeling = response.data.score;
+            //TODO: 들어온 patch 
+            this.userLabeling = response.data.score;
           }
         })
         .catch((error) => {
@@ -452,23 +458,21 @@ resizeImage() {
         alert("this is first image");
       } else {
         this.currentPage -= 1;
-        this.getImages();
+        this.postUserLabeling();
         this.getUserLabeling();
       }
     },
 
     changeNextPage() {
-      if (this.currentPage >= this.patchLength) {
+      if (this.currentPage >= this.imageNameList.length - 1) {
         alert("this is last image");
       } else {
-        this.postUserLabeling();
         this.currentPage += 1;
-        this.getImages();
+        this.postUserLabeling();
         this.getUserLabeling();
       }
     },
-
-    //TODO: 누르면 다시 해제되게 바꾸기
+    
     // score button 눌렸는지 안눌렸는지 확인하는 버튼
     toggleButton(index) {
       this.isPressed = index;
