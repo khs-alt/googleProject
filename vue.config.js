@@ -3,7 +3,7 @@ const fs = require('fs'); // fs 모듈을 불러옵니다.
 
 module.exports = defineConfig({
   transpileDependencies: true,
-
+  publicPath: "/dev/",
   devServer: {
     https: {
       key: fs.readFileSync('localhost-key.pem'), // 개인 키 파일 경로

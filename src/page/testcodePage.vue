@@ -3,10 +3,10 @@
         <div class="menu">
             <div class="menu-header">
                 <div class="menu-content">
-                    <a href="/" style="margin-right: 10px;">
+                    <a href="/label/" style="margin-right: 10px;">
                         <button class="signup-btn-style">Home</button>
                     </a>
-                    <a href="/admin/upload">
+                    <a href="/label/admin/upload">
                         <button class="signup-btn-style">Upload</button>
                     </a>
                 </div>
