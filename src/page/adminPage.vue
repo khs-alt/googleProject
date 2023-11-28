@@ -48,7 +48,7 @@ export default {
             clickedButton: 0,
             menuBar: ['Home'],
             lastPage: false,
-            baseUrl: "https://localhost:8443",
+            baseUrl: "http://localhost:8000",
             userId: '',
             password: '',
             currentPage: 0

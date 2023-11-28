@@ -88,7 +88,7 @@ export default {
         return {
             isClicked: [],
             menuBar: ['Home'],
-            baseUrl: "https://localhost:8443",
+            baseUrl: "http://localhost:8000",
             tag: [],
             clickedTagBtn: [],
             clickedTestcodeBtn: "",

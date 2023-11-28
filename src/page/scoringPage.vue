@@ -128,7 +128,7 @@ export default {
             currentUser: this.$route.query.userName,
             testCode: this.$route.query.testcode,
             videoButtonText: "Play",
-            baseUrl: "https://localhost:8443",
+            baseUrl: "http://localhost:8000",
             leftVideoUrl: "",
             rightVideoUrl: "",
             isMouseOverMinus: false,
