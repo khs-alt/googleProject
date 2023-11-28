@@ -18,6 +18,7 @@
     </div>
     <div class="home-main-content">
         <div style=" width: 80%; margin-left: auto; margin-right: auto;">
+            <!-- original file 업로드 -->
             <div class="file-upload-left-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover" @drop="onOriginalDrop">
                 <div @click="onOriginalClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
                     Drag & Drop Original Files
@@ -26,12 +27,6 @@
                     <div class="scrollingUploadedData">
                         <div class="file-upload-list">
                             <div class="file-upload-list__item" v-for="originalFile in originalFileList" :key="originalFile">
-                                <!-- <template v-if="originalFile.type.includes('.mp4') || originalFile.type.includes('.mov') ">
-                                    <video :src="originalFile" width="100" height="100" muted></video>
-                                </template>
-                                <template v-else>
-                                    <img :src="originalFile"  width="100" height="100">
-                                </template> -->
                                 <div class="file-upload-list__item__data-name">{{ originalFile.name }}</div>
                             </div>
                         </div>
@@ -43,6 +38,7 @@
             </div>
             <input type="file" ref="originalFileInput" class="file-upload-input" @change="onOriginalFileChange" multiple>
     
+            <!-- artifact 파일 업로드 -->
             <div class="file-upload-right-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover" @drop="onArtifactDrop">
                 <div @click="onArtifactClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
                     Drag & Drop Artifact Files
@@ -50,12 +46,6 @@
                     <div class="scrollingUploadedData">
                         <div class="file-upload-list">
                             <div class="file-upload-list__item" v-for="artifactFile in artifactFileList" :key="artifactFile">
-                                <!-- <template v-if="artifactFile.type.includes('.mp4') || artifactFile.type.includes('.mov')">
-                                    <video :src="artifactFile" width="100" height="100" muted></video>
-                                </template>
-                                <template v-else>
-                                    <img :src="artifactFile"  width="100" height="100">
-                                </template> -->
                                 <div class="file-upload-list__item__data-name">{{ artifactFile.name }}</div>
                             </div>
                         </div>
@@ -63,6 +53,25 @@
                 </div>
                 <input type="file" ref="artifactFileInput" class="file-upload-input" @change="onArtifactFileChange" multiple>
                 <button class="btn-style" style="padding: 10px; font-weight: 400; margin-top: 30px;" @click="artifactHandleRemove(index)">
+                    삭제
+                </button>
+            </div>
+
+            <!-- diff image 파일 업로드 -->
+            <div class="file-upload-right-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover" @drop="onDiffDrop">
+                <div @click="onDiffClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
+                    Drag & Drop Artifact Files
+                    <!-- 업로드된 리스트 -->
+                    <div class="scrollingUploadedData">
+                        <div class="file-upload-list">
+                            <div class="file-upload-list__item" v-for="diffFile in diffFileList" :key="diffFile">
+                                <div class="file-upload-list__item__data-name">{{ diffFile.name }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="file" ref="diffFileInput" class="file-upload-input" @change="onDiffFileChange" multiple>
+                <button class="btn-style" style="padding: 10px; font-weight: 400; margin-top: 30px;" @click="diffHandleRemove(index)">
                     삭제
                 </button>
             </div>
@@ -117,9 +126,10 @@
                 menuBar: ['Home'],
                 currentUser: this.$route.query.userName,
                 lastPage: false,
-                baseUrl: "http://localhost:8000",
+                baseUrl: "https://localhost:8443",
                 originalFileList: [],
                 artifactFileList: [],
+                diffFileList: [],
                 isDragged: false,
                 tagInput: "",
                 tag: [],
@@ -129,6 +139,7 @@
                 clickedUploadOption: null,
                 uploadedOriginalFiles: [],
                 uploadedArtifactFiles: [],
+                uploadDiffFiles: [],
             }
         },
         created() {},
@@ -144,15 +155,14 @@
                 }
             },
             uploadFiles() {
-                if (this.originalFileList.length == 0 || this.artifactFileList.length == 0) {
+                if (this.originalFileList.length == 0 || this.artifactFileList.length == 0 || this.diffFileList.length == 0) {
                     alert('Please select two video files.');
                     //console.log('Please select two video files.');
                     return;
                 }
     
-                if (this.originalFileList.length != this.artifactFileList.length) {
-                    alert('Please match the number of original videos and artifact videos.');
-                    //console.log('Please match the number of original videos and artifact videos.');
+                if (this.originalFileList.length != this.artifactFileList.length || this.originalFileList.length != this.diffFileList.length) {
+                    alert('Please match the number of original data and artifact data and diff data.');
                     return;
                 }
     
@@ -193,6 +203,19 @@
                         console.log(value);
                     }
                 }
+
+                // diff video formData에 저장
+                for (let i = 0; i < this.diffFileList.length; i++){
+                    formData.append("diff", this.diffFileList[i]);
+                    console.log("diff video name: " + this.diffFileList[i].name);
+                    for(let key of formData.keys()){
+                        console.log(key);
+                    }
+                    for(let value of formData.values()){
+                        console.log(value);
+                    }
+                }
+
                 // 이 데이터에서 선택된 tag post하는 method
                 formData.append("tags", this.clickedTagBtn)
     
@@ -209,6 +232,7 @@
                             alert("Data transfer successful.");
                             this.originalFileList = [];
                             this.artifactFileList = [];
+                            this.diffFileList = [];
                             console.log(response.data);
                         })
                         .catch((error) => {
@@ -228,6 +252,7 @@
                             alert("Data transfer successful.");
                             this.originalFileList = [];
                             this.artifactFileList = [];
+                            this.diffFileList = [];
                             console.log(response.data);
                         })
                         .catch((error) => {
@@ -331,10 +356,12 @@
             },
             onOriginalClick() {
                 this.$refs.originalFileInput.click()
-                //console.log(this.$refs.originalFileInput)
             },
             onArtifactClick() {
                 this.$refs.artifactFileInput.click()
+            },
+            onDiffClick() {
+                this.$refs.diffFileInput.click()
             },
             onDragenter() {
                 this.isDragged = true
@@ -356,6 +383,12 @@
                 this.isDragged = false
                 const files = event.dataTransfer.files
                 this.addArtifactFiles(files)
+            },
+            onDiffDrop(event) {
+                event.preventDefault();
+                this.isDragged = false
+                const files = event.dataTransfer.files
+                this.addDiffFiles(files)
             },
             onOriginalFileChange(event) {
                 const files = event.target.files;
@@ -379,6 +412,17 @@
                 }
                 this.addArtifactFiles(files)
             },
+            onDiffFileChange(event) {
+                const files = event.target.files;
+                if (files && files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.uploadedOriginalFiles.push(e.target.result);
+                    }
+                    reader.readAsDataURL(files[0]);
+                }
+                this.addDiffFiles(files)
+            },
             async addOriginalFiles(files) {
                 for (var i = 0; i < files.length; i++) {
                     const src = await this.readOriginalFiles(files[i])
@@ -391,6 +435,13 @@
                     const src = await this.readArtifactFiles(files[i])
                     files[i].src = src
                     this.artifactFileList.push(files[i])
+                }
+            },
+            async addDiffFiles(files) {
+                for (var i = 0; i < files.length; i++) {
+                    const src = await this.readDiffFiles(files[i])
+                    files[i].src = src
+                    this.diffFileList.push(files[i])
                 }
             },
             async readOriginalFiles(files) {
@@ -411,6 +462,15 @@
                     reader.readAsDataURL(files)
                 })
             },
+            async readDiffFiles(files) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader()
+                    reader.onload = async (e) => {
+                        resolve(e.target.result)
+                    }
+                    reader.readAsDataURL(files)
+                })
+            },
             originalHandleRemove(index) {
                 //console.log("remove")
                 this.originalFileList.splice(index, 1)
@@ -418,6 +478,10 @@
             artifactHandleRemove(index) {
                 //console.log("remove")
                 this.artifactFileList.splice(index, 1)
+            },
+            diffHandleRemove(index) {
+                //console.log("remove")
+                this.diffFileList.splice(index, 1)
             }
         },
     }

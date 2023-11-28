@@ -3,7 +3,7 @@
         <div class="menu">
             <div class="menu-header">
                 <div class="menu-content">
-                    <a href="/label/" style="margin-right: 10px;">
+                    <a href="/" style="margin-right: 10px;">
                         <button class="signup-btn-style">Home</button>
                     </a>
                 </div>
@@ -11,48 +11,63 @@
         </div>
     </div>
     <div class="home-main-content" style="padding-bottom: 0;">
-        <div class="videoPlayer">
-            <div style="display: flex; margin-left: auto; margin-right: auto; max-height: 60%;">
-                <div style="margin: 15px;">
-                    <transition name="fade" mode="out-in" appear>
-                        <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
-                            <video id="videoNoartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
-                                ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
-                                :src="leftOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
-                                @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
-                                onChange="isVideoPaused">
-                            </video>
+        <div style="margin-left: auto; margin-right: auto;" class="toggle-switch" :class="{ 'active': isToggled }"
+            @click="toggleVideo">
+            <div class="toggle-button" :style="{ left: isToggled ? '24px' : '0px' }"></div>
+        </div>
+        <div class="video-container">
+            <div class="videoPlayer">
+                <div id="video-margin" style="display: flex; max-height: 60%;">
+                    <div style="margin: 15px;">
+                        <transition name="fade" mode="out-in" appear>
+                            <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
+                                <!-- toggle된 video -->
+                                <div v-show="isToggled">
+                                    <transition name="fade" mode="out-in" appear>
+                                        <div class="toggle-video-container">
+                                            <!-- TODO:  tempVideo2를 rightOriginalVideo()로 바꾸기 -->
+                                            <video id="toggleVideo" :style="videoStyles"
+                                                style="position: absolute; max-width: 100%; max-height: 550px;"
+                                                ref="toggleVideo" controlsList="nodownload" key="videoDiff"
+                                                :src="rightOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
+                                                @mousedown="handleDragStart" @mouseup="handleDragEnd"
+                                                @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
+                                            </video>
+                                        </div>
+                                    </transition>
+                                </div>
+                                <!-- TODO:  tempVideo를 leftOriginalVideo()로 바꾸기 -->
+                                <video id="videoNoartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
+                                    ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()"
+                                    @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
+                                    @mouseup="handleDragEnd" @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
+                                </video>
+                            </div>
+                        </transition>
+                        <div>
+                            <h5 style="margin-top: 8px;">{{ this.originalVideoNameList[videoNameIndex] }}</h5>
                         </div>
-                    </transition>
-                    <div>
-                        <h5 style="margin-top: 8px;">{{ this.originalVideoNameList[videoNameIndex] }}</h5>
                     </div>
-                </div>
-                <div style="margin: 15px;">
-                    <transition name="fade" mode="out-in" appear>
-                        <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
-                            <video id="videoYesartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
-                                ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
-                                :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
-                                @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
-                                onChange="isVideoPaused">
-                            </video>
+                    <div style="margin: 15px;">
+                        <transition name="fade" mode="out-in" appear>
+                            <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
+                                <!-- TODO:  tempVideo2를 rightOriginalVideo()로 바꾸기 -->
+                                <video id="videoYesartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
+                                    ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
+                                    :src="rightOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
+                                    @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
+                                    onChange="isVideoPaused" preload="auto">
+                                </video>
+                            </div>
+                        </transition>
+                        <div>
+                            <h5 style="margin-top: 8px;">{{ this.artifactVideoNameList[videoNameIndex] }}</h5>
                         </div>
-                    </transition>
-                    <div>
-                        <h5 style="margin-top: 8px;">{{ this.artifactVideoNameList[videoNameIndex] }}</h5>
                     </div>
                 </div>
             </div>
         </div>
-        <div>
-            <!-- <h3>Progess Bar</h3>
-        <div>
-            TODO: progess bar 수정 필요
-            <progress style="width: 100%;" :value="currentPage" max="100"></progress>
-        </div> -->
-        </div>
-        <div style="margin-left: 50px; margin-right: 50px; max-width: 100%;">
+        <div id="scoring-button" style="margin-left: 50px; margin-right: 50px; max-width: 100%; margin-top: 0px;">
             <div style="margin-bottom: 5px;">
                 <button class="btn-style" @click="goToBegin">
                     <img style="width: 50p; height: 30px;" src="../images/play_icon/iconmonstr-media-control-52-240.png">
@@ -63,10 +78,6 @@
                     <img style="width: 50px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-18-240.png"
                         alt="-1 frame">
                 </button>
-                <!-- <button id="videoButton" key="videoButton" @click="changeVideoButton" @mouseover="isMouseOverPlay = true"
-                    @mouseout="isMouseOverPlay = false"
-                    :class="{ 'btn-style': !isMouseOverPlay, 'clicked-btn-style': isMouseOverPlay }">
-                    {{videoButtonText }}</button> -->
                 <button id="videoButton" key="videoButton" @click="changeVideoButton(); changeImgSource()"
                     @mouseover="isMouseOverPlay = true" @mouseout="isMouseOverPlay = false"
                     :class="{ 'btn-style': !isMouseOverPlay, 'clicked-btn-style': isMouseOverPlay }">
@@ -96,14 +107,9 @@
                         @click="changeNextVideo">next {{ currentPageIndex }}/{{ totalLength }}</button>
                 </div>
             </div>
-            <!-- <div>
-                <button v-on="click" class="btn-style" style="width: 130px; height: 60px; font-size: x-large; padding: 9px;"
-                    @click="submitScoring()">submit</button>
-            </div> -->
         </div>
     </div>
 </template>
-<!-- TODO: 원래 기록되어있던 점수가 눌러있는 상태로 나오게 -->
 
 <script>
 import axios from 'axios'
@@ -122,7 +128,7 @@ export default {
             currentUser: this.$route.query.userName,
             testCode: this.$route.query.testcode,
             videoButtonText: "Play",
-            baseUrl: "http://localhost:8000",
+            baseUrl: "https://localhost:8443",
             leftVideoUrl: "",
             rightVideoUrl: "",
             isMouseOverMinus: false,
@@ -149,9 +155,12 @@ export default {
             offsetY: 0,
             totalLength: 0,
             imgSrc: require("../images/play_icon/iconmonstr-media-control-48-240.png"),
+            isToggled: false,
+            videoOriginalWidth: 0,
+            // tempVideo: require("./denosise.mp4"),
         }
     },
-    created() { },
+    created() {},
     mounted() {
         this.changeVideoButton;
         this.getVideoIndexCurrentPage();
@@ -164,10 +173,56 @@ export default {
         currentPageIndex() {
             return parseInt(this.videoNameIndex) + 1;
         },
-        // ... 다른 computed properties
     },
     methods: {
-        // TODO: 비디오 drag & drop 할 때, 비디오가 화면 밖으로 없어지는 현상 수정 필요
+        toggleVideo() {
+            this.isToggled = !this.isToggled;
+            this.applyVideoOverlay();
+        },
+        applyVideoOverlay() {
+            // artifact video와 original video에 대한 DOM 레퍼런스를 가져옵니다.
+            const originalVideo = this.$refs.videoNoartifact;
+            const toggleVideo = this.$refs.toggleVideo;
+            if (this.isToggled) {
+                // originalVideo의 위치와 크기를 가져옵니다.
+                const rect = originalVideo.getBoundingClientRect();
+                // toggleVideo를 originalVideo 위치 위로 배치합니다.
+                // toggleVideo.style.position = 'absolute';
+                // toggleVideo.style.top = 15 + 'px';
+                toggleVideo.style.left = 0 + 'px';
+                toggleVideo.style.width = rect.width + 'px';
+                toggleVideo.style.height = rect.height + 'px';
+                toggleVideo.style.zIndex = 10; // toggleVideo를 위로
+            } else {
+                // isToggled가 false일 때, toggleVideo를 원래 상태로 되돌립니다.
+                // toggleVideo.style.position = 'static';
+                toggleVideo.style.zIndex = 0;
+            }
+        },
+        // applyVideoOverlay() {
+        //     // artifact video와 original video에 대한 DOM 레퍼런스를 가져옵니다.
+        //     const originalVideo = this.$refs.videoNoartifact;
+        //     const toggleVideo = this.$refs.toggleVideo;
+        //     var marginElement = document.getElementById('video-margin');
+        //     var margin = window.getComputedStyle(marginElement).marginLeft;
+        //     console.log("videoMargin: " + margin)
+        //     if (this.isToggled) {
+        //         // originalVideo의 위치와 크기를 가져옵니다.
+        //         const rect = originalVideo.getBoundingClientRect();
+        //         // toggleVideo를 originalVideo 위치 위로 배치합니다.
+        //         toggleVideo.style.position = 'absolute';
+        //         toggleVideo.style.top = 15 + 'px';
+        //         toggleVideo.style.left = 15 + 'px';
+        //         console.log(margin + "px");
+        //         toggleVideo.style.width = rect.width + 'px';
+        //         toggleVideo.style.height = rect.height + 'px';
+        //         toggleVideo.style.zIndex = 10; // toggleVideo를 위로
+        //     } else {
+        //         // isToggled가 false일 때, toggleVideo를 원래 상태로 되돌립니다.
+        //         toggleVideo.style.position = 'static';
+        //         toggleVideo.style.zIndex = 0;
+        //     }
+        // },
         clickExport() {
             axios
                 .post(this.baseUrl + '/getCSVFile', {
@@ -207,63 +262,44 @@ export default {
         async isVideoPaused() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
-            //console.log("isVideoPaused: " + this.videoButtonText)
-
+            var toggleVideo = document.getElementById('toggleVideo');
             video1.addEventListener("ended", () => {
                 this.videoButtonText = "Play";
-                // if(video2.currentTime < video2.duration){
-                //     video2.currentTime = video2.duration;
-                // }
-                // // video2.currentTime = video1.duration;
-                // //console.log("video1: " + video1.currentTime)
-                // //console.log("video2: " + video2.currentTime)
-                // //console.log("video1 duration: " + video1.duration)
                 if (video1.currentTime < video2.currentTime) {
-                    //console.log("video1 ended: " + video1.currentTime)
                     video1.pause();
                     video2.pause();
+                    toggleVideo.pause();
                     video1.currentTime = 0;
                     video2.currentTime = 0;
+                    toggleVideo.currentTime = 0;
                     this.changeImgSource();
-                    // document.getElementById("videoNoartifact").currentTime = video2.currentTime;
-                    // document.getElementById("videoNoartifact").currentTime = video2.currentTime;
                 } else {
-                    //console.log("video2 ended: " + video2.currentTime)
-                    // document.getElementById("videoYesartifact").currentTime = video1.currentTime;
-                    // document.getElementById("videoYesartifact").currentTime = video1.currentTime;
                     video1.pause();
                     video2.pause();
+                    toggleVideo.pause();
                     video1.currentTime = 0;
                     video2.currentTime = 0;
+                    toggleVideo.currentTime = 0;
                     this.changeImgSource();
                 }
             });
             video2.addEventListener("ended", () => {
                 this.videoButtonText = "Play";
-                // if(video1.currentTime < video1.duration){
-                //     video1.currentTime = video1.duration;
-                // }
-                // // video1.currentTime = video2.duration;
-                // //console.log("video2 duration: " + video2.duration)
-                // //console.log("video1: " + video1.currentTime)
-                // //console.log("video2: " + video2.currentTime)
                 if (video1.currentTime < video2.currentTime) {
-                    // document.getElementById("videoNoartifact").currentTime = video2.currentTime;
-                    // document.getElementById("videoNoartifact").currentTime = video2.currentTime;
-                    //console.log("video1 ended: " + video1.currentTime)
                     video1.pause();
                     video2.pause();
+                    toggleVideo.pause();
                     video1.currentTime = 0;
                     video2.currentTime = 0;
+                    toggleVideo.currentTime = 0;
                     this.changeImgSource();
                 } else {
-                    // document.getElementById("videoYesartifact").currentTime = video1.currentTime;
-                    // document.getElementById("videoYesartifact").currentTime = video1.currentTime;
-                    //console.log("video2 ended: " + video2.currentTime)
                     video1.pause();
                     video2.pause();
+                    toggleVideo.pause();
                     video1.currentTime = 0;
                     video2.currentTime = 0;
+                    toggleVideo.currentTime = 0;
                     this.changeImgSource();
                 }
             });
@@ -349,13 +385,8 @@ export default {
                         this.isPressed[curScore] = true;
                         this.clickedButton = curScore;
                     }
-                    //console.log("getVideoIndexCurrentPage response")
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoIndex)
-                    //console.log("original video name list: ", this.originalVideoNameList)
-                    //console.log("artifact video name list: ", this.artifactVideoNameList)
-                    //console.log("original video frame list: ", this.originalVideoFrameList)
-                    //console.log("artifact video frame list: ", this.artifactVideoFrameList)
                     this.leftOriginalVideo();
                     this.rightArtifactVideo();
                 })
@@ -367,7 +398,7 @@ export default {
             if (item === 'Home') {
                 this.$router.push('/');
             }
-        },
+        },  
         leftOriginalVideo() {
             return String(this.baseUrl + "/postvideo/original/" + (this.currentPage))
         },
@@ -422,8 +453,13 @@ export default {
                 alert("Please choose score.")
             } else {
                 this.userScoring = this.clickedButton
+                //console.log("changeNextVideo")
                 console.log("user scoring: ", this.userScoring)
+                //console.log("current user:", this.currentUser)
                 console.log("next current page: ", this.currentPage)
+                //console.log("test code: ", this.testCode)
+                //console.log(this.videoIndex)
+                //console.log(this.videoIndex[this.videoIndex.length - 1])
                 //마지막 페이지 확인
                 if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
                     axios
@@ -456,10 +492,12 @@ export default {
                             this.isPressed = [false, false, false, false, false, false]
                             this.videoNameIndex += 1
                             //console.log("videoNameIndex: ", this.videoNameIndex)
+                            // score가 response로 날아옴
                             var curScore = res.data;
                             //console.log("next button curScore: " + curScore)
                             this.resetZoomAndOffset();
                             this.updateVideoStyle();
+                            // 사용자가 scoring한 점수가 없으면 curScore == -1
                             if (curScore != -1) {
                                 this.isPressed[curScore] = true;
                                 this.clickedButton = curScore;
@@ -481,7 +519,6 @@ export default {
                 this.clickedButton = -1
             }
         },
-
         changeBackVideo() {
             if (this.currentPage == this.videoIndex[0]) {
                 alert("This is the first page.");
@@ -536,41 +573,65 @@ export default {
             this.isPressed[index] = !this.isPressed[index]
         },
         // video 2개 동시에 플레이 시키는 method
-        // TODO: play 버튼 아이콘으로 변경 필요
         playVideos() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
-            if (video1 && video2) {
+            // toggleVideo는 videoYesartifact와 같은 비디오 
+            var toggleVideo = document.getElementById('toggleVideo');
+            if (video1 && video2 && toggleVideo) {
                 video1.currentTime = video2.currentTime;
+                video1.currentTime = video2.currentTime;
+                toggleVideo.currentTime = video2.currentTime;
+                toggleVideo.currentTime = video2.currentTime;
                 video1.play();
             }
         },
         addEventVideoPlay() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
-            document.getElementById('videoNoartifact').currentTime = video2.currentTime;
-            document.getElementById('videoNoartifact').currentTime = video2.currentTime;
-
+            var toggleVideo = document.getElementById('toggleVideo');
+            var video2_currentTime = video2.currentTime;
+            video1.currentTime = video2_currentTime;
+            toggleVideo.currentTime = video2_currentTime;
+            video2.currentTime = video2_currentTime;
             video1.addEventListener("play", function () {
                 document.getElementById('videoYesartifact').play();
+                document.getElementById('toggleVideo').play();
+                console.log("play");
+                console.log("video1: " + video1.currentTime);
+                console.log("video2: " + video2.currentTime);
+                console.log("toggle: " + toggleVideo.currentTime);
+                console.log("==========================");
             });
             video1.addEventListener("pause", function () {
                 document.getElementById('videoYesartifact').pause();
+                document.getElementById('toggleVideo').pause();
+                var temp = video2.currentTime;
+                video1.currentTime = temp;
+                toggleVideo.currentTime = temp;
+                video2.currentTime = temp;
+                console.log("stop");
+                console.log("video1: " + video1.currentTime);
+                console.log("video2: " + video2.currentTime);
+                console.log("toggle: " + toggleVideo.currentTime);
+                console.log("==========================");
             })
         },
         // video 2개 동시에 Stop 시키는 method
         pauseVideos() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
-            if (video1 && video2) {
-                document.getElementById('videoNoartifact').currentTime = video2.currentTime;
-                document.getElementById('videoNoartifact').currentTime = video2.currentTime;
+            var toggleVideo = document.getElementById('toggleVideo');
+
+            if (video1 && video2 && toggleVideo) {
+                var temp = video2.currentTime;
+                video1.currentTime = temp;
+                toggleVideo.currentTime = temp;
                 video1.pause();
             }
         },
         // Play/Stop 및 text 변경 버튼
         changeVideoButton() {
-            //console.log("changeVideoButton\n" + this.videoButtonText)
             if (this.videoButtonText == "Play") {
                 this.playVideos();
                 this.videoButtonText = "Stop";
@@ -579,14 +640,13 @@ export default {
                 this.videoButtonText = "Play";
                 this.pauseVideos();
             }
-            //console.log("after changeVideoButton\n" + this.videoButtonText)
         },
         seekBackward() {
             const video1 = this.$refs.videoNoartifact;
             const video2 = this.$refs.videoYesartifact;
+            var video3 = document.getElementById("toggleVideo");
             const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
             const artifactFrame = this.artifactVideoFrameList[this.videoNameIndex];
-
             if (originalFrame != 0 && artifactFrame != 0) {
                 const halfOriginalFrame = (1 / originalFrame) / 2;
                 const halfArtifactFrame = (1 / artifactFrame) / 2;
@@ -597,9 +657,11 @@ export default {
                     if (video1.currentTime == 0) {
                         video1.currentTime = halfOriginalFrame;
                         video2.currentTime = halfArtifactFrame;
+                        video3.currentTime = halfArtifactFrame
                     } else {
                         video1.currentTime -= 1 / originalFrame;
                         video2.currentTime -= 1 / artifactFrame;
+                        video3.currentTime -= 1 / artifactFrame;
                     }
                 }
             }
@@ -609,6 +671,7 @@ export default {
         seekForward() {
             const video1 = this.$refs.videoNoartifact;
             const video2 = this.$refs.videoYesartifact;
+            var video3 = document.getElementById('toggleVideo');
             const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
             const artifactFrame = this.artifactVideoFrameList[this.videoNameIndex];
             if (originalFrame != 0 && artifactFrame != 0) {
@@ -620,6 +683,7 @@ export default {
                     if (video1.currentTime == 0 || video2.currentTime == 0) {
                         video1.currentTime = halfOriginalFrame;
                         video2.currentTime = halfArtifactFrame;
+                        video3.currentTime = halfArtifactFrame;
                     } else {
                         // TODO: 마지막 프레임을 버림
                         if (video1.currentTime + (1 / originalFrame) * 3 >= video1.duration || video2.currentTime + (1 / artifactFrame) * 3 >= video2.duration) {
@@ -631,12 +695,11 @@ export default {
                         }
                         video1.currentTime += 1 / originalFrame;
                         video2.currentTime += 1 / artifactFrame;
+                        video3.currentTime += 1 / artifactFrame;
                     }
                 }
             }
-            //console.log("current left time: " + video1.currentTime)
-            //console.log("current right time: " + video2.currentTime)
-        },
+        }
     },
 }
 </script>

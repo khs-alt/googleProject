@@ -117,7 +117,7 @@ export default {
             menuBar: ['Home'],
             currentUser: this.$route.query.userName,
             lastPage: false,
-            baseUrl: "http://localhost:8000",
+            baseUrl: "https://localhost:8443",
             originalFileList: [],
             artifactFileList: [],
             isDragged: false,
