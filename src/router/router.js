@@ -12,7 +12,7 @@ import imagetestcodePage from "../page/imagetestcodePage"
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: "/label", name: "homePage", component: homePage },
+        { path: "/label/", name: "homePage", component: homePage },
         { path: "/label/scoring", name: "scoring", component: ScoringPage },
         { path: "/label/label", name: "label", component: Label },
         { path: "/label/signUp", name: "signUp", component: signUp },
