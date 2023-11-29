@@ -1,5 +1,5 @@
 const { defineConfig } = require('@vue/cli-service');
-const fs = require('fs'); // fs 모듈을 불러옵니다.
+// const fs = require('fs'); // fs 모듈을 불러옵니다.
 
 module.exports = defineConfig({
   transpileDependencies: true,
