@@ -17,7 +17,8 @@ const router = createRouter({
         { path: "/label/label", name: "label", component: Label },
         { path: "/label/signUp", name: "signUp", component: signUp },
         { path: "/label/admin", name: "admin", component: admin },
-        { path: "./admin/upload", name: "adminUploadPage", component: adminUploadPage },
+        { path: "/./admin/upload", name: "adminUploadPage", component: adminUploadPage },
+        
         { path: "/label/admin/imageupload", name: "adminImageUploadPage", component: adminImageUploadPage },
         { path: "/label/admin/testcode", name: "testcodePage", component: testcodePage },
         { path: "/label/admin/imagetestcode", name: "imagetestcodePage", component: imagetestcodePage },
