@@ -126,7 +126,7 @@
                 menuBar: ['Home'],
                 currentUser: this.$route.query.userName,
                 lastPage: false,
-                baseUrl: "http://34.64.195.7:8000",
+                baseUrl: "http://localhost:8000",
                 originalFileList: [],
                 artifactFileList: [],
                 diffFileList: [],

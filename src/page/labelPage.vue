@@ -143,7 +143,7 @@ export default {
       isClicked: false, //버튼이 눌렸는지 체크
       menuBar: 'Home',
       lastPage: false, //마지막 이미지인지 체크
-      baseUrl: "http://34.64.195.7:8000",
+      baseUrl: "http://localhost:8000",
     }
   },
   created() {
