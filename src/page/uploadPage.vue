@@ -267,7 +267,7 @@ export default {
         // tag 가져오는 method
         getTag() {
             axios
-                .get(this.baseUrl + 'getTag')
+                .get('./api/getTag')
                 .then((response) => {
                     if (response.data != null) {
                         if(response.data != null){
