@@ -78,7 +78,7 @@ export default {
             menuBar: ['Home'],
             lastPage: false,
             videoButtonText: "Play Video",
-            baseUrl: "http://localhost:8000",
+            baseUrl: "http://34.64.195.7:8000",
             userId: '',
             password: '',
             currentPage: 0,

@@ -48,7 +48,7 @@ export default {
             clickedButton: 0,
             menuBar: ['Home'],
             lastPage: false,
-            baseUrl: "http://localhost:8000",
+            baseUrl: "http://34.64.195.7:8000",
             userId: '',
             password: '',
             currentPage: 0
@@ -78,7 +78,7 @@ export default {
         submitCredentials() {
             if (this.userId && this.password) {
                 //console.log(this.userId, this.password)
-
+                console.log("location origin" +location.origin);
                 axios.post(this.baseUrl + "/admin/login", {
                         adminId: this.userId,
                         adminPassword: this.password,
