@@ -3,13 +3,13 @@
         <div class="menu">
             <div class="menu-header">
                 <div class="menu-content">
-                    <a href="/label/" style="margin-right: 10px;">
+                    <a href="" style="margin-right: 10px;">
                         <button class="signup-btn-style">Home</button>
                     </a>
-                    <a href="/label/signup" style="margin-right: 10px;">
+                    <a href="signup" style="margin-right: 10px;">
                         <button class="signup-btn-style">Sign up</button>
                     </a>
-                    <a href="/label/admin/imagetestcode">
+                    <a href="admin/imagetestcode">
                         <button class="signup-btn-style">Image Test Code</button>
                     </a>
                 </div>
@@ -149,7 +149,7 @@
         methods: {
             navigateTo(item) {
                 if (item === 'Home') {
-                    this.$router.push('/');
+                    this.$router.push('');
                 } else {
                     alert("Still developed")
                 }
@@ -223,7 +223,7 @@
                 if (this.clickedUploadOption == "video") {
                     //console.log("video");
                     axios
-                        .post(this.baseUrl + '/upload/video', formData, {
+                        .post(this.baseUrl + 'upload/video', formData, {
                             headers: {
                                 'Content-Type': 'multipart/form-data'
                             }
@@ -243,7 +243,7 @@
                     //console.log("image")
                     // image sending method ex)upload/image
                     axios
-                        .post(this.baseUrl + '/upload/image', formData, {
+                        .post(this.baseUrl + 'upload/image', formData, {
                             headers: {
                                 'Content-Type': 'multipart/form-data'
                             }
@@ -276,7 +276,7 @@
                     alert("Please Clicke the Button")
                 }else{
                 axios
-                    .post(this.baseUrl + '/deleteImageTag', {
+                    .post(this.baseUrl + 'deleteImageTag', {
                         tags: this.clickedTagBtn
                     })
                     .then((response) => {
@@ -292,7 +292,7 @@
             // tag 가져오는 method
             getTag() {
                 axios
-                    .get(this.baseUrl + '/getImageTag')
+                    .get(this.baseUrl + 'getImageTag')
                     .then((response) => {
                         if (response.data != null) {
                             if(response.data != null){
@@ -320,7 +320,7 @@
                 //console.log(this.tagInput)
     
                 axios
-                    .post(this.baseUrl + '/addImageTag', {
+                    .post(this.baseUrl + 'addImageTag', {
                         tag: this.tagInput
                     })
                     .then((response) => {

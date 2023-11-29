@@ -3,7 +3,7 @@
         <div class="menu">
             <div class="menu-header">
                 <div class="menu-content">
-                    <a href="/label/" style="margin-right: 10px;">
+                    <a href="" style="margin-right: 10px;">
                         <button class="signup-btn-style">Home</button>
                     </a>
                 </div>
@@ -225,7 +225,7 @@ export default {
         // },
         clickExport() {
             axios
-                .post(this.baseUrl + '/getCSVFile', {
+                .post(this.baseUrl + 'getCSVFile', {
                     testcode: this.clickedTestcodeBtn
                 })
                 .then((response) => {
@@ -366,7 +366,7 @@ export default {
         // }
         async getVideoIndexCurrentPage() {
             await axios
-                .post(this.baseUrl + "/getVideoIndexCurrentPage", {
+                .post(this.baseUrl + "getVideoIndexCurrentPage", {
                     userID: this.currentUser,
                     testcode: this.testCode,
                 })
@@ -417,7 +417,7 @@ export default {
                 this.userScoring = this.clickedButton
 
                 axios
-                    .post(this.baseUrl + "/postdata", {
+                    .post(this.baseUrl + "postdata", {
                         Title: "scoring data",
                         Score: this.userScoring,
                         CurrentUser: this.currentUser,
@@ -463,7 +463,7 @@ export default {
                 //마지막 페이지 확인
                 if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
                     axios
-                        .post(this.baseUrl + "/postdata", {
+                        .post(this.baseUrl + "postdata", {
                             Title: "scoring data",
                             Score: this.userScoring,
                             CurrentUser: this.currentUser,
@@ -478,7 +478,7 @@ export default {
                     return;
                 } else {
                     axios
-                        .post(this.baseUrl + "/postdata", {
+                        .post(this.baseUrl + "postdata", {
                             Title: "scoring data",
                             Score: this.userScoring,
                             CurrentUser: this.currentUser,
@@ -535,7 +535,7 @@ export default {
                         //console.log("videoNameIndex: ", this.videoNameIndex)
                         var curScore = 0;
                         axios
-                            .post(this.baseUrl + "/getUserScore", {
+                            .post(this.baseUrl + "getUserScore", {
                                 CurrentUser: this.currentUser,
                                 ImageId: parseInt(this.currentPage),
                                 TestCode: this.testCode,

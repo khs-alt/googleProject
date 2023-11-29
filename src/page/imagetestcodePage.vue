@@ -3,10 +3,10 @@
         <div class="menu">
             <div class="menu-header">
                 <div class="menu-content">
-                    <a href="/label/" style="margin-right: 10px;">
+                    <a href="" style="margin-right: 10px;">
                         <button class="signup-btn-style">Home</button>
                     </a>
-                    <a href="/label/admin/upload">
+                    <a href="admin/upload">
                         <button class="signup-btn-style">Upload</button>
                     </a>
                 </div>
@@ -110,7 +110,7 @@ export default {
         // TODO: tsetcode 버튼을 누르고 그냥 tag 버튼을 누르면 뻑 남
         clickExport(){
             axios
-                .post(this.baseUrl + '/getCSVFile', {
+                .post(this.baseUrl + 'getCSVFile', {
                     testcode: this.clickedTestcodeBtn
                 })
                 .then((response) => {
@@ -154,7 +154,7 @@ export default {
                 return;
             }
             await axios
-                .get(this.baseUrl + '/getImageListFromTag', {
+                .get(this.baseUrl + 'getImageListFromTag', {
                     params: {
                         tag: this.clickedTagBtn
                     }
@@ -212,7 +212,7 @@ export default {
         // tag 가져오는 method
         async getTag() {
             await axios
-                .get(this.baseUrl + '/getImageTag')
+                .get(this.baseUrl + 'getImageTag')
                 .then((response) => {
                     //console.log(response.data);
                     this.tag = response.data;
@@ -227,7 +227,7 @@ export default {
         // }
         async getTestcodeWithTag() {
             await axios
-                .get(this.baseUrl + '/getImageTestcodeWithTag')
+                .get(this.baseUrl + 'getImageTestcodeWithTag')
                 .then((response) => {
                     //console.log(response.data);
                     this.existTestcode = response.data;
@@ -246,7 +246,7 @@ export default {
                 return;
             }
             await axios
-                .post(this.baseUrl + '/generateImageTestcode', {
+                .post(this.baseUrl + 'generateImageTestcode', {
                     tags: this.clickedTagBtn
                 })
                 .then((response) => {

@@ -3,13 +3,13 @@
     <div class="menu">
         <div class="menu-header">
             <div class="menu-content">
-                <a href="/label/" style="margin-right: 10px;">
+                <a href="" style="margin-right: 10px;">
                     <button class="signup-btn-style">Home</button>
                 </a>
-                <a href="/label/signup" style="margin-right: 10px;">
+                <a href="signup" style="margin-right: 10px;">
                     <button class="signup-btn-style">Sign up</button>
                 </a>
-                <a href="/label/admin/testcode">
+                <a href="admin/testcode">
                     <button class="signup-btn-style">Test Code</button>
                 </a>
             </div>
@@ -138,7 +138,7 @@ export default {
     methods: {
         navigateTo(item) {
             if (item === 'Home') {
-                this.$router.push('/');
+                this.$router.push('');
             } else {
                 alert("Still developed")
             }
@@ -200,7 +200,7 @@ export default {
             if (this.clickedUploadOption == "video") {
                 //console.log("video");
                 axios
-                    .post(this.baseUrl + '/upload/video', formData, {
+                    .post(this.baseUrl + 'upload/video', formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
@@ -219,7 +219,7 @@ export default {
                 //console.log("image")
                 // image sending method ex)upload/image
                 axios
-                    .post(this.baseUrl + '/upload/image', formData, {
+                    .post(this.baseUrl + 'upload/image', formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
@@ -251,7 +251,7 @@ export default {
                 alert("Please Clicke the Button")
             }else{
             axios
-                .post(this.baseUrl + '/deleteTag', {
+                .post(this.baseUrl + 'deleteTag', {
                     tags: this.clickedTagBtn
                 })
                 .then((response) => {
@@ -267,7 +267,7 @@ export default {
         // tag 가져오는 method
         getTag() {
             axios
-                .get(this.baseUrl + '/getTag')
+                .get(this.baseUrl + 'getTag')
                 .then((response) => {
                     if (response.data != null) {
                         if(response.data != null){
@@ -295,7 +295,7 @@ export default {
             //console.log(this.tagInput)
 
             axios
-                .post(this.baseUrl + '/addTag', {
+                .post(this.baseUrl + 'addTag', {
                     tag: this.tagInput
                 })
                 .then((response) => {

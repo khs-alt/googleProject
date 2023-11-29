@@ -3,7 +3,7 @@
     <div class="menu">
       <div class="menu-header">
         <div class="menu-content">
-          <a href="/" style="margin-right: 10px;">
+          <a href="" style="margin-right: 10px;">
             <button class="signup-btn-style">Home</button>
           </a>
         </div>
@@ -212,7 +212,7 @@ export default {
     // TODO: 백엔드 연결 필요
     getPatchSize() {
       axios
-        .get(this.baseUrl + `/patchsize`)
+        .get(this.baseUrl + `patchsize`)
         .then((response) => {
           console.log("axios get patch size success\n");
           //patchSize => Patch 이미지의 사이즈(총 개수, 가로, 세로) list
@@ -226,7 +226,7 @@ export default {
     //TODO: Backend에서 patch image 가져오는 method 백엔드 연결 필요 
     getPatchImages() {
       axios
-        .get(this.baseUrl + `/patch`)
+        .get(this.baseUrl + `patch`)
         .then((response) => {
           console.log("axios get patch image success\n");
           //사용 안하는 변수(?)상기에서 주석 처리 됨
@@ -239,7 +239,7 @@ export default {
     // TODO: 백엔드 연결 필요
     getPatchIndex() {
       axios
-        .get(this.baseUrl + `/patchindex`)
+        .get(this.baseUrl + `patchindex`)
         .then((response) => {
           console.log("axios get patch index success\n");
           //patchIndex => Patch 이미지의 인덱스 int 안씀
@@ -253,7 +253,7 @@ export default {
     //TODO: nameList를 가져오는 함수
     getImageNameList() {
       axios
-        .post(this.baseUrl + "/imageNameList", {
+        .post(this.baseUrl + "imageNameList", {
           testcode: this.testCode,
         })
         .then((response) => {
@@ -283,7 +283,7 @@ export default {
     getUserLabeling() {
       console.log("get current page is " + this.currentPage)
       axios
-        .post(this.baseUrl + "/getUserImageScore", {
+        .post(this.baseUrl + "getUserImageScore", {
           current_user: this.currentUser,
           image_id: this.currentPage,
         })
@@ -471,7 +471,7 @@ export default {
       console.log(this.userLabeling);
       console.log("current page is " + this.currentPage)
       axios
-        .post(this.baseUrl + "/postimagedata", {
+        .post(this.baseUrl + "postimagedata", {
           current_user: this.currentUser,
           image_id: this.currentPage,
           test_code: this.testCode,

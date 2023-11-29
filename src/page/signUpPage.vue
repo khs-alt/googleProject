@@ -3,7 +3,7 @@
         <div class="menu">
             <div class="menu-header">
                 <div class="menu-content">
-                    <a href="/label/" style="margin-right: 10px;">
+                    <a href="" style="margin-right: 10px;">
                         <button class="signup-btn-style">Home</button>
                     </a>
                 </div>
@@ -96,7 +96,7 @@ export default {
             } else {
                 //console.log("wrong world")
                 axios
-                    .post(this.baseUrl + "/signUp", {
+                    .post(this.baseUrl + "signUp", {
                         newId: this.id,
                         newPassword: this.password,
                     })
@@ -104,7 +104,7 @@ export default {
                         if (res.data == "Yes") {
                             alert("success to sign up!")
                             //console.log(res.data)
-                            this.$router.push('/')
+                            this.$router.push('')
                         } else {
                             alert("fail to sign up!")
                         }
