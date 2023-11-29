@@ -10,12 +10,11 @@ module.exports = defineConfig({
   //     cert: fs.readFileSync('localhost.pem'), // 인증서 파일 경로
   //   },
     //port: 8080, // HTTPS 서버 포트 설정
-
-   // proxy: {
-      //'/api': {
-      //  target: 'http://localhost:8000', // 백엔드 서버 주소
-     //   changeOrigin: true,
-     // }
-    //}
+   proxy: {
+      '/': {
+       target: 'http://localhost:8000', // 백엔드 서버 주소
+      //  changeOrigin: true,
+     }
+    },
   // }
 });

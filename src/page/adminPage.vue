@@ -78,7 +78,7 @@ export default {
         submitCredentials() {
             if (this.userId && this.password) {
                 //console.log(this.userId, this.password)
-                console.log("location origin: " +location.origin);
+                console.log("location origin: " + location.origin);
                 axios.post("http://localhost:8000/admin/login", {
                         adminId: this.userId,
                         adminPassword: this.password,
