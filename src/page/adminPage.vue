@@ -48,7 +48,7 @@ export default {
             clickedButton: 0,
             menuBar: ['Home'],
             lastPage: false,
-            baseUrl: "api/",
+            baseUrl: process.env.BASE_URL + "api/",
             userId: '',
             password: '',
             currentPage: 0

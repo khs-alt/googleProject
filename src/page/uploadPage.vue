@@ -117,7 +117,7 @@ export default {
             menuBar: ['Home'],
             currentUser: this.$route.query.userName,
             lastPage: false,
-            baseUrl: "./api/",
+            baseUrl: process.env.BASE_URL + "api/",
             originalFileList: [],
             artifactFileList: [],
             isDragged: false,
@@ -267,7 +267,7 @@ export default {
         // tag 가져오는 method
         getTag() {
             axios
-                .get('./api/getTag')
+                .get(this.baseUrl + 'getTag')
                 .then((response) => {
                     if (response.data != null) {
                         if(response.data != null){

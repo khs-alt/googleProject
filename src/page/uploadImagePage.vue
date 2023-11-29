@@ -126,7 +126,7 @@
                 menuBar: ['Home'],
                 currentUser: this.$route.query.userName,
                 lastPage: false,
-                baseUrl: "api/",
+                baseUrl: process.env.BASE_URL + "api/",
                 originalFileList: [],
                 artifactFileList: [],
                 diffFileList: [],

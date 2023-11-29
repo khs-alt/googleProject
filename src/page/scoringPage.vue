@@ -128,7 +128,7 @@ export default {
             currentUser: this.$route.query.userName,
             testCode: this.$route.query.testcode,
             videoButtonText: "Play",
-            baseUrl: "api/",
+            baseUrl: process.env.BASE_URL + "api/",
             leftVideoUrl: "",
             rightVideoUrl: "",
             isMouseOverMinus: false,

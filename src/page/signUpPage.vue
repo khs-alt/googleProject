@@ -52,7 +52,7 @@ export default {
             menuBar: ['Home'],
             id: '',
             password: '',
-            baseUrl: "api/",
+            baseUrl: process.env.BASE_URL + "api/",
             idTouched: false,
             passwordTouched: false,
             idShake: false,

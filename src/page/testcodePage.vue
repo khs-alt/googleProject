@@ -88,7 +88,7 @@ export default {
         return {
             isClicked: [],
             menuBar: ['Home'],
-            baseUrl: "api/",
+            baseUrl: process.env.BASE_URL + "api/",
             tag: [],
             clickedTagBtn: [],
             clickedTestcodeBtn: "",

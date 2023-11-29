@@ -78,7 +78,7 @@ export default {
             menuBar: ['Home'],
             lastPage: false,
             videoButtonText: "Play Video",
-            baseUrl: "api/",
+            baseUrl: process.env.BASE_URL + "api/",
             userId: '',
             password: '',
             currentPage: 0,
