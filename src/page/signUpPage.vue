@@ -52,7 +52,7 @@ export default {
             menuBar: ['Home'],
             id: '',
             password: '',
-            baseUrl: "http://10.178.0.2:8000",
+            baseUrl: "http://localhost:8000",
             idTouched: false,
             passwordTouched: false,
             idShake: false,
