@@ -2,81 +2,83 @@
   <div class="menu">
     <button class="btn-style" @click="navigateTo(this.menuBar)">{{ this.menuBar }}</button>
   </div>
-  <div class="labelContainor">
-    <div class="imageContainor">
-      <!-- <div class="image-grid-wrapper">
-        <div class="image-grid">
-          <div v-for="(item, index) in originalPatchImageList" :key="index"
-            :class="addBorder(index)"
-            class="image-grid-item">
-            <img :src="item" class="imageStyle" />
+  <div class="labelcontainer">
+    <div :class="this.imageWidth >= 1000 ? 'imagecontainer-column': 'imagecontainer'">
+      <!-- TODO: 이거 넣기 11/28 -->
+      <div class="imageName">
+        <p>{{ this.imageNameList[this.currentPage] }}</p>
+        <div class="images">
+          <div v-for="i in patchRow" :key="i">
+            <div v-for="j in patchColumn" :key="j">
+              <div class="labeled-border"
+                :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+                v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
+                {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+              </div>
+            </div>
+          </div>
+          <img :src="originalImage" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
+            class="imageStyle" />
+          <div class="currentBorder"
+            :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
           </div>
         </div>
       </div>
-      <div class="image-grid-wrapper">
-        <div class="image-grid">
-          <div v-for="(item, index) in artifactPatchImageList" :key="index"
-            :class="addBorder(index)"
-            class="image-grid-item">
-            <img :src="item" class="imageStyle" />
-          </div>
-        </div>
-      </div> -->
-      <div class="images">
-        <div v-for="i in patchRow" :key="i">
-          <div v-for="j in patchColumn" :key="j">
-            <div class="labeled-border"
-              :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
-              v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
+      <div class="imageName">
+        <p>{{ this.imageNameList[this.currentPage] }}</p>
+        <div class="images">
+          <div v-for="i in patchRow" :key="i">
+            <div v-for="j in patchColumn" :key="j">
+              <div class="labeled-border"
+                :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+                v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
+                {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+              </div>
             </div>
           </div>
-        </div>
-        <img :src="originalImage" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
-          class="imageStyle" />
-        <div class="currentBorder"
-          :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
-        </div>
-      </div>
-      <div class="images">
-        <div v-for="i in patchRow" :key="i">
-          <div v-for="j in patchColumn" :key="j">
-            <div class="labeled-border"
-              :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
-              v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
-            </div>
+          <img :src="artifactImage" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
+            class="imageStyle" />
+          <div class="currentBorder"
+            :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
           </div>
-        </div>
-        <img :src="artifactImage" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
-          class="imageStyle" />
-        <div class="currentBorder"
-          :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
         </div>
       </div>
       <div style="clear:both;"></div>
     </div>
-    <div class="patchbtnContainor">
+    <div class="patchbtncontainer">
       <div>
-        <div class="patch-containor">
-          <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-            <img :src="originalImage" class="selected-patch"
-              :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="original">
+        <div class="patch-container">
+          <div class="selected-patch-container">
+            <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+              <img :src="originalImage" class="selected-patch"
+                :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="original">
+            </div>
+            <label class="textLabel">original</label>
           </div>
-          <label class="textLabel">: original</label>
-          <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-            <img :src="artifactImage" class="selected-patch"
-              :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="artifact">
+          <div class="selected-patch-container">
+            <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+              <img :src="artifactImage" class="selected-patch"
+                :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="artifact">
+            </div>
+            <label class="textLabel">artifact</label>
           </div>
-          <label class="textLabel">: artifact</label>
+          <div class="selected-patch-container">
+            <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+              <img :src="differenceImage" class="selected-patch"
+                :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="difference">
+            </div>
+            <label class="textLabel">difference</label>
+          </div>
         </div>
-      </div>
-      <div class="btnContainor">
-        <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="scoreButton"
-          :class="{ 'pressed': this.isPressed === a - 1 }">{{ buttonString[a - 1]
-          }}</button>
-      </div>
-      <div class="btnContainor">
-        <button class="scoreButton" @click="changePreviousPage()">Previous Page</button>
-        <button class="scoreButton" @click="changeNextPage()">Next Page</button>
+        <div class="btncontainer">
+          <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="scoreButton"
+            :class="{ 'pressed': this.isPressed === a - 1 }">{{ buttonString[a - 1]
+            }}</button>
+        </div>
+        <div class="btncontainer">
+          <button class="scoreButton" @click="changePreviousPage()">Previous Page</button>
+          <button class="scoreButton" @click="changeNextPage()">Next Page</button>
+        </div>
       </div>
     </div>
   </div>
@@ -90,11 +92,16 @@ export default {
   name: 'scoringPage',
   data() {
     return {
+      id: null,
+      testcode: null,
+      imageList: [],
+      imageNameList: ['1', '2', '3', '4', '5', '6'],
       buttonString: ["0", "1", "2", "3", "4", "5"],
       originalPatchImageList: [],
       artifactPatchImageList: [],
-      originalImage: require('../images/addPadding.png'),
-      artifactImage: require('../images/addPadding.png'),
+      originalImage: require('../images/original_art_rotating_p64_0.3_012.png'),
+      artifactImage: require('../images/denoised_art_rotating_p64_0.3_012.png'),
+      differenceImage: require('../images/denoised_art_rotating_p64_0.3_012.png'),
       //patchImageList: [require('../images/1.jpg'), require('../images/1.jpg')], //Patch 이미지 리스트
       borderBox: 224, //Patch 이미지의 크기
       borderBoxResize: 0, //축소된 patch 이미지의 크기
@@ -130,6 +137,7 @@ export default {
     //this.getPatchImagesTemp();
     this.getImgaeSize();
     this.resizeImage();
+    this.getUserLabeling();
     window.addEventListener('keydown', this.keydown);
   },
   unmounted() {
@@ -137,26 +145,8 @@ export default {
   },
 
   methods: {
-    // TODO: 임시로 로컬에서 patch 이미지 가져오는 method 백엔드 연결하면 삭제하기
-    // 임시로 로컬에서 patch 이미지 가져오는 method
-    // async getPatchImagesTemp() {
-    //   for (let i = 0; i < this.patchRow; i++) {
-    //     for (let j = 0; j < this.patchColumn; j++) {
-    //       let image = require(`../images/patches/original/denoised_frame_0001_30000_patch_${i}_${j}.png`)
-    //       this.originalPatchImageList.push(image)
-
-    //     }
-    //   }
-    //   for (let i = 0; i < this.patchRow; i++) {
-    //     for (let j = 0; j < this.patchColumn; j++) {
-    //       let image = require(`../images/patches/artifact/denoised_frame_0002_30000_patch_${i}_${j}.png`)
-    //       this.artifactPatchImageList.push(image)
-    //     }
-    //   }
-    // },
-
     // Backend에서 patch size(행렬) 가져오는 method
-    // TODO: 백엔드 연결 필요
+    // 백엔드 연결 필요
     getPatchSize() {
       axios
         .get(this.baseUrl + `/patchsize`)
@@ -168,7 +158,7 @@ export default {
           console.log(error);
         })
     },
-    //TODO: Backend에서 patch image 가져오는 method 백엔드 연결 필요 
+    //Backend에서 patch image 가져오는 method 백엔드 연결 필요 
     getPatchImages() {
       axios
         .get(this.baseUrl + `/patch`)
@@ -180,13 +170,25 @@ export default {
           console.log(error);
         })
     },
-    // TODO: 백엔드 연결 필요
+    //백엔드 연결 필요
     getPatchIndex() {
       axios
         .get(this.baseUrl + `/patchindex`)
         .then((response) => {
           console.log("axios get patch index success\n");
           this.patchIndex = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+
+    getImageNameList() {
+      axios
+        .get(this.baseUrl + `/imageNamelist`)
+        .then((response) => {
+          console.log("axios get image list success\n");
+          this.imageNameList = response.data;
         })
         .catch((error) => {
           console.log(error);
@@ -215,6 +217,27 @@ export default {
         })
     },
 
+    getUserLabeling() {
+      axios
+        .post(this.baseUrl + `/getUserImageScore`, {
+          current_user: this.currentUser,
+          image_id: this.currentPage,
+        })
+        .then((response) => {
+          if (response.data != -1) {
+            console.log("axios get label image success\n");
+            this.userLabeling = response.data;
+            return;
+          }
+          else {
+            this.userLabeling = [];
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+
     //이미지의 사이즈를 구하는 함수
     getImgaeSize() {
       let img = new Image();
@@ -222,7 +245,7 @@ export default {
       console.log("image name: " + img);
       this.imageWidth = img.width;
       this.imageHeight = img.height;
-      this.patchColumn = Math.floor(this.imageWidth / this.borderBox);
+      this.patchColumn = Math.floor(this.imageWidth / this.borderBox) + 1;
       this.patchRow = Math.floor(this.imageHeight / this.borderBox) + 1;
       this.patchLength = this.patchColumn * this.patchRow;
       this.setPatch(this.i, this.j);
@@ -403,6 +426,7 @@ export default {
       } else {
         this.currentPage -= 1;
         this.getImages();
+        this.getUserLabeling();
       }
     },
 
@@ -414,6 +438,7 @@ export default {
         this.postUserLabeling();
         this.currentPage += 1;
         this.getImages();
+        this.getUserLabeling();
       }
     },
 

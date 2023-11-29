@@ -163,14 +163,17 @@
   border: 1px solid #007bff;
 }
 
+/* TODO: 11/28 */
 .labeled-border {
   position: absolute;
-  border: 2px solid red;
+  border: 1px solid red;
+  color: red;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
   z-index: 1;
   /* 테두리 스타일 설정 */
 }
 
-.patch-containor {
+.patch-container {
   position: relative;
   display: flex;
   justify-content: flex-start;
@@ -180,8 +183,18 @@
   margin: 5px;
 }
 
+.selected-patch-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* TODO: 이거 추가 11/28 */
 .selected-patch-image {
   overflow: hidden;
+  margin: 10px;
+  border: 2px solid gray;
 }
 
 .selected-patch {
@@ -200,14 +213,14 @@
   margin-right: auto;
 }
 
-.labelContainor {
+.labelcontainer {
   display: flex;
   justify-content: center;
   /* 이미지 그룹을 양 옆으로 배치 */
   padding: 10px;
 }
 
-.imageContainor {
+.imagecontainer {
   display: flex;
   justify-content: center;
   width: 50%;
@@ -216,9 +229,29 @@
   margin-bottom: 0px;
 }
 
+.imagecontainer-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  margin: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.imageName {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
 .images {
   position: relative;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   width: fit-content;
   height: fit-content;
 }
@@ -229,10 +262,11 @@
   z-index: 2;
 }
 
-.patchbtnContainor {
+.patchbtncontainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-left: 30px;
   /* 세로 중앙 정렬 */
   width: 50%;
   margin: 10px;
@@ -481,6 +515,7 @@
 
   &:hover {
     box-shadow: 0 0 40px 40px darkslateblue inset;
+    color: white;
   }
 }
 
@@ -525,7 +560,7 @@
 /*# sourceMappingURL=main.css.map */
 
 @media (max-width: 1200px) {
-  .labelContainor {
+  .labelcontainer {
     flex-wrap: wrap;
   }
 }
