@@ -48,7 +48,7 @@ export default {
             clickedButton: 0,
             menuBar: ['Home'],
             lastPage: false,
-            baseUrl: "http://localhost:8000",
+            baseUrl: "http://10.178.0.2:8000",
             userId: '',
             password: '',
             currentPage: 0
