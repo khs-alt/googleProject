@@ -104,7 +104,7 @@ export default {
                         if (res.data == "Yes") {
                             alert("success to sign up!")
                             //console.log(res.data)
-                            this.$router.push('/')
+                            this.$router.push(process.env.BASE_URL + "admin/upload")
                         } else {
                             alert("fail to sign up!")
                         }
