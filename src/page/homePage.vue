@@ -6,7 +6,7 @@
                 <img :src="temp" style="max-width:100%; height: 50px; margin-right: auto; margin-left: 10px; float: left; margin-top: 8px;" />
             </div> -->
                 <div class="menu-content">
-                    <a href="" style="margin-right: 10px;">
+                    <a href="./" style="margin-right: 10px;">
                         <button class="signup-btn-style">Home</button>
                     </a>
                     <a href="signup" style="margin-right: 10px;">

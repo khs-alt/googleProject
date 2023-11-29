@@ -3,7 +3,7 @@
     <div class="menu">
         <div class="menu-header">
             <div class="menu-content">
-                <a href="" style="margin-right: 10px;">
+                <a href="./" style="margin-right: 10px;">
                     <button class="signup-btn-style">Home</button>
                 </a>
                 <a href="signup" style="margin-right: 10px;">
