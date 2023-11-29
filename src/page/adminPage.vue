@@ -89,7 +89,7 @@ export default {
                             alert("login success")
                             this.currentUser = this.userId
                             this.$router.push({
-                                path: 'admin/upload'
+                                path: '/upload'
                             })
                         } else {
                             alert("login failed");
