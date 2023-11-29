@@ -9,10 +9,10 @@
                     <a href="/label/" style="margin-right: 10px;">
                         <button class="signup-btn-style">Home</button>
                     </a>
-                    <a href="label/signup/" style="margin-right: 10px;">
+                    <a href="/label/signup/" style="margin-right: 10px;">
                         <button class="signup-btn-style">Sign Up</button>
                     </a>
-                    <a href="label/admin/">
+                    <a href="/label/admin/">
                         <button class="signup-btn-style">Admin</button>
                     </a>
                 </div>
