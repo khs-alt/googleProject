@@ -302,6 +302,7 @@
   width: 50%;
   margin: 10px;
   margin-left: 50px;
+  padding-top: 30px;
 }
 
 .image-grid {
@@ -593,6 +594,14 @@
 
 @media (max-width: 1200px) {
   .labelContainor {
+    display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .patch-containor {
+    display: flex;
+    justify-content: center;
   }
 }

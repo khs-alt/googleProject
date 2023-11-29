@@ -3,10 +3,10 @@
     <div class="menu">
         <div class="menu-header">
             <div class="menu-content">
-                <a href="/label/" style="margin-right: 10px;">
+                <a href="/" style="margin-right: 10px;">
                     <button class="signup-btn-style">Home</button>
                 </a>
-                <a href="/label/signup">
+                <a href="/signup">
                     <button class="signup-btn-style">Sign Up</button>
                 </a>
             </div>
@@ -48,7 +48,7 @@ export default {
             clickedButton: 0,
             menuBar: ['Home'],
             lastPage: false,
-            baseUrl: "http://localhost:8000",
+            baseUrl: "api/",
             userId: '',
             password: '',
             currentPage: 0
@@ -65,7 +65,7 @@ export default {
         
         goToPage() {
             this.$router.push({
-                path: '/admin/upload',
+                path: 'admin/upload',
                 query: {
                     userName: this.userId,
                     currentPage: this.currentPage
@@ -79,15 +79,17 @@ export default {
             if (this.userId && this.password) {
                 //console.log(this.userId, this.password)
                 console.log("location origin: " + location.origin);
-                axios.post("http://localhost:8000/admin/login", {
+                axios
+                    .post(this.baseUrl + "admin/login", {
                         adminId: this.userId,
                         adminPassword: this.password,
-                    }).then(res => {
+                    })
+                    .then(res => {
                         if (res.data == "yes") {
                             alert("login success")
                             this.currentUser = this.userId
                             this.$router.push({
-                                path: '/admin/upload'
+                                path: 'admin/upload'
                             })
                         } else {
                             alert("login failed");

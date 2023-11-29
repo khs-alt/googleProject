@@ -6,13 +6,13 @@
                 <img :src="temp" style="max-width:100%; height: 50px; margin-right: auto; margin-left: 10px; float: left; margin-top: 8px;" />
             </div> -->
                 <div class="menu-content">
-                    <a href="/label/" style="margin-right: 10px;">
+                    <a href="/" style="margin-right: 10px;">
                         <button class="signup-btn-style">Home</button>
                     </a>
-                    <a href="/label/signup" style="margin-right: 10px;">
+                    <a href="/signup" style="margin-right: 10px;">
                         <button class="signup-btn-style">Sign Up</button>
                     </a>
-                    <a href="/label/admin">
+                    <a href="/admin">
                         <button class="signup-btn-style">Admin</button>
                     </a>
                 </div>
@@ -78,14 +78,14 @@ export default {
             menuBar: ['Home'],
             lastPage: false,
             videoButtonText: "Play Video",
-            baseUrl: "http://localhost:8000",
+            baseUrl: "api/",
             userId: '',
             password: '',
             currentPage: 0,
             testcode: '',
             activeButtonIndex: null,
             clickedButton: null,
-            temp: "http://34.64.195.7:8000/serveImage",
+            // temp: "http://34.64.195.7:8000/serveImage",
             hoveredButton: false,
         }
     },
