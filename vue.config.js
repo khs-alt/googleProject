@@ -4,7 +4,7 @@ const { defineConfig } = require('@vue/cli-service');
 module.exports = defineConfig({
   transpileDependencies: true,
   publicPath: "/label/",
-  // devServer: {
+  devServer: {
   //   https: {
   //     key: fs.readFileSync('localhost-key.pem'), // 개인 키 파일 경로
   //     cert: fs.readFileSync('localhost.pem'), // 인증서 파일 경로
@@ -16,5 +16,5 @@ module.exports = defineConfig({
       //  changeOrigin: true,
      }
     },
-  // }
+  }
 });

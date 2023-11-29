@@ -3,7 +3,7 @@
     <div class="menu">
       <div class="menu-header">
         <div class="menu-content">
-          <a href="/label/" style="margin-right: 10px;">
+          <a href="/" style="margin-right: 10px;">
             <button class="signup-btn-style">Home</button>
           </a>
         </div>
@@ -165,19 +165,19 @@ export default {
 
   methods: {
     serveOriginalImage() {
-      return String(this.baseUrl + "/postimage/original/" + (this.currentPage))
+      return String(this.baseUrl + "postimage/original/" + (this.currentPage))
     },
     serveArtifactImage() {
-      return String(this.baseUrl + "/postimage/artifact/" + (this.currentPage))
+      return String(this.baseUrl + "postimage/artifact/" + (this.currentPage))
     },
     serveDifferenceImage() {
-      return String(this.baseUrl + "/postimage/difference/" + (this.currentPage))
+      return String(this.baseUrl + "postimage/difference/" + (this.currentPage))
     },
 
     // Backend에서 patch size(행렬) 가져오는 method
     async getImageIndexCurrentPage() {
       await axios
-        .post(this.baseUrl + "/getImageIndexCurrentPage", {
+        .post(this.baseUrl + "getImageIndexCurrentPage", {
           userID: this.currentUser,
           testcode: this.testCode,
         })
