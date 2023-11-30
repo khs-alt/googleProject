@@ -3,8 +3,7 @@
     <button class="btn-style" @click="navigateTo(this.menuBar)">{{ this.menuBar }}</button>
   </div>
   <div class="labelcontainer">
-    <div :class="this.imageWidth >= 1000 ? 'imagecontainer-column': 'imagecontainer'">
-      <!-- TODO: 이거 넣기 11/28 -->
+    <div :class="this.imageWidth >= 1000 ? 'imagecontainer-column' : 'imagecontainer'">
       <div class="imageName">
         <p>{{ this.imageNameList[this.currentPage] }}</p>
         <div class="images">
@@ -46,39 +45,37 @@
       <div style="clear:both;"></div>
     </div>
     <div class="patchbtncontainer">
-      <div>
-        <div class="patch-container">
-          <div class="selected-patch-container">
-            <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-              <img :src="originalImage" class="selected-patch"
-                :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="original">
-            </div>
-            <label class="textLabel">original</label>
+      <div class="patch-container">
+        <div class="selected-patch-container">
+          <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+            <img :src="originalImage" class="selected-patch"
+              :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="original">
           </div>
-          <div class="selected-patch-container">
-            <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-              <img :src="artifactImage" class="selected-patch"
-                :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="artifact">
-            </div>
-            <label class="textLabel">artifact</label>
+          <label class="textLabel">original</label>
+        </div>
+        <div class="selected-patch-container">
+          <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+            <img :src="artifactImage" class="selected-patch"
+              :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="artifact">
           </div>
-          <div class="selected-patch-container">
-            <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-              <img :src="differenceImage" class="selected-patch"
-                :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="difference">
-            </div>
-            <label class="textLabel">difference</label>
+          <label class="textLabel">artifact</label>
+        </div>
+        <div class="selected-patch-container">
+          <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+            <img :src="differenceImage" class="selected-patch"
+              :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="difference">
           </div>
+          <label class="textLabel">difference</label>
         </div>
-        <div class="btncontainer">
-          <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="scoreButton"
-            :class="{ 'pressed': this.isPressed === a - 1 }">{{ buttonString[a - 1]
-            }}</button>
-        </div>
-        <div class="btncontainer">
-          <button class="scoreButton" @click="changePreviousPage()">Previous Page</button>
-          <button class="scoreButton" @click="changeNextPage()">Next Page</button>
-        </div>
+      </div>
+      <div class="btncontainer">
+        <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="scoreButton"
+          :class="{ 'pressed': this.isPressed === a - 1 }">{{ buttonString[a - 1]
+          }}</button>
+      </div>
+      <div class="btncontainer">
+        <button class="scoreButton" @click="changePreviousPage()">{{ buttonString[6] }}</button>
+        <button class="scoreButton" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
       </div>
     </div>
   </div>
@@ -96,7 +93,8 @@ export default {
       testcode: null,
       imageList: [],
       imageNameList: ['1', '2', '3', '4', '5', '6'],
-      buttonString: ["0", "1", "2", "3", "4", "5"],
+      buttonString: ["0", "1", "2", "3", "4", "5", "Previous Page", "Next Page", "Submit"],
+      pageState: 7,
       originalPatchImageList: [],
       artifactPatchImageList: [],
       originalImage: require('../images/original_art_rotating_p64_0.3_012.png'),
@@ -427,11 +425,16 @@ export default {
         this.currentPage -= 1;
         this.getImages();
         this.getUserLabeling();
+        this.getImageNameList();
       }
     },
 
+    // TODO: 11/30 마지막 이미지면 alert
     changeNextPage() {
-      if (this.currentPage >= this.patchLength) {
+      if (this.imageList[this.currentPage] === this.imageList[this.imageList.length - 2]) {
+        this.pageState = 8;
+      }
+      if (this.currentPage >= this.imageList[this.imageList.length - 1]) {
         alert("this is last image");
       } else {
 
@@ -439,6 +442,7 @@ export default {
         this.currentPage += 1;
         this.getImages();
         this.getUserLabeling();
+        this.getImageNameList();
       }
     },
 
