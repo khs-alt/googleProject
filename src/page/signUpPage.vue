@@ -108,7 +108,7 @@ export default {
                         if (res.data == "Yes") {
                             alert("success to sign up!")
                             //console.log(res.data)
-                            this.$router.push(process.env.BASE_URL + "home")
+                            this.$router.push(process.env.BASE_URL)
                         } else {
                             alert("fail to sign up!")
                         }

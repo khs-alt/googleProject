@@ -190,6 +190,8 @@ export default {
 
     loadHandler() {
       this.loadedImageNum++;
+      console.log(this.loadedImageNum);
+      this.loadHandler();
     },
 
     // Backend에서 patch size(행렬) 가져오는 method
@@ -521,7 +523,7 @@ export default {
     },
 
     changeNextPage() {
-      if (this.imageIndex === this.imageIndexList.length - 1) this.pageState = 8; //11/30 마지막 페이지일 때 버튼 이름 바꾸기
+      if (this.imageIndex + 1 === this.imageIndexList.length - 2) this.pageState = 8; //11/30 마지막 페이지일 때 버튼 이름 바꾸기
       else if (this.imageIndex > this.imageIndexList.length - 1) {
         this.postUserLabeling();
         alert("this is last page");
