@@ -2,9 +2,6 @@
     <div class="body-style">
         <div class="menu">
             <div class="menu-header">
-                <!-- <div>
-                <img :src="temp" style="max-width:100%; height: 50px; margin-right: auto; margin-left: 10px; float: left; margin-top: 8px;" />
-            </div> -->
                 <div class="menu-content">
                     <a href="/label/" style="margin-right: 10px;">
                         <button class="signup-btn-style">Home</button>
@@ -18,7 +15,6 @@
                 </div>
             </div>
         </div>
-        <!-- TODO: 우리 시스템 이름 넣기 -->
         <div class="home-main-content" style="height: 93vh; margin-bottom: 0; padding-bottom: 0;">
             <h2>Scoring / Labeling System</h2>
             <div style="padding-top: 10px; border: 0.5px; border-color: white;">
@@ -134,21 +130,18 @@ export default {
         submitLoginAction() {
             // 아이디와 비밀번호, testcode가 입력되었는지 확인
             if (this.userId && this.password && this.testcode) {
-                //console.log("user id: ", this.userId)
-                //console.log("user password: ", this.password)
-                // 여기에 아이디와 비밀번호를 전송하는 로직을 추가합니다.
+                console.log("userId: " + this.userId);
+                console.log("password: " + this.password);
+                console.log("testcode: " + this.testcode);
                 axios
                     .post(this.baseUrl + "login", {
                         // current_mode: this.currentMode,
                         user_id: this.userId,
                         user_password: this.password,
                         test_code: this.testcode,
-                    }).then(res => {
-                        //console.log("res.data: ", res.data);
+                    })
+                    .then(res => {
                         if (res.data == "scoring") {
-                            // json 파일 형식
-                            // 1. 유저의 유무 isUserExist
-                            // alert("log in success")
                             this.currentUser = this.userId
                             this.goToPage(res.data);
                         } else if (res.data == "labeling"){
@@ -162,9 +155,6 @@ export default {
                     .catch(error => {
                         console.error(error);
                     })
-                // 전송 후 아이디와 비밀번호 초기화
-                // this.userId = '';
-                // this.password = '';
             } else {
                 alert('Please enter your ID and Password');
             }

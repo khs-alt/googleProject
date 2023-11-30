@@ -426,9 +426,7 @@ export default {
                         TestCode: this.testCode
                     })
                     .then(res => {
-                        // console.log(this.currentPage)
                         console.log(res.data)
-                        //alert(res.data)
                         //after post we have to init data form userScoring and currentPage
                         this.userScoring = 0
                         if (this.videoIndex[this.videoIndex.length - 1] == this.currentPage) {
@@ -437,7 +435,6 @@ export default {
                             for (var i = 0; i < this.videoIndex.length; i++) {
                                 if (this.videoIndex[i] == this.currentPage) {
                                     this.currentPage = this.videoIndex[i + 1];
-                                    //console.log("next page : " + this.currentPage);
                                     alert("Successfully submitted.")
                                     return;
                                 }
@@ -454,13 +451,8 @@ export default {
                 alert("Please choose score.")
             } else {
                 this.userScoring = this.clickedButton
-                //console.log("changeNextVideo")
                 console.log("user scoring: ", this.userScoring)
-                //console.log("current user:", this.currentUser)
                 console.log("next current page: ", this.currentPage)
-                //console.log("test code: ", this.testCode)
-                //console.log(this.videoIndex)
-                //console.log(this.videoIndex[this.videoIndex.length - 1])
                 //마지막 페이지 확인
                 if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
                     axios
@@ -475,7 +467,6 @@ export default {
                             console.error(error);
                         })
                     alert("This is the last page of this test code. Thank you!");
-                    //console.log("This is the last page");
                     return;
                 } else {
                     axios
