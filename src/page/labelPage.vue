@@ -168,7 +168,7 @@ export default {
     window.addEventListener('keydown', this.keydown);
     this.getUserLabeling();
     this.getImageNameList();
-    //this.$refs.img.addEventListener('load', this.loadHandler);
+    this.$refs.img.addEventListener('load', this.loadHandler);
     //this.currentUserInfo();
 
   },
