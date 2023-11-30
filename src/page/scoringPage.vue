@@ -192,7 +192,7 @@ export default {
                 // toggleVideo를 originalVideo 위치 위로 배치합니다.
                 // toggleVideo.style.position = 'absolute';
                 // toggleVideo.style.top = 15 + 'px';
-                toggleVideo.style.left = 55 + 'px';
+                toggleVideo.style.left = 0 + 'px';
                 toggleVideo.style.width = rect.width + 'px';
                 toggleVideo.style.height = rect.height + 'px';
                 toggleVideo.style.zIndex = 10; // toggleVideo를 위로
