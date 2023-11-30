@@ -12,9 +12,9 @@
   </div>
   <p style="font-size: 24px; margin-top: 10px;">Labeling System</p>
   <div class="labelContainor">
-    <div :class="this.imageWidth > 1080 ? 'imagecontainer-column': 'imagecontainer'">
+    <div :class="this.imageWidth > 1080 ? 'imagecontainer-column' : 'imagecontainer'">
       <div class="imageName">
-        <p>{{this.imageOriginalNameList[this.imageIndex]}}</p>
+        <p>{{ this.imageOriginalNameList[this.imageIndex] }}</p>
         <div class="images">
           <div v-for="i in patchRow" :key="i">
             <div v-for="j in patchColumn" :key="j">
@@ -27,8 +27,8 @@
           </div>
           <!-- TODO: 12/1 로드 둘다 되면 보이게 하는 거  -->
           <div v-if="loadedImageNum === 2">
-            <img :src="serveOriginalImage()" @load="loadHandler()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
-            class="imageStyle" />
+            <img :src="serveOriginalImage()" @load="loadHandler()" ref="img"
+              :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
           </div>
           <div class="currentBorder"
             :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="imageName">
-        <p>{{this.imageArtifactNameList[this.imageIndex]}}</p>
+        <p>{{ this.imageArtifactNameList[this.imageIndex] }}</p>
         <div class="images">
           <div v-for="i in patchRow" :key="i">
             <div v-for="j in patchColumn" :key="j">
@@ -49,8 +49,8 @@
           </div>
           <!-- TODO: 12/1 로드 둘다 되면 보이게 하는 거  -->
           <div v-if="loadedImageNum === 2">
-            <img :src="serveArtifactImage()" @load="loadHandler()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
-            class="imageStyle" />
+            <img :src="serveArtifactImage()" @load="loadHandler()" ref="img"
+              :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
           </div>
           <div class="currentBorder"
             :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
@@ -162,7 +162,7 @@ export default {
   },
   mounted() {
     //this.getPatchImagesTemp();
-    
+
     this.getImageIndexCurrentPage();
 
     window.addEventListener('keydown', this.keydown);
@@ -190,7 +190,7 @@ export default {
     loadHandler() {
       this.loadedImageNum++;
       console.log("로드된 이미지 수: " + this.loadedImageNum);
-      if(this.loadImageNum > 2)this.loadedImageNum = 0;
+      if (this.loadImageNum > 2) this.loadedImageNum = 0;
     },
 
     // Backend에서 patch size(행렬) 가져오는 method
@@ -203,7 +203,7 @@ export default {
         .then((response) => {
           console.log(response.data)
           //사용자가 입력한 데이터가 없을 경우
-          if (response.data.current_page > 0){
+          if (response.data.current_page > 0) {
             this.currentPage = response.data.current_page;
           }
           // console.log("current page is")
@@ -218,15 +218,15 @@ export default {
         })
     },
 
-    makeImageTemplete(){
+    makeImageTemplete() {
       this.getImageSize()
-            .then(() => {
-              this.resizeImage();
-              //console.log("resizeImage")
-            })
-            .catch((error) => {
-              console.error(error);
-            });
+        .then(() => {
+          this.resizeImage();
+          //console.log("resizeImage")
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     // TODO: 백엔드 연결 필요
     getPatchSize() {
@@ -281,7 +281,7 @@ export default {
           this.imageIndexList = response.data.image_list;
           this.imageOriginalNameList = response.data.original_list;
           this.imageArtifactNameList = response.data.artifact_list;
-          
+
           this.findIndex();
         })
         .catch((error) => {
@@ -512,16 +512,21 @@ export default {
         this.postUserLabeling();
         alert("this is first image");
       }
-       else {
+      else {
         this.postUserLabeling();
         this.imageIndex -= 1;
         this.currentPage = this.imageIndexList[this.imageIndex];
+        this.$router.push({
+          query: {
+            currentPage: this.currentPage,
+          }
+        });
         this.makeImageTemplete();
         this.getUserLabeling();
         this.loadHandler();
       }
     },
-    
+
 
     changeNextPage() {
       if (this.imageIndex > this.imageIndexList.length - 1) {
@@ -532,6 +537,11 @@ export default {
         this.postUserLabeling();
         this.imageIndex += 1;
         this.currentPage = this.imageIndexList[this.imageIndex];
+        this.$router.push({
+          query: {
+            currentPage: this.currentPage,
+          }
+        });
         this.makeImageTemplete();
         this.getUserLabeling();
         this.loadHandler();
