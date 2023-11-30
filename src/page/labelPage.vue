@@ -86,7 +86,7 @@
       </div>
       <div class="btnContainor">
         <button class="scoreButton" @click="changePreviousPage()">{{ buttonString[6] }}</button>
-        <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageList.length }}</span>
+        <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageIndexList.length }}</span>
         <button class="scoreButton" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
       </div>
     </div>
@@ -507,7 +507,7 @@ export default {
     },
 
     changeNextPage() {
-      if (this.imageIndex === this.imageList.length - 2) this.pageState = 8; //11/30 마지막 페이지일 때 버튼 이름 바꾸기
+      if (this.imageIndex === this.imageIndexList.length - 2) this.pageState = 8; //11/30 마지막 페이지일 때 버튼 이름 바꾸기
       else if (this.imageIndex >= this.imageIndexList.length - 1) {
         this.postUserLabeling();
         alert("this is last page");
