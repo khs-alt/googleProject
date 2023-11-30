@@ -393,6 +393,8 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error);
+                    alert("login failed")
+                    this.$router.push(process.env.BASE_URL);
                 })
         },
         navigateTo(item) {
