@@ -24,37 +24,34 @@
             <div style="padding-top: 10px; border: 0.5px; border-color: white;">
                 <div style="margin-top: 1px;"></div>
                 <div>
-                    <div>
-                        <!-- <button :class="{'clicked-btn-style': activeButtonIndex === 'scoring', 'btn-style': activeButtonIndex !== index}" @click="clickMenuBtn('scoring'), changeCurrentMode('Scoring')" >Scoring</button>
-                    <button :class="{'clicked-btn-style': activeButtonIndex === 'labeling', 'btn-style': activeButtonIndex !== index}" @click="clickMenuBtn('labeling'), changeCurrentMode('Labeling')">Labeling</button> -->
+                    <div style="margin-bottom: 25px;">
                         <h3>Mode</h3>
                         <button
                             :class="{ 'clicked-btn-style': activeButtonIndex === 'scoring', 'btn-style': activeButtonIndex !== 'scoring' || hoveredButton }"
-                            @click="clickMenuBtn('scoring'), changeCurrentMode('Scoring')" @mouseover="onMouseOverButton"
+                            @click="clickMenuBtn('scoring')" @mouseover="onMouseOverButton"
                             @mouseout="onMouseOutButton">
                             Scoring
                         </button>
                         <button
                             :class="{ 'clicked-btn-style': activeButtonIndex === 'labeling', 'btn-style': activeButtonIndex !== 'labeling' || hoveredButton }"
-                            @click="clickMenuBtn('labeling'), changeCurrentMode('Labeling')" @mouseover="onMouseOverButton"
+                            @click="clickMenuBtn('labeling')" @mouseover="onMouseOverButton"
                             @mouseout="onMouseOutButton">
                             Labeling
                         </button>
                     </div>
-                    <div style="margin-bottom: 25px;"> </div>
 
                     <div class="id-password-testcode-style">
                         <div style="margin-bottom: 50px;">
                             <h4 class="home-h2-font">ID</h4>
-                            <input class="home-input-style" v-model="userId" placeholder="ID">
+                            <input class="home-input-style" v-model="userId" placeholder="your id">
                         </div>
                         <div style="margin-bottom: 50px;">
                             <h4 class="home-h2-font">Password</h4>
-                            <input class="home-input-style" v-model="password" type="password" placeholder="Password">
+                            <input class="home-input-style" v-model="password" type="password" placeholder="your password">
                         </div>
                         <div style="margin-bottom: 25px;">
                             <h4 class="home-h2-font">Testcode</h4>
-                            <input class="home-input-style" v-model="testcode" placeholder="TestCode">
+                            <input class="home-input-style" v-model="testcode" placeholder="your testcode">
                         </div>
                         <button @click="submitLoginAction" class="btn-style login-btn-style">Login</button>
                     </div>
@@ -75,7 +72,7 @@ export default {
     data() {
         return {
             currentUser: '',
-            currentMode: 'Nothing',
+            // currentMode: 'Nothing',
             userScoring: [],
             scoreNum: [1, 2, 3, 4, 5],
             isPressed: [false, false, false, false, false, false],
@@ -112,8 +109,8 @@ export default {
         onMouseOutButton() {
             this.hoveredButton = false;
         },
-        goToPage() {
-            if (this.currentMode == 'Scoring') {
+        goToPage(currentMode) {
+            if (currentMode == 'scoring') {
                 this.$router.push({
                     path: 'scoring',
                     query: {
@@ -123,7 +120,7 @@ export default {
                     }
                 });
             }
-            if (this.currentMode == 'Labeling') {
+            if (currentMode == 'labeling') {
                 this.$router.push({
                     path: 'label',
                     query: {
@@ -134,44 +131,40 @@ export default {
                 });
             }
         },
-        changeCurrentMode(mode) {
-            this.currentMode = mode
-        },
         submitLoginAction() {
             // 아이디와 비밀번호, testcode가 입력되었는지 확인
             if (this.userId && this.password && this.testcode) {
-                if (this.currentMode == 'Nothing') {
-                    alert("Please choose mode")
-                } else {
-                    //console.log("user id: ", this.userId)
-                    //console.log("user password: ", this.password)
-                    // 여기에 아이디와 비밀번호를 전송하는 로직을 추가합니다.
-                    axios
-                        .post(this.baseUrl + "login", {
-                            current_mode: this.currentMode,
-                            user_id: this.userId,
-                            user_password: this.password,
-                            test_code: this.testcode,
-                        }).then(res => {
-                            //console.log("res.data: ", res.data);
-                            if (res.data == "Yes") {
-                                // json 파일 형식
-                                // 1. 유저의 유무 isUserExist
-                                alert("log in success")
-                                this.currentUser = this.userId
-                                this.goToPage()
-                            } else {
-                                alert(res.data)
-                            }
-                            //after post we have to init data form userScoring and currentPage
-                        })
-                        .catch(error => {
-                            console.error(error);
-                        })
-                    // 전송 후 아이디와 비밀번호 초기화
-                    // this.userId = '';
-                    // this.password = '';
-                }
+                //console.log("user id: ", this.userId)
+                //console.log("user password: ", this.password)
+                // 여기에 아이디와 비밀번호를 전송하는 로직을 추가합니다.
+                axios
+                    .post(this.baseUrl + "login", {
+                        // current_mode: this.currentMode,
+                        user_id: this.userId,
+                        user_password: this.password,
+                        test_code: this.testcode,
+                    }).then(res => {
+                        //console.log("res.data: ", res.data);
+                        if (res.data == "scoring") {
+                            // json 파일 형식
+                            // 1. 유저의 유무 isUserExist
+                            // alert("log in success")
+                            this.currentUser = this.userId
+                            this.goToPage(res.data);
+                        } else if (res.data == "labeling"){
+                            this.currentUser = this.userId;
+                            this.goToPage(res.data);
+                        } else {
+                            alert(res.data)
+                        }
+                        //after post we have to init data form userScoring and currentPage
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
+                // 전송 후 아이디와 비밀번호 초기화
+                // this.userId = '';
+                // this.password = '';
             } else {
                 alert('Please enter your ID and Password');
             }
