@@ -23,19 +23,17 @@
                         <transition name="fade" mode="out-in" appear>
                             <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
                                 <!-- toggle된 video -->
-                                <div v-show="isToggled">
-                                    <transition name="fade" mode="out-in" appear>
-                                        <div class="toggle-video-container">
-                                            <!-- TODO:  tempVideo2를 rightArtifactVideo()로 바꾸기 -->
-                                            <video id="toggleVideo" :style="videoStyles"
-                                                style="position: absolute; max-width: 100%; max-height: 550px;"
-                                                ref="toggleVideo" controlsList="nodownload" key="videoDiff"
-                                                :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
-                                                @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                                                @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
-                                            </video>
-                                        </div>
-                                    </transition>
+                                <div v-show="isToggled" style="position: relative;">
+                                    <div class="toggle-video-container">
+                                        <!-- TODO:  tempVideo2를 rightArtifactVideo()로 바꾸기 -->
+                                        <video id="toggleVideo" :style="videoStyles"
+                                            style="position: absolute; max-width: 100%; max-height: 550px;"
+                                            ref="toggleVideo" controlsList="nodownload" key="videoDiff"
+                                            :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
+                                            @mousedown="handleDragStart" @mouseup="handleDragEnd"
+                                            @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
+                                        </video>
+                                    </div>
                                 </div>
                                 <!-- TODO:  tempVideo를 leftOriginalVideo()로 바꾸기 -->
                                 <video id="videoNoartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"

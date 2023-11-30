@@ -25,8 +25,9 @@
               </div>
             </div>
           </div>
-          <div v-if="this.loadedImageNum === 2">
-            <img :src="serveOriginalImage()" @loadedmetadata="loadHandler()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
+          <!-- TODO: 12/1 로드 둘다 되면 보이게 하는 거  -->
+          <div v-if="loadedImageNum === 2">
+            <img :src="serveOriginalImage()" @load="loadHandler()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
             class="imageStyle" />
           </div>
           <div class="currentBorder"
@@ -46,9 +47,9 @@
               </div>
             </div>
           </div>
-          <!-- 로드 둘다 되면  -->
-          <div v-if="this.loadedImageNum === 2">
-            <img :src="serveArtifactImage()" @loadedmetadata="loadHandler()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
+          <!-- TODO: 12/1 로드 둘다 되면 보이게 하는 거  -->
+          <div v-if="loadedImageNum === 2">
+            <img :src="serveArtifactImage()" @load="loadHandler()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
             class="imageStyle" />
           </div>
           <div class="currentBorder"
@@ -114,7 +115,7 @@ export default {
       //currentUser: "kim",
       testCode: this.$route.query.testcode,
       //testCode: "test",
-      buttonString: ["0", "1", "2", "3", "4", "5", "Previous Page", "Next Page", "Submit"],
+      buttonString: ["0", "1", "2", "3", "4", "5", "Prev", "Next", "Submit"],
       pageState: 7,
       originalPatchImageList: [],
       artifactPatchImageList: [],
@@ -167,6 +168,7 @@ export default {
     window.addEventListener('keydown', this.keydown);
     this.getUserLabeling();
     this.getImageNameList();
+    this.$refs.img.addEventListener('load', this.loadHandler);
     //this.currentUserInfo();
 
   },
@@ -188,6 +190,7 @@ export default {
     loadHandler() {
       this.loadedImageNum++;
       console.log("로드된 이미지 수: " + this.loadedImageNum);
+      if(this.loadImageNum > 2)this.loadedImageNum = 0;
     },
 
     // Backend에서 patch size(행렬) 가져오는 method
@@ -513,29 +516,24 @@ export default {
         this.postUserLabeling();
         this.imageIndex -= 1;
         this.currentPage = this.imageIndexList[this.imageIndex];
-        this.makeImageTemplete()
+        this.makeImageTemplete();
         this.getUserLabeling();
+        this.loadHandler();
       }
     },
 
     changeNextPage() {
-      if (this.imageIndex + 1 === this.imageIndexList.length - 2) {
-        this.postUserLabeling();
-        this.imageIndex += 1;
-        this.pageState = 8;
-        this.currentPage = this.imageIndexList[this.imageIndex];
-        this.makeImageTemplete()
-        this.getUserLabeling();
-      }
-      else if (this.imageIndex > this.imageIndexList.length - 1) {
+      if (this.imageIndex > this.imageIndexList.length - 1) {
         this.postUserLabeling();
         alert("this is last page");
       } else {
+        if (this.imageIndex + 1 === this.imageIndexList.length - 1) this.pageState = 8;
         this.postUserLabeling();
         this.imageIndex += 1;
         this.currentPage = this.imageIndexList[this.imageIndex];
-        this.makeImageTemplete()
+        this.makeImageTemplete();
         this.getUserLabeling();
+        this.loadHandler();
       }
     },
 
