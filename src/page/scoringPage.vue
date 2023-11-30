@@ -25,11 +25,11 @@
                                 <div v-show="isToggled">
                                     <transition name="fade" mode="out-in" appear>
                                         <div class="toggle-video-container">
-                                            <!-- TODO:  tempVideo2를 rightOriginalVideo()로 바꾸기 -->
+                                            <!-- TODO:  tempVideo2를 rightArtifactVideo()로 바꾸기 -->
                                             <video id="toggleVideo" :style="videoStyles"
                                                 style="position: absolute; max-width: 100%; max-height: 550px;"
                                                 ref="toggleVideo" controlsList="nodownload" key="videoDiff"
-                                                :src="rightOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
+                                                :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
                                                 @mousedown="handleDragStart" @mouseup="handleDragEnd"
                                                 @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
                                             </video>
@@ -51,10 +51,10 @@
                     <div style="margin: 15px;">
                         <transition name="fade" mode="out-in" appear>
                             <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
-                                <!-- TODO:  tempVideo2를 rightOriginalVideo()로 바꾸기 -->
+                                <!-- TODO:  tempVideo2를 rightArtifactVideo()로 바꾸기 -->
                                 <video id="videoYesartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
                                     ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
-                                    :src="rightOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
+                                    :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
                                     @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
                                     onChange="isVideoPaused" preload="auto">
                                 </video>

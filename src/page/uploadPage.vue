@@ -202,6 +202,7 @@ export default {
             // video sending method
             if (this.clickedUploadOption == "video") {
                 //console.log("video");
+                // label/
                 axios
                     .post(this.baseUrl + 'upload/video', formData, {
                         headers: {
