@@ -521,6 +521,7 @@ export default {
         this.loadHandler();
       }
     },
+    
 
     changeNextPage() {
       if (this.imageIndex > this.imageIndexList.length - 1) {
