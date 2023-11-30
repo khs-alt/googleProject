@@ -32,6 +32,10 @@
             </div>
         </div>
     </div>
+    <div class="footer">
+        <p>Copyright © 2023 PiLab, SMU. All rights reserved.</p>
+        <p>연락처 적어주십쇼</p>
+    </div>
 </div>
 </template>
 

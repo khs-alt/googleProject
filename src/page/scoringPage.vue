@@ -10,6 +10,7 @@
             </div>
         </div>
     </div>
+    <p style="font-size: 24px; margin-top: 10px">Scoring System</p>
     <div class="home-main-content" style="padding-bottom: 0;">
         <div style="margin-left: auto; margin-right: auto;" class="toggle-switch" :class="{ 'active': isToggled }"
             @click="toggleVideo">
@@ -70,27 +71,27 @@
         <div id="scoring-button" style="margin-left: 50px; margin-right: 50px; max-width: 100%; margin-top: 0px;">
             <div style="margin-bottom: 5px;">
                 <button class="btn-style" @click="goToBegin">
-                    <img style="width: 50p; height: 30px;" src="../images/play_icon/iconmonstr-media-control-52-240.png">
+                    <img style="width: 30px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-52-240.png">
                 </button>
                 <button @click="seekBackward" @mouseover="isMouseOverMinus = true" @mouseout="isMouseOverMinus = false"
                     :class="{ 'btn-style': !isMouseOverMinus, 'clicked-btn-style': isMouseOverMinus }"
                     style="margin-right: 2%;">
-                    <img style="width: 50px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-18-240.png"
+                    <img style="width: 30px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-18-240.png"
                         alt="-1 frame">
                 </button>
                 <button id="videoButton" key="videoButton" @click="changeVideoButton(); changeImgSource()"
                     @mouseover="isMouseOverPlay = true" @mouseout="isMouseOverPlay = false"
                     :class="{ 'btn-style': !isMouseOverPlay, 'clicked-btn-style': isMouseOverPlay }">
-                    <img style="width: 50px; height: 30px;" :src=imgSrc>
+                    <img style="width: 30px; height: 30px;" :src=imgSrc>
                 </button>
                 <button @click="seekForward" @mouseover="isMouseOverPlus = true" @mouseout="isMouseOverPlus = false"
                     :class="{ 'btn-style': !isMouseOverPlus, 'clicked-btn-style': isMouseOverPlus }"
                     style="margin-left: 2%;">
-                    <img style="width: 50px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-13-240.png"
+                    <img style="width: 30px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-13-240.png"
                         alt="+1 frame">
                 </button>
                 <button class="btn-style" @click="goToEnd">
-                    <img style="width: 50p; height: 30px;" src="../images/play_icon/iconmonstr-media-control-53-240.png">
+                    <img style="width: 30px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-53-240.png">
                 </button>
             </div>
             <div style="display: flex; margin-left: auto; margin-right: auto;">
@@ -108,6 +109,10 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="footer">
+        <p>Copyright © 2023 PiLab, SMU. All rights reserved.</p>
+        <p>연락처 적어주십쇼</p>
     </div>
 </template>
 

@@ -10,10 +10,10 @@
       </div>
     </div>
   </div>
+  <p style="font-size: 24px; margin-top: 10px;">Labeling System</p>
   <div class="labelContainor">
     <div :class="this.imageWidth > 1080 ? 'imagecontainer-column': 'imagecontainer'">
       <div class="imageName">
-        <!-- TODO: 11/28 이미지 이름 -->
         <p>{{this.imageOriginalNameList[this.currentPage]}}</p>
         <div class="images">
           <div v-for="i in patchRow" :key="i">
@@ -33,7 +33,6 @@
         </div>
       </div>
       <div class="imageName">
-        <!-- TODO: 11/28 이미지 이름 -->
         <p>{{this.imageArtifactNameList[this.currentPage]}}</p>
         <div class="images">
           <div v-for="i in patchRow" :key="i">
@@ -86,10 +85,15 @@
           }}</button>
       </div>
       <div class="btnContainor">
-        <button class="scoreButton" @click="changePreviousPage()">Previous Page</button>
-        <button class="scoreButton" @click="changeNextPage()">Next Page</button>
+        <button class="scoreButton" @click="changePreviousPage()">{{ buttonString[6] }}</button>
+        <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageList.length }}</span>
+        <button class="scoreButton" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
       </div>
     </div>
+  </div>
+  <div class="footer">
+    <p>Copyright © 2023 PiLab, SMU. All rights reserved.</p>
+    <p>연락처 적어주십쇼</p>
   </div>
 </template>
 
@@ -105,7 +109,8 @@ export default {
       //currentUser: "kim",
       testCode: this.$route.query.testcode,
       //testCode: "test",
-      buttonString: ["0", "1", "2", "3", "4", "5"],
+      buttonString: ["0", "1", "2", "3", "4", "5", "Previous Page", "Next Page", "Submit"],
+      pageState: 7,
       originalPatchImageList: [],
       artifactPatchImageList: [],
       //currentPage: this.$route.query.currentPage,
@@ -497,19 +502,22 @@ export default {
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.makeImageTemplete()
         this.getUserLabeling();
+        this.getImageNameList(); //11/30 여기에 안 붙여서 이미지 이름이 안 뜬듯 합니다
       }
     },
 
     changeNextPage() {
-      if (this.imageIndex >= this.imageIndexList.length - 1) {
+      if (this.imageIndex === this.imageList.length - 2) this.pageState = 8; //11/30 마지막 페이지일 때 버튼 이름 바꾸기
+      else if (this.imageIndex >= this.imageIndexList.length - 1) {
         this.postUserLabeling();
-        alert("this is last image");
+        alert("this is last page");
       } else {
         this.postUserLabeling();
         this.imageIndex += 1;
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.makeImageTemplete()
         this.getUserLabeling();
+        this.getImageNameList(); //11/30 여기에 안 붙여서 이미지 이름이 안 뜬듯 합니다
       }
     },
 
