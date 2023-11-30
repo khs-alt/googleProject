@@ -25,8 +25,8 @@
               </div>
             </div>
           </div>
-          <div v-if="imageLoaded()">
-            <img :src="serveOriginalImage()" @load="loadHandler()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
+          <div v-if="this.loadedImageNum === 2">
+            <img :src="serveOriginalImage()" @loadedmetadata="loadHandler()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
             class="imageStyle" />
           </div>
           <div class="currentBorder"
@@ -46,10 +46,11 @@
               </div>
             </div>
           </div>
-          <div v-if="imageLoaded()">
-            <img :src="serveArtifactImage()" @load="loadHandler()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
+          <!-- 로드 둘다 되면  -->
+          <div v-if="this.loadedImageNum === 2">
+            <img :src="serveArtifactImage()" @loadedmetadata="loadHandler()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
             class="imageStyle" />
-          </div>
+          <!-- </div> -->
           <div class="currentBorder"
             :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
           </div>
@@ -184,14 +185,9 @@ export default {
       return String(this.baseUrl + "postimage/difference/" + (this.currentPage))
     },
 
-    imageLoaded() {
-      return this.loadedImageNum === 2;
-    },
-
     loadHandler() {
       this.loadedImageNum++;
-      console.log(this.loadedImageNum);
-      this.loadHandler();
+      console.log("로드된 이미지 수: " + this.loadedImageNum);
     },
 
     // Backend에서 patch size(행렬) 가져오는 method
@@ -523,7 +519,14 @@ export default {
     },
 
     changeNextPage() {
-      if (this.imageIndex + 1 === this.imageIndexList.length - 2) this.pageState = 8; //11/30 마지막 페이지일 때 버튼 이름 바꾸기
+      if (this.imageIndex + 1 === this.imageIndexList.length - 2) {
+        this.postUserLabeling();
+        this.imageIndex += 1;
+        this.pageState = 8;
+        this.currentPage = this.imageIndexList[this.imageIndex];
+        this.makeImageTemplete()
+        this.getUserLabeling();
+      }
       else if (this.imageIndex > this.imageIndexList.length - 1) {
         this.postUserLabeling();
         alert("this is last page");
