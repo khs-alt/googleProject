@@ -50,7 +50,7 @@
           <div v-if="this.loadedImageNum === 2">
             <img :src="serveArtifactImage()" @loadedmetadata="loadHandler()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
             class="imageStyle" />
-          <!-- </div> -->
+          </div>
           <div class="currentBorder"
             :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
           </div>
