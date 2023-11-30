@@ -14,7 +14,7 @@
   <div class="labelContainor">
     <div :class="this.imageWidth > 1080 ? 'imagecontainer-column': 'imagecontainer'">
       <div class="imageName">
-        <p>{{this.imageOriginalNameList[this.currentPage]}}</p>
+        <p>{{this.imageOriginalNameList[this.imageIndex]}}</p>
         <div class="images">
           <div v-for="i in patchRow" :key="i">
             <div v-for="j in patchColumn" :key="j">
@@ -25,15 +25,17 @@
               </div>
             </div>
           </div>
-          <img :src="serveOriginalImage()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
+          <div v-if="imageLoaded()">
+            <img :src="serveOriginalImage()" @load="loadHandler()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
             class="imageStyle" />
+          </div>
           <div class="currentBorder"
             :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
           </div>
         </div>
       </div>
       <div class="imageName">
-        <p>{{this.imageArtifactNameList[this.currentPage]}}</p>
+        <p>{{this.imageArtifactNameList[this.imageIndex]}}</p>
         <div class="images">
           <div v-for="i in patchRow" :key="i">
             <div v-for="j in patchColumn" :key="j">
@@ -44,8 +46,10 @@
               </div>
             </div>
           </div>
-          <img :src="serveArtifactImage()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
+          <div v-if="imageLoaded()">
+            <img :src="serveArtifactImage()" @load="loadHandler()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
             class="imageStyle" />
+          </div>
           <div class="currentBorder"
             :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
           </div>
@@ -121,6 +125,7 @@ export default {
       //artifactImage: "http://localhost:8000/postimage/artifact/0",
       //imageList: this.$route.query.imageList,
       // 임시로 배열에 데이터 넣어줬음 -> 백엔드 연결 시 삭제 필요 11/26
+      loadedImageNum: 0,
       imageIndexList: [],
       imageOriginalNameList: [],
       imageArtifactNameList: [],
@@ -177,6 +182,14 @@ export default {
     },
     serveDifferenceImage() {
       return String(this.baseUrl + "postimage/difference/" + (this.currentPage))
+    },
+
+    imageLoaded() {
+      return this.loadedImageNum === 2;
+    },
+
+    loadHandler() {
+      this.loadedImageNum++;
     },
 
     // Backend에서 patch size(행렬) 가져오는 method
@@ -492,23 +505,24 @@ export default {
     },
 
     changePreviousPage() {
+      this.pageState = 7;
       if (this.imageIndex === 0) {
         // TODO: 11/29 01:13 수정 
         this.postUserLabeling();
         alert("this is first image");
-      } else {
+      }
+       else {
         this.postUserLabeling();
         this.imageIndex -= 1;
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.makeImageTemplete()
         this.getUserLabeling();
-        this.getImageNameList(); //11/30 여기에 안 붙여서 이미지 이름이 안 뜬듯 합니다
       }
     },
 
     changeNextPage() {
-      if (this.imageIndex === this.imageIndexList.length - 2) this.pageState = 8; //11/30 마지막 페이지일 때 버튼 이름 바꾸기
-      else if (this.imageIndex >= this.imageIndexList.length - 1) {
+      if (this.imageIndex === this.imageIndexList.length - 1) this.pageState = 8; //11/30 마지막 페이지일 때 버튼 이름 바꾸기
+      else if (this.imageIndex > this.imageIndexList.length - 1) {
         this.postUserLabeling();
         alert("this is last page");
       } else {
@@ -517,7 +531,6 @@ export default {
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.makeImageTemplete()
         this.getUserLabeling();
-        this.getImageNameList(); //11/30 여기에 안 붙여서 이미지 이름이 안 뜬듯 합니다
       }
     },
 

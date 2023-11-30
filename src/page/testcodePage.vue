@@ -57,7 +57,7 @@
                                 style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex; justify-content: space-between;">
                                 <!-- TODO: 눌리면 class="clicked-btn-style" 안눌리면 class="btn-style" -->
                                 <button @click="clickTestcodeBtn(existTestcode.testcode[index])"
-                                    :class="['btn-style', { 'clicked-btn-style': clickedTestcodeBtn.includes(existTestcode.testcode[index]) }]"
+                                    :class="{'clicked-btn-style' : clickedTestcodeBtn.includes(existTestcode.testcode[index]), 'btn-style': !clickedTestcodeBtn.includes(existTestcode.testcode[index])}"
                                     style="margin-right: 10px;">{{ existTestcode.testcode[index] }}</button>
                                     
                                 <div style="margin-right: 10px;">:</div>
