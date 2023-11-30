@@ -189,7 +189,7 @@ export default {
                 // toggleVideo를 originalVideo 위치 위로 배치합니다.
                 // toggleVideo.style.position = 'absolute';
                 // toggleVideo.style.top = 15 + 'px';
-                toggleVideo.style.left = 0 + 'px';
+                toggleVideo.style.left = 50 + 'px';
                 toggleVideo.style.width = rect.width + 'px';
                 toggleVideo.style.height = rect.height + 'px';
                 toggleVideo.style.zIndex = 10; // toggleVideo를 위로
@@ -247,10 +247,11 @@ export default {
         goToEnd() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
+            const temp = video1.duration - 1 / originalFrame;
             video1.pause();
             video2.pause();
-            video1.currentTime = video1.duration;
-            video2.currentTime = video2.duration;
+            video1.currentTime = temp;
+            video2.currentTime = temp;
         },
         changeImgSource() {
             if (this.videoButtonText != "Play") {
