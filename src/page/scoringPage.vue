@@ -247,6 +247,7 @@ export default {
         goToEnd() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
+            const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
             const temp = video1.duration - 1 / originalFrame;
             video1.pause();
             video2.pause();
