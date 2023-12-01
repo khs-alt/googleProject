@@ -179,7 +179,7 @@ export default {
             this.isToggled = !this.isToggled;
             this.applyVideoOverlay();
         },
-        applyVideoOverlay() {
+        async applyVideoOverlay() {
             // artifact video와 original video에 대한 DOM 레퍼런스를 가져옵니다.
             const originalVideo = this.$refs.videoNoartifact;
             const toggleVideo = this.$refs.toggleVideo;
