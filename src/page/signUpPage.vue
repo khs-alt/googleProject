@@ -18,15 +18,15 @@
                     <h4 style="display: flex; margin-right: auto; margin-left: 60px; margin-bottom: 10px;" for="username">ID
                     </h4>
                     <input type="text" id="username" class="home-input-style" v-model="id" required>
-                    <p :class="{ 'error-message': true, 'active': idTouched && !isIdValid, 'shake': idShake }">ID can only contain alphabetic
-                        upper and lower case, numerals and the following characters: !@#$%^&</p>
+                    <p :class="{ 'error-message': true, 'active': idTouched && !isIdValid, 'shake': idShake }">ID can
+                        contain the following characters: lowercase characters, uppercase characters, and numbers.</p>
                 </div>
                 <div class="inputBox">
                     <h4 style="display: flex; margin-right: auto; margin-left: 60px; margin-bottom: 10px;" for="password">
                         Password</h4>
                     <input type="password" id="password" class="home-input-style" v-model="password" required>
-                    <p :class="{ 'error-message': true, 'active': passwordTouched && !isPasswordValid, 'shake': passwordShake }">Password only
-                        containupper and lower case, numerals and the following characters: !@#$%^&</p>
+                    <p :class="{ 'error-message': true, 'active': passwordTouched && !isPasswordValid, 'shake': passwordShake }"
+                        style="color: red;">Do not use important password in here</p>
                 </div>
                 <!-- @click.prevent는 Vue.js에서의 이벤트 수식어(event modifier)입니다. prevent는 브라우저의 기본 이벤트 처리를 중지시키는 것으로, 
                 event.preventDefault()를 호출하는 것과 같은 역할을 합니다.
@@ -84,12 +84,12 @@ export default {
 
     methods: {
         register() {
-            if(!this.isIdValid && !this.isPasswordValid){
+            if (!this.isIdValid && !this.isPasswordValid) {
                 this.idShake = true; // id 입력 필드를 떨게 할 데이터 속성
                 this.passwordShake = true; // password 입력 필드를 떨게 할 데이터 속성
                 setTimeout(() => this.idShake = false, 500); // 애니메이션 후에 다시 false로 설정
                 setTimeout(() => this.passwordShake = false, 500);
-            }else if (!this.isIdValid) {
+            } else if (!this.isIdValid) {
                 this.idShake = true; // id 입력 필드를 떨게 할 데이터 속성
                 setTimeout(() => this.idShake = false, 500); // 애니메이션 후에 다시 false로 설정
                 return;
