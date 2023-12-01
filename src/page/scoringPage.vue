@@ -41,7 +41,7 @@
                             </video>
                         </div>
                         <div>
-                            <h5 style="margin-top: 8px;">{{ this.originalVideoNameList[videoNameIndex] }}</h5>
+                            <div style="margin-top: 8px;">{{ this.originalVideoNameList[videoNameIndex] }}</div>
                         </div>
                     </div>
                     <div style="margin: 15px;">
@@ -54,7 +54,7 @@
                             </video>
                         </div>
                         <div>
-                            <h5 style="margin-top: 8px;">{{ this.artifactVideoNameList[videoNameIndex] }}</h5>
+                            <div style="margin-top: 8px;">{{ this.artifactVideoNameList[videoNameIndex] }}</div>
                         </div>
                     </div>
                 </div>
