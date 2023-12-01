@@ -22,11 +22,11 @@
             <div class="id-password-testcode-style">
                 <div style="margin-bottom: 50px;">
                     <h4 class="home-h2-font">ID</h4>
-                    <input class="home-input-style" v-model="userId" placeholder="ID">
+                    <input class="home-input-style" v-model="userId" placeholder="your id">
                 </div>
                 <div style="margin-bottom: 25px;">
                     <h4 class="home-h2-font">Password</h4>
-                    <input class="home-input-style" v-model="password" type="password" placeholder="Password">
+                    <input class="home-input-style" v-model="password" type="password" placeholder="your password">
                 </div>
                 <button @click="submitCredentials" class="btn-style login-btn-style">Login</button>
             </div>
