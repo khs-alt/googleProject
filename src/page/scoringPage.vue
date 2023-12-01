@@ -23,7 +23,7 @@
                         <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
                             <!-- toggle된 video -->
                             <div v-show="isToggled" style="position: relative;">
-                                <div class="toggle-video-container">
+                                <div style="height: 550px; overflow: hidden;">
                                     <!-- TODO:  tempVideo2를 rightArtifactVideo()로 바꾸기 -->
                                     <video id="toggleVideo" :style="videoStyles"
                                         style="position: absolute; max-width: 100%; max-height: 550px;" ref="toggleVideo"

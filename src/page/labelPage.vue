@@ -192,17 +192,17 @@ export default {
     preloadImage() {
       if(this.currentPage === 0) {
         this.nextImage = new Image();
-        nextImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+        this.nextImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
       }
       else if(this.currentPage === this.imageIndexList.length - 1) {
         this.prevImage = new Image();
-        prevImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+        this.prevImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
       }
       else {
-        this.nextImgae = new Image();
+        this.nextImage = new Image();
         this.prevImage = new Image();
-        nextImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
-        prevImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+        this.nextImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+        this.prevImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
       }
     },
 
