@@ -121,8 +121,12 @@ export default {
       artifactPatchImageList: [],
       //currentPage: this.$route.query.currentPage,
       currentPage: 0,
-      prevImage: null,
-      nextImage: null,
+      prevOriginalImage: null,
+      prevArtifactImage: null,
+      prevDifferenceImage: null,
+      nextOriginalImage: null,
+      nextArtifactImage: null,
+      nextDifferenceImage: null,
       //originalImage: require('../images/addPadding.png'),
       //artifactImage: require('../images/addPadding.png'),
       //originalImage: "http://localhost:8000/postimage/original/0",
@@ -191,18 +195,35 @@ export default {
 
     preloadImage() {
       if(this.currentPage === 0) {
-        this.nextImage = new Image();
-        this.nextImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+        this.nextOriginalImage = new Image();
+        this.nextArtifactImage = new Image();
+        this.nextDifferenceImage = new Image();
+        this.nextOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+        this.nextArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage + 1));
+        this.nextDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage + 1));
       }
       else if(this.currentPage === this.imageIndexList.length - 1) {
-        this.prevImage = new Image();
-        this.prevImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+        this.prevOriginalImage = new Image();
+        this.prevArtifactImage = new Image();
+        this.prevDifferenceImage = new Image();
+        this.prevOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+        this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
+        this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
       }
       else {
-        this.nextImage = new Image();
-        this.prevImage = new Image();
-        this.nextImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
-        this.prevImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+
+        this.nextOriginalImage = new Image();
+        this.nextArtifactImage = new Image();
+        this.nextDifferenceImage = new Image();
+        this.nextOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+        this.nextArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage + 1));
+        this.nextDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage + 1));
+        this.prevOriginalImage = new Image();
+        this.prevArtifactImage = new Image();
+        this.prevDifferenceImage = new Image();
+        this.prevOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+        this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
+        this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
       }
     },
 
@@ -552,11 +573,11 @@ export default {
 
 
     changeNextPage() {
-      if (this.imageIndex > this.imageIndexList.length - 1) {
+      if (this.imageIndex >= this.imageIndexList.length - 1) {
         this.postUserLabeling();
         alert("this is last page");
       } else {
-        if (this.imageIndex + 1 === this.imageIndexList.length - 1) this.pageState = 8;
+        if (this.imageIndex === this.imageIndexList.length - 1) this.pageState = 8;
         this.postUserLabeling();
         this.imageIndex += 1;
         this.currentPage = this.imageIndexList[this.imageIndex];
