@@ -577,7 +577,7 @@ export default {
         this.postUserLabeling();
         alert("this is last page");
       } else {
-        if (this.imageIndex === this.imageIndexList.length - 1) this.pageState = 8;
+        if (this.imageIndex === this.imageIndexList.length - 2) this.pageState = 8;
         this.postUserLabeling();
         this.imageIndex += 1;
         this.currentPage = this.imageIndexList[this.imageIndex];
