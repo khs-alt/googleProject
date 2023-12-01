@@ -154,7 +154,11 @@ export default {
             imgSrc: require("../images/play_icon/iconmonstr-media-control-48-240.png"),
             isToggled: false,
             videoOriginalWidth: 0,
-            // tempVideo: require("./denosise.mp4"),
+            // TODO: preload nextVideo
+            preloadedNextOriginalVideo: "",
+            preloadedNextArtifactVideo: "",
+            preloadedPrevOriginalVideo: "",
+            preloadedPrevArtifactVideo: "",
         }
     },
     created() { },
@@ -165,6 +169,7 @@ export default {
         this.isVideoPaused();
         document.addEventListener('mousemove', this.handleDragging);
         document.addEventListener('mouseup', this.handleDragEnd);
+        this.preloadNextVideo();
     },
     computed: {
         currentPageIndex() {
@@ -172,6 +177,26 @@ export default {
         },
     },
     methods: {
+        preloadNextVideo() {
+            if (this.videoIndex[0] == this.currentPage) {
+                this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/original/" + (this.currentPage);
+                this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/artifact/" + (this.currentPage);
+            }
+            else if (this.videoIndex[this.videoIndex.length - 1] == this.currentPage) {
+                this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/original/" + (this.currentPage);
+                this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/artifact/" + (this.currentPage);
+            } else {
+                for (let i = 0; i < this.videoIndex.length; i++) {
+                    if (this.videoIndex[i] == this.currentPage) {
+                        this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/original/" + (this.videoIndex[i + 1]);
+                        this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]);
+                        this.preloadedPrevOriginalVideo = this.baseUrl + "/postvideo/original/" + (this.videoIndex[i - 1]);
+                        this.preloadedPrevOriginalVideo = this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]);
+                        break;
+                    }
+                }
+            }
+        },
         toggleVideo() {
             this.isToggled = !this.isToggled;
             this.applyVideoOverlay();
@@ -187,8 +212,6 @@ export default {
                 // originalVideo의 위치와 크기를 가져옵니다.
                 const rect = originalVideo.getBoundingClientRect();
                 // toggleVideo를 originalVideo 위치 위로 배치합니다.
-                // toggleVideo.style.position = 'absolute';
-                // toggleVideo.style.top = 15 + 'px';
                 toggleVideo.style.left = leftMargin;
                 toggleVideo.style.width = rect.width + 'px';
                 toggleVideo.style.height = rect.height + 'px';
@@ -199,34 +222,9 @@ export default {
                 console.log("toggleVideo.style.height: " + toggleVideo.style.height)
             } else {
                 // isToggled가 false일 때, toggleVideo를 원래 상태로 되돌립니다.
-                // toggleVideo.style.position = 'static';
                 toggleVideo.style.zIndex = 0;
             }
         },
-        // applyVideoOverlay() {
-        //     // artifact video와 original video에 대한 DOM 레퍼런스를 가져옵니다.
-        //     const originalVideo = this.$refs.videoNoartifact;
-        //     const toggleVideo = this.$refs.toggleVideo;
-        //     var marginElement = document.getElementById('video-margin');
-        //     var margin = window.getComputedStyle(marginElement).marginLeft;
-        //     console.log("videoMargin: " + margin)
-        //     if (this.isToggled) {
-        //         // originalVideo의 위치와 크기를 가져옵니다.
-        //         const rect = originalVideo.getBoundingClientRect();
-        //         // toggleVideo를 originalVideo 위치 위로 배치합니다.
-        //         toggleVideo.style.position = 'absolute';
-        //         toggleVideo.style.top = 15 + 'px';
-        //         toggleVideo.style.left = 15 + 'px';
-        //         console.log(margin + "px");
-        //         toggleVideo.style.width = rect.width + 'px';
-        //         toggleVideo.style.height = rect.height + 'px';
-        //         toggleVideo.style.zIndex = 10; // toggleVideo를 위로
-        //     } else {
-        //         // isToggled가 false일 때, toggleVideo를 원래 상태로 되돌립니다.
-        //         toggleVideo.style.position = 'static';
-        //         toggleVideo.style.zIndex = 0;
-        //     }
-        // },
         clickExport() {
             axios
                 .post(this.baseUrl + 'getCSVFile', {

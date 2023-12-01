@@ -1,117 +1,133 @@
 <template>
-<div class="body-style">
-    <div class="menu">
-        <div class="menu-header">
-            <div class="menu-content">
-                <a href="/label/" style="margin-right: 10px;">
-                    <button class="signup-btn-style">Home</button>
-                </a>
-                <a href="/label/signup/" style="margin-right: 10px;">
-                    <button class="signup-btn-style">Sign up</button>
-                </a>
-                <a href="/label/admin/imageupload/">
+    <div class="body-style">
+        <div class="menu">
+            <div class="menu-header">
+                <div class="menu-content">
+                    <a href="/label/" style="margin-right: 10px;">
+                        <button class="signup-btn-style">Home</button>
+                    </a>
+                    <a href="/label/signup/" style="margin-right: 10px;">
+                        <button class="signup-btn-style">Sign up</button>
+                    </a>
+                    <a href="/label/admin/imageupload/" style="margin-right: 10px;">
                         <button class="signup-btn-style">Image Upload</button>
                     </a>
-                <a href="/label/admin/testcode">
-                    <button class="signup-btn-style">Test Code</button>
-                </a>
+                    <a href="/label/admin/testcode">
+                        <button class="signup-btn-style">Test Code</button>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="home-main-content">
-    <div style=" width: 80%; margin-left: auto; margin-right: auto;">
-        <div class="file-upload-left-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover" @drop="onOriginalDrop">
-            <div @click="onOriginalClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
-                Drag & Drop Original Files
-                <!-- 업로드된 리스트 -->
-                <!-- TODO: 업로드된 리스트 안 쪽에 좀 더 깔끔하게 UI 만들기 -->
-                <div class="scrollingUploadedData">
-                    <div class="file-upload-list">
-                        <div class="file-upload-list__item" v-for="originalFile in originalFileList" :key="originalFile">
-                            <!-- <template v-if="originalFile.type.includes('.mp4') || originalFile.type.includes('.mov') ">
+    <div class="home-main-content">
+        <div style=" width: 80%; margin-left: auto; margin-right: auto;">
+            <div class="file-upload-left-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
+                @drop="onOriginalDrop">
+                <div @click="onOriginalClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
+                    Drag & Drop Original Files
+                    <!-- 업로드된 리스트 -->
+                    <!-- TODO: 업로드된 리스트 안 쪽에 좀 더 깔끔하게 UI 만들기 -->
+                    <div class="scrollingUploadedData">
+                        <div class="file-upload-list">
+                            <div class="file-upload-list__item" v-for="originalFile in originalFileList"
+                                :key="originalFile">
+                                <!-- <template v-if="originalFile.type.includes('.mp4') || originalFile.type.includes('.mov') ">
                                 <video :src="originalFile" width="100" height="100" muted></video>
                             </template>
                             <template v-else>
                                 <img :src="originalFile"  width="100" height="100">
                             </template> -->
-                            <div class="file-upload-list__item__data-name">{{ originalFile.name }}</div>
+                                <div class="file-upload-list__item__data-name">{{ originalFile.name }}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <button class="btn-style" style=" padding: 10px; font-weight: 400; margin-top: 30px;"
+                    @click="originalHandleRemove(index)">
+                    삭제
+                </button>
             </div>
-            <button class="btn-style" style=" padding: 10px; font-weight: 400; margin-top: 30px;" @click="originalHandleRemove(index)">
-                삭제
-            </button>
-        </div>
-        <input type="file" ref="originalFileInput" class="file-upload-input" @change="onOriginalFileChange" multiple>
+            <input type="file" ref="originalFileInput" class="file-upload-input" @change="onOriginalFileChange" multiple>
 
-        <div class="file-upload-right-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover" @drop="onArtifactDrop">
-            <div @click="onArtifactClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
-                Drag & Drop Artifact Files
-                <!-- 업로드된 리스트 -->
-                <div class="scrollingUploadedData">
-                    <div class="file-upload-list">
-                        <div class="file-upload-list__item" v-for="artifactFile in artifactFileList" :key="artifactFile">
-                            <!-- <template v-if="artifactFile.type.includes('.mp4') || artifactFile.type.includes('.mov')">
+            <div class="file-upload-right-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
+                @drop="onArtifactDrop">
+                <div @click="onArtifactClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
+                    Drag & Drop Artifact Files
+                    <!-- 업로드된 리스트 -->
+                    <div class="scrollingUploadedData">
+                        <div class="file-upload-list">
+                            <div class="file-upload-list__item" v-for="artifactFile in artifactFileList"
+                                :key="artifactFile">
+                                <!-- <template v-if="artifactFile.type.includes('.mp4') || artifactFile.type.includes('.mov')">
                                 <video :src="artifactFile" width="100" height="100" muted></video>
                             </template>
                             <template v-else>
                                 <img :src="artifactFile"  width="100" height="100">
                             </template> -->
-                            <div class="file-upload-list__item__data-name">{{ artifactFile.name }}</div>
+                                <div class="file-upload-list__item__data-name">{{ artifactFile.name }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="file" ref="artifactFileInput" class="file-upload-input" @change="onArtifactFileChange"
+                    multiple>
+                <button class="btn-style" style="padding: 10px; font-weight: 400; margin-top: 30px;"
+                    @click="artifactHandleRemove(index)">
+                    삭제
+                </button>
+            </div>
+        </div>
+
+        <!-- 태그 -->
+        <div class="tagWrapper">
+            <div style="width: 100%;">
+                <div>
+                    <div>
+                        <div style="margin-bottom: 5px;">
+                            <div class="width-style" style="display: flex; margin-left: 10px;">Tag</div>
+                        </div>
+                        <div style="display: flex;">
+                            <button v-for="(item, index) in tag" :key="index" ref="tag" class="btn-style"
+                                @click="clickTagBtn(index)">{{
+                                    item }}</button>
+                        </div>
+                    </div>
+                    <div style="display: flex; margin-top: 10px;">
+                        <input type="text" v-model="tagInput" class="home-input-style"
+                            style="border-radius: 0.75rem; width: 350px; display: flex; margin-left: 5px;"
+                            placeholder="Add Tag">
+                        <button class="btn-style" style="font-size:medium; width: 80px; height: 24; margin-top: 0;"
+                            @click="addTag">Add</button>
+                        <button class="btn-style" style="font-size:medium; width: 80px; height: 24; margin-top: 0;"
+                            @click="deleteTag">Delete</button>
+                    </div>
+                    <div style="display: flex; margin-top: 10px;">
+                    </div>
+                    <div style="display: flex;">
+                        <div v-for="(item, index) in clickTagBtn" :key="index">{{ item }}</div>
+                    </div>
+                    <div style="style=display: flex;">
+                        <div class="width-style" style="display: flex; margin-left: 10px; margin-top: 15px;">Upload Options
+                        </div>
+                        <div style="display: flex;" role="group" aria-label="Basic checkbox toggle button group">
+                            <button v-for="(item, index) in uploadOptions" :key="index" ref="uploadOptions"
+                                :class="{ 'clicked-btn-style': activeButtonIndex === index, 'btn-style': activeButtonIndex !== index }"
+                                @click="clickUploadOptions(index)">{{ item }}</button>
+                            <button @click="uploadFiles" class="btn-style"
+                                style="background-color: #3182F6; color: white; margin-left: auto;">
+                                Data Upload
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <input type="file" ref="artifactFileInput" class="file-upload-input" @change="onArtifactFileChange" multiple>
-            <button class="btn-style" style="padding: 10px; font-weight: 400; margin-top: 30px;" @click="artifactHandleRemove(index)">
-                삭제
-            </button>
         </div>
-    </div>
 
-    <!-- 태그 -->
-    <div class="tagWrapper">
-        <div style="width: 100%;">
-            <div>
-                <div>
-                    <div style="margin-bottom: 5px;">
-                        <div class="width-style" style="display: flex; margin-left: 10px;">Tag</div>
-                    </div>
-                    <div style="display: flex;">
-                        <button v-for="(item, index) in tag" :key="index" ref="tag" class="btn-style" @click="clickTagBtn(index)">{{
-                        item }}</button>
-                    </div>
-                </div>
-                <div style="display: flex; margin-top: 10px;">
-                    <input type="text" v-model="tagInput" class="home-input-style" style="border-radius: 0.75rem; width: 350px; display: flex; margin-left: 5px;" placeholder="Add Tag">
-                    <button class="btn-style" style="font-size:medium; width: 80px; height: 24; margin-top: 0;" @click="addTag">Add</button>
-                    <button class="btn-style" style="font-size:medium; width: 80px; height: 24; margin-top: 0;" @click="deleteTag">Delete</button>
-                </div>
-                <div style="display: flex; margin-top: 10px;">
-                </div>
-                <div style="display: flex;">
-                    <div v-for="(item, index) in clickTagBtn" :key="index">{{ item }}</div>
-                </div>
-                <div style="style=display: flex;">
-                    <div class="width-style" style="display: flex; margin-left: 10px; margin-top: 15px;">Upload Options</div>
-                    <div style="display: flex;" role="group" aria-label="Basic checkbox toggle button group">
-                        <button v-for="(item, index) in uploadOptions" :key="index" ref="uploadOptions" :class="{ 'clicked-btn-style': activeButtonIndex === index, 'btn-style': activeButtonIndex !== index }" @click="clickUploadOptions(index)">{{ item }}</button>
-                        <button @click="uploadFiles" class="btn-style" style="background-color: #3182F6; color: white; margin-left: auto;">
-                            Data Upload
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-
-</div>
-<div class="footer">
-    <p>Copyright © 2023 Pi:Lab, SMU. All rights reserved.</p>
-    <p>help@pilab.smu.ac.kr</p>
-</div>
+    <div class="footer">
+        <p>Copyright © 2023 Pi:Lab, SMU. All rights reserved.</p>
+        <p>help@pilab.smu.ac.kr</p>
+    </div>
 </template>
 
 <script>
@@ -138,7 +154,7 @@ export default {
             uploadedArtifactFiles: [],
         }
     },
-    created() {},
+    created() { },
     mounted() {
         this.getTag();
     },
@@ -255,21 +271,21 @@ export default {
             }
         },
         deleteTag() {
-            if (this.clickedTagBtn.length == 0){
+            if (this.clickedTagBtn.length == 0) {
                 alert("Please Clicke the Button")
-            }else{
-            axios
-                .post(this.baseUrl + 'deleteTag', {
-                    tags: this.clickedTagBtn
-                })
-                .then((response) => {
-                    console.log(response);
-                    this.getTag();
-                    this.clickTagBtn = [];
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+            } else {
+                axios
+                    .post(this.baseUrl + 'deleteTag', {
+                        tags: this.clickedTagBtn
+                    })
+                    .then((response) => {
+                        console.log(response);
+                        this.getTag();
+                        this.clickTagBtn = [];
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
             }
         },
         // tag 가져오는 method
@@ -278,7 +294,7 @@ export default {
                 .get(this.baseUrl + 'getTag')
                 .then((response) => {
                     if (response.data != null) {
-                        if(response.data != null){
+                        if (response.data != null) {
                             this.tag = response.data;
                         }
                         this.isClicked = [];
@@ -431,7 +447,5 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import '../main.css';
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&display=swap');
-</style>
+<style lang="scss">@import '../main.css';
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&display=swap');</style>
