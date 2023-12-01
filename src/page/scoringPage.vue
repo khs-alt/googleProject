@@ -177,7 +177,7 @@ export default {
         },
     },
     methods: {
-        preloadNextVideo() {
+        async preloadNextVideo() {
             if (this.videoIndex[0] == this.currentPage) {
                 this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/original/" + (this.currentPage);
                 this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/artifact/" + (this.currentPage);
@@ -191,7 +191,11 @@ export default {
                         this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/original/" + (this.videoIndex[i + 1]);
                         this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]);
                         this.preloadedPrevOriginalVideo = this.baseUrl + "/postvideo/original/" + (this.videoIndex[i - 1]);
-                        this.preloadedPrevOriginalVideo = this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]);
+                        this.preloadedPrevOriginalVideo = this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i - 1]);
+                        console.log("preloadedNextOriginalVideo: " + this.preloadedNextOriginalVideo)
+                        console.log("preloadedNextArtifactVideo: " + this.preloadedNextArtifactVideo)
+                        console.log("preloadedPrevOriginalVideo: " + this.preloadedPrevOriginalVideo)
+                        console.log("preloadedPrevArtifactVideo: " + this.preloadedPrevArtifactVideo)
                         break;
                     }
                 }
