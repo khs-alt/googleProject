@@ -23,8 +23,7 @@
                         <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
                             <!-- toggle된 video -->
                             <div v-show="isToggled" style="position: relative;">
-                                <div>
-                                    <!-- TODO:  tempVideo2를 rightArtifactVideo()로 바꾸기 -->
+                                <div style="height: 550px; overflow: hidden;">
                                     <video id="toggleVideo" :style="videoStyles"
                                         style="position: absolute; max-width: 100%; max-height: 550px;" ref="toggleVideo"
                                         controlsList="nodownload" key="videoDiff" :src="rightArtifactVideo()"
@@ -34,7 +33,6 @@
                                     </video>
                                 </div>
                             </div>
-                            <!-- TODO:  tempVideo를 leftOriginalVideo()로 바꾸기 -->
                             <video id="videoNoartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
                                 ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
                                 :src="leftOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
@@ -48,7 +46,6 @@
                     </div>
                     <div style="margin: 15px;">
                         <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
-                            <!-- TODO:  tempVideo2를 rightArtifactVideo()로 바꾸기 -->
                             <video id="videoYesartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
                                 ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
                                 :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
@@ -179,7 +176,7 @@ export default {
             this.isToggled = !this.isToggled;
             this.applyVideoOverlay();
         },
-        async applyVideoOverlay() {
+        applyVideoOverlay() {
             // artifact video와 original video에 대한 DOM 레퍼런스를 가져옵니다.
             const originalVideo = this.$refs.videoNoartifact;
             const toggleVideo = this.$refs.toggleVideo;
@@ -193,10 +190,13 @@ export default {
                 // toggleVideo.style.position = 'absolute';
                 // toggleVideo.style.top = 15 + 'px';
                 toggleVideo.style.left = leftMargin;
-                console.log("leftMargin: " + leftMargin)
                 toggleVideo.style.width = rect.width + 'px';
                 toggleVideo.style.height = rect.height + 'px';
                 toggleVideo.style.zIndex = 10; // toggleVideo를 위로
+                console.log("rect.width: " + rect.width)
+                console.log("rect.height: " + rect.height)
+                console.log("toggleVideo.style.width: " + toggleVideo.style.width)
+                console.log("toggleVideo.style.height: " + toggleVideo.style.height)
             } else {
                 // isToggled가 false일 때, toggleVideo를 원래 상태로 되돌립니다.
                 // toggleVideo.style.position = 'static';
