@@ -242,8 +242,8 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error);
-                    alert("login failed")
-                    this.$router.push(process.env.BASE_URL);
+                    // alert("login failed")
+                    // this.$router.push(process.env.BASE_URL);
                 })
         },
         async generateTestcode() {
