@@ -183,13 +183,17 @@ export default {
             // artifact video와 original video에 대한 DOM 레퍼런스를 가져옵니다.
             const originalVideo = this.$refs.videoNoartifact;
             const toggleVideo = this.$refs.toggleVideo;
+            var originalVideoHeader = document.getElementById('videoNoartifact');
+            var originalVideoStyle = window.getComputedStyle(originalVideoHeader);
+            const leftMargin = originalVideoStyle.getPropertyValue('margin-left');
             if (this.isToggled) {
                 // originalVideo의 위치와 크기를 가져옵니다.
                 const rect = originalVideo.getBoundingClientRect();
                 // toggleVideo를 originalVideo 위치 위로 배치합니다.
                 // toggleVideo.style.position = 'absolute';
                 // toggleVideo.style.top = 15 + 'px';
-                toggleVideo.style.left = 0 + 'px';
+                toggleVideo.style.left = leftMargin;
+                console.log("leftMargin: " + leftMargin)
                 toggleVideo.style.width = rect.width + 'px';
                 toggleVideo.style.height = rect.height + 'px';
                 toggleVideo.style.zIndex = 10; // toggleVideo를 위로
