@@ -90,14 +90,14 @@
                 <div style="margin-left: auto; margin-right: auto; display: flex;">
                     <button v-on="click" class="btn-style"
                         style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
-                        @click="changeBackVideo">prev</button>
+                        @click="changeBackVideo, preloadNextVideo">prev</button>
                     <button v-for="a in 6" ref="score" :key="a - 1" v-on:click="clickedButton = a - 1"
                         style="width: 80px; height: 55px; font-size:x-large; padding-top: 9px;"
                         :class="{ 'clicked-btn-style': isPressed[a - 1], 'btn-style': !isPressed[a - 1] }"
                         @click="toggleButton(a - 1)">{{ a - 1 }}</button>
                     <button v-on="click" class="btn-style"
                         style="font-size: x-large; width: 180px; height: 55px; padding-top: 6px;"
-                        @click="changeNextVideo">next {{ currentPageIndex }}/{{ totalLength }}</button>
+                        @click="changeNextVideo, preloadNextVideo">next {{ currentPageIndex }}/{{ totalLength }}</button>
                 </div>
             </div>
         </div>
@@ -154,7 +154,6 @@ export default {
             imgSrc: require("../images/play_icon/iconmonstr-media-control-48-240.png"),
             isToggled: false,
             videoOriginalWidth: 0,
-            // TODO: preload nextVideo
             preloadedNextOriginalVideo: "",
             preloadedNextArtifactVideo: "",
             preloadedPrevOriginalVideo: "",
