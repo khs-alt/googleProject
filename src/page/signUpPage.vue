@@ -26,7 +26,7 @@
                         Password</h4>
                     <input type="password" id="password" class="home-input-style" v-model="password" required>
                     <p :class="{ 'error-message': true, 'active': passwordTouched && !isPasswordValid, 'shake': passwordShake }"
-                        style="color: red;">Do not use important password in here</p>
+                        style="color: red;">Do not use important password</p>
                 </div>
                 <!-- @click.prevent는 Vue.js에서의 이벤트 수식어(event modifier)입니다. prevent는 브라우저의 기본 이벤트 처리를 중지시키는 것으로, 
                 event.preventDefault()를 호출하는 것과 같은 역할을 합니다.
