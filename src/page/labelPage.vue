@@ -190,11 +190,17 @@ export default {
     },
 
     preloadImage() {
-      this.prevImage = new Image();
-      this.nextImgae = new Image();
-      if(this.imageIndex === 0) nextImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
-      else if(this.imageIndex === this.imageIndexList.length - 1) prevImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+      if(this.currentPage === 0) {
+        this.nextImage = new Image();
+        nextImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+      }
+      else if(this.currentPage === this.imageIndexList.length - 1) {
+        this.prevImage = new Image();
+        prevImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+      }
       else {
+        this.nextImgae = new Image();
+        this.prevImage = new Image();
         nextImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
         prevImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
       }
@@ -532,7 +538,9 @@ export default {
         this.$refs.img = this.prevImage;
         this.$router.push({
           query: {
+            userName: this.userId,
             currentPage: this.currentPage,
+            testcode: this.testcode
           }
         });
         this.makeImageTemplete();
@@ -552,10 +560,12 @@ export default {
         this.postUserLabeling();
         this.imageIndex += 1;
         this.currentPage = this.imageIndexList[this.imageIndex];
-        this.$refsi.img = this.nextImage;
+        this.$refs.img = this.nextImage;
         this.$router.push({
           query: {
+            userName: this.userId,
             currentPage: this.currentPage,
+            testcode: this.testcode
           }
         });
         this.makeImageTemplete();

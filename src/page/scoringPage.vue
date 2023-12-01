@@ -504,7 +504,9 @@ export default {
                                     this.currentPage = this.videoIndex[i + 1];
                                     this.$router.push({
                                         query: {
+                                            userName: this.userId,
                                             currentPage: this.currentPage,
+                                            testcode: this.testcode,
                                         }
                                     });
                                     //console.log("next page : " + this.currentPage);
@@ -532,7 +534,9 @@ export default {
                         this.currentPage = this.videoIndex[i - 1];
                         this.$router.push({
                             query: {
+                                userName: this.userId,
                                 currentPage: this.currentPage,
+                                testcode: this.testcode
                             }
                         });
                         //console.log("video index : ", this.videoIndex[i])
