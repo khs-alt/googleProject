@@ -26,10 +26,10 @@
             </div>
           </div>
           <!-- TODO: 12/1 로드 둘다 되면 보이게 하는 거  -->
-          <div v-if="loadedImageNum === 2">
-            <img :src="serveOriginalImage()" @load="loadHandler()" ref="img"
+          <!-- <div v-if="loadedImageNum === 2"> -->
+            <img :src="serveOriginalImage()" ref="img"
               :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
-          </div>
+          <!-- </div> -->
           <div class="currentBorder"
             :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
           </div>
@@ -48,10 +48,10 @@
             </div>
           </div>
           <!-- TODO: 12/1 로드 둘다 되면 보이게 하는 거  -->
-          <div v-if="loadedImageNum === 2">
-            <img :src="serveArtifactImage()" @load="loadHandler()" ref="img"
+          <!-- <div v-if="loadedImageNum === 2"> -->
+            <img :src="serveArtifactImage()" ref="img"
               :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
-          </div>
+          <!-- </div> -->
           <div class="currentBorder"
             :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
           </div>
@@ -98,8 +98,8 @@
     </div>
   </div>
   <div class="footer">
-    <p>Copyright © 2023 PiLab, SMU. All rights reserved.</p>
-    <p>연락처 적어주십쇼</p>
+    <p>Copyright © 2023 Pi:Lab, SMU. All rights reserved.</p>
+    <p>help@pilab.smu.ac.kr</p>
   </div>
 </template>
 
@@ -121,6 +121,8 @@ export default {
       artifactPatchImageList: [],
       //currentPage: this.$route.query.currentPage,
       currentPage: 0,
+      prevImage: null,
+      nextImage: null,
       //originalImage: require('../images/addPadding.png'),
       //artifactImage: require('../images/addPadding.png'),
       //originalImage: "http://localhost:8000/postimage/original/0",
@@ -164,11 +166,11 @@ export default {
     //this.getPatchImagesTemp();
 
     this.getImageIndexCurrentPage();
-
     window.addEventListener('keydown', this.keydown);
+    this.preloadImage();
     this.getUserLabeling();
     this.getImageNameList();
-    this.$refs.img.addEventListener('load', this.loadHandler);
+    //this.$refs.img.addEventListener('load', this.loadHandler);
     //this.currentUserInfo();
 
   },
@@ -187,11 +189,22 @@ export default {
       return String(this.baseUrl + "postimage/difference/" + (this.currentPage))
     },
 
-    loadHandler() {
-      this.loadedImageNum++;
-      console.log("로드된 이미지 수: " + this.loadedImageNum);
-      if (this.loadImageNum > 2) this.loadedImageNum = 0;
+    preloadImage() {
+      this.prevImage = new Image();
+      this.nextImgae = new Image();
+      if(this.imageIndex === 0) nextImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+      else if(this.imageIndex === this.imageIndexList.length - 1) prevImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+      else {
+        nextImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+        prevImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+      }
     },
+
+    // loadHandler() {
+    //   this.loadedImageNum++;
+    //   console.log("로드된 이미지 수: " + this.loadedImageNum);
+    //   if (this.loadImageNum > 2) this.loadedImageNum = 0;
+    // },
 
     // Backend에서 patch size(행렬) 가져오는 method
     async getImageIndexCurrentPage() {
@@ -516,6 +529,7 @@ export default {
         this.postUserLabeling();
         this.imageIndex -= 1;
         this.currentPage = this.imageIndexList[this.imageIndex];
+        this.$refs.img = this.prevImage;
         this.$router.push({
           query: {
             currentPage: this.currentPage,
@@ -523,7 +537,8 @@ export default {
         });
         this.makeImageTemplete();
         this.getUserLabeling();
-        this.loadHandler();
+        this.preloadImage();
+        // this.loadHandler();
       }
     },
 
@@ -537,6 +552,7 @@ export default {
         this.postUserLabeling();
         this.imageIndex += 1;
         this.currentPage = this.imageIndexList[this.imageIndex];
+        this.$refsi.img = this.nextImage;
         this.$router.push({
           query: {
             currentPage: this.currentPage,
@@ -544,7 +560,8 @@ export default {
         });
         this.makeImageTemplete();
         this.getUserLabeling();
-        this.loadHandler();
+        this.preloadImage();
+        // this.loadHandler();
       }
     },
 

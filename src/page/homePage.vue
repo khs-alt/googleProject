@@ -16,11 +16,11 @@
             </div>
         </div>
         <div class="home-main-content" style="height: 93vh; margin-bottom: 0; padding-bottom: 0;">
-            <h2>Scoring / Labeling System</h2>
+            <h2>Video Scoring & Patch Labeling System</h2>
             <div style="padding-top: 10px; border: 0.5px; border-color: white;">
                 <div style="margin-top: 1px;"></div>
                 <div>
-                    <div style="margin-bottom: 25px;">
+                    <!-- <div style="margin-bottom: 25px;">
                         <h3>Mode</h3>
                         <button
                             :class="{ 'clicked-btn-style': activeButtonIndex === 'scoring', 'btn-style': activeButtonIndex !== 'scoring' || hoveredButton }"
@@ -34,7 +34,7 @@
                             @mouseout="onMouseOutButton">
                             Labeling
                         </button>
-                    </div>
+                    </div> -->
 
                     <div class="id-password-testcode-style">
                         <div style="margin-bottom: 50px;">
@@ -56,7 +56,7 @@
         </div>
     </div>
     <div class="footer">
-        <p>Copyright © 2023 PiLab, SMU. All rights reserved.</p>
+        <p>Copyright © 2023 Pi:Lab, SMU. All rights reserved.</p>
         <p>help@pilab.smu.ac.kr</p>
     </div>
 </template>

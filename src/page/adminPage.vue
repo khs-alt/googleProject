@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="footer">
-        <p>Copyright © 2023 PiLab, SMU. All rights reserved.</p>
+        <p>Copyright © 2023 Pi:Lab, SMU. All rights reserved.</p>
         <p>help@pilab.smu.ac.kr</p>
     </div>
 </div>
