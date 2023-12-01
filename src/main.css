@@ -212,7 +212,7 @@
   /* 테두리 스타일 설정 */
 }
 
-.patch-containor {
+.patch-container {
   position: relative;
   display: flex;
   justify-content: flex-start;
@@ -251,14 +251,14 @@
   margin-right: auto;
 }
 
-.labelContainor {
+.labelcontainer {
   display: flex;
   justify-content: center;
   /* 이미지 그룹을 양 옆으로 배치 */
   padding: 10px;
 }
 
-.imageContainor {
+.imagecontainer {
   display: flex;
   justify-content: center;
   width: 50%;
@@ -297,7 +297,7 @@
   z-index: 2;
 }
 
-.patchbtnContainor {
+.patchbtncontainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -605,14 +605,14 @@
 /*# sourceMappingURL=main.css.map */
 
 @media (max-width: 1200px) {
-  .labelContainor {
+  .labelcontainer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     text-align: center;
   }
 
-  .patch-containor {
+  .patch-container {
     display: flex;
     justify-content: center;
   }
