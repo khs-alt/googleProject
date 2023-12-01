@@ -27,8 +27,8 @@
           </div>
           <!-- TODO: 12/1 로드 둘다 되면 보이게 하는 거  -->
           <!-- <div v-if="loadedImageNum === 2"> -->
-            <img :src="serveOriginalImage()" ref="img"
-              :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
+          <img :src="serveOriginalImage()" ref="img"
+            :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
           <!-- </div> -->
           <div class="currentBorder"
             :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
@@ -49,8 +49,8 @@
           </div>
           <!-- TODO: 12/1 로드 둘다 되면 보이게 하는 거  -->
           <!-- <div v-if="loadedImageNum === 2"> -->
-            <img :src="serveArtifactImage()" ref="img"
-              :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
+          <img :src="serveArtifactImage()" ref="img"
+            :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
           <!-- </div> -->
           <div class="currentBorder"
             :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
