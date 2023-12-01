@@ -12,7 +12,7 @@
   </div>
   <p style="font-size: 24px; margin-top: 10px;">Labeling System</p>
   <div class="labelContainor">
-    <div :class="this.imageWidth > 1080 ? 'imagecontainer-column' : 'imagecontainer'">
+    <div :class="this.imageWidth > 1100 ? 'imagecontainer-column' : 'imagecontainer'">
       <div class="imageName">
         <p>{{ this.imageOriginalNameList[this.imageIndex] }}</p>
         <div class="images">
