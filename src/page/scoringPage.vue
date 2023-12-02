@@ -20,7 +20,7 @@
             <div class="videoPlayer">
                 <div id="video-margin" style="display: flex; max-height: 60%;">
                     <div style="margin: 15px;">
-                        <div style="max-width: 100%; max-height: 550px; overflow: hidden;  border: solid 1px gray;">
+                        <div style="max-width: 100%; max-height: 550px; overflow: hidden; border: solid 1px gray;">
                             <!-- toggle된 video -->
                             <div v-show="isToggled" style="position: relative;">
                                 <div style="height: 550px; overflow: hidden;">
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div style="margin: 15px;">
-                        <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
+                        <div style="max-width: 100%; max-height: 550px; overflow: hidden; border: solid 1px gray;">
                             <video id="videoYesartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
                                 ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
                                 :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
