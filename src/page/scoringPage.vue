@@ -20,25 +20,24 @@
             <div class="videoPlayer">
                 <div id="video-margin" style="display: flex; max-height: 60%;">
                     <div style="margin: 15px;">
-                        <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
+                        <div style="max-width: 100%; max-height: 550px; overflow: hidden;  border: solid 1px gray;">
                             <!-- toggle된 video -->
                             <div v-show="isToggled" style="position: relative;">
                                 <div style="height: 550px; overflow: hidden;">
                                     <video id="toggleVideo" :style="videoStyles"
-                                        style="position: absolute; max-width: 100%; max-height: 550px; border: solid 1px gray;"
-                                        ref="toggleVideo" controlsList="nodownload" key="videoDiff"
-                                        :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
-                                        @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
-                                        onChange="isVideoPaused" preload="auto">
+                                        style="position: absolute; max-width: 100%; max-height: 550px;" ref="toggleVideo"
+                                        controlsList="nodownload" key="videoDiff" :src="rightArtifactVideo()"
+                                        @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
+                                        @mouseup="handleDragEnd" @mousemove="handleDragging" onChange="isVideoPaused"
+                                        preload="auto">
                                     </video>
                                 </div>
                             </div>
-                            <video id="videoNoartifact" :style="videoStyles"
-                                style="height: 550px; max-width: 100%; border: solid 1px gray;" ref="videoNoartifact"
-                                controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()"
-                                @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
-                                @mouseup="handleDragEnd" @mousemove="handleDragging" onChange="isVideoPaused"
-                                preload="auto">
+                            <video id="videoNoartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
+                                ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
+                                :src="leftOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
+                                @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
+                                onChange="isVideoPaused" preload="auto">
                             </video>
                         </div>
                         <div>
@@ -47,12 +46,11 @@
                     </div>
                     <div style="margin: 15px;">
                         <div style="max-width: 100%; max-height: 550px; overflow: hidden;">
-                            <video id="videoYesartifact" :style="videoStyles"
-                                style="height: 550px; max-width: 100%; border: solid 1px gray;" ref="videoYesartifact"
-                                controlsList="nodownload" key="videoYesartifact" :src="rightArtifactVideo()"
-                                @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
-                                @mouseup="handleDragEnd" @mousemove="handleDragging" onChange="isVideoPaused"
-                                preload="auto">
+                            <video id="videoYesartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
+                                ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
+                                :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
+                                @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
+                                onChange="isVideoPaused" preload="auto">
                             </video>
                         </div>
                         <div>
