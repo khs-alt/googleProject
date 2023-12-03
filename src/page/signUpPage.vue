@@ -127,7 +127,7 @@ export default {
         },
 
         keydown(e) {
-            if (e.key === 13) {
+            if (e.keycode === 13) {
                 e.preventDefault();
                 this.register();
             }

@@ -106,7 +106,13 @@ export default {
                 .then((response) => {
                     console.log(response.data);
                     console.log("response: " + response)
-                    alert("Exported testcode: " + this.clickedTestcodeBtn);
+                    // alert("Exported testcode: " + this.clickedTestcodeBtn);
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'file.csv'); // 다운로드될 파일 이름
+                    document.body.appendChild(link);
+                    link.click();
                 })
                 .catch((error) => {
                     console.log(error);
