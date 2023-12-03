@@ -181,6 +181,37 @@ export default {
         },
     },
     methods: {
+        //키보드 이벤트 함수
+        keydown(e) {
+            switch (e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    this.changeBackVideo();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    this.changeNextVideo();
+                    break;
+                case '0':
+                    this.toggleButton(0);
+                    break;
+                case '1':
+                    this.toggleButton(1);
+                    break;
+                case '2':
+                    this.toggleButton(2);
+                    break;
+                case '3':
+                    this.toggleButton(3);
+                    break;
+                case '4':
+                    this.toggleButton(4);
+                    break;
+                case '5':
+                    this.toggleButton(5);
+                    break;
+            }
+        },
         // TODO: 비디오 미리 불러와지는 게 안됨 현재 비디오만 몇 개씩 불러옴
         async preloadNextVideo() {
             // this.preloadedNextOriginalVideo = new Video();
