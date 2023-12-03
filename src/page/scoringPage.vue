@@ -529,6 +529,11 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 })
+            var videoEelement1 = document.getElementById('videoNoartifact');
+            var videoEelement2 = document.getElementById('videoYesartifact');
+            videoEelement1.style.transform = "scale(1)";
+            videoEelement2.style.transform = "scale(1)";
+
             if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
                 alert("This is the last page of this test code. Thank you!");
                 this.$router.push({
@@ -609,6 +614,7 @@ export default {
                         break;
                     }
                 }
+                // TODO:
                 this.isPressed = [false, false, false, false, false, false]
                 this.$router.push({
                     query: {
