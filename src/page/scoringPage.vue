@@ -101,7 +101,7 @@
                         :class="{ 'clicked-btn-style': isPressed[a - 1], 'btn-style': !isPressed[a - 1] }"
                         @click="toggleButton(a - 1)">{{ a - 1 }}</button>
                     <button v-on="click" class="btn-style"
-                        style="font-size: x-large; width: 180px; height: 55px; padding-top: 6px;"
+                        style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
                         @click="[changeNextVideo(), preloadNextVideo()]">next</button>
                 </div>
             </div>
@@ -181,6 +181,7 @@ export default {
         },
     },
     methods: {
+        // TODO: 비디오 미리 불러와지는 게 안됨 현재 비디오만 몇 개씩 불러옴
         async preloadNextVideo() {
             // this.preloadedNextOriginalVideo = new Video();
             // this.preloadedNextOriginalVideo = new Video();
