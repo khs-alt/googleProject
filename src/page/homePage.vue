@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <div class="home-main-content" style="height: 93vh; margin-bottom: 0; padding-bottom: 0;">
+        <div class="home-main-content" style="margin-bottom: 0; padding-bottom: 0;">
             <h2 style="margin-bottom: 40px">Video Scoring & Patch Labeling System</h2>
             <div style="padding-top: 10px; border: 0.5px; border-color: white;">
                 <div style="margin-top: 1px;"></div>
@@ -145,16 +145,14 @@ export default {
                         test_code: this.testcode,
                     })
                     .then(res => {
-                        if (res.data.path == "scoring") {
+                        if (res.data == "scoring") {
                             this.currentUser = this.userId
-                            this.currentPage = res.data.last_page;
-                            this.goToPage(res.data.path);
-                        } else if (res.data.path == "labeling") {
+                            this.goToPage(res.data);
+                        } else if (res.data == "labeling") {
                             this.currentUser = this.userId;
-                            this.currentPage = res.data.last_page;
-                            this.goToPage(res.data.path);
+                            this.goToPage(res.data);
                         } else {
-                            alert(res.data.path)
+                            alert(res.data)
                         }
                         //after post we have to init data form userScoring and currentPage
                     })

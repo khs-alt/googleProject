@@ -13,7 +13,7 @@
             </div>
         </div>
         <div>
-            <div class="home-main-content" style="height: 93vh; margin-bottom: 0; padding-bottom: 0;">
+            <div class="home-main-content" style="margin-bottom: 0; padding-bottom: 0;">
                 <br>
                 <h2 style="font-weight: 400;">Admin Page</h2>
                 <div style="margin-bottom: 25px;"> </div>
