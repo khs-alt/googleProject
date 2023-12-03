@@ -10,11 +10,16 @@
             </div>
         </div>
     </div>
-    <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
+    <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px; margin-bottom: 8px;">
         <p style="font-size: 24px; margin-top: 10px">Video Ghosting Artifact Scoring System</p>
-        <div style="margin-left: auto; margin-right: auto;" class="toggle-switch" :class="{ 'active': isToggled }"
-            @click="toggleVideo">
-            <div class="toggle-button" :style="{ left: isToggled ? '24px' : '0px' }"></div>
+        <div style="display: flex;">
+            <div style="font-size: 20px; margin-left: auto; margin-right: 10px;">
+                {{ currentPageIndex }}/{{ totalLength }}
+            </div>
+            <div style="margin-right: auto; margin-top: auto; margin-bottom: auto;" class="toggle-switch"
+                :class="{ 'active': isToggled }" @click="toggleVideo">
+                <div class="toggle-button" :style="{ left: isToggled ? '24px' : '0px' }"></div>
+            </div>
         </div>
         <div class="video-container">
             <div class="videoPlayer">
@@ -96,9 +101,8 @@
                         :class="{ 'clicked-btn-style': isPressed[a - 1], 'btn-style': !isPressed[a - 1] }"
                         @click="toggleButton(a - 1)">{{ a - 1 }}</button>
                     <button v-on="click" class="btn-style"
-                        style="font-size: x-large; width: 180px; height: 55px; padding-top: 6px;"
-                        @click="[changeNextVideo(), preloadNextVideo()]">next {{ currentPageIndex }}/{{ totalLength
-                        }}</button>
+                        style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
+                        @click="[changeNextVideo(), preloadNextVideo()]">next</button>
                 </div>
             </div>
         </div>
@@ -177,26 +181,58 @@ export default {
         },
     },
     methods: {
+        //키보드 이벤트 함수
+        keydown(e) {
+            switch (e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    this.changeBackVideo();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    this.changeNextVideo();
+                    break;
+                case '0':
+                    this.toggleButton(0);
+                    break;
+                case '1':
+                    this.toggleButton(1);
+                    break;
+                case '2':
+                    this.toggleButton(2);
+                    break;
+                case '3':
+                    this.toggleButton(3);
+                    break;
+                case '4':
+                    this.toggleButton(4);
+                    break;
+                case '5':
+                    this.toggleButton(5);
+                    break;
+            }
+        },
+        // TODO: 비디오 미리 불러와지는 게 안됨 현재 비디오만 몇 개씩 불러옴
         async preloadNextVideo() {
-            this.preloadedNextOriginalVideo = new Video();
-            this.preloadedNextOriginalVideo = new Video();
-            this.preloadedPrevOriginalVideo = new Video();
-            this.preloadedPrevOriginalVideo = new Video();
+            // this.preloadedNextOriginalVideo = new Video();
+            // this.preloadedNextOriginalVideo = new Video();
+            // this.preloadedPrevOriginalVideo = new Video();
+            // this.preloadedPrevOriginalVideo = new Video();
 
             if (this.videoIndex[0] == this.currentPage) {
-                this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
-                this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
+                this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
+                this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
             }
             else if (this.videoIndex[this.videoIndex.length - 1] == this.currentPage) {
-                this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
-                this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
+                this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
+                this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
             } else {
                 for (let i = 0; i < this.videoIndex.length; i++) {
                     if (this.videoIndex[i] == this.currentPage) {
-                        this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i + 1]));
-                        this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]));
-                        this.preloadedPrevOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i - 1]));
-                        this.preloadedPrevOriginalVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i - 1]));
+                        this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i + 1]));
+                        this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]));
+                        this.preloadedPrevOriginalVideo = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i - 1]));
+                        this.preloadedPrevOriginalVideo = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i - 1]));
                         console.log("preloadedNextOriginalVideo: " + this.preloadedNextOriginalVideo)
                         console.log("preloadedNextArtifactVideo: " + this.preloadedNextArtifactVideo)
                         console.log("preloadedPrevOriginalVideo: " + this.preloadedPrevOriginalVideo)
@@ -664,11 +700,11 @@ export default {
             if (this.videoButtonText == "Play") {
                 this.playVideos();
                 this.videoButtonText = "Stop";
-                this.changeImgSource();
             } else {
                 this.videoButtonText = "Play";
                 this.pauseVideos();
             }
+            this.changeImgSource();
         },
         seekBackward() {
             const video1 = this.$refs.videoNoartifact;
@@ -696,9 +732,10 @@ export default {
         seekForward() {
             const video1 = this.$refs.videoNoartifact;
             const video2 = this.$refs.videoYesartifact;
-            var video3 = document.getElementById('toggleVideo');
-            const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
-            const artifactFrame = this.artifactVideoFrameList[this.videoNameIndex];
+            const video3 = document.getElementById('toggleVideo');
+            const originalFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
+            const artifactFrame = 1 / this.artifactVideoFrameList[this.videoNameIndex];
+
             if (originalFrame != 0 && artifactFrame != 0) {
                 const halfOriginalFrame = (1 / originalFrame) / 2;
                 const halfArtifactFrame = (1 / artifactFrame) / 2;
@@ -709,12 +746,12 @@ export default {
                         video3.currentTime = halfArtifactFrame;
                     } else {
                         // 마지막 프레임을 버림
-                        if (video1.currentTime + (1 / originalFrame) * 3 >= video1.duration || video2.currentTime + (1 / artifactFrame) * 3 >= video2.duration) {
+                        if (video1.currentTime + originalFrame * 3 >= video1.duration) {
                             return;
                         }
-                        video1.currentTime += 1 / originalFrame;
-                        video2.currentTime += 1 / artifactFrame;
-                        video3.currentTime += 1 / artifactFrame;
+                        video1.currentTime += originalFrame;
+                        video2.currentTime += artifactFrame;
+                        video3.currentTime += artifactFrame;
                     }
                 }
             }
