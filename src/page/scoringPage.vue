@@ -51,12 +51,14 @@
                     </div>
                     <div style="margin: 15px;">
                         <div style="max-width: 100%; max-height: 550px; overflow: hidden; border: solid 1px gray;">
-                            <video id="videoYesartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
-                                ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
-                                :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
-                                @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
-                                onChange="isVideoPaused" preload="auto">
-                            </video>
+                            <div style="height: 550px;">
+                                <video id="videoYesartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
+                                    ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
+                                    :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
+                                    @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
+                                    onChange="isVideoPaused" preload="auto">
+                                </video>
+                            </div>
                         </div>
                         <div>
                             <div style="margin-top: 8px;">{{ this.artifactVideoNameList[videoNameIndex] }}</div>
@@ -129,7 +131,7 @@ export default {
             currentPage: this.$route.query.currentPage,
             currentUser: this.$route.query.userName,
             testCode: this.$route.query.testcode,
-            videoButtonText: "Stop",
+            videoButtonText: "Play",
             baseUrl: process.env.BASE_URL + "api/",
             leftVideoUrl: "",
             rightVideoUrl: "",
@@ -451,7 +453,7 @@ export default {
             }
         },
         leftOriginalVideo() {
-            if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadNextVideo) {
+            if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadedNextOriginalVideo) {
                 return this.preloadedNextOriginalVideo;
             } else if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadedPrevOriginalVideo) {
                 return this.preloadedPrevOriginalVideo;
@@ -460,7 +462,7 @@ export default {
             }
         },
         rightArtifactVideo() {
-            if (this.baseUrl + "/postvideo/artifact/" + (this.currentPage) == this.preloadNextVideo) {
+            if (this.baseUrl + "/postvideo/artifact/" + (this.currentPage) == this.preloadedNextArtifactVideo) {
                 return this.preloadedNextArtifactVideo;
             } else if (this.baseUrl + "/postvideo/artifact/" + (this.currentPage) == this.preloadedPrevArtifactVideo) {
                 return this.preloadedPrevArtifactVideo;
