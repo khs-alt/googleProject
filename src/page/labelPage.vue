@@ -10,11 +10,11 @@
       </div>
     </div>
   </div>
-  <p style="font-size: 14px; margin-top: 10px;">Labeling System</p>
+  <p style="font-size: 24px; margin-top: 10px;">Labeling System</p>
   <div class="labelcontainer">
     <div :class="this.imageWidth <= 1080 ? 'imagecontainer' : 'imagecontainer-column'">
       <div class="imageName">
-        <p>{{ this.imageOriginalNameList[this.imageIndex] }}</p>
+        <p style="font-size: 14px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
         <div class="images">
           <div v-for="i in patchRow" :key="i">
             <div v-for="j in patchColumn" :key="j">
