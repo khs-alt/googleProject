@@ -29,7 +29,6 @@
               </div>
               <img :src="serveOriginalImage()" ref="img"
                 :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
-              <!-- </div> -->
               <div class="currentBorder"
                 :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
               </div>
@@ -49,7 +48,6 @@
               </div>
               <img :src="serveArtifactImage()" ref="img"
                 :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
-              <!-- </div> -->
               <div class="currentBorder"
                 :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
               </div>
@@ -523,11 +521,6 @@ export default {
       }
       console.log("index is " + this.imageIndex);
     },
-
-    // // score button 눌렸는지 안눌렸는지 확인하는 버튼
-    // toggleButton(index) {
-    //   this.isPressed = index;
-    // },
   }
 }
 </script>
