@@ -113,10 +113,10 @@ export default {
     return {
       index: 0,
       imageIndex: 0,
-      currentUser: this.$route.query.userName,
+      // currentUser: this.$route.query.userName,
       //currentUser: "kim",
       currentUser: null,
-      testCode: this.$route.query.testcode,
+      // testCode: this.$route.query.testcode,
       //testCode: "test",
       testCode: null,
       buttonString: ["0", "1", "2", "3", "4", "5", "Prev", "Next", "Submit"],
