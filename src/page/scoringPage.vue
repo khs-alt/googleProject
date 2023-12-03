@@ -664,11 +664,11 @@ export default {
             if (this.videoButtonText == "Play") {
                 this.playVideos();
                 this.videoButtonText = "Stop";
-                this.changeImgSource();
             } else {
                 this.videoButtonText = "Play";
                 this.pauseVideos();
             }
+            this.changeImgSource();
         },
         seekBackward() {
             const video1 = this.$refs.videoNoartifact;
