@@ -44,7 +44,7 @@
                             <div style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex;
                                 justify-content: space-between;">
                                 <button @click="clickTestcodeBtn(existTestcode.testcode[index])"
-                                    :class="{ 'clicked-btn-style': clickedTestcodeBtn == existTestcode.testcode[index], 'btn-style': !clickedTestcodeBtn == existTestcode.testcode[index] }"
+                                    :class="{ 'clicked-btn-style': clickedTestcodeBtn == existTestcode.testcode[index], 'btn-style': clickedTestcodeBtn != existTestcode.testcode[index] }"
                                     style="margin-right: 10px;">{{ existTestcode.testcode[index] }}</button>
                                 <div style="margin-right: 10px;">:</div>
                                 <div>{{ tagItem }}</div>

@@ -73,6 +73,13 @@ export default {
             return /^[A-Za-z0-9!@#$%^&]+$/.test(this.password);
         },
     },
+    mounted() {
+        window.addEventListener("keydown", this.keydown);
+    },
+    unmounted() {
+        window.removeEventListener("keydown", this.keydown);
+    },
+
     watch: {
         id(value) {
             this.idTouched = value.length > 0;
@@ -116,6 +123,13 @@ export default {
                     .catch(error => {
                         console.error(error);
                     })
+            }
+        },
+
+        keydown(e) {
+            if(e.key === 'enter') {
+                e.preventDefault();
+                this.register();
             }
         },
     }

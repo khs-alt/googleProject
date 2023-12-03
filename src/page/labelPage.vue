@@ -270,6 +270,7 @@ export default {
     //라벨링 여부에 따라 userLabeling 가져오는 함수
     getUserLabeling() {
       console.log("get current page is " + this.currentPage)
+      console.log(this.userLabeling);
       axios
         .post(this.baseUrl + "getUserImageScore", {
           current_user: this.currentUser,
@@ -287,7 +288,7 @@ export default {
             return;
           }
           else {
-            this.userLabeling = [0,];
+            this.userLabeling = [];
           }
           this.isPressed = this.userLabeling[this.patchIndex];
         })

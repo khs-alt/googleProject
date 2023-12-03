@@ -39,12 +39,14 @@
                                     </video>
                                 </div>
                             </div>
-                            <video id="videoNoartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
-                                ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
-                                :src="leftOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
-                                @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
-                                onChange="isVideoPaused" preload="auto">
-                            </video>
+                            <div v-show="!isToggled">
+                                <video id="videoNoartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
+                                    ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
+                                    :src="leftOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
+                                    @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
+                                    onChange="isVideoPaused" preload="auto">
+                                </video>
+                            </div>
                         </div>
                         <div>
                             <div style="margin-top: 8px; font-size: 14px; ">{{ this.originalVideoNameList[videoNameIndex] }}
@@ -177,6 +179,7 @@ export default {
         this.isVideoPaused();
         document.addEventListener('mousemove', this.handleDragging);
         document.addEventListener('mouseup', this.handleDragEnd);
+        window.addEventListener("keydown", this.keydown);
         // this.preloadNextVideo();
     },
     computed: {
@@ -362,7 +365,7 @@ export default {
             this.updateVideoStyle();
         },
         zoomOut() {
-            if (this.zoom > this.minZoom + 0.1) {
+            if (this.zoom >= this.minZoom) {
                 this.zoom -= 0.1;
                 this.updateVideoStyle();
             }

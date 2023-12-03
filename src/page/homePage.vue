@@ -88,8 +88,18 @@ export default {
     },
     created() { },
     mounted() {
+        window.addEventListener("keydown", this.keydown);
+    },
+    unmounted() {
+        window.removeEventListener("keydown", this.keydown);
     },
     methods: {
+        keydown(e) {
+            if(e.key === 'enter') {
+                e.preventDefault();
+                this.submitLoginAction();
+            }
+        },
         clickMenuBtn(index) {
             if (this.activeButtonIndex === index) {
                 this.activeButtonIndex = null;
