@@ -179,19 +179,19 @@ export default {
     methods: {
         async preloadNextVideo() {
             if (this.videoIndex[0] == this.currentPage) {
-                this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/original/" + (this.currentPage);
-                this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/artifact/" + (this.currentPage);
+                this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
+                this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
             }
             else if (this.videoIndex[this.videoIndex.length - 1] == this.currentPage) {
-                this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/original/" + (this.currentPage);
-                this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/artifact/" + (this.currentPage);
+                this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
+                this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
             } else {
                 for (let i = 0; i < this.videoIndex.length; i++) {
                     if (this.videoIndex[i] == this.currentPage) {
-                        this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/original/" + (this.videoIndex[i + 1]);
-                        this.preloadedNextOriginalVideo = this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]);
-                        this.preloadedPrevOriginalVideo = this.baseUrl + "/postvideo/original/" + (this.videoIndex[i - 1]);
-                        this.preloadedPrevOriginalVideo = this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i - 1]);
+                        this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i + 1]));
+                        this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]));
+                        this.preloadedPrevOriginalVideo = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i - 1]));
+                        this.preloadedPrevOriginalVideo = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i - 1]));
                         console.log("preloadedNextOriginalVideo: " + this.preloadedNextOriginalVideo)
                         console.log("preloadedNextArtifactVideo: " + this.preloadedNextArtifactVideo)
                         console.log("preloadedPrevOriginalVideo: " + this.preloadedPrevOriginalVideo)
@@ -437,7 +437,6 @@ export default {
                 //console.log("Please chose the score!")
             } else {
                 this.userScoring = this.clickedButton
-
                 axios
                     .post(this.baseUrl + "postdata", {
                         Title: "scoring data",
