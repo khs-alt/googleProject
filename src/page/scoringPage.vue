@@ -513,7 +513,7 @@ export default {
                 console.log("user scoring: ", this.userScoring)
                 //마지막 페이지 확인
                 if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
-                    router.push({
+                    this.$router.push({
                         query: {
                             path: process.env.BASE_URL + "/scoring",
                             currentPage: this.currentPage,
@@ -536,7 +536,7 @@ export default {
                     return;
                 } else {
                     this.videoNameIndex += 1
-                    router.push({
+                    this.$router.push({
                         query: {
                             path: process.env.BASE_URL + "/scoring",
                             currentPage: this.currentPage,
