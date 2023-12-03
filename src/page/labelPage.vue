@@ -229,8 +229,6 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          alert("Login failed");
-          this.$router.push('/');
         })
     },
 
