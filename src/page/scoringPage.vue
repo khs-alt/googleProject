@@ -214,29 +214,29 @@ export default {
         },
         // TODO: 비디오 미리 불러와지는 게 안됨 현재 비디오만 몇 개씩 불러옴
         async preloadNextVideo() {
-            // this.preloadedNextOriginalVideo = new Video();
-            // this.preloadedNextOriginalVideo = new Video();
-            // this.preloadedPrevOriginalVideo = new Video();
-            // this.preloadedPrevOriginalVideo = new Video();
+            this.preloadedNextOriginalVideo = document.createElement('video');
+            this.preloadedNextOriginalVideo = document.createElement('video');
+            this.preloadedPrevOriginalVideo = document.createElement('video');
+            this.preloadedPrevOriginalVideo = document.createElement('video');
 
             if (this.videoIndex[0] == this.currentPage) {
-                this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
-                this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
+                this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
+                this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
             }
             else if (this.videoIndex[this.videoIndex.length - 1] == this.currentPage) {
-                this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
-                this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
+                this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
+                this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
             } else {
                 for (let i = 0; i < this.videoIndex.length; i++) {
                     if (this.videoIndex[i] == this.currentPage) {
-                        this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i + 1]));
-                        this.preloadedNextOriginalVideo = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]));
-                        this.preloadedPrevOriginalVideo = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i - 1]));
-                        this.preloadedPrevOriginalVideo = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i - 1]));
-                        console.log("preloadedNextOriginalVideo: " + this.preloadedNextOriginalVideo)
-                        console.log("preloadedNextArtifactVideo: " + this.preloadedNextArtifactVideo)
-                        console.log("preloadedPrevOriginalVideo: " + this.preloadedPrevOriginalVideo)
-                        console.log("preloadedPrevArtifactVideo: " + this.preloadedPrevArtifactVideo)
+                        this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i + 1]));
+                        this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]));
+                        this.preloadedPrevOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i - 1]));
+                        this.preloadedPrevOriginalVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i - 1]));
+                        console.log("preloadedNextOriginalVideo: " + this.preloadedNextOriginalVideo.src)
+                        console.log("preloadedNextArtifactVideo: " + this.preloadedNextArtifactVideo.src)
+                        console.log("preloadedPrevOriginalVideo: " + this.preloadedPrevOriginalVideo.src)
+                        console.log("preloadedPrevArtifactVideo: " + this.preloadedPrevArtifactVideo.src)
                         break;
                     }
                 }
