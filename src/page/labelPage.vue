@@ -149,16 +149,18 @@ export default {
       baseUrl: process.env.BASE_URL + "api/",
     }
   },
+  
   created() {
   },
+
   mounted() {
     window.addEventListener('keydown', this.keydown);
     this.getImageIndexCurrentPage();
     this.getUserLabeling();
     this.getImageNameList();
     this.preloadImage();
-
   },
+
   unmounted() {
     window.removeEventListener('keydown', this.keydown);
   },
@@ -287,12 +289,12 @@ export default {
             // console.log("id is " + this.currentPage)
             console.log(response.data.patch)
             this.userLabeling = response.data.patch;
-            this.isPressed = this.userLabeling[this.patchIndex];
             return;
           }
           else {
             this.userLabeling = [];
           }
+          this.isPressed = this.userLabeling[this.patchIndex];
         })
         .catch((error) => {
           console.log(error);
@@ -532,10 +534,10 @@ export default {
       console.log("index is " + this.imageIndex);
     },
 
-    // score button 눌렸는지 안눌렸는지 확인하는 버튼
-    toggleButton(index) {
-      this.isPressed = index;
-    },
+    // // score button 눌렸는지 안눌렸는지 확인하는 버튼
+    // toggleButton(index) {
+    //   this.isPressed = index;
+    // },
   }
 }
 </script>
