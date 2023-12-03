@@ -203,16 +203,17 @@ export default {
         this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
       }
       else {
-
         this.nextOriginalImage = new Image();
         this.nextArtifactImage = new Image();
         this.nextDifferenceImage = new Image();
+        console.log("nextImage")
         this.nextOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
         this.nextArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage + 1));
         this.nextDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage + 1));
         this.prevOriginalImage = new Image();
         this.prevArtifactImage = new Image();
         this.prevDifferenceImage = new Image();
+        console.log("prevImage");
         this.prevOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
         this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
         this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
