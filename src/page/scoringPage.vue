@@ -175,7 +175,7 @@ export default {
         this.isVideoPaused();
         document.addEventListener('mousemove', this.handleDragging);
         document.addEventListener('mouseup', this.handleDragEnd);
-        this.preloadNextVideo();
+        // this.preloadNextVideo();
     },
     computed: {
         currentPageIndex() {
@@ -573,6 +573,8 @@ export default {
                                 this.isPressed[curScore] = true;
                                 this.clickedButton = curScore;
                                 //console.log("isPressed: " + curScore);
+                            } else {
+                                this.isPressed = [false, false, false, false, false, false]
                             }
                             for (var i = 0; i < this.videoIndex.length; i++) {
                                 //console.log("video index : ", this.videoIndex[i])
@@ -635,28 +637,28 @@ export default {
                         this.leftOriginalVideo();
                         this.rightArtifactVideo();
                         // var curScore = 0;
-                        // axios
-                        //     .post(this.baseUrl + "getUserScore", {
-                        //         CurrentUser: this.currentUser,
-                        //         ImageId: parseInt(this.currentPage),
-                        //         TestCode: this.testCode,
-                        //     })
-                        //     .then((response) => {
-                        //         curScore = response.data;
-                        //         //console.log(curScore)
-                        //         if (curScore != -1) {
-                        //             this.isPressed[curScore] = true;
-                        //             this.clickedButton = curScore;
-                        //         } else {
-                        //             curScore = -1
-                        //             this.clickedButton = curScore;
-                        //             this.isPressed = [false, false, false, false, false, false]
-                        //         }
-                        //         //console.log("curScore: " + curScore);
-                        //     })
-                        //     .catch((err) => {
-                        //         console.log(err);
-                        //     })
+                        axios
+                            .post(this.baseUrl + "getUserScore", {
+                                CurrentUser: this.currentUser,
+                                ImageId: parseInt(this.currentPage),
+                                TestCode: this.testCode,
+                            })
+                            .then((response) => {
+                                curScore = response.data;
+                                //console.log(curScore)
+                                if (curScore != -1) {
+                                    this.isPressed[curScore] = true;
+                                    this.clickedButton = curScore;
+                                } else {
+                                    curScore = -1
+                                    this.clickedButton = curScore;
+                                    this.isPressed = [false, false, false, false, false, false]
+                                }
+                                //console.log("curScore: " + curScore);
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            })
 
                         // var videoEelement1 = document.getElementById('videoNoartifact');
                         // var videoEelement2 = document.getElementById('videoYesartifact');
@@ -670,7 +672,6 @@ export default {
         },
         // score button 눌렸는지 안눌렸는지 확인하는 method
         toggleButton(index) {
-            this.isPressed = [false, false, false, false, false, false]
             this.isPressed[index] = !this.isPressed[index]
 
             this.userScoring = index
