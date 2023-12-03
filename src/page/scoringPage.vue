@@ -129,7 +129,7 @@ export default {
             currentPage: this.$route.query.currentPage,
             currentUser: this.$route.query.userName,
             testCode: this.$route.query.testcode,
-            videoButtonText: "Play",
+            videoButtonText: "Stop",
             baseUrl: process.env.BASE_URL + "api/",
             leftVideoUrl: "",
             rightVideoUrl: "",
