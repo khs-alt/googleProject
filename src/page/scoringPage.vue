@@ -293,20 +293,24 @@ export default {
         goToBegin() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
+            var video3 = document.getElementById('toggleVideo');
             // video1.pause();
             // video2.pause();
             video1.currentTime = 0;
             video2.currentTime = 0;
+            video3.currentTime = 0;
         },
         goToEnd() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
+            var video3 = document.getElementById('toggleVideo');
             const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
             const temp = video1.duration;
             // video1.pause();
             // video2.pause();
             video1.currentTime = temp;
             video2.currentTime = temp;
+            video3.currentTime = temp;
         },
         changeImgSource() {
             if (this.videoButtonText != "Play") {

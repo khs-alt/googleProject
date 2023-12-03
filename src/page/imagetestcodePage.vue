@@ -119,6 +119,7 @@ export default {
                 })
                 .then((response) => {
                     console.log(response.data);
+                    console.log("response: " + response)
                     alert("Exported testcode: " + this.clickedTestcodeBtn);
                 })
                 .catch((error) => {

@@ -105,6 +105,7 @@ export default {
                 })
                 .then((response) => {
                     console.log(response.data);
+                    console.log("response: " + response)
                     alert("Exported testcode: " + this.clickedTestcodeBtn);
                 })
                 .catch((error) => {
@@ -125,7 +126,6 @@ export default {
         },
         async getVideoListFromTag() {
             this.videoFromTag = [];
-
             if (this.clickedTagBtn.length === 0) {
                 //console.log("There are no clicked tags");
                 return;
@@ -137,7 +137,7 @@ export default {
                     }
                 })
                 .then((response) => {
-                    //console.log("get video list from tag: " + response.data);
+                    // console.log("get video list from tag: " + response.data);
                     this.videoFromTag = response.data;
                 })
                 .catch((error) => {

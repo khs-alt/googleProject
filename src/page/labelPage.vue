@@ -268,7 +268,7 @@ export default {
     },
 
     //라벨링 여부에 따라 userLabeling 가져오는 함수
-    getUserLabeling() {
+    async getUserLabeling() {
       console.log("get current page is " + this.currentPage)
       console.log(this.userLabeling);
       axios
@@ -285,13 +285,15 @@ export default {
             // console.log("id is " + this.currentPage)
             console.log(response.data.patch)
             this.userLabeling = response.data.patch;
+            this.isPressed = this.userLabeling[this.patchIndex];
+            console.log("되냐고", this.isPressed);
             return;
           }
           else {
             this.userLabeling = [];
+            this.isPressed = this.userLabeling[this.patchIndex];
+            console.log("되냐고", this.isPressed);
           }
-          this.isPressed = this.userLabeling[this.patchIndex];
-          console.log("되냐고", this.isPressed);
         })
         .catch((error) => {
           console.log(error);
