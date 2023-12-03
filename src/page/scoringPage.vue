@@ -453,22 +453,12 @@ export default {
             }
         },
         leftOriginalVideo() {
-            // if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadedNextOriginalVideo.src) {
-            //     return this.preloadedNextOriginalVideo.src;
-            // } else if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadedPrevOriginalVideo.src) {
-            //     return this.preloadedPrevOriginalVideo.src;
-            // } else {
-            return String(this.baseUrl + "/postvideo/original/" + (this.currentPage))
-            // }
+            console.log("leftOriginalVideo: " + this.baseUrl + "/postvideo/original/" + this.currentPage)
+            return String(this.baseUrl + "/postvideo/original/" + this.currentPage)
         },
-        async rightArtifactVideo() {
-            // if (this.baseUrl + "/postvideo/artifact/" + (this.currentPage) == this.preloadedNextArtifactVideo.src) {
-            //     return this.preloadedNextArtifactVideo.src;
-            // } else if (this.baseUrl + "/postvideo/artifact/" + (this.currentPage) == this.preloadedPrevArtifactVideo.src) {
-            //     return this.preloadedPrevArtifactVideo.src;
-            // } else {
-            return String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage))
-            // }
+        rightArtifactVideo() {
+            console.log("rightArtifactVideo: " + this.baseUrl + "/postvideo/artifact/" + this.currentPage)
+            return String(this.baseUrl + "/postvideo/artifact/" + this.currentPage)
         },
         async submitScoring() {
             for (var i = 0; i < 5; i++) {
@@ -506,27 +496,6 @@ export default {
                 })
         },
         async changeNextVideo() {
-            // http://pilab.smu.ac.kr/label/scoring?userName=eum&currentPage=0&testcode=RQaycp9g2
-            // var currentUrl = process.env.BASE_URL + "label/scoring?userName=" + this.currentUser + "&currentPage=" + this.currentPage + "&testcode=" + this.testCode
-            // if (this.videoIndex[this.videoIndex.length - 1] == this.currentPage) {
-            //     alert("This is the last page.")
-            //     return;
-            // } else {
-            //     for (var i = 0; i < this.videoIndex.length; i++) {
-            //         if (this.videoIndex[i] == this.currentPage) {
-            //             this.currentPage = this.videoIndex[i + 1];
-            //             await this.$router.push({
-            //                 query: {
-            //                     path: this.baseUrl + "label/scoring",
-            //                     userName: this.userId,
-            //                     currentPage: this.currentPage,
-            //                     testcode: this.testcode,
-            //                 }
-            //             });
-            //             break;
-            //         }
-            //     }
-            // }
             if (this.clickedButton == -1) {
                 alert("Please choose score.")
             } else {
@@ -582,13 +551,6 @@ export default {
                                     this.currentPage = this.videoIndex[i + 1];
                                     this.rightArtifactVideo();
                                     this.leftOriginalVideo();
-                                    // this.$router.push({
-                                    //     query: {
-                                    //         userName: this.userId,
-                                    //         currentPage: this.currentPage,
-                                    //         testcode: this.testcode,
-                                    //     }
-                                    // });
                                     return;
                                 }
                             }
@@ -605,20 +567,6 @@ export default {
                 alert("This is the first page.");
                 return;
             } else {
-                // for (var i = 0; i < this.videoIndex.length; i++) {
-                //     if (this.videoIndex[i] == this.currentPage) {
-                //         this.currentPage = this.videoIndex[i - 1];
-                //         await this.$router.push({
-                //             query: {
-                //                 path: this.baseUrl + "label/scoring",
-                //                 userName: this.userId,
-                //                 currentPage: this.currentPage,
-                //                 testcode: this.testcode,
-                //             }
-                //         });
-                //         break;
-                //     }
-                // }
                 if (this.videoButtonText == 'Stop') {
                     this.changeVideoButton();
                 }
@@ -627,13 +575,6 @@ export default {
                     if (this.videoIndex[i] == this.currentPage) {
                         this.videoNameIndex -= 1
                         this.currentPage = this.videoIndex[i - 1];
-                        // this.$router.push({
-                        //     query: {
-                        //         userName: this.userId,
-                        //         currentPage: this.currentPage,
-                        //         testcode: this.testcode
-                        //     }
-                        // });
                         this.leftOriginalVideo();
                         this.rightArtifactVideo();
                         // var curScore = 0;
@@ -659,11 +600,6 @@ export default {
                             .catch((err) => {
                                 console.log(err);
                             })
-
-                        // var videoEelement1 = document.getElementById('videoNoartifact');
-                        // var videoEelement2 = document.getElementById('videoYesartifact');
-                        // videoEelement1.style.transform = "scale(1)";
-                        // videoEelement2.style.transform = "scale(1)";
                         return;
                     }
                 }
@@ -687,26 +623,9 @@ export default {
                     //after post we have to init data form userScoring and currentPage
                     this.userScoring = 0
                     this.isPressed = [false, false, false, false, false, false]
-                    // this.videoNameIndex += 1
-                    // score가 response로 날아옴
-                    // var curScore = res.data;
                     this.resetZoomAndOffset();
                     this.updateVideoStyle();
-                    // 사용자가 scoring한 점수가 없으면 curScore == -1
-                    // if (curScore != -1) {
-                    //     this.isPressed[curScore] = true;
-                    //     this.clickedButton = curScore;
-                    //     //console.log("isPressed: " + curScore);
-                    // }
-                    // for (var i = 0; i < this.videoIndex.length; i++) {
-                    //     //console.log("video index : ", this.videoIndex[i])
-                    //     if (this.videoIndex[i] == this.currentPage) {
-                    //         this.currentPage = this.videoIndex[i + 1];
-                    //         this.rightArtifactVideo();
-                    //         this.leftOriginalVideo();
-                    //         return;
-                    //     }
-                    // }
+
                 })
                 .catch(error => {
                     console.error(error);
