@@ -290,13 +290,12 @@ export default {
             // console.log("id is " + this.currentPage)
             console.log(response.data.patch)
             this.userLabeling = response.data.patch;
-            this.isPressed = this.userLabeling[this.patchIndex];
             return;
           }
           else {
             this.userLabeling = [];
-            this.isPressed = this.userLabeling[this.patchIndex];
           }
+          this.isPressed = this.userLabeling[this.patchIndex];
         })
         .catch((error) => {
           console.log(error);
@@ -414,26 +413,17 @@ export default {
     labeling(num) {
       console.log("index: " + this.patchIndex);
       this.userLabeling[this.patchIndex] = num;
-      console.log(this.userLabeling);
       this.changeNextPatchImage();
     },
 
     changeNextPatchImage() {
       this.setPatch(this.i, ++this.j);
-      if (this.userLabeling[this.patchIndex] >= 0) {
-        this.isPressed = this.userLabeling[this.patchIndex];
-        return;
-      }
-      this.isPressed = -1;
+      this.isPressed = this.userLabeling[this.patchIndex];
     },
 
     // 이전 patch로 변경
     changeBackPatchImage() {
       this.setPatch(this.i, --this.j);
-      if (this.userLabeling[this.patchIndex] >= 0) {
-        this.isPressed = this.userLabeling[this.patchIndex];
-        return;
-      }
       this.isPressed = this.userLabeling[this.patchIndex];
     },
 
