@@ -1,102 +1,104 @@
 <template>
-  <div class="body-style">
-    <div class="menu">
-      <div class="menu-header">
-        <div class="menu-content">
-          <a href="/label/" style="margin-right: 10px;">
-            <button class="signup-btn-style">Home</button>
-          </a>
+  <div class="labelingPage">
+    <div class="body-style">
+      <div class="menu">
+        <div class="menu-header">
+          <div class="menu-content">
+            <a href="/label/" style="margin-right: 10px;">
+              <button class="signup-btn-style">Home</button>
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
-    <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
-    <div class="labelcontainer">
-      <div :class="this.imageWidth <= 1080 ? 'imagecontainer' : 'imagecontainer-column'">
-        <div class="imageName">
-          <p style="font-size: 14px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
-          <div class="images">
-            <div v-for="i in patchRow" :key="i">
-              <div v-for="j in patchColumn" :key="j">
-                <div class="labeled-border"
-                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
-                  v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
-                  {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+    <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
+      <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
+      <div class="labelcontainer">
+        <div :class="this.imageWidth <= 1080 ? 'imagecontainer' : 'imagecontainer-column'">
+          <div class="imageName">
+            <p style="font-size: 14px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
+            <div class="images">
+              <div v-for="i in patchRow" :key="i">
+                <div v-for="j in patchColumn" :key="j">
+                  <div class="labeled-border"
+                    :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+                    v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
+                    {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+                  </div>
                 </div>
               </div>
-            </div>
-            <img :src="serveOriginalImage()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
-              class="imageStyle" />
-            <!-- </div> -->
-            <div class="currentBorder"
-              :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              <img :src="serveOriginalImage()" ref="img"
+                :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
+              <!-- </div> -->
+              <div class="currentBorder"
+                :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              </div>
             </div>
           </div>
-        </div>
-        <div class="imageName">
-          <p style="font-size: 14px;">{{ this.imageArtifactNameList[this.imageIndex] }}</p>
-          <div class="images">
-            <div v-for="i in patchRow" :key="i">
-              <div v-for="j in patchColumn" :key="j">
-                <div class="labeled-border"
-                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
-                  v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
-                  {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+          <div class="imageName">
+            <p style="font-size: 14px;">{{ this.imageArtifactNameList[this.imageIndex] }}</p>
+            <div class="images">
+              <div v-for="i in patchRow" :key="i">
+                <div v-for="j in patchColumn" :key="j">
+                  <div class="labeled-border"
+                    :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+                    v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
+                    {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+                  </div>
                 </div>
               </div>
-            </div>
-            <img :src="serveArtifactImage()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
-              class="imageStyle" />
-            <!-- </div> -->
-            <div class="currentBorder"
-              :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              <img :src="serveArtifactImage()" ref="img"
+                :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
+              <!-- </div> -->
+              <div class="currentBorder"
+                :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              </div>
             </div>
           </div>
+          <div style="clear:both;"></div>
         </div>
-        <div style="clear:both;"></div>
-      </div>
-      <div class="patchbtncontainer">
-        <div>
-          <div class="patch-container">
-            <div class="patchName">
-              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveOriginalImage()" class="selected-patch"
-                  :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="original">
+        <div class="patchbtncontainer">
+          <div>
+            <div class="patch-container">
+              <div class="patchName">
+                <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+                  <img :src="serveOriginalImage()" class="selected-patch"
+                    :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="original">
+                </div>
+                <label class="textLabel">original</label>
               </div>
-              <label class="textLabel">original</label>
-            </div>
-            <div class="patchName">
-              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveArtifactImage()" class="selected-patch"
-                  :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="artifact">
+              <div class="patchName">
+                <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+                  <img :src="serveArtifactImage()" class="selected-patch"
+                    :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="artifact">
+                </div>
+                <label class="textLabel">artifact</label>
               </div>
-              <label class="textLabel">artifact</label>
-            </div>
-            <div class="patchName">
-              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveDifferenceImage()" class="selected-patch"
-                  :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="difference">
+              <div class="patchName">
+                <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+                  <img :src="serveDifferenceImage()" class="selected-patch"
+                    :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="difference">
+                </div>
+                <label class="textLabel">difference</label>
               </div>
-              <label class="textLabel">difference</label>
             </div>
           </div>
-        </div>
-        <div class="btncontainer">
-          <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="scoreButton"
-            :class="{ 'pressed': this.isPressed === a - 1 }">{{ buttonString[a - 1] }}</button>
-        </div>
-        <div class="btncontainer">
-          <button class="scoreButton" @click="changePreviousPage()">{{ buttonString[6] }}</button>
-          <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageIndexList.length }}</span>
-          <button class="scoreButton" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
+          <div class="btncontainer">
+            <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="scoreButton"
+              :class="{ 'pressed': this.isPressed === a - 1 }">{{ buttonString[a - 1] }}</button>
+          </div>
+          <div class="btncontainer">
+            <button class="scoreButton" @click="changePreviousPage()">{{ buttonString[6] }}</button>
+            <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageIndexList.length }}</span>
+            <button class="scoreButton" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="footer">
-    <p>Copyright © 2023 Pi:Lab, SMU. All rights reserved.</p>
-    <p>help@pilab.smu.ac.kr</p>
+    <div class="footer">
+      <p>Copyright © 2023 Pi:Lab, SMU. All rights reserved.</p>
+      <p>help@pilab.smu.ac.kr</p>
+    </div>
   </div>
 </template>
 
@@ -150,8 +152,8 @@ export default {
   created() {
   },
   mounted() {
-    this.getImageIndexCurrentPage();
     window.addEventListener('keydown', this.keydown);
+    this.getImageIndexCurrentPage();
     this.getUserLabeling();
     this.getImageNameList();
     this.preloadImage();
