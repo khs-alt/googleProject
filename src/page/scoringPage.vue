@@ -222,26 +222,26 @@ export default {
         // TODO: 비디오 미리 불러와지는 게 안됨 현재 비디오만 몇 개씩 불러옴
         async preloadNextVideo() {
             this.preloadedNextOriginalVideo = document.createElement('video');
-            this.preloadedNextOriginalVideo = document.createElement('video');
+            this.preloadedNextArtifactVideo = document.createElement('video');
             this.preloadedPrevOriginalVideo = document.createElement('video');
-            this.preloadedPrevOriginalVideo = document.createElement('video');
+            this.preloadedPrevArtifactVideo = document.createElement('video');
 
             if (this.videoIndex[0] == this.currentPage) {
                 this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
-                this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
+                this.preloadedNextArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
             }
             else if (this.videoIndex[this.videoIndex.length - 1] == this.currentPage) {
                 this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
-                this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
+                this.preloadedNextArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
             } else {
                 for (let i = 0; i < this.videoIndex.length; i++) {
                     if (this.videoIndex[i] == this.currentPage) {
                         this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i + 1]));
-                        this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]));
+                        this.preloadedNextArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]));
                         this.preloadedPrevOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i - 1]));
-                        this.preloadedPrevOriginalVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i - 1]));
-                        console.log("preloadedNextOriginalVideo: " + this.preloadedNextOriginalVideo.src)
+                        this.preloadedPrevArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i - 1]));
                         console.log("preloadedNextArtifactVideo: " + this.preloadedNextArtifactVideo.src)
+                        console.log("preloadedNextOriginalVideo: " + this.preloadedNextOriginalVideo.src)
                         console.log("preloadedPrevOriginalVideo: " + this.preloadedPrevOriginalVideo.src)
                         console.log("preloadedPrevArtifactVideo: " + this.preloadedPrevArtifactVideo.src)
                         break;
@@ -476,48 +476,41 @@ export default {
             console.log("rightArtifactVideo: " + this.baseUrl + "postvideo/artifact/" + this.currentPage)
             return String(this.baseUrl + "postvideo/artifact/" + this.currentPage)
         },
-        async submitScoring() {
-            for (var i = 0; i < 5; i++) {
-                if (this.isPressed[i]) {
-                    this.isClicked = true
-                }
-            }
-            this.userScoring = this.clickedButton
-            await axios
-                .post(this.baseUrl + "postdata", {
-                    Score: this.userScoring,
-                    CurrentUser: this.currentUser,
-                    ImageId: parseInt(this.currentPage),
-                    TestCode: this.testCode
-                })
-                .then(res => {
-                    console.log(res.data)
-                    //after post we have to init data form userScoring and currentPage
-                    this.userScoring = 0
-                    // if (this.videoIndex[this.videoIndex.length - 1] == this.currentPage) {
-                    //     alert("This is the last page.")
-                    // }
-                    //  else {
-                    //     for (var i = 0; i < this.videoIndex.length; i++) {
-                    //         if (this.videoIndex[i] == this.currentPage) {
-                    //             this.currentPage = this.videoIndex[i + 1];
-                    //             // alert("Successfully submitted.")
-                    //             break;
-                    //         }
-                    //     }
-                    // }
-                })
-                .catch(error => {
-                    console.error(error);
-                })
-        },
-        async changeNextVideo() {
+        changeNextVideo() {
             if (this.videoButtonText == 'Stop') {
                 this.changeVideoButton();
             }
             this.userScoring = this.clickedButton
             console.log("user scoring: ", this.userScoring)
             //마지막 페이지 확인
+            if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
+                alert("This is the last page of this test code. Thank you!");
+                this.$router.push({
+                    query: {
+                        currentPage: this.currentPage,
+                        userName: this.currentUser,
+                        testcode: this.testCode,
+                    }
+                })
+            } else {
+                this.videoNameIndex += 1
+                for (var i = 0; i < this.videoIndex.length; i++) {
+                    if (this.videoIndex[i] == this.currentPage) {
+                        this.currentPage = this.videoIndex[i + 1];
+                        this.rightArtifactVideo();
+                        this.leftOriginalVideo();
+                        break;
+                    }
+                }
+                this.isPressed = [false, false, false, false, false, false]
+                this.$router.push({
+                    query: {
+                        currentPage: this.currentPage,
+                        userName: this.currentUser,
+                        testcode: this.testCode,
+                    }
+                })
+            }
             axios
                 .post(this.baseUrl + "getUserScore", {
                     CurrentUser: this.currentUser,
@@ -543,37 +536,7 @@ export default {
             videoEelement1.style.transform = "scale(1)";
             videoEelement2.style.transform = "scale(1)";
 
-            if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
-                alert("This is the last page of this test code. Thank you!");
-                this.$router.push({
-                    query: {
-                        // path: process.env.BASE_URL + "/scoring",
-                        currentPage: this.currentPage,
-                        userName: this.currentUser,
-                        testcode: this.testCode,
-                    }
-                })
-                return;
-            } else {
-                this.videoNameIndex += 1
-                for (var i = 0; i < this.videoIndex.length; i++) {
-                    if (this.videoIndex[i] == this.currentPage) {
-                        this.currentPage = this.videoIndex[i + 1];
-                        this.rightArtifactVideo();
-                        this.leftOriginalVideo();
-                        break;
-                    }
-                }
-                this.isPressed = [false, false, false, false, false, false]
-                this.$router.push({
-                    query: {
-                        // path: process.env.BASE_URL + "/scoring",
-                        currentPage: this.currentPage,
-                        userName: this.currentUser,
-                        testcode: this.testCode,
-                    }
-                })
-            }
+
         },
         changeBackVideo() {
             if (this.videoButtonText == 'Stop') {

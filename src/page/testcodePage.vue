@@ -104,10 +104,10 @@ export default {
                     testcode: this.clickedTestcodeBtn
                 })
                 .then((response) => {
-                    console.log(response.data);
+                    console.log("response.data: " + response.data);
                     console.log("response: " + response)
                     // alert("Exported testcode: " + this.clickedTestcodeBtn);
-                    const url = window.URL.createObjectURL(response);
+                    const url = window.URL.createObjectURL(new Blob(response.data));
                     const link = document.createElement('a');
                     link.href = url;
                     link.setAttribute('download', 'file.csv'); // 다운로드될 파일 이름
