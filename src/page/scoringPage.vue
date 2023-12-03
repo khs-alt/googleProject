@@ -47,7 +47,7 @@
                             </video>
                         </div>
                         <div>
-                            <div style="margin-top: 8px; font-size: 8px; ">{{ this.originalVideoNameList[videoNameIndex] }}
+                            <div style="margin-top: 8px; font-size: 14px; ">{{ this.originalVideoNameList[videoNameIndex] }}
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                             </video>
                         </div>
                         <div>
-                            <div style="margin-top: 8px; font-size: 8px;">{{ this.artifactVideoNameList[videoNameIndex] }}
+                            <div style="margin-top: 8px; font-size: 14px;">{{ this.artifactVideoNameList[videoNameIndex] }}
                             </div>
                         </div>
                     </div>
