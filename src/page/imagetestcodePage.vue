@@ -59,7 +59,7 @@
                                 <button @click="clickTestcodeBtn(existTestcode.testcode[index])"
                                     :class="['btn-style', { 'clicked-btn-style': clickedTestcodeBtn.includes(existTestcode.testcode[index]) }]"
                                     style="margin-right: 10px;">{{ existTestcode.testcode[index] }}</button>
-                                    
+
                                 <div style="margin-right: 10px;">:</div>
                                 <div>{{ tagItem }}</div>
                             </div>
@@ -112,7 +112,7 @@ export default {
 
         // TODO: 클릭은 되는데 videoList가 안 옴
         // TODO: tsetcode 버튼을 누르고 그냥 tag 버튼을 누르면 뻑 남
-        clickExport(){
+        clickExport() {
             axios
                 .post(this.baseUrl + 'getCSVFile', {
                     testcode: this.clickedTestcodeBtn
@@ -126,7 +126,7 @@ export default {
                 })
         },
         clickTestcodeBtn(testcodeName) {
-            if(this.clickedTestcodeBtn == ""){
+            if (this.clickedTestcodeBtn == "") {
                 this.clickedTestcodeBtn = testcodeName;
             }
             //console.log("clicked testcode button: ", this.clickedTestcodeBtn);
@@ -134,7 +134,7 @@ export default {
             const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
             //console.log("tagcode index: ", tagIndex);
             if (testcodeIndex !== -1) {
-                for(var i = 0; i < this.tag.length; i++) {
+                for (var i = 0; i < this.tag.length; i++) {
                     this.clickTagBtn(i);
                 }
             }
@@ -272,7 +272,8 @@ export default {
                     console.log(error);
                 })
         },
-        clickTagBtn(index) {           const tagName = this.tag[index];
+        clickTagBtn(index) {
+            const tagName = this.tag[index];
             //console.log("index: ", index)
             if (this.isClicked[index] == true) {
                 for (var i = 0; i < this.clickedTagBtn.length; i++) {
@@ -297,4 +298,7 @@ export default {
 }
 </script>
 
-<style lang="scss">@import '../main.css';</style>
+<style lang="scss">
+@import '../main.css';
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&display=swap');
+</style>
