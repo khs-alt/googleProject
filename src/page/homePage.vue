@@ -147,6 +147,7 @@ export default {
                     .then(res => {
                         if (res.data == "scoring") {
                             this.currentUser = this.userId
+
                             this.goToPage(res.data);
                         } else if (res.data == "labeling") {
                             this.currentUser = this.userId;
