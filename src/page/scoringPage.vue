@@ -555,7 +555,7 @@ export default {
                     TestCode: this.testCode,
                 })
                 .then((response) => {
-                    curScore = response.data;
+                    var curScore = response.data;
                     if (curScore != -1) {
                         this.isPressed[curScore] = true;
                         this.clickedButton = curScore;
