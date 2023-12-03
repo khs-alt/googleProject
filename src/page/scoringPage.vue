@@ -29,7 +29,7 @@
                             style="max-width: 100%; max-height: 550px; overflow: hidden; border: solid 1px gray; width: fit-content;">
                             <!-- toggle된 video -->
                             <div v-show="isToggled" style="position: relative;">
-                                <div style="height: 550px; overflow: hidden;">
+                                <div style="max-height: 550px; overflow: hidden;">
                                     <video id="toggleVideo" :style="videoStyles"
                                         style="position: absolute; max-width: 100%; max-height: 550px;" ref="toggleVideo"
                                         controlsList="nodownload" key="videoDiff" :src="rightArtifactVideo()"
@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                             <div v-show="!isToggled">
-                                <video id="videoNoartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
+                                <video id="videoNoartifact" :style="videoStyles" style="max-height: 550px; max-width: 100%;"
                                     ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
                                     :src="leftOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
                                     @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
@@ -56,7 +56,7 @@
                     <div style="margin: 15px;">
                         <div
                             style="max-width: 100%; max-height: 550px; overflow: hidden; border: solid 1px gray; width: fit-content;">
-                            <video id="videoYesartifact" :style="videoStyles" style="height: 550px; max-width: 100%;"
+                            <video id="videoYesartifact" :style="videoStyles" style="max-height: 550px; max-width: 100%;"
                                 ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
                                 :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
                                 @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
@@ -100,14 +100,14 @@
             <div style="display: flex; margin-left: auto; margin-right: auto;">
                 <div style="margin-left: auto; margin-right: auto; display: flex;">
                     <button v-on="click" class="btn-style"
-                        style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
+                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 9px;"
                         @click="[changeBackVideo(), preloadNextVideo()]">prev</button>
                     <button v-for="a in 6" ref="score" :key="a - 1" v-on:click="clickedButton = a - 1"
-                        style="width: 80px; height: 55px; font-size:x-large; padding-top: 9px;"
+                        style="width: 50px; height: 40px; font-size:x-large; padding-top: 9px;"
                         :class="{ 'clicked-btn-style': isPressed[a - 1], 'btn-style': !isPressed[a - 1] }"
                         @click="toggleButton(a - 1)">{{ a - 1 }}</button>
                     <button v-on="click" class="btn-style"
-                        style="font-size: x-large; width: 120px; height: 55px; padding-top: 9px;"
+                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 9px;"
                         @click="[changeNextVideo(), preloadNextVideo()]">next</button>
                 </div>
             </div>

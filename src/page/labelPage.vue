@@ -32,7 +32,7 @@
                 :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
               </div>
             </div>
-            <p style="font-size: 14px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
+            <p style="font-size: 14px; margin-top: 10px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
           </div>
           <div class="imageName">
             <div class="images">
@@ -51,7 +51,7 @@
                 :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
               </div>
             </div>
-            <p style="font-size: 14px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
+            <p style="font-size: 14px; margin-top: 10px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
           </div>
           <div style="clear:both;"></div>
         </div>
@@ -291,7 +291,7 @@ export default {
             this.userLabeling = [];
           }
           this.isPressed = this.userLabeling[this.patchIndex];
-          console.log(this.isPressed);
+          console.log("되냐고", this.isPressed);
         })
         .catch((error) => {
           console.log(error);
