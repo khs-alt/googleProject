@@ -252,7 +252,7 @@
 }
 
 .labelcontainer {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   /* 이미지 그룹을 양 옆으로 배치 */
   padding: 10px;
