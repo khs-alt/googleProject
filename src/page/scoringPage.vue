@@ -541,13 +541,33 @@ export default {
                 })
             }
         },
-        async changeBackVideo() {
+        changeBackVideo() {
             if (this.videoButtonText == 'Stop') {
                 this.changeVideoButton();
             }
             this.userScoring = this.clickedButton
             console.log("user scoring: ", this.userScoring)
             //마지막 페이지 확인
+            axios
+                .post(this.baseUrl + "getUserScore", {
+                    CurrentUser: this.currentUser,
+                    ImageId: parseInt(this.currentPage),
+                    TestCode: this.testCode,
+                })
+                .then((response) => {
+                    curScore = response.data;
+                    if (curScore != -1) {
+                        this.isPressed[curScore] = true;
+                        this.clickedButton = curScore;
+                    } else {
+                        curScore = -1
+                        this.clickedButton = curScore;
+                        this.isPressed = [false, false, false, false, false, false]
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
             if (this.currentPage == this.videoIndex[0]) {
                 alert("This is the first page of this test code.");
                 this.$router.push({
