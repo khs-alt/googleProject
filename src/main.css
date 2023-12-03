@@ -205,7 +205,7 @@
 
 .labeled-border {
   position: absolute;
-  border: 2px solid red;
+  border: 1px solid red;
   color: red; /*점수 글씨색*/
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
   z-index: 1;
@@ -232,7 +232,7 @@
 .selected-patch-image {
   overflow: hidden;
   margin: 5px;
-  outline: 1px solid gray;
+  outline: 2px solid gray;
 }
 
 .selected-patch {
@@ -295,9 +295,9 @@
 }
 
 .currentBorder {
-  border: 2px solid yellow;
+  outline: 2px solid yellow;
   position: absolute;
-  z-index: 2;
+  z-index: 5;
 }
 
 .patchbtncontainer {
