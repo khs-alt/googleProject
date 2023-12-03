@@ -39,7 +39,7 @@
                                     </video>
                                 </div>
                             </div>
-                            <div v-show="!isToggled">
+                            <div>
                                 <video id="videoNoartifact" :style="videoStyles" style="max-height: 550px; max-width: 100%;"
                                     ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
                                     :src="leftOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
@@ -100,14 +100,14 @@
             <div style="display: flex; margin-left: auto; margin-right: auto;">
                 <div style="margin-left: auto; margin-right: auto; display: flex;">
                     <button v-on="click" class="btn-style"
-                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 9px;"
+                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 2px;"
                         @click="[changeBackVideo(), preloadNextVideo()]">prev</button>
                     <button v-for="a in 6" ref="score" :key="a - 1" v-on:click="clickedButton = a - 1"
-                        style="width: 50px; height: 40px; font-size:x-large; padding-top: 9px;"
+                        style="width: 50px; height: 40px; font-size:x-large; padding-top: 2px;"
                         :class="{ 'clicked-btn-style': isPressed[a - 1], 'btn-style': !isPressed[a - 1] }"
                         @click="toggleButton(a - 1)">{{ a - 1 }}</button>
                     <button v-on="click" class="btn-style"
-                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 9px;"
+                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 2px;"
                         @click="[changeNextVideo(), preloadNextVideo()]">next</button>
                 </div>
             </div>
@@ -219,7 +219,6 @@ export default {
                     break;
             }
         },
-        // TODO: 비디오 미리 불러와지는 게 안됨 현재 비디오만 몇 개씩 불러옴
         async preloadNextVideo() {
             this.preloadedNextOriginalVideo = document.createElement('video');
             this.preloadedNextArtifactVideo = document.createElement('video');
@@ -369,7 +368,7 @@ export default {
             this.updateVideoStyle();
         },
         zoomOut() {
-            if (this.zoom >= this.minZoom) {
+            if (this.zoom >= this.minZoom + 0.1) {
                 this.zoom -= 0.1;
                 this.updateVideoStyle();
             }
@@ -671,7 +670,7 @@ export default {
 
         },
         // video 2개 동시에 플레이 시키는 method
-        playVideos() {
+        async playVideos() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             // toggleVideo는 videoYesartifact와 같은 비디오 
@@ -681,7 +680,7 @@ export default {
                 video1.currentTime = video2.currentTime;
                 toggleVideo.currentTime = video2.currentTime;
                 toggleVideo.currentTime = video2.currentTime;
-                video1.play();
+                await video1.play();
             }
         },
         addEventVideoPlay() {
@@ -716,7 +715,7 @@ export default {
             })
         },
         // video 2개 동시에 Stop 시키는 method
-        pauseVideos() {
+        async pauseVideos() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             var toggleVideo = document.getElementById('toggleVideo');
@@ -725,11 +724,11 @@ export default {
                 var temp = video2.currentTime;
                 video1.currentTime = temp;
                 toggleVideo.currentTime = temp;
-                video1.pause();
+                await video1.pause();
             }
         },
         // Play/Stop 및 text 변경 버튼
-        changeVideoButton() {
+        async changeVideoButton() {
             if (this.videoButtonText == "Play") {
                 this.playVideos();
                 this.videoButtonText = "Stop";

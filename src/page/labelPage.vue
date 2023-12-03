@@ -110,7 +110,7 @@ export default {
       imageIndex: 0,
       currentUser: this.$route.query.userName,
       testCode: this.$route.query.testcode,
-      currentPage: this.$route.query.currentPage,
+      currentPage: parseInt(this.$route.query.currentPage),
       buttonString: ["0", "1", "2", "3", "4", "5", "Prev", "Next", "Submit"],
       pageState: 7,
       prevOriginalImage: null,  //이전 사진 preload
@@ -221,6 +221,13 @@ export default {
           // currentPage를 받아서 labeling 이미지를 만듦
           // cuurentPage에 따라 imageID가 달라져서 이를 반영하기 위해 axios를 받은 후에 makeImageTemplete()를 호출함
           // makeImageTemplete()에서는 labeling 이미지를 만드는 함수임
+          this.$router.push({
+            query: {
+              userName: this.currentUser,
+              currentPage: this.currentPage,
+              testcode: this.testCode
+            }
+          });
           this.makeImageTemplete();
         })
         .catch((error) => {
@@ -255,6 +262,8 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          alert("login failed")
+          this.$router.push(process.env.BASE_URL);
         })
     },
 
@@ -273,7 +282,7 @@ export default {
       await axios
         .post(this.baseUrl + "getUserImageScore", {
           current_user: this.currentUser,
-          image_id: parseInt(this.currentPage),
+          image_id: this.currentPage,
         })
         //Backend에서 들어간 iamge_id의 다음 id를 가져오는 기능이 내장됨
         //따라서 그 다음 image_id값에 접근함
