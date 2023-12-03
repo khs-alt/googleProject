@@ -1,9 +1,10 @@
 <template>
-  <div style="width: fit-content; display: inline-block;">
+  <div style="width: fit-content; margin: 0 auto;">
     <div class="body-style">
       <div class="menu">
         <div class="menu-header">
           <div class="menu-content">
+            <p style="font-size: 24px;">Labeling System</p>
             <a href="/label/" style="margin-right: 10px;">
               <button class="signup-btn-style">Home</button>
             </a>
@@ -11,7 +12,6 @@
         </div>
       </div>
     </div>
-    <p style="font-size: 24px; margin-top: 10px;">Labeling System</p>
     <div class="labelcontainer">
       <div :class="this.imageWidth <= 1080 ? 'imagecontainer' : 'imagecontainer-column'">
         <div class="imageName">
@@ -129,17 +129,10 @@ export default {
       nextOriginalImage: null,  //다음 사진 preload
       nextArtifactImage: null,  //다음 사진 preload
       nextDifferenceImage: null,  //다음 사진 preload
-      //originalImage: require('../images/addPadding.png'),
-      //artifactImage: require('../images/addPadding.png'),
-      //originalImage: "http://localhost:8000/postimage/original/0",
-      //artifactImage: "http://localhost:8000/postimage/artifact/0",
-      //imageList: this.$route.query.imageList,
-      // 임시로 배열에 데이터 넣어줬음 -> 백엔드 연결 시 삭제 필요 11/26
       loadedImageNum: 0,
       imageIndexList: [],
       imageOriginalNameList: [],
       imageArtifactNameList: [],
-      //patchImageList: [require('../images/1.jpg'), require('../images/1.jpg')], //Patch 이미지 리스트
       borderBox: 224, //Patch 이미지의 크기
       borderBoxResize: 0, //축소된 patch 이미지의 크기
       leftValue: 0, //borderBox의 left값
@@ -229,12 +222,6 @@ export default {
       }
     },
 
-    // loadHandler() {
-    //   this.loadedImageNum++;
-    //   console.log("로드된 이미지 수: " + this.loadedImageNum);
-    //   if (this.loadImageNum > 2) this.loadedImageNum = 0;
-    // },
-
     // Backend에서 patch size(행렬) 가져오는 method
     async getImageIndexCurrentPage() {
       await axios
@@ -248,8 +235,6 @@ export default {
           if (response.data.current_page > 0) {
             this.currentPage = response.data.current_page;
           }
-          // console.log("current page is")
-          // console.log(this.currentPage)
           // currentPage를 받아서 labeling 이미지를 만듦
           // cuurentPage에 따라 imageID가 달라져서 이를 반영하기 위해 axios를 받은 후에 makeImageTemplete()를 호출함
           // makeImageTemplete()에서는 labeling 이미지를 만드는 함수임
