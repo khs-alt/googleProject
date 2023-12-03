@@ -273,7 +273,7 @@ export default {
       await axios
         .post(this.baseUrl + "getUserImageScore", {
           current_user: this.currentUser,
-          image_id: this.currentPage,
+          image_id: parseInt(this.currentPage),
         })
         //Backend에서 들어간 iamge_id의 다음 id를 가져오는 기능이 내장됨
         //따라서 그 다음 image_id값에 접근함

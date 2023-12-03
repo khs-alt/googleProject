@@ -483,34 +483,6 @@ export default {
             this.userScoring = this.clickedButton
             console.log("user scoring: ", this.userScoring)
             //마지막 페이지 확인
-            if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
-                alert("This is the last page of this test code. Thank you!");
-                this.$router.push({
-                    query: {
-                        currentPage: this.currentPage,
-                        userName: this.currentUser,
-                        testcode: this.testCode,
-                    }
-                })
-            } else {
-                this.videoNameIndex += 1
-                for (var i = 0; i < this.videoIndex.length; i++) {
-                    if (this.videoIndex[i] == this.currentPage) {
-                        this.currentPage = this.videoIndex[i + 1];
-                        this.rightArtifactVideo();
-                        this.leftOriginalVideo();
-                        break;
-                    }
-                }
-                this.isPressed = [false, false, false, false, false, false]
-                this.$router.push({
-                    query: {
-                        currentPage: this.currentPage,
-                        userName: this.currentUser,
-                        testcode: this.testCode,
-                    }
-                })
-            }
             axios
                 .post(this.baseUrl + "getUserScore", {
                     CurrentUser: this.currentUser,
@@ -536,7 +508,35 @@ export default {
             videoEelement1.style.transform = "scale(1)";
             videoEelement2.style.transform = "scale(1)";
 
-
+            if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
+                alert("This is the last page of this test code. Thank you!");
+                this.$router.push({
+                    query: {
+                        currentPage: this.currentPage,
+                        userName: this.currentUser,
+                        testcode: this.testCode,
+                    }
+                })
+                return;
+            } else {
+                this.videoNameIndex += 1
+                for (var i = 0; i < this.videoIndex.length; i++) {
+                    if (this.videoIndex[i] == this.currentPage) {
+                        this.currentPage = this.videoIndex[i + 1];
+                        this.rightArtifactVideo();
+                        this.leftOriginalVideo();
+                        break;
+                    }
+                }
+                this.isPressed = [false, false, false, false, false, false]
+                this.$router.push({
+                    query: {
+                        currentPage: this.currentPage,
+                        userName: this.currentUser,
+                        testcode: this.testCode,
+                    }
+                })
+            }
         },
         changeBackVideo() {
             if (this.videoButtonText == 'Stop') {
@@ -590,11 +590,9 @@ export default {
                         break;
                     }
                 }
-                // TODO:
                 this.isPressed = [false, false, false, false, false, false]
                 this.$router.push({
                     query: {
-                        // path: process.env.BASE_URL + "/scoring",
                         currentPage: this.currentPage,
                         userName: this.currentUser,
                         testcode: this.testCode,
