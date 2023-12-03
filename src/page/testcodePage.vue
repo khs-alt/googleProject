@@ -34,20 +34,18 @@
             </div>
             <button @click="generateTestcode" class="btn-style"> TestCode Generation </button>
         </div>
-        <div style="width: 800px; margin-left: auto; margin-right: auto;">
+        <div style="width: 800px; max-height: 500px; margin-left: auto; margin-right: auto;">
             <h3 style="margin-top: 10px;">TestCode</h3>
             <div style="display: flex; flex-direction: column;">
                 <div style="margin-left: auto; margin-right: auto; display: flex; flex-direction: column;">
                     <div style="display: flex; flex-direction: column; gap: 10px;">
                         <div v-for="(tagItem, index) in existTestcode.tags" :key="tagItem"
                             style="display: flex; justify-content: space-between;">
-                            <div>
-                                style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex;
+                            <div style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex;
                                 justify-content: space-between;">
                                 <button @click="clickTestcodeBtn(existTestcode.testcode[index])"
                                     :class="{ 'clicked-btn-style': clickedTestcodeBtn == existTestcode.testcode[index], 'btn-style': !clickedTestcodeBtn == existTestcode.testcode[index] }"
                                     style="margin-right: 10px;">{{ existTestcode.testcode[index] }}</button>
-
                                 <div style="margin-right: 10px;">:</div>
                                 <div>{{ tagItem }}</div>
                             </div>

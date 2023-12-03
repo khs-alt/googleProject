@@ -138,7 +138,7 @@ export default {
       resizeHeight: 0, //축소된 이미지의 세로
       i: 0, //patch 이미지의 세로 인덱스
       j: 0, //patch 이미지의 가로 인덱스
-      userLabeling: [ 0, ],  //사용자가 부여한 점수
+      userLabeling: [0,],  //사용자가 부여한 점수
       isPressed: -1, //눌린 점수 체크
       menuBar: 'Home',
       lastPage: false, //마지막 이미지인지 체크
@@ -287,7 +287,7 @@ export default {
             return;
           }
           else {
-            this.userLabeling = [ 0, ];
+            this.userLabeling = [0,];
           }
           this.isPressed = this.userLabeling[this.patchIndex];
         })
