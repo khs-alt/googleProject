@@ -579,6 +579,7 @@ export default {
                                 if (this.videoIndex[i] == this.currentPage) {
                                     this.currentPage = this.videoIndex[i + 1];
                                     this.rightArtifactVideo();
+                                    this.leftOriginalVideo();
                                     // this.$router.push({
                                     //     query: {
                                     //         userName: this.userId,
@@ -632,34 +633,35 @@ export default {
                         //     }
                         // });
                         this.leftOriginalVideo();
-                        var curScore = 0;
-                        axios
-                            .post(this.baseUrl + "getUserScore", {
-                                CurrentUser: this.currentUser,
-                                ImageId: parseInt(this.currentPage),
-                                TestCode: this.testCode,
-                            })
-                            .then((response) => {
-                                curScore = response.data;
-                                //console.log(curScore)
-                                if (curScore != -1) {
-                                    this.isPressed[curScore] = true;
-                                    this.clickedButton = curScore;
-                                } else {
-                                    curScore = -1
-                                    this.clickedButton = curScore;
-                                    this.isPressed = [false, false, false, false, false, false]
-                                }
-                                //console.log("curScore: " + curScore);
-                            })
-                            .catch((err) => {
-                                console.log(err);
-                            })
+                        this.rightArtifactVideo();
+                        // var curScore = 0;
+                        // axios
+                        //     .post(this.baseUrl + "getUserScore", {
+                        //         CurrentUser: this.currentUser,
+                        //         ImageId: parseInt(this.currentPage),
+                        //         TestCode: this.testCode,
+                        //     })
+                        //     .then((response) => {
+                        //         curScore = response.data;
+                        //         //console.log(curScore)
+                        //         if (curScore != -1) {
+                        //             this.isPressed[curScore] = true;
+                        //             this.clickedButton = curScore;
+                        //         } else {
+                        //             curScore = -1
+                        //             this.clickedButton = curScore;
+                        //             this.isPressed = [false, false, false, false, false, false]
+                        //         }
+                        //         //console.log("curScore: " + curScore);
+                        //     })
+                        //     .catch((err) => {
+                        //         console.log(err);
+                        //     })
 
-                        var videoEelement1 = document.getElementById('videoNoartifact');
-                        var videoEelement2 = document.getElementById('videoYesartifact');
-                        videoEelement1.style.transform = "scale(1)";
-                        videoEelement2.style.transform = "scale(1)";
+                        // var videoEelement1 = document.getElementById('videoNoartifact');
+                        // var videoEelement2 = document.getElementById('videoYesartifact');
+                        // videoEelement1.style.transform = "scale(1)";
+                        // videoEelement2.style.transform = "scale(1)";
                         return;
                     }
                 }
@@ -670,6 +672,45 @@ export default {
         toggleButton(index) {
             this.isPressed = [false, false, false, false, false, false]
             this.isPressed[index] = !this.isPressed[index]
+
+            this.userScoring = index
+            axios
+                .post(this.baseUrl + "postdata", {
+                    Title: "scoring data",
+                    Score: this.userScoring,
+                    CurrentUser: this.currentUser,
+                    ImageId: parseInt(this.currentPage),
+                    TestCode: this.testCode
+                })
+                .then(res => {
+                    //after post we have to init data form userScoring and currentPage
+                    this.userScoring = 0
+                    this.isPressed = [false, false, false, false, false, false]
+                    // this.videoNameIndex += 1
+                    // score가 response로 날아옴
+                    // var curScore = res.data;
+                    this.resetZoomAndOffset();
+                    this.updateVideoStyle();
+                    // 사용자가 scoring한 점수가 없으면 curScore == -1
+                    // if (curScore != -1) {
+                    //     this.isPressed[curScore] = true;
+                    //     this.clickedButton = curScore;
+                    //     //console.log("isPressed: " + curScore);
+                    // }
+                    // for (var i = 0; i < this.videoIndex.length; i++) {
+                    //     //console.log("video index : ", this.videoIndex[i])
+                    //     if (this.videoIndex[i] == this.currentPage) {
+                    //         this.currentPage = this.videoIndex[i + 1];
+                    //         this.rightArtifactVideo();
+                    //         this.leftOriginalVideo();
+                    //         return;
+                    //     }
+                    // }
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+
         },
         // video 2개 동시에 플레이 시키는 method
         playVideos() {
