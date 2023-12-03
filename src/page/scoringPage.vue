@@ -622,9 +622,10 @@ export default {
                 .then(res => {
                     //after post we have to init data form userScoring and currentPage
                     this.userScoring = 0
-                    this.isPressed = [false, false, false, false, false, false]
+                    // this.isPressed = [false, false, false, false, false, false]
                     this.resetZoomAndOffset();
                     this.updateVideoStyle();
+                    console.log(res.data)
 
                 })
                 .catch(error => {
