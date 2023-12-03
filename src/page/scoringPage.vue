@@ -577,7 +577,7 @@ export default {
                         this.currentPage = this.videoIndex[i - 1];
                         this.leftOriginalVideo();
                         this.rightArtifactVideo();
-                        // var curScore = 0;
+                        var curScore = 0;
                         axios
                             .post(this.baseUrl + "getUserScore", {
                                 CurrentUser: this.currentUser,
