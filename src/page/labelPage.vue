@@ -1,10 +1,9 @@
 <template>
-  <div style="width: fit-content; margin: 0 auto;">
+  <div class="labelingPage">
     <div class="body-style">
       <div class="menu">
         <div class="menu-header">
           <div class="menu-content">
-            <p style="font-size: 24px;">Labeling System</p>
             <a href="/label/" style="margin-right: 10px;">
               <button class="signup-btn-style">Home</button>
             </a>
@@ -12,89 +11,85 @@
         </div>
       </div>
     </div>
-    <div class="labelcontainer">
-      <div :class="this.imageWidth <= 1080 ? 'imagecontainer' : 'imagecontainer-column'">
-        <div class="imageName">
-          <p style="font-size: 14px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
-          <div class="images">
-            <div v-for="i in patchRow" :key="i">
-              <div v-for="j in patchColumn" :key="j">
-                <div class="labeled-border"
-                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
-                  v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
-                  {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+    <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
+      <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
+      <div class="labelcontainer">
+        <div :class="this.imageWidth <= 1080 ? 'imagecontainer' : 'imagecontainer-column'">
+          <div class="imageName">
+            <p style="font-size: 14px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
+            <div class="images">
+              <div v-for="i in patchRow" :key="i">
+                <div v-for="j in patchColumn" :key="j">
+                  <div class="labeled-border"
+                    :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+                    v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
+                    {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- TODO: 12/1 로드 둘다 되면 보이게 하는 거  -->
-            <!-- <div v-if="loadedImageNum === 2"> -->
-            <img :src="serveOriginalImage()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
-              class="imageStyle" />
-            <!-- </div> -->
-            <div class="currentBorder"
-              :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              <img :src="serveOriginalImage()" ref="img"
+                :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
+              <div class="currentBorder"
+                :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              </div>
             </div>
           </div>
-        </div>
-        <div class="imageName">
-          <p>{{ this.imageArtifactNameList[this.imageIndex] }}</p>
-          <div class="images">
-            <div v-for="i in patchRow" :key="i">
-              <div v-for="j in patchColumn" :key="j">
-                <div class="labeled-border"
-                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
-                  v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
-                  {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+          <div class="imageName">
+            <p style="font-size: 14px;">{{ this.imageArtifactNameList[this.imageIndex] }}</p>
+            <div class="images">
+              <div v-for="i in patchRow" :key="i">
+                <div v-for="j in patchColumn" :key="j">
+                  <div class="labeled-border"
+                    :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+                    v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
+                    {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- TODO: 12/1 로드 둘다 되면 보이게 하는 거  -->
-            <!-- <div v-if="loadedImageNum === 2"> -->
-            <img :src="serveArtifactImage()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
-              class="imageStyle" />
-            <!-- </div> -->
-            <div class="currentBorder"
-              :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              <img :src="serveArtifactImage()" ref="img"
+                :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
+              <div class="currentBorder"
+                :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              </div>
             </div>
           </div>
+          <div style="clear:both;"></div>
         </div>
-        <div style="clear:both;"></div>
-      </div>
-      <div class="patchbtncontainer">
-        <div>
-          <div class="patch-container">
-            <div class="patchName">
-              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveOriginalImage()" class="selected-patch"
-                  :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="original">
+        <div class="patchbtncontainer">
+          <div>
+            <div class="patch-container">
+              <div class="patchName">
+                <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+                  <img :src="serveOriginalImage()" class="selected-patch"
+                    :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="original">
+                </div>
+                <label class="textLabel">original</label>
               </div>
-              <label class="textLabel">original</label>
-            </div>
-            <div class="patchName">
-              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveArtifactImage()" class="selected-patch"
-                  :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="artifact">
+              <div class="patchName">
+                <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+                  <img :src="serveArtifactImage()" class="selected-patch"
+                    :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="artifact">
+                </div>
+                <label class="textLabel">artifact</label>
               </div>
-              <label class="textLabel">artifact</label>
-            </div>
-            <div class="patchName">
-              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveDifferenceImage()" class="selected-patch"
-                  :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="difference">
+              <div class="patchName">
+                <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+                  <img :src="serveDifferenceImage()" class="selected-patch"
+                    :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="difference">
+                </div>
+                <label class="textLabel">difference</label>
               </div>
-              <label class="textLabel">difference</label>
             </div>
           </div>
-        </div>
-        <div class="btncontainer">
-          <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="scoreButton"
-            :class="{ 'pressed': this.isPressed === a - 1 }">{{ buttonString[a - 1]
-            }}</button>
-        </div>
-        <div class="btncontainer">
-          <button class="scoreButton" @click="changePreviousPage()">{{ buttonString[6] }}</button>
-          <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageIndexList.length }}</span>
-          <button class="scoreButton" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
+          <div class="btncontainer">
+            <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="scoreButton"
+              :class="{ 'pressed': this.isPressed === a - 1 }">{{ buttonString[a - 1] }}</button>
+          </div>
+          <div class="btncontainer">
+            <button class="scoreButton" @click="changePreviousPage()">{{ buttonString[6] }}</button>
+            <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageIndexList.length }}</span>
+            <button class="scoreButton" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
+          </div>
         </div>
       </div>
     </div>
@@ -114,22 +109,16 @@ export default {
       index: 0,
       imageIndex: 0,
       currentUser: this.$route.query.userName,
-      //currentUser: "kim",
       testCode: this.$route.query.testcode,
-      //testCode: "test",
+      currentPage: this.$route.query.currentPage,
       buttonString: ["0", "1", "2", "3", "4", "5", "Prev", "Next", "Submit"],
       pageState: 7,
-      originalPatchImageList: [],
-      artifactPatchImageList: [],
-      //currentPage: this.$route.query.currentPage,
-      currentPage: 0,
       prevOriginalImage: null,  //이전 사진 preload
       prevArtifactImage: null,  //이전 사진 preload
       prevDifferenceImage: null,  //이전 사진 preload
       nextOriginalImage: null,  //다음 사진 preload
       nextArtifactImage: null,  //다음 사진 preload
       nextDifferenceImage: null,  //다음 사진 preload
-      loadedImageNum: 0,
       imageIndexList: [],
       imageOriginalNameList: [],
       imageArtifactNameList: [],
@@ -139,7 +128,6 @@ export default {
       topValue: 0,  //borderBox의 top값
       rightValue: 0,  //patch 이미지의 right값
       bottomValue: 0, //patch 이미지의 bottom값
-      patchSize: [], //Patch 이미지의 사이즈(총 개수, 가로, 세로)
       patchIndex: 0, //Patch 이미지의 인덱스
       patchLength: 0, //Patch 이미지의 총 개수
       patchColumn: 0, //Patch 이미지의 가로
@@ -159,20 +147,18 @@ export default {
       baseUrl: process.env.BASE_URL + "api/",
     }
   },
+
   created() {
   },
-  mounted() {
-    //this.getPatchImagesTemp();
 
-    this.getImageIndexCurrentPage();
+  mounted() {
     window.addEventListener('keydown', this.keydown);
-    this.preloadImage();
+    this.getImageIndexCurrentPage();
     this.getUserLabeling();
     this.getImageNameList();
-    //this.$refs.img.addEventListener('load', this.loadHandler);
-    //this.currentUserInfo();
-
+    this.preloadImage();
   },
+
   unmounted() {
     window.removeEventListener('keydown', this.keydown);
   },
@@ -206,7 +192,6 @@ export default {
         this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
       }
       else {
-
         this.nextOriginalImage = new Image();
         this.nextArtifactImage = new Image();
         this.nextDifferenceImage = new Image();
@@ -255,46 +240,6 @@ export default {
           console.error(error);
         });
     },
-    // TODO: 백엔드 연결 필요
-    getPatchSize() {
-      axios
-        .get(this.baseUrl + `patchsize`)
-        .then((response) => {
-          console.log("axios get patch size success\n");
-          //patchSize => Patch 이미지의 사이즈(총 개수, 가로, 세로) list
-          //[patchLength, patchColumn, patchRow] 안씀
-          this.patchSize = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
-    //TODO: Backend에서 patch image 가져오는 method 백엔드 연결 필요 
-    getPatchImages() {
-      axios
-        .get(this.baseUrl + `patch`)
-        .then((response) => {
-          console.log("axios get patch image success\n");
-          //사용 안하는 변수(?)상기에서 주석 처리 됨
-          this.patchImageList = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
-    // TODO: 백엔드 연결 필요
-    getPatchIndex() {
-      axios
-        .get(this.baseUrl + `patchindex`)
-        .then((response) => {
-          console.log("axios get patch index success\n");
-          //patchIndex => Patch 이미지의 인덱스 int 안씀
-          this.patchIndex = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
 
     //TODO: nameList를 가져오는 함수
     getImageNameList() {
@@ -308,7 +253,6 @@ export default {
           this.imageIndexList = response.data.image_list;
           this.imageOriginalNameList = response.data.original_list;
           this.imageArtifactNameList = response.data.artifact_list;
-
           this.findIndex();
         })
         .catch((error) => {
@@ -347,6 +291,7 @@ export default {
           else {
             this.userLabeling = [];
           }
+          this.isPressed = this.userLabeling[this.patchIndex];
         })
         .catch((error) => {
           console.log(error);
@@ -358,10 +303,7 @@ export default {
     getImageSize() {
       return new Promise((resolve, reject) => {
         let img = new Image();
-        //console.log("-------------------");
         img.src = this.serveOriginalImage();
-        // console.log("current page: " + this.currentPage)
-        // console.log("image name: " + img.src);
 
         let self = this;
         img.onload = function () {
@@ -374,7 +316,6 @@ export default {
           self.patchLength = self.patchColumn * self.patchRow;
           self.setPatch(self.i, self.j);
 
-          //console.log("원래 이미지 사이즈");
           resolve(); // Promise가 성공적으로 완료됨
         };
 
@@ -390,10 +331,6 @@ export default {
       this.resizeWidth = this.imageWidth * 0.25;
       this.resizeHeight = this.imageHeight * 0.25;
       this.borderBoxResize = this.borderBox * 0.25;
-      // console.log("축소된 이미지 사이즈");
-      // console.log(this.resizeWidth);
-      // console.log(this.resizeHeight);
-      // console.log(this.borderBoxResize);
     },
 
     //patch 이미지의 위치를 조정하는 함수
@@ -472,26 +409,17 @@ export default {
     labeling(num) {
       console.log("index: " + this.patchIndex);
       this.userLabeling[this.patchIndex] = num;
-      console.log(this.userLabeling);
       this.changeNextPatchImage();
     },
 
     changeNextPatchImage() {
       this.setPatch(this.i, ++this.j);
-      if (this.userLabeling[this.patchIndex] >= 0) {
-        this.isPressed = this.userLabeling[this.patchIndex];
-        return;
-      }
-      this.isPressed = -1;
+      this.isPressed = this.userLabeling[this.patchIndex];
     },
 
     // 이전 patch로 변경
     changeBackPatchImage() {
       this.setPatch(this.i, --this.j);
-      if (this.userLabeling[this.patchIndex] >= 0) {
-        this.isPressed = this.userLabeling[this.patchIndex];
-        return;
-      }
       this.isPressed = this.userLabeling[this.patchIndex];
     },
 
@@ -535,26 +463,26 @@ export default {
     changePreviousPage() {
       this.pageState = 7;
       if (this.imageIndex === 0) {
-        // TODO: 11/29 01:13 수정 
         this.postUserLabeling();
         alert("this is first image");
       }
       else {
         this.postUserLabeling();
         this.imageIndex -= 1;
+        this.i = 0;
+        this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.prevImage;
-        this.$router.push({
-          query: {
-            userName: this.userId,
-            currentPage: this.currentPage,
-            testcode: this.testcode
-          }
-        });
+        // this.$router.push({
+        //   query: {
+        //     userName: this.userId,
+        //     currentPage: this.currentPage,
+        //     testcode: this.testcode
+        //   }
+        // });
         this.makeImageTemplete();
         this.getUserLabeling();
         this.preloadImage();
-        // this.loadHandler();
       }
     },
 
@@ -567,19 +495,20 @@ export default {
         if (this.imageIndex === this.imageIndexList.length - 2) this.pageState = 8;
         this.postUserLabeling();
         this.imageIndex += 1;
+        this.i = 0;
+        this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.nextImage;
-        this.$router.push({
-          query: {
-            userName: this.userId,
-            currentPage: this.currentPage,
-            testcode: this.testcode
-          }
-        });
+        // this.$router.push({
+        //   query: {
+        //     userName: this.userId,
+        //     currentPage: this.currentPage,
+        //     testcode: this.testcode
+        //   }
+        // });
         this.makeImageTemplete();
         this.getUserLabeling();
         this.preloadImage();
-        // this.loadHandler();
       }
     },
 
@@ -591,11 +520,6 @@ export default {
         }
       }
       console.log("index is " + this.imageIndex);
-    },
-
-    // score button 눌렸는지 안눌렸는지 확인하는 버튼
-    toggleButton(index) {
-      this.isPressed = index;
     },
   }
 }

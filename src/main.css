@@ -1,15 +1,19 @@
+.labelingPage {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-use-select: none;
+  user-select: none;
+}
 .video-container {
   margin-left: auto;
   margin-right: auto;
   position: relative;
-  width:fit-content;
-  height:fit-content;
+  width: fit-content;
+  height: fit-content;
 }
-
-.button-margin{
+.button-margin {
   margin-top: 550px;
 }
-
 .toggle-switch {
   width: 48px;
   height: 24px;
@@ -20,12 +24,10 @@
   transition: background-color 0.2s;
   z-index: 20;
 }
-
 .toggle-switch.active {
   background-color: green;
   z-index: 20;
 }
-
 .toggle-button {
   width: 24px;
   height: 24px;
@@ -37,11 +39,9 @@
   transition: left 0.2s;
   z-index: 20;
 }
-
 .body-style {
   font-family: "Open Sans", sans-serif;
 }
-
 .menu-content {
   font-weight: 300;
   padding-left: 1rem;
@@ -65,13 +65,11 @@
   /* justify-content: space-around; */
   float: right;
 }
-
 .id-password-testcode-style {
   width: 500px;
   margin-left: auto;
   margin-right: auto;
 }
-
 .menu-header {
   border: none;
   z-index: 100;
@@ -81,7 +79,6 @@
   top: 0;
   background-color: white;
 }
-
 .home-input-style {
   height: 2.25rem;
   -webkit-tap-highlight-color: transparent;
@@ -116,11 +113,9 @@
   margin-left: auto;
   margin-right: auto;
 }
-
 .login-btn-style {
   float: right;
 }
-
 .home-h2-font {
   font-family: "Open Sans", sans-serif;
   font-weight: 500;
@@ -128,7 +123,6 @@
   margin-left: 10px;
   padding-bottom: 5px;
 }
-
 .btn-style {
   cursor: pointer;
   border-radius: 0.75rem;
@@ -142,7 +136,6 @@
   font-weight: 400;
   box-shadow: rgb(146 153 184 / 8%) 0px 4px 16px;
 }
-
 .signup-btn-style {
   appearance: none;
   text-align: left;
@@ -167,7 +160,6 @@
   color: rgb(73, 80, 87);
   box-shadow: rgb(146 153 184 / 8%) 0px 4px 16px;
 }
-
 .clicked-btn-style {
   cursor: pointer;
   border-radius: 0.75rem;
@@ -181,7 +173,6 @@
   font-weight: 400;
   box-shadow: rgb(146 153 184 / 8%) 0px 4px 16px;
 }
-
 .home-main-content {
   min-height: calc(100% - 100px);
   padding: 18px 10px 80px 10px;
@@ -189,52 +180,44 @@
   font-weight: 400;
   font-family: "Open Sans", sans-serif;
 }
-
 .homePageInput {
   max-width: 20%;
   margin-left: auto;
   margin-right: auto;
   display: block;
 }
-
 .active {
   background-color: #007bff;
   color: #fff;
   border: 1px solid #007bff;
 }
-
 .labeled-border {
   position: absolute;
-  border: 2px solid red;
+  outline: 2px solid red;
   color: red; /*점수 글씨색*/
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
   z-index: 1;
   /* 테두리 스타일 설정 */
 }
-
 .patch-container {
   position: relative;
   display: flex;
   justify-content: flex-start;
 }
-
 .textLabel {
   margin: 5px;
 }
-
 .patchName {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 .selected-patch-image {
   overflow: hidden;
   margin: 5px;
-  border: 2px solid gray;
+  outline: 2px solid gray;
 }
-
 .selected-patch {
   /* margin: 15px;
     width: 64px;
@@ -242,7 +225,6 @@
     outline: solid 2px black; */
   position: relative;
 }
-
 .scrollingUploadedData {
   height: 300px;
   overflow-y: auto;
@@ -250,15 +232,14 @@
   margin-left: auto;
   margin-right: auto;
 }
-
 .labelcontainer {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   /* 이미지 그룹을 양 옆으로 배치 */
   padding: 10px;
+  margin-bottom: 50px;
   background-color: #e9e9e9;
 }
-
 .imagecontainer {
   display: flex;
   justify-content: center;
@@ -267,7 +248,6 @@
   margin-top: 0px;
   margin-bottom: 0px;
 }
-
 .imagecontainer-column {
   display: flex;
   flex-direction: column;
@@ -277,7 +257,6 @@
   margin-top: 0px;
   margin-bottom: 0px;
 }
-
 .imageName {
   display: flex;
   flex-direction: column;
@@ -285,20 +264,17 @@
   margin-top: 10px;
   margin-left: 10px;
 }
-
 .images {
   position: relative;
   display: flex;
   width: fit-content;
   height: fit-content;
 }
-
 .currentBorder {
-  border: 2px solid yellow;
+  outline: 2px solid yellow;
   position: absolute;
-  z-index: 2;
+  z-index: 5;
 }
-
 .patchbtncontainer {
   display: flex;
   flex-direction: column;
@@ -310,7 +286,6 @@
   margin-left: 50px;
   padding-top: 40px;
 }
-
 .image-grid {
   display: grid;
   grid-template-rows: repeat(30, 1fr);
@@ -318,7 +293,6 @@
   /* 16열로 설정 (열 수에 맞게 조절) */
   gap: 2px;
 }
-
 /* 이미지 그룹 스타일링 */
 .image-group {
   display: flex;
@@ -327,19 +301,16 @@
   gap: 10px;
   /* 이미지 그룹 사이 간격 설정 */
 }
-
 /* 원본 이미지 그룹 스타일링 */
 .original-images {
   flex: 1;
   /* 원본 이미지 그룹이 가변 너비를 가짐 */
 }
-
 /* 변형 이미지 그룹 스타일링 */
 .artifact-images {
   flex: 1;
   /* 변형 이미지 그룹이 가변 너비를 가짐 */
 }
-
 /* 각 이미지 아이템 스타일링 (사이즈 및 정렬을 조절) */
 .image-grid-item {
   display: flex;
@@ -350,7 +321,6 @@
   max-width: 100%;
   /* 아이템 너비를 100%로 설정하여 한 행에 하나의 이미지 표시 */
 }
-
 .image-grid-wrapper {
   margin-left: auto;
   margin-right: auto;
@@ -359,11 +329,9 @@
   position: relative;
   display: inline-block;
 }
-
 .imageStyle {
   margin: 2px;
 }
-
 .tagWrapper {
   max-width: 50%;
   margin-left: auto;
@@ -371,18 +339,15 @@
   flex-wrap: wrap;
   margin-top: 15px;
 }
-
 .btn-group-style {
   max-width: 100%;
   display: flex;
   flex-wrap: wrap;
 }
-
 .btn-group-style button {
   margin-right: 5px;
   margin-bottom: 5px;
 }
-
 .inputBox {
   width: 600px;
   height: auto;
@@ -391,23 +356,19 @@
   margin-bottom: 25px;
   margin-top: 50px;
 }
-
 .signupInput {
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
   margin-bottom: 10px;
 }
-
 /* .menu a {
       color: white;
       padding: 10px;
   } */
-
 .backgroundStyle {
   background-color: white;
 }
-
 .file-upload {
   display: inline-block;
   justify-content: center;
@@ -418,12 +379,10 @@
   border-radius: 20px;
   cursor: pointer;
 }
-
 .file-upload.dragged {
   border: 1px dashed powderblue;
   opacity: 0.6;
 }
-
 .file-upload-left-container {
   display: inline-block;
   height: 400px;
@@ -435,7 +394,6 @@
   margin-right: 2%;
   background-color: white;
 }
-
 .file-upload-right-container {
   display: inline-block;
   height: 400px;
@@ -447,36 +405,30 @@
   margin-left: 2%;
   background-color: white;
 }
-
 .file-upload-input {
   display: none;
 }
-
 .file-upload-list {
   margin-top: 10px;
   width: 40%;
   display: inline-block;
 }
-
 .file-upload-list__item {
   padding: 10px;
   display: inline-block;
   justify-content: space-between;
   align-items: center;
 }
-
 .file-upload-list__item__data {
   display: flex;
   align-items: center;
 }
-
 .file-upload-list__item__data-thumbnail {
   margin-right: 10px;
   border-radius: 20px;
   width: 120px;
   height: 120px;
 }
-
 .file-upload-list__item__left-btn-remove {
   margin-right: 10%;
   cursor: pointer;
@@ -488,7 +440,6 @@
   border-radius: 6px;
   width: 20%;
 }
-
 .file-upload-list__item__right-btn-remove {
   margin-left: 10%;
   cursor: pointer;
@@ -500,7 +451,6 @@
   border-radius: 6px;
   width: 20%;
 }
-
 .videoPlayer {
   display: flex;
   max-width: 100%;
@@ -512,7 +462,6 @@
   margin-top: 5px;
   padding-top: 0px;
 }
-
 #app {
   font-family: "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -520,7 +469,6 @@
   text-align: center;
   color: #2c3e50;
 }
-
 .scoreButton {
   box-sizing: border-box;
   appearance: none;
@@ -542,22 +490,18 @@
   text-decoration: none;
   text-align: center;
   text-transform: uppercase;
-
   /* &:hover,
       &:focus {
           color: white;
           box-shadow: 0 0 40px 40px darkslateblue inset;
           outline: 0;
       } */
-
   transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
-
   &:hover {
     box-shadow: 0 0 40px 40px darkslateblue inset;
     color: white;
   }
 }
-
 .pressed {
   box-sizing: border-box;
   appearance: none;
@@ -581,31 +525,25 @@
   /* font-family: "Montserrat", sans-serif; */
   font-weight: 500;
 }
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
 }
-
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
 }
-
 .fade-enter-active-from,
 .fade-enter-to {
   opacity: 1;
 }
-
 .footer {
   margin-top: 20px;
   font-size: 15px;
   text-align: center;
   color: darkgray;
 }
-
 /*# sourceMappingURL=main.css.map */
-
 @media (max-width: 1200px) {
   .labelcontainer {
     display: flex;
@@ -613,7 +551,6 @@
     justify-content: center;
     text-align: center;
   }
-
   .patch-container {
     display: flex;
     justify-content: center;
