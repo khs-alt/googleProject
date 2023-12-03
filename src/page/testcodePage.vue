@@ -39,25 +39,13 @@
             <div style="display: flex; flex-direction: column;">
                 <div style="margin-left: auto; margin-right: auto; display: flex; flex-direction: column;">
                     <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <!-- <div v-for="(tagItem, index) in existTestcode.tags" :key="tagItem"
-                            style="display: flex; justify-content: space-between;">
-                            <div
-                                style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex; justify-content: space-between;">
-                                TODO: testcode가 있는 버튼을 누르면 그 테스트 코드에 맞는 tag들을 누른 상태로 변경하고 그 tag에 맞는 video list 출력
-                                <button @click="clickTestcodeBtn(existTestcode.testcode[index])"
-                                    :class="{ 'btn-style': !clickedTestcodeBtn == (existTestcode.testcode[index]), 'clicked-btn-style': clickedTestcodeBtn.includes(tagItem) }"
-                                    style="margin-right: 10px;">{{ existTestcode.testcode[index] }}</button>
-                                <div style="margin-right: 10px;">:</div>
-                                <div>{{ tagItem }}</div>
-                            </div>
-                        </div> -->
                         <div v-for="(tagItem, index) in existTestcode.tags" :key="tagItem"
                             style="display: flex; justify-content: space-between;">
-                            <div
-                                style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex; justify-content: space-between;">
-                                <!-- TODO: 눌리면 class="clicked-btn-style" 안눌리면 class="btn-style" -->
+                            <div>
+                                style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex;
+                                justify-content: space-between;">
                                 <button @click="clickTestcodeBtn(existTestcode.testcode[index])"
-                                    :class="{ 'clicked-btn-style': clickedTestcodeBtn.includes(existTestcode.testcode[index]), 'btn-style': !clickedTestcodeBtn.includes(existTestcode.testcode[index]) }"
+                                    :class="{ 'clicked-btn-style': clickedTestcodeBtn == existTestcode.testcode[index], 'btn-style': !clickedTestcodeBtn == existTestcode.testcode[index] }"
                                     style="margin-right: 10px;">{{ existTestcode.testcode[index] }}</button>
 
                                 <div style="margin-right: 10px;">:</div>
@@ -72,7 +60,7 @@
             </div>
         </div>
         <div style="margin-top: 20px;">
-            <h3>video list</h3>
+            <div style="max-height: 500px; overflow: auto;">video list</div>
             <div v-for="item in videoFromTag" :key="item">
                 {{ item }}
             </div>
