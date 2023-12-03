@@ -131,7 +131,7 @@ export default {
             currentPage: this.$route.query.currentPage,
             currentUser: this.$route.query.userName,
             testCode: this.$route.query.testcode,
-            videoButtonText: "Play",
+            videoButtonText: "Stop",
             baseUrl: process.env.BASE_URL + "api/",
             leftVideoUrl: "",
             rightVideoUrl: "",
@@ -169,7 +169,7 @@ export default {
     },
     created() { },
     mounted() {
-        // this.changeVideoButton();
+        this.changeVideoButton();
         this.getVideoIndexCurrentPage();
         this.addEventVideoPlay();
         this.isVideoPaused();
