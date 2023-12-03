@@ -149,7 +149,7 @@ export default {
       baseUrl: process.env.BASE_URL + "api/",
     }
   },
-  
+
   created() {
   },
 
@@ -229,6 +229,8 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          alert("Login failed");
+          this.$router.push('/');
         })
     },
 
@@ -255,7 +257,6 @@ export default {
           this.imageIndexList = response.data.image_list;
           this.imageOriginalNameList = response.data.original_list;
           this.imageArtifactNameList = response.data.artifact_list;
-
           this.findIndex();
         })
         .catch((error) => {
@@ -289,12 +290,13 @@ export default {
             // console.log("id is " + this.currentPage)
             console.log(response.data.patch)
             this.userLabeling = response.data.patch;
+            this.isPressed = this.userLabeling[this.patchIndex];
             return;
           }
           else {
             this.userLabeling = [];
+            this.isPressed = this.userLabeling[this.patchIndex];
           }
-          this.isPressed = this.userLabeling[this.patchIndex];
         })
         .catch((error) => {
           console.log(error);
