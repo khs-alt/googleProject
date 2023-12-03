@@ -509,6 +509,26 @@ export default {
             this.userScoring = this.clickedButton
             console.log("user scoring: ", this.userScoring)
             //마지막 페이지 확인
+            axios
+                .post(this.baseUrl + "getUserScore", {
+                    CurrentUser: this.currentUser,
+                    ImageId: parseInt(this.currentPage),
+                    TestCode: this.testCode,
+                })
+                .then((response) => {
+                    var curScore = response.data;
+                    if (curScore != -1) {
+                        this.isPressed[curScore] = true;
+                        this.clickedButton = curScore;
+                    } else {
+                        curScore = -1
+                        this.clickedButton = curScore;
+                        this.isPressed = [false, false, false, false, false, false]
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
             if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
                 alert("This is the last page of this test code. Thank you!");
                 this.$router.push({
