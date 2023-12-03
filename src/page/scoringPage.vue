@@ -438,6 +438,13 @@ export default {
                     }
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoIndex)
+                    router.push({
+                        query: {
+                            currentPage: this.currentPage,
+                            userName: this.currentUser,
+                            testcode: this.testCode,
+                        }
+                    })
                     this.leftOriginalVideo();
                     this.rightArtifactVideo();
                 })
@@ -551,7 +558,7 @@ export default {
                                     this.currentPage = this.videoIndex[i + 1];
                                     this.rightArtifactVideo();
                                     this.leftOriginalVideo();
-                                    return;
+                                    break;
                                 }
                             }
                         })
