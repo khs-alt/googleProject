@@ -115,8 +115,10 @@ export default {
       imageIndex: 0,
       currentUser: this.$route.query.userName,
       //currentUser: "kim",
+      currentUser: null,
       testCode: this.$route.query.testcode,
       //testCode: "test",
+      testCode: null,
       buttonString: ["0", "1", "2", "3", "4", "5", "Prev", "Next", "Submit"],
       pageState: 7,
       originalPatchImageList: [],
@@ -163,11 +165,12 @@ export default {
   created() {
   },
   mounted() {
+    this.getUserInfo();
     this.getImageIndexCurrentPage();
     window.addEventListener('keydown', this.keydown);
-    this.preloadImage();
     this.getUserLabeling();
     this.getImageNameList();
+    this.preloadImage();
 
   },
   unmounted() {
@@ -216,6 +219,12 @@ export default {
         this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
         this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
       }
+    },
+
+    getUserInfo() {
+      this.currentUser = this.$route.query.userName;
+      this.testCode = this.$route.query.testcode;
+      this.currentPages = this.$route.query.currentPage;
     },
 
     // Backend에서 patch size(행렬) 가져오는 method
@@ -532,13 +541,13 @@ export default {
         this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.prevImage;
-        this.$router.push({
-          query: {
-            userName: this.userId,
-            currentPage: this.currentPage,
-            testcode: this.testcode
-          }
-        });
+        // this.$router.push({
+        //   query: {
+        //     userName: this.userId,
+        //     currentPage: this.currentPage,
+        //     testcode: this.testcode
+        //   }
+        // });
         this.makeImageTemplete();
         this.getUserLabeling();
         this.preloadImage();
@@ -558,13 +567,13 @@ export default {
         this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.nextImage;
-        this.$router.push({
-          query: {
-            userName: this.userId,
-            currentPage: this.currentPage,
-            testcode: this.testcode
-          }
-        });
+        // this.$router.push({
+        //   query: {
+        //     userName: this.userId,
+        //     currentPage: this.currentPage,
+        //     testcode: this.testcode
+        //   }
+        // });
         this.makeImageTemplete();
         this.getUserLabeling();
         this.preloadImage();
