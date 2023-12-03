@@ -26,8 +26,6 @@
                 </div>
               </div>
             </div>
-            <!-- TODO: 12/1 로드 둘다 되면 보이게 하는 거  -->
-            <!-- <div v-if="loadedImageNum === 2"> -->
             <img :src="serveOriginalImage()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
               class="imageStyle" />
             <!-- </div> -->
@@ -48,8 +46,6 @@
                 </div>
               </div>
             </div>
-            <!-- TODO: 12/1 로드 둘다 되면 보이게 하는 거  -->
-            <!-- <div v-if="loadedImageNum === 2"> -->
             <img :src="serveArtifactImage()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
               class="imageStyle" />
             <!-- </div> -->
@@ -88,8 +84,7 @@
         </div>
         <div class="btncontainer">
           <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="scoreButton"
-            :class="{ 'pressed': this.isPressed === a - 1 }">{{ buttonString[a - 1]
-            }}</button>
+            :class="{ 'pressed': this.isPressed === a - 1 }">{{ buttonString[a - 1] }}</button>
         </div>
         <div class="btncontainer">
           <button class="scoreButton" @click="changePreviousPage()">{{ buttonString[6] }}</button>
@@ -113,26 +108,17 @@ export default {
     return {
       index: 0,
       imageIndex: 0,
-      // currentUser: this.$route.query.userName,
-      //currentUser: "kim",
-      currentUser: null,
-      // testCode: this.$route.query.testcode,
-      //testCode: "test",
-      testCode: null,
+      currentUser: this.$route.query.userName,
+      testCode: this.$route.query.testcode,
+      currentPage: this.$route.query.currentPage,
       buttonString: ["0", "1", "2", "3", "4", "5", "Prev", "Next", "Submit"],
       pageState: 7,
-      originalPatchImageList: [],
-      artifactPatchImageList: [],
-      //currentPage: this.$route.query.currentPage,
-      currentPage: 0,
       prevOriginalImage: null,  //이전 사진 preload
       prevArtifactImage: null,  //이전 사진 preload
       prevDifferenceImage: null,  //이전 사진 preload
       nextOriginalImage: null,  //다음 사진 preload
       nextArtifactImage: null,  //다음 사진 preload
       nextDifferenceImage: null,  //다음 사진 preload
-      // 임시로 배열에 데이터 넣어줬음 -> 백엔드 연결 시 삭제 필요 11/26
-      loadedImageNum: 0,
       imageIndexList: [],
       imageOriginalNameList: [],
       imageArtifactNameList: [],
@@ -142,7 +128,6 @@ export default {
       topValue: 0,  //borderBox의 top값
       rightValue: 0,  //patch 이미지의 right값
       bottomValue: 0, //patch 이미지의 bottom값
-      patchSize: [], //Patch 이미지의 사이즈(총 개수, 가로, 세로)
       patchIndex: 0, //Patch 이미지의 인덱스
       patchLength: 0, //Patch 이미지의 총 개수
       patchColumn: 0, //Patch 이미지의 가로
@@ -165,7 +150,6 @@ export default {
   created() {
   },
   mounted() {
-    this.getUserInfo();
     this.getImageIndexCurrentPage();
     window.addEventListener('keydown', this.keydown);
     this.getUserLabeling();
@@ -221,12 +205,6 @@ export default {
       }
     },
 
-    getUserInfo() {
-      this.currentUser = this.$route.query.userName;
-      this.testCode = this.$route.query.testcode;
-      this.currentPages = this.$route.query.currentPage;
-    },
-
     // Backend에서 patch size(행렬) 가져오는 method
     async getImageIndexCurrentPage() {
       await axios
@@ -259,45 +237,6 @@ export default {
         .catch((error) => {
           console.error(error);
         });
-    },
-    // TODO: 백엔드 연결 필요
-    getPatchSize() {
-      axios
-        .get(this.baseUrl + `patchsize`)
-        .then((response) => {
-          console.log("axios get patch size success\n");
-          //[patchLength, patchColumn, patchRow] 안씀
-          this.patchSize = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
-    //TODO: Backend에서 patch image 가져오는 method 백엔드 연결 필요 
-    getPatchImages() {
-      axios
-        .get(this.baseUrl + `patch`)
-        .then((response) => {
-          console.log("axios get patch image success\n");
-          //사용 안하는 변수(?)상기에서 주석 처리 됨
-          this.patchImageList = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
-    // TODO: 백엔드 연결 필요
-    getPatchIndex() {
-      axios
-        .get(this.baseUrl + `patchindex`)
-        .then((response) => {
-          console.log("axios get patch index success\n");
-          //patchIndex => Patch 이미지의 인덱스 int 안씀
-          this.patchIndex = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
     },
 
     //TODO: nameList를 가져오는 함수
@@ -346,6 +285,7 @@ export default {
             // console.log("id is " + this.currentPage)
             console.log(response.data.patch)
             this.userLabeling = response.data.patch;
+            this.isPressed = this.userLabeling[this.patchIndex];
             return;
           }
           else {
