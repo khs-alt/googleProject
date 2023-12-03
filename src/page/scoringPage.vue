@@ -453,22 +453,22 @@ export default {
             }
         },
         leftOriginalVideo() {
-            if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadedNextOriginalVideo.src) {
-                return this.preloadedNextOriginalVideo.src;
-            } else if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadedPrevOriginalVideo.src) {
-                return this.preloadedPrevOriginalVideo.src;
-            } else {
-                return String(this.baseUrl + "/postvideo/original/" + (this.currentPage))
-            }
+            // if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadedNextOriginalVideo.src) {
+            //     return this.preloadedNextOriginalVideo.src;
+            // } else if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadedPrevOriginalVideo.src) {
+            //     return this.preloadedPrevOriginalVideo.src;
+            // } else {
+            return String(this.baseUrl + "/postvideo/original/" + (this.currentPage))
+            // }
         },
         async rightArtifactVideo() {
-            if (this.baseUrl + "/postvideo/artifact/" + (this.currentPage) == this.preloadedNextArtifactVideo.src) {
-                return this.preloadedNextArtifactVideo.src;
-            } else if (this.baseUrl + "/postvideo/artifact/" + (this.currentPage) == this.preloadedPrevArtifactVideo.src) {
-                return this.preloadedPrevArtifactVideo.src;
-            } else {
-                return String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage))
-            }
+            // if (this.baseUrl + "/postvideo/artifact/" + (this.currentPage) == this.preloadedNextArtifactVideo.src) {
+            //     return this.preloadedNextArtifactVideo.src;
+            // } else if (this.baseUrl + "/postvideo/artifact/" + (this.currentPage) == this.preloadedPrevArtifactVideo.src) {
+            //     return this.preloadedPrevArtifactVideo.src;
+            // } else {
+            return String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage))
+            // }
         },
         async submitScoring() {
             for (var i = 0; i < 5; i++) {
