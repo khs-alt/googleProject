@@ -304,7 +304,7 @@ export default {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             var video3 = document.getElementById('toggleVideo');
-            const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
+            // const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
             const temp = video1.duration;
             // video1.pause();
             // video2.pause();
