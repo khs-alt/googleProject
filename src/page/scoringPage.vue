@@ -130,7 +130,7 @@ export default {
             isPressed: [false, false, false, false, false, false],
             isClicked: false,
             menuBar: ['Home'],
-            currentPage: ParseInt(this.$route.query.currentPage),
+            currentPage: parseInt(this.$route.query.currentPage),
             currentUser: this.$route.query.userName,
             testCode: this.$route.query.testcode,
             videoButtonText: "Stop",
@@ -604,7 +604,7 @@ export default {
                 this.$router.push({
                     query: {
                         // path: process.env.BASE_URL + "/scoring",
-                        currentPage: ParseInt(this.currentPage),
+                        currentPage: parseInt(this.currentPage),
                         userName: this.currentUser,
                         testcode: this.testCode,
                     }
