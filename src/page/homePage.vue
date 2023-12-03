@@ -88,6 +88,10 @@ export default {
     },
     created() { },
     mounted() {
+        window.addEventListener('keydown', this.keydown);
+    },
+    unmounted() {
+        window.removeEventListener('keydown', this.keydown);
     },
     methods: {
         clickMenuBtn(index) {
@@ -144,7 +148,7 @@ export default {
                         if (res.data == "scoring") {
                             this.currentUser = this.userId
                             this.goToPage(res.data);
-                        } else if (res.data == "labeling"){
+                        } else if (res.data == "labeling") {
                             this.currentUser = this.userId;
                             this.goToPage(res.data);
                         } else {
@@ -164,6 +168,14 @@ export default {
                 this.$router.push('/');
             } else {
                 alert(item)
+            }
+        },
+
+        //키보드 이벤트 함수
+        keydown(e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                this.submitLoginAction();
             }
         },
     }

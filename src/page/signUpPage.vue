@@ -63,6 +63,12 @@ export default {
             passwordShake: false,
         };
     },
+    mounted() {
+        window.addEventListener('keydown', this.keydown);
+    },
+    unmounted() {
+        window.removeEventListener('keydown', this.keydown);
+    },
     computed: {
         isIdValid() {
             // ID 유효성 검사: 영어 소문자, 대문자, 숫자, 일부 특수문자만 허용하며 최소 한 글자 이상이어야 함
@@ -116,6 +122,14 @@ export default {
                     .catch(error => {
                         console.error(error);
                     })
+            }
+        },
+
+        //키보드 이벤트 함수
+        keydown(e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                this.register();
             }
         },
     }

@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class="imageName">
-          <p>{{ this.imageArtifactNameList[this.imageIndex] }}</p>
+          <p style="font-size: 14px;">{{ this.imageArtifactNameList[this.imageIndex] }}</p>
           <div class="images">
             <div v-for="i in patchRow" :key="i">
               <div v-for="j in patchColumn" :key="j">
@@ -129,17 +129,11 @@ export default {
       nextOriginalImage: null,  //다음 사진 preload
       nextArtifactImage: null,  //다음 사진 preload
       nextDifferenceImage: null,  //다음 사진 preload
-      //originalImage: require('../images/addPadding.png'),
-      //artifactImage: require('../images/addPadding.png'),
-      //originalImage: "http://localhost:8000/postimage/original/0",
-      //artifactImage: "http://localhost:8000/postimage/artifact/0",
-      //imageList: this.$route.query.imageList,
       // 임시로 배열에 데이터 넣어줬음 -> 백엔드 연결 시 삭제 필요 11/26
       loadedImageNum: 0,
       imageIndexList: [],
       imageOriginalNameList: [],
       imageArtifactNameList: [],
-      //patchImageList: [require('../images/1.jpg'), require('../images/1.jpg')], //Patch 이미지 리스트
       borderBox: 224, //Patch 이미지의 크기
       borderBoxResize: 0, //축소된 patch 이미지의 크기
       leftValue: 0, //borderBox의 left값
@@ -169,15 +163,11 @@ export default {
   created() {
   },
   mounted() {
-    //this.getPatchImagesTemp();
-
     this.getImageIndexCurrentPage();
     window.addEventListener('keydown', this.keydown);
     this.preloadImage();
     this.getUserLabeling();
     this.getImageNameList();
-    //this.$refs.img.addEventListener('load', this.loadHandler);
-    //this.currentUserInfo();
 
   },
   unmounted() {
@@ -229,12 +219,6 @@ export default {
       }
     },
 
-    // loadHandler() {
-    //   this.loadedImageNum++;
-    //   console.log("로드된 이미지 수: " + this.loadedImageNum);
-    //   if (this.loadImageNum > 2) this.loadedImageNum = 0;
-    // },
-
     // Backend에서 patch size(행렬) 가져오는 method
     async getImageIndexCurrentPage() {
       await axios
@@ -248,8 +232,6 @@ export default {
           if (response.data.current_page > 0) {
             this.currentPage = response.data.current_page;
           }
-          // console.log("current page is")
-          // console.log(this.currentPage)
           // currentPage를 받아서 labeling 이미지를 만듦
           // cuurentPage에 따라 imageID가 달라져서 이를 반영하기 위해 axios를 받은 후에 makeImageTemplete()를 호출함
           // makeImageTemplete()에서는 labeling 이미지를 만드는 함수임
@@ -276,7 +258,6 @@ export default {
         .get(this.baseUrl + `patchsize`)
         .then((response) => {
           console.log("axios get patch size success\n");
-          //patchSize => Patch 이미지의 사이즈(총 개수, 가로, 세로) list
           //[patchLength, patchColumn, patchRow] 안씀
           this.patchSize = response.data;
         })
@@ -373,10 +354,7 @@ export default {
     getImageSize() {
       return new Promise((resolve, reject) => {
         let img = new Image();
-        //console.log("-------------------");
         img.src = this.serveOriginalImage();
-        // console.log("current page: " + this.currentPage)
-        // console.log("image name: " + img.src);
 
         let self = this;
         img.onload = function () {
@@ -389,7 +367,6 @@ export default {
           self.patchLength = self.patchColumn * self.patchRow;
           self.setPatch(self.i, self.j);
 
-          //console.log("원래 이미지 사이즈");
           resolve(); // Promise가 성공적으로 완료됨
         };
 
@@ -405,10 +382,6 @@ export default {
       this.resizeWidth = this.imageWidth * 0.25;
       this.resizeHeight = this.imageHeight * 0.25;
       this.borderBoxResize = this.borderBox * 0.25;
-      // console.log("축소된 이미지 사이즈");
-      // console.log(this.resizeWidth);
-      // console.log(this.resizeHeight);
-      // console.log(this.borderBoxResize);
     },
 
     //patch 이미지의 위치를 조정하는 함수
@@ -550,7 +523,6 @@ export default {
     changePreviousPage() {
       this.pageState = 7;
       if (this.imageIndex === 0) {
-        // TODO: 11/29 01:13 수정 
         this.postUserLabeling();
         alert("this is first image");
       }
@@ -569,7 +541,6 @@ export default {
         this.makeImageTemplete();
         this.getUserLabeling();
         this.preloadImage();
-        // this.loadHandler();
       }
     },
 
@@ -594,7 +565,6 @@ export default {
         this.makeImageTemplete();
         this.getUserLabeling();
         this.preloadImage();
-        // this.loadHandler();
       }
     },
 
