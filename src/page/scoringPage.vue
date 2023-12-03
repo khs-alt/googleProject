@@ -10,12 +10,14 @@
             </div>
         </div>
     </div>
-    <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
+    <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px; margin-bottom: 8px;">
         <p style="font-size: 24px; margin-top: 10px">Video Ghosting Artifact Scoring System</p>
-        <div style="position: relative;">
-            <div style="margin-right: 10px;">{{ currentPageIndex }}/{{ totalLength }}</div>
-            <div style="margin-left: auto; margin-right: auto;" class="toggle-switch" :class="{ 'active': isToggled }"
-                @click="toggleVideo">
+        <div style="display: flex;">
+            <div style="font-size: 20px; margin-left: auto; margin-right: 10px;">
+                {{ currentPageIndex }}/{{ totalLength }}
+            </div>
+            <div style="margin-right: auto; margin-top: auto; margin-bottom: auto;" class="toggle-switch"
+                :class="{ 'active': isToggled }" @click="toggleVideo">
                 <div class="toggle-button" :style="{ left: isToggled ? '24px' : '0px' }"></div>
             </div>
         </div>
