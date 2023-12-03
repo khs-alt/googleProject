@@ -144,10 +144,12 @@ export default {
                         if (res.data.path == "scoring") {
                             this.currentUser = this.userId
                             this.currentPage = ParseInt(res.data.lastPage);
+                            console.log("lastPage: " + this.currentPage)
                             this.goToPage(res.data.path);
                         } else if (res.data.path == "labeling") {
                             this.currentUser = this.userId;
                             this.currentPage = ParseInt(res.data.lastPage);
+                            console.log("lastPage: " + this.currentPage)
                             this.goToPage(res.data.path);
                         } else {
                             alert(res.data.path)

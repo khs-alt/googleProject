@@ -130,7 +130,7 @@ export default {
             isPressed: [false, false, false, false, false, false],
             isClicked: false,
             menuBar: ['Home'],
-            currentPage: this.$route.query.currentPage,
+            currentPage: ParseInt(this.$route.query.currentPage),
             currentUser: this.$route.query.userName,
             testCode: this.$route.query.testcode,
             videoButtonText: "Stop",
@@ -462,12 +462,12 @@ export default {
             }
         },
         leftOriginalVideo() {
-            console.log("leftOriginalVideo: " + this.baseUrl + "/postvideo/original/" + this.currentPage)
-            return String(this.baseUrl + "/postvideo/original/" + this.currentPage)
+            console.log("leftOriginalVideo: " + this.baseUrl + "postvideo/original/" + this.currentPage)
+            return String(this.baseUrl + "postvideo/original/" + this.currentPage)
         },
         rightArtifactVideo() {
-            console.log("rightArtifactVideo: " + this.baseUrl + "/postvideo/artifact/" + this.currentPage)
-            return String(this.baseUrl + "/postvideo/artifact/" + this.currentPage)
+            console.log("rightArtifactVideo: " + this.baseUrl + "postvideo/artifact/" + this.currentPage)
+            return String(this.baseUrl + "postvideo/artifact/" + this.currentPage)
         },
         async submitScoring() {
             for (var i = 0; i < 5; i++) {
@@ -604,7 +604,7 @@ export default {
                 this.$router.push({
                     query: {
                         // path: process.env.BASE_URL + "/scoring",
-                        currentPage: this.currentPage,
+                        currentPage: ParseInt(this.currentPage),
                         userName: this.currentUser,
                         testcode: this.testCode,
                     }
