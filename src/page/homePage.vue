@@ -95,7 +95,7 @@ export default {
     },
     methods: {
         keydown(e) {
-            if (e.keycode === 13) {
+            if (e.keyCode === 13) {
                 e.preventDefault();
                 this.submitLoginAction();
             }

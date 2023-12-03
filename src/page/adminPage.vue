@@ -116,7 +116,7 @@ export default {
         },
 
         keydown(e) {
-            if (e.keycode === 13) {
+            if (e.keyCode === 13) {
                 e.preventDefault();
                 this.submitCredentials();
             }
