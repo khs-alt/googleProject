@@ -513,23 +513,12 @@ export default {
                 alert("This is the last page of this test code. Thank you!");
                 this.$router.push({
                     query: {
-                        path: process.env.BASE_URL + "/scoring",
+                        // path: process.env.BASE_URL + "/scoring",
                         currentPage: this.currentPage,
                         userName: this.currentUser,
                         testcode: this.testCode,
                     }
                 })
-                // axios
-                //     .post(this.baseUrl + "postdata", {
-                //         Title: "scoring data",
-                //         Score: this.userScoring,
-                //         CurrentUser: this.currentUser,
-                //         ImageId: parseInt(this.currentPage),
-                //         TestCode: this.testCode
-                //     })
-                //     .catch(error => {
-                //         console.error(error);
-                //     })
                 return;
             } else {
                 this.videoNameIndex += 1
@@ -544,100 +533,98 @@ export default {
                 this.isPressed = [false, false, false, false, false, false]
                 this.$router.push({
                     query: {
-                        path: process.env.BASE_URL + "/scoring",
+                        // path: process.env.BASE_URL + "/scoring",
                         currentPage: this.currentPage,
                         userName: this.currentUser,
                         testcode: this.testCode,
                     }
                 })
-                // axios
-                //     .post(this.baseUrl + "postdata", {
-                //         Title: "scoring data",
-                //         Score: this.userScoring,
-                //         CurrentUser: this.currentUser,
-                //         ImageId: parseInt(this.currentPage),
-                //         TestCode: this.testCode
-                //     })
-                //     .then(res => {
-                //         //after post we have to init data form userScoring and currentPage
-                //         this.userScoring = 0
-                //         this.isPressed = [false, false, false, false, false, false]
-                //         this.videoNameIndex += 1
-                //         // score가 response로 날아옴
-                //         var curScore = res.data;
-                //         this.resetZoomAndOffset();
-                //         this.updateVideoStyle();
-                //         // 사용자가 scoring한 점수가 없으면 curScore == -1
-                //         if (curScore != -1) {
-                //             this.isPressed[curScore] = true;
-                //             this.clickedButton = curScore;
-                //             //console.log("isPressed: " + curScore);
-                //         } else {
-                //             this.isPressed = [false, false, false, false, false, false]
-                //         }
-                //         for (var i = 0; i < this.videoIndex.length; i++) {
-                //             //console.log("video index : ", this.videoIndex[i])
-                //             if (this.videoIndex[i] == this.currentPage) {
-                //                 this.currentPage = this.videoIndex[i + 1];
-                //                 this.rightArtifactVideo();
-                //                 this.leftOriginalVideo();
-                //                 break;
-                //             }
-                //         }
-                //     })
-                //     .catch(error => {
-                //         console.error(error);
-                //     })
             }
-            // this.clickedButton = -1
-
         },
         async changeBackVideo() {
+            if (this.videoButtonText == 'Stop') {
+                this.changeVideoButton();
+            }
+            this.userScoring = this.clickedButton
+            console.log("user scoring: ", this.userScoring)
+            //마지막 페이지 확인
             if (this.currentPage == this.videoIndex[0]) {
-                alert("This is the first page.");
+                alert("This is the first page of this test code.");
+                this.$router.push({
+                    query: {
+                        // path: process.env.BASE_URL + "/scoring",
+                        currentPage: this.currentPage,
+                        userName: this.currentUser,
+                        testcode: this.testCode,
+                    }
+                })
                 return;
             } else {
-                if (this.videoButtonText == 'Stop') {
-                    this.changeVideoButton();
-                }
-                this.isPressed = [false, false, false, false, false, false]
-                for (var i = 1; i < this.videoIndex.length; i++) {
+                this.videoNameIndex -= 1
+                for (var i = 0; i < this.videoIndex.length; i++) {
                     if (this.videoIndex[i] == this.currentPage) {
-                        this.videoNameIndex -= 1
                         this.currentPage = this.videoIndex[i - 1];
-                        this.leftOriginalVideo();
                         this.rightArtifactVideo();
-                        var curScore = 0;
-                        axios
-                            .post(this.baseUrl + "getUserScore", {
-                                CurrentUser: this.currentUser,
-                                ImageId: parseInt(this.currentPage),
-                                TestCode: this.testCode,
-                            })
-                            .then((response) => {
-                                curScore = response.data;
-                                //console.log(curScore)
-                                if (curScore != -1) {
-                                    this.isPressed[curScore] = true;
-                                    this.clickedButton = curScore;
-                                } else {
-                                    curScore = -1
-                                    this.clickedButton = curScore;
-                                    this.isPressed = [false, false, false, false, false, false]
-                                }
-                                //console.log("curScore: " + curScore);
-                            })
-                            .catch((err) => {
-                                console.log(err);
-                            })
-                        return;
+                        this.leftOriginalVideo();
+                        break;
                     }
                 }
-                this.clickedButton = -1
+                this.isPressed = [false, false, false, false, false, false]
+                this.$router.push({
+                    query: {
+                        // path: process.env.BASE_URL + "/scoring",
+                        currentPage: this.currentPage,
+                        userName: this.currentUser,
+                        testcode: this.testCode,
+                    }
+                })
             }
+            // if (this.currentPage == this.videoIndex[0]) {
+            //     alert("This is the first page.");
+            //     return;
+            // } else {
+            //     if (this.videoButtonText == 'Stop') {
+            //         this.changeVideoButton();
+            //     }
+            //     this.isPressed = [false, false, false, false, false, false]
+            //     for (var i = 1; i < this.videoIndex.length; i++) {
+            //         if (this.videoIndex[i] == this.currentPage) {
+            //             this.videoNameIndex -= 1
+            //             this.currentPage = this.videoIndex[i - 1];
+            //             this.leftOriginalVideo();
+            //             this.rightArtifactVideo();
+            //             var curScore = 0;
+            //             axios
+            //                 .post(this.baseUrl + "getUserScore", {
+            //                     CurrentUser: this.currentUser,
+            //                     ImageId: parseInt(this.currentPage),
+            //                     TestCode: this.testCode,
+            //                 })
+            //                 .then((response) => {
+            //                     curScore = response.data;
+            //                     //console.log(curScore)
+            //                     if (curScore != -1) {
+            //                         this.isPressed[curScore] = true;
+            //                         this.clickedButton = curScore;
+            //                     } else {
+            //                         curScore = -1
+            //                         this.clickedButton = curScore;
+            //                         this.isPressed = [false, false, false, false, false, false]
+            //                     }
+            //                     //console.log("curScore: " + curScore);
+            //                 })
+            //                 .catch((err) => {
+            //                     console.log(err);
+            //                 })
+            //             return;
+            //         }
+            //     }
+            //     this.clickedButton = -1
+            // }
         },
         // score button 눌렸는지 안눌렸는지 확인하는 method
         toggleButton(index) {
+            this.isPressed = [false, false, false, false, false, false]
             this.isPressed[index] = !this.isPressed[index]
 
             this.userScoring = index
