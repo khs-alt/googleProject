@@ -163,7 +163,7 @@ export default {
     },
     created() { },
     mounted() {
-        this.changeVideoButton;
+        this.changeVideoButton();
         this.getVideoIndexCurrentPage();
         this.addEventVideoPlay();
         this.isVideoPaused();
@@ -410,10 +410,22 @@ export default {
             }
         },
         leftOriginalVideo() {
-            return String(this.baseUrl + "/postvideo/original/" + (this.currentPage))
+            if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadNextVideo) {
+                return this.preloadedNextOriginalVideo;
+            } else if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadedPrevOriginalVideo) {
+                return this.preloadedPrevOriginalVideo;
+            } else {
+                return String(this.baseUrl + "/postvideo/original/" + (this.currentPage))
+            }
         },
         rightArtifactVideo() {
-            return String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage))
+            if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadNextVideo) {
+                return this.preloadedNextOriginalVideo;
+            } else if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadedPrevOriginalVideo) {
+                return this.preloadedPrevOriginalVideo;
+            } else {
+                return String(this.baseUrl + "/postvideo/original/" + (this.currentPage))
+            }
         },
         submitScoring() {
             for (var i = 0; i < 5; i++) {
@@ -459,6 +471,9 @@ export default {
             if (this.clickedButton == -1) {
                 alert("Please choose score.")
             } else {
+                if (this.videoButtonText == 'Stop') {
+                    this.changeVideoButton();
+                }
                 this.userScoring = this.clickedButton
                 console.log("user scoring: ", this.userScoring)
                 console.log("next current page: ", this.currentPage)
@@ -488,14 +503,11 @@ export default {
                         })
                         .then(res => {
                             //after post we have to init data form userScoring and currentPage
-                            //console.log("response: ", res.data)
                             this.userScoring = 0
                             this.isPressed = [false, false, false, false, false, false]
                             this.videoNameIndex += 1
-                            //console.log("videoNameIndex: ", this.videoNameIndex)
                             // score가 response로 날아옴
                             var curScore = res.data;
-                            //console.log("next button curScore: " + curScore)
                             this.resetZoomAndOffset();
                             this.updateVideoStyle();
                             // 사용자가 scoring한 점수가 없으면 curScore == -1
@@ -515,7 +527,6 @@ export default {
                                             testcode: this.testcode,
                                         }
                                     });
-                                    //console.log("next page : " + this.currentPage);
                                     return;
                                 }
                             }
@@ -530,9 +541,11 @@ export default {
         changeBackVideo() {
             if (this.currentPage == this.videoIndex[0]) {
                 alert("This is the first page.");
-                //console.log("first page: ", this.currentPage);
                 return;
             } else {
+                if (this.videoButtonText == 'Stop') {
+                    this.changeVideoButton();
+                }
                 this.isPressed = [false, false, false, false, false, false]
                 for (var i = 1; i < this.videoIndex.length; i++) {
                     if (this.videoIndex[i] == this.currentPage) {
@@ -545,9 +558,6 @@ export default {
                                 testcode: this.testcode
                             }
                         });
-                        //console.log("video index : ", this.videoIndex[i])
-                        //console.log("prev page: " + this.currentPage);
-                        //console.log("videoNameIndex: ", this.videoNameIndex)
                         var curScore = 0;
                         axios
                             .post(this.baseUrl + "getUserScore", {
@@ -665,8 +675,6 @@ export default {
             if (originalFrame != 0 && artifactFrame != 0) {
                 const halfOriginalFrame = (1 / originalFrame) / 2;
                 const halfArtifactFrame = (1 / artifactFrame) / 2;
-                //console.log("original frame: " + originalFrame)
-                //console.log("artifact frame: " + artifactFrame)
 
                 if (video1 && video2) {
                     if (video1.currentTime == 0) {
@@ -680,8 +688,6 @@ export default {
                     }
                 }
             }
-            //console.log("current left time: " + video1.currentTime)
-            //console.log("current right time: " + video2.currentTime)
         },
         seekForward() {
             const video1 = this.$refs.videoNoartifact;
@@ -692,20 +698,14 @@ export default {
             if (originalFrame != 0 && artifactFrame != 0) {
                 const halfOriginalFrame = (1 / originalFrame) / 2;
                 const halfArtifactFrame = (1 / artifactFrame) / 2;
-                //console.log("original frame: " + originalFrame)
-                //console.log("artifact frame: " + artifactFrame)
                 if (video1 && video2) {
                     if (video1.currentTime == 0 || video2.currentTime == 0) {
                         video1.currentTime = halfOriginalFrame;
                         video2.currentTime = halfArtifactFrame;
                         video3.currentTime = halfArtifactFrame;
                     } else {
-                        // TODO: 마지막 프레임을 버림
+                        // 마지막 프레임을 버림
                         if (video1.currentTime + (1 / originalFrame) * 3 >= video1.duration || video2.currentTime + (1 / artifactFrame) * 3 >= video2.duration) {
-                            //console.log("video1.duration: " + video1.duration)
-                            //console.log("video2.duration: " + video2.duration)
-                            //console.log("video1.currentTime: " + video1.currentTime)
-                            //console.log("video2.currentTime: " + video2.currentTime)
                             return;
                         }
                         video1.currentTime += 1 / originalFrame;
