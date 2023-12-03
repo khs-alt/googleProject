@@ -293,8 +293,8 @@ export default {
         goToBegin() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
-            video1.pause();
-            video2.pause();
+            // video1.pause();
+            // video2.pause();
             video1.currentTime = 0;
             video2.currentTime = 0;
         },
@@ -302,9 +302,9 @@ export default {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
-            const temp = video1.duration - 1 / originalFrame;
-            video1.pause();
-            video2.pause();
+            const temp = video1.duration;
+            // video1.pause();
+            // video2.pause();
             video1.currentTime = temp;
             video2.currentTime = temp;
         },

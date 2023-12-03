@@ -114,7 +114,7 @@ export default {
         // TODO: tsetcode 버튼을 누르고 그냥 tag 버튼을 누르면 뻑 남
         clickExport() {
             axios
-                .post(this.baseUrl + 'getCSVFile', {
+                .post(this.baseUrl + 'getImageCSVFile', {
                     testcode: this.clickedTestcodeBtn
                 })
                 .then((response) => {

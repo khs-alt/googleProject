@@ -291,6 +291,7 @@ export default {
             this.userLabeling = [];
           }
           this.isPressed = this.userLabeling[this.patchIndex];
+          console.log(this.isPressed);
         })
         .catch((error) => {
           console.log(error);

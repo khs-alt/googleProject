@@ -115,29 +115,15 @@ export default {
             if (this.clickedTestcodeBtn == "") {
                 this.clickedTestcodeBtn = testcodeName;
             }
-            //console.log("clicked testcode button: ", this.clickedTestcodeBtn);
-
             const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
-            //const tagIndex = testcodeIndex;
-            //console.log("tagcode index: ", tagIndex);
             if (testcodeIndex !== -1) {
                 for (var i = 0; i < this.tag.length; i++) {
                     this.clickTagBtn(i);
                 }
             }
-
-            // this.clickedTagBtn = this.
-            //         existTestcode.tags[testcodeIndex];
-            //     //console.log("clicked tag button: ", this.clickedTagBtn)
-            //     this.isClicked = []
-            //     this.isClicked.push(this.existTestcode.tags[testcodeIndex])
-            //     //console.log("this.isClicked: ", this.isClicked)
-            // TODO: testcode에 있는 tag들의 버튼 index를 찾아서 clickTagBtn method를 실행시켜야 함
-
             this.getVideoListFromTag();
         },
         async getVideoListFromTag() {
-            //console.log("get video list from\n tag: ", this.clickedTagBtn);
             this.videoFromTag = [];
 
             if (this.clickedTagBtn.length === 0) {
