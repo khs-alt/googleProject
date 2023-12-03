@@ -285,7 +285,6 @@ export default {
             console.log(response.data.patch)
             this.userLabeling = response.data.patch;
             this.isPressed = this.userLabeling[this.patchIndex];
-            console.log("되냐고", this.isPressed);
             return;
           }
           else {
