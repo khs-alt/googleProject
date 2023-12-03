@@ -460,12 +460,12 @@ export default {
             }
         },
         rightArtifactVideo() {
-            if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadNextVideo) {
-                return this.preloadedNextOriginalVideo;
-            } else if (this.baseUrl + "/postvideo/original/" + (this.currentPage) == this.preloadedPrevOriginalVideo) {
-                return this.preloadedPrevOriginalVideo;
+            if (this.baseUrl + "/postvideo/artifact/" + (this.currentPage) == this.preloadNextVideo) {
+                return this.preloadedNextArtifactVideo;
+            } else if (this.baseUrl + "/postvideo/artifact/" + (this.currentPage) == this.preloadedPrevArtifactVideo) {
+                return this.preloadedPrevArtifactVideo;
             } else {
-                return String(this.baseUrl + "/postvideo/original/" + (this.currentPage))
+                return String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage))
             }
         },
         submitScoring() {
@@ -516,7 +516,6 @@ export default {
                 }
                 this.userScoring = this.clickedButton
                 console.log("user scoring: ", this.userScoring)
-                console.log("next current page: ", this.currentPage)
                 //마지막 페이지 확인
                 if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
                     axios
