@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
-    <p style="font-size: 24px; margin-top: 10px;">Labeling System</p>
+    <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
     <div class="labelcontainer">
       <div :class="this.imageWidth <= 1080 ? 'imagecontainer' : 'imagecontainer-column'">
         <div class="imageName">
@@ -206,14 +206,12 @@ export default {
         this.nextOriginalImage = new Image();
         this.nextArtifactImage = new Image();
         this.nextDifferenceImage = new Image();
-        console.log("nextImage")
         this.nextOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
         this.nextArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage + 1));
         this.nextDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage + 1));
         this.prevOriginalImage = new Image();
         this.prevArtifactImage = new Image();
         this.prevDifferenceImage = new Image();
-        console.log("prevImage");
         this.prevOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
         this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
         this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
@@ -530,6 +528,8 @@ export default {
       else {
         this.postUserLabeling();
         this.imageIndex -= 1;
+        this.i = 0;
+        this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.prevImage;
         this.$router.push({
@@ -554,6 +554,8 @@ export default {
         if (this.imageIndex === this.imageIndexList.length - 2) this.pageState = 8;
         this.postUserLabeling();
         this.imageIndex += 1;
+        this.i = 0;
+        this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.nextImage;
         this.$router.push({
