@@ -143,11 +143,11 @@ export default {
                     .then(res => {
                         if (res.data.path == "scoring") {
                             this.currentUser = this.userId
-                            this.currentPage = res.data.last_page;
+                            this.currentPage = res.data.lastPage;
                             this.goToPage(res.data.path);
                         } else if (res.data.path == "labeling") {
                             this.currentUser = this.userId;
-                            this.currentPage = res.data.last_page;
+                            this.currentPage = res.data.lastPage;
                             this.goToPage(res.data.path);
                         } else {
                             alert(res.data.path)

@@ -47,7 +47,8 @@
                             </video>
                         </div>
                         <div>
-                            <div style="margin-top: 8px;">{{ this.originalVideoNameList[videoNameIndex] }}</div>
+                            <div style="margin-top: 8px; font-size: 8px; ">{{ this.originalVideoNameList[videoNameIndex] }}
+                            </div>
                         </div>
                     </div>
                     <div style="margin: 15px;">
@@ -61,7 +62,8 @@
                             </video>
                         </div>
                         <div>
-                            <div style="margin-top: 8px;">{{ this.artifactVideoNameList[videoNameIndex] }}</div>
+                            <div style="margin-top: 8px; font-size: 8px;">{{ this.artifactVideoNameList[videoNameIndex] }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -593,6 +595,10 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 })
+            var videoEelement1 = document.getElementById('videoNoartifact');
+            var videoEelement2 = document.getElementById('videoYesartifact');
+            videoEelement1.style.transform = "scale(1)";
+            videoEelement2.style.transform = "scale(1)";
             if (this.currentPage == this.videoIndex[0]) {
                 alert("This is the first page of this test code.");
                 this.$router.push({
