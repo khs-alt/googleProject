@@ -121,12 +121,12 @@ export default {
       artifactPatchImageList: [],
       //currentPage: this.$route.query.currentPage,
       currentPage: 0,
-      prevOriginalImage: null,
-      prevArtifactImage: null,
-      prevDifferenceImage: null,
-      nextOriginalImage: null,
-      nextArtifactImage: null,
-      nextDifferenceImage: null,
+      prevOriginalImage: null,  //이전 사진 preload
+      prevArtifactImage: null,  //이전 사진 preload
+      prevDifferenceImage: null,  //이전 사진 preload
+      nextOriginalImage: null,  //다음 사진 preload
+      nextArtifactImage: null,  //다음 사진 preload
+      nextDifferenceImage: null,  //다음 사진 preload
       //originalImage: require('../images/addPadding.png'),
       //artifactImage: require('../images/addPadding.png'),
       //originalImage: "http://localhost:8000/postimage/original/0",
