@@ -26,7 +26,7 @@
                 <div id="video-margin" style="display: flex; max-height: 60%;">
                     <div style="margin: 15px;">
                         <div
-                            style="max-width: 100%; max-height: 550px; overflow: hidden; border: solid 1px gray; width: fit-content;">
+                            style="max-width: 100%; max-height: 550px; overflow: hidden; border: solid 1px gray; width: fit-content; height: fit-content;">
                             <!-- toggle된 video -->
                             <div v-show="isToggled" style="position: relative;">
                                 <div style="max-height: 550px; overflow: hidden;">
@@ -55,7 +55,7 @@
                     </div>
                     <div style="margin: 15px;">
                         <div
-                            style="max-width: 100%; max-height: 550px; overflow: hidden; border: solid 1px gray; width: fit-content;">
+                            style="max-width: 100%; max-height: 550px; overflow: hidden; border: solid 1px gray; width: fit-content; height: fit-content;">
                             <video id="videoYesartifact" :style="videoStyles" style="max-height: 550px; max-width: 100%;"
                                 ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
                                 :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
@@ -100,14 +100,14 @@
             <div style="display: flex; margin-left: auto; margin-right: auto;">
                 <div style="margin-left: auto; margin-right: auto; display: flex;">
                     <button v-on="click" class="btn-style"
-                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 2px;"
+                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 0.5px;"
                         @click="[changeBackVideo(), preloadNextVideo()]">prev</button>
                     <button v-for="a in 6" ref="score" :key="a - 1" v-on:click="clickedButton = a - 1"
                         style="width: 50px; height: 40px; font-size:x-large; padding-top: 2px;"
                         :class="{ 'clicked-btn-style': isPressed[a - 1], 'btn-style': !isPressed[a - 1] }"
                         @click="toggleButton(a - 1)">{{ a - 1 }}</button>
                     <button v-on="click" class="btn-style"
-                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 2px;"
+                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 0.5px;"
                         @click="[changeNextVideo(), preloadNextVideo()]">next</button>
                 </div>
             </div>
@@ -437,8 +437,7 @@ export default {
                     this.artifactVideoNameList = response.data.artifactVideoNameList;
                     this.originalVideoFrameList = response.data.originalVideoFPSList;
                     this.artifactVideoFrameList = response.data.artifactVideoFPSList;
-                    var curScore = 0;
-                    curScore = response.data.userScore;
+                    var curScore = response.data.userScore;
                     this.videoNameIndex = this.currentPage;
                     if (curScore != -1) {
                         this.isPressed[curScore] = true;

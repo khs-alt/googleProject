@@ -171,7 +171,6 @@ export default {
     serveDifferenceImage() {
       return String(this.baseUrl + "postimage/difference/" + (this.currentPage))
     },
-
     preloadImage() {
       if (this.currentPage === 0) {
         this.nextOriginalImage = new Image();
@@ -204,7 +203,6 @@ export default {
         this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
       }
     },
-
     // Backend에서 patch size(행렬) 가져오는 method
     async getImageIndexCurrentPage() {
       await axios
@@ -214,13 +212,14 @@ export default {
         })
         .then((response) => {
           console.log(response.data)
-          //사용자가 입력한 데이터가 없을 경우
           if (response.data.current_page > 0) {
             this.currentPage = response.data.current_page;
           }
           // currentPage를 받아서 labeling 이미지를 만듦
           // cuurentPage에 따라 imageID가 달라져서 이를 반영하기 위해 axios를 받은 후에 makeImageTemplete()를 호출함
           // makeImageTemplete()에서는 labeling 이미지를 만드는 함수임
+
+          this.makeImageTemplete();
           this.$router.push({
             query: {
               userName: this.currentUser,
@@ -228,13 +227,13 @@ export default {
               testcode: this.testCode
             }
           });
-          this.makeImageTemplete();
         })
         .catch((error) => {
           console.log(error);
+          alert("login failed")
+          this.$router.push(process.env.BASE_URL);
         })
     },
-
     makeImageTemplete() {
       this.getImageSize()
         .then(() => {
@@ -262,8 +261,6 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          alert("login failed")
-          this.$router.push(process.env.BASE_URL);
         })
     },
 
@@ -277,9 +274,9 @@ export default {
     },
 
     //라벨링 여부에 따라 userLabeling 가져오는 함수
-    async getUserLabeling() {
+    getUserLabeling() {
       console.log("get current page is " + this.currentPage)
-      await axios
+      axios
         .post(this.baseUrl + "getUserImageScore", {
           current_user: this.currentUser,
           image_id: this.currentPage,
@@ -481,13 +478,13 @@ export default {
         this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.prevImage;
-        // this.$router.push({
-        //   query: {
-        //     userName: this.userId,
-        //     currentPage: this.currentPage,
-        //     testcode: this.testcode
-        //   }
-        // });
+        this.$router.push({
+          query: {
+            userName: this.userId,
+            currentPage: this.currentPage,
+            testcode: this.testcode
+          }
+        });
         this.makeImageTemplete();
         this.getUserLabeling();
         this.preloadImage();
@@ -507,13 +504,13 @@ export default {
         this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.nextImage;
-        // this.$router.push({
-        //   query: {
-        //     userName: this.userId,
-        //     currentPage: this.currentPage,
-        //     testcode: this.testcode
-        //   }
-        // });
+        this.$router.push({
+          query: {
+            userName: this.userId,
+            currentPage: this.currentPage,
+            testcode: this.testcode
+          }
+        });
         this.makeImageTemplete();
         this.getUserLabeling();
         this.preloadImage();

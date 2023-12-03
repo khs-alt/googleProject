@@ -99,6 +99,7 @@ export default {
         // TODO: 클릭은 되는데 videoList가 안 옴
         // TODO: tsetcode 버튼을 누르고 그냥 tag 버튼을 누르면 뻑 남
         clickExport() {
+            console.log("clicked testcode: " + this.clickedTestcodeBtn);
             axios
                 .post(this.baseUrl + 'getCSVFile', {
                     testcode: this.clickedTestcodeBtn
@@ -107,7 +108,7 @@ export default {
                     console.log("response.data: " + response.data);
                     console.log("response: " + response)
                     // alert("Exported testcode: " + this.clickedTestcodeBtn);
-                    const url = window.URL.createObjectURL(new Blob([response.body]));
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
                     const link = document.createElement('a');
                     link.href = url;
                     link.setAttribute('download', 'file.csv'); // 다운로드될 파일 이름
