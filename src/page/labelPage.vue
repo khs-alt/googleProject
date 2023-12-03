@@ -10,9 +10,9 @@
       </div>
     </div>
   </div>
-  <p style="font-size: 24px; margin-top: 10px;">Labeling System</p>
-  <div class="labelContainor">
-    <div :class="this.imageWidth > 1080 ? 'imagecontainer-column' : 'imagecontainer'">
+  <p style="font-size: 14px; margin-top: 10px;">Labeling System</p>
+  <div class="labelcontainer">
+    <div :class="this.imageWidth > 1100 ? 'imagecontainer-column' : 'imagecontainer'">
       <div class="imageName">
         <p>{{ this.imageOriginalNameList[this.imageIndex] }}</p>
         <div class="images">
@@ -59,9 +59,9 @@
       </div>
       <div style="clear:both;"></div>
     </div>
-    <div class="patchbtnContainor">
+    <div class="patchbtncontainer">
       <div>
-        <div class="patch-containor">
+        <div class="patch-container">
           <div class="patchName">
             <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
               <img :src="serveOriginalImage()" class="selected-patch"
@@ -85,12 +85,12 @@
           </div>
         </div>
       </div>
-      <div class="btnContainor">
+      <div class="btncontainer">
         <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="scoreButton"
           :class="{ 'pressed': this.isPressed === a - 1 }">{{ buttonString[a - 1]
           }}</button>
       </div>
-      <div class="btnContainor">
+      <div class="btncontainer">
         <button class="scoreButton" @click="changePreviousPage()">{{ buttonString[6] }}</button>
         <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageIndexList.length }}</span>
         <button class="scoreButton" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
@@ -121,10 +121,12 @@ export default {
       artifactPatchImageList: [],
       //currentPage: this.$route.query.currentPage,
       currentPage: 0,
-      prevImage: null,
+      prevOriginalImage: null,
+      prevArtifactImage: null,
+      prevDifferenceImage: null,
       nextOriginalImage: null,
       nextArtifactImage: null,
-      nextDifferectImage: null,
+      nextDifferenceImage: null,
       //originalImage: require('../images/addPadding.png'),
       //artifactImage: require('../images/addPadding.png'),
       //originalImage: "http://localhost:8000/postimage/original/0",
@@ -193,18 +195,35 @@ export default {
 
     preloadImage() {
       if(this.currentPage === 0) {
-        this.nextImage = new Image();
-        this.nextImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+        this.nextOriginalImage = new Image();
+        this.nextArtifactImage = new Image();
+        this.nextDifferenceImage = new Image();
+        this.nextOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+        this.nextArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage + 1));
+        this.nextDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage + 1));
       }
       else if(this.currentPage === this.imageIndexList.length - 1) {
-        this.prevImage = new Image();
-        this.prevImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+        this.prevOriginalImage = new Image();
+        this.prevArtifactImage = new Image();
+        this.prevDifferenceImage = new Image();
+        this.prevOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+        this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
+        this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
       }
       else {
-        this.nextImage = new Image();
-        this.prevImage = new Image();
-        this.nextImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
-        this.prevImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+
+        this.nextOriginalImage = new Image();
+        this.nextArtifactImage = new Image();
+        this.nextDifferenceImage = new Image();
+        this.nextOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+        this.nextArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage + 1));
+        this.nextDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage + 1));
+        this.prevOriginalImage = new Image();
+        this.prevArtifactImage = new Image();
+        this.prevDifferenceImage = new Image();
+        this.prevOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+        this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
+        this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
       }
     },
 
@@ -540,7 +559,7 @@ export default {
         this.$refs.img = this.prevImage;
         this.$router.push({
           query: {
-            userName: this.currentUser,
+            userName: this.userId,
             currentPage: this.currentPage,
             testcode: this.testcode
           }
@@ -554,11 +573,11 @@ export default {
 
 
     changeNextPage() {
-      if (this.imageIndex > this.imageIndexList.length - 1) {
+      if (this.imageIndex >= this.imageIndexList.length - 1) {
         this.postUserLabeling();
         alert("this is last page");
       } else {
-        if (this.imageIndex + 1 === this.imageIndexList.length - 1) this.pageState = 8;
+        if (this.imageIndex === this.imageIndexList.length - 2) this.pageState = 8;
         this.postUserLabeling();
         this.imageIndex += 1;
         this.currentPage = this.imageIndexList[this.imageIndex];
@@ -567,7 +586,7 @@ export default {
           query: {
             userName: this.userId,
             currentPage: this.currentPage,
-            testcode: this.testCode
+            testcode: this.testcode
           }
         });
         this.makeImageTemplete();
