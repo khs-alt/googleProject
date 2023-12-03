@@ -12,9 +12,12 @@
     </div>
     <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
         <p style="font-size: 24px; margin-top: 10px">Video Ghosting Artifact Scoring System</p>
-        <div style="margin-left: auto; margin-right: auto;" class="toggle-switch" :class="{ 'active': isToggled }"
-            @click="toggleVideo">
-            <div class="toggle-button" :style="{ left: isToggled ? '24px' : '0px' }"></div>
+        <div style="position: relative;">
+            <div style="margin-right: 10px;">{{ currentPageIndex }}/{{ totalLength }}</div>
+            <div style="margin-left: auto; margin-right: auto;" class="toggle-switch" :class="{ 'active': isToggled }"
+                @click="toggleVideo">
+                <div class="toggle-button" :style="{ left: isToggled ? '24px' : '0px' }"></div>
+            </div>
         </div>
         <div class="video-container">
             <div class="videoPlayer">
@@ -97,8 +100,7 @@
                         @click="toggleButton(a - 1)">{{ a - 1 }}</button>
                     <button v-on="click" class="btn-style"
                         style="font-size: x-large; width: 180px; height: 55px; padding-top: 6px;"
-                        @click="[changeNextVideo(), preloadNextVideo()]">next {{ currentPageIndex }}/{{ totalLength
-                        }}</button>
+                        @click="[changeNextVideo(), preloadNextVideo()]">next</button>
                 </div>
             </div>
         </div>
@@ -696,9 +698,10 @@ export default {
         seekForward() {
             const video1 = this.$refs.videoNoartifact;
             const video2 = this.$refs.videoYesartifact;
-            var video3 = document.getElementById('toggleVideo');
-            const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
-            const artifactFrame = this.artifactVideoFrameList[this.videoNameIndex];
+            const video3 = document.getElementById('toggleVideo');
+            const originalFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
+            const artifactFrame = 1 / this.artifactVideoFrameList[this.videoNameIndex];
+
             if (originalFrame != 0 && artifactFrame != 0) {
                 const halfOriginalFrame = (1 / originalFrame) / 2;
                 const halfArtifactFrame = (1 / artifactFrame) / 2;
@@ -709,12 +712,12 @@ export default {
                         video3.currentTime = halfArtifactFrame;
                     } else {
                         // 마지막 프레임을 버림
-                        if (video1.currentTime + (1 / originalFrame) * 3 >= video1.duration || video2.currentTime + (1 / artifactFrame) * 3 >= video2.duration) {
+                        if (video1.currentTime + originalFrame * 3 >= video1.duration) {
                             return;
                         }
-                        video1.currentTime += 1 / originalFrame;
-                        video2.currentTime += 1 / artifactFrame;
-                        video3.currentTime += 1 / artifactFrame;
+                        video1.currentTime += originalFrame;
+                        video2.currentTime += artifactFrame;
+                        video3.currentTime += artifactFrame;
                     }
                 }
             }
