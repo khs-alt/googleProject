@@ -438,7 +438,7 @@ export default {
                     }
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoIndex)
-                    router.push({
+                    $router.push({
                         query: {
                             currentPage: this.currentPage,
                             userName: this.currentUser,
