@@ -422,7 +422,7 @@ export default {
                     testcode: this.testCode,
                 })
                 .then((response) => {
-                    this.currentPage = parseInt(response.data.currentPage) + 1; //여기다 1 더해서 
+                    this.currentPage = parseInt(response.data.currentPage); //여기다 1 더해서 
                     this.videoIndex = response.data.videoList;
                     this.totalLength = this.videoIndex.length;
                     this.originalVideoNameList = response.data.originalVideoNameList;
