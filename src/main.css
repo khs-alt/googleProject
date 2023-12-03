@@ -193,7 +193,7 @@
 }
 .labeled-border {
   position: absolute;
-  outline: 2px solid red;
+  border: 2px solid red;
   color: red; /*점수 글씨색*/
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
   z-index: 1;
@@ -271,7 +271,7 @@
   height: fit-content;
 }
 .currentBorder {
-  outline: 2px solid yellow;
+  border: 2px solid yellow;
   position: absolute;
   z-index: 5;
 }
