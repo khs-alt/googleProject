@@ -141,15 +141,16 @@ export default {
                         test_code: this.testcode,
                     })
                     .then(res => {
-                        if (res.data == "scoring") {
+                        if (res.data.path == "scoring") {
                             this.currentUser = this.userId
-
-                            this.goToPage(res.data);
-                        } else if (res.data == "labeling") {
+                            this.currentPage = res.data.last_page;
+                            this.goToPage(res.data.path);
+                        } else if (res.data.path == "labeling") {
                             this.currentUser = this.userId;
-                            this.goToPage(res.data);
+                            this.currentPage = res.data.last_page;
+                            this.goToPage(res.data.path);
                         } else {
-                            alert(res.data)
+                            alert(res.data.path)
                         }
                         //after post we have to init data form userScoring and currentPage
                     })
