@@ -39,7 +39,7 @@
                                         controlsList="nodownload" key="videoDiff" :src="rightArtifactVideo()"
                                         @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                                         @mouseup="handleDragEnd" @mousemove="handleDragging" onChange="isVideoPaused"
-                                        preload="auto">
+                                        preload="metadata">
                                     </video>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                                     ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
                                     :src="leftOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
                                     @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
-                                    onChange="isVideoPaused" preload="auto">
+                                    onChange="isVideoPaused" preload="metadata">
                                 </video>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                                 ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
                                 :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
                                 @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
-                                onChange="isVideoPaused" preload="auto">
+                                onChange="isVideoPaused" preload="metadata">
                             </video>
                         </div>
                         <div>
@@ -700,17 +700,26 @@ export default {
             var video2 = document.getElementById('videoYesartifact');
             var toggleVideo = document.getElementById('toggleVideo');
 
-            var playPromise = video1.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    var temp = video2.currentTime;
-                    video1.currentTime = temp;
-                    toggleVideo.currentTime = temp;
-                    video1.pause();
-                })
-                    .catch(error => {
-                        console.log(error);
-                    });
+            // var playPromise = video1.play();
+
+            // if (playPromise !== undefined) {
+            //     playPromise.then(_ => {
+            //         // Automatic playback started!
+            //         // Show playing UI.
+            //         // We can now safely pause video...
+            //         video.pause();
+            //     })
+            //         .catch(error => {
+            //             // Auto-play was prevented
+            //             // Show paused UI.
+            //         });
+            // }
+
+            if (video1 && video2 && toggleVideo) {
+                var temp = video2.currentTime;
+                video1.currentTime = temp;
+                toggleVideo.currentTime = temp;
+                video1.pause();
             }
         },
         // Play/Stop 및 text 변경 버튼
