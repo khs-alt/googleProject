@@ -480,7 +480,7 @@ export default {
         this.$refs.img = this.prevImage;
         this.$router.push({
           query: {
-            userName: this.userId,
+            userName: this.currentUser,
             currentPage: this.currentPage,
             testcode: this.testcode
           }
@@ -506,7 +506,7 @@ export default {
         this.$refs.img = this.nextImage;
         this.$router.push({
           query: {
-            userName: this.userId,
+            userName: this.currentUser,
             currentPage: this.currentPage,
             testcode: this.testcode
           }
