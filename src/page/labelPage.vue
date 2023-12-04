@@ -113,7 +113,7 @@ export default {
       currentPage: parseInt(this.$route.query.currentPage),
       buttonString: ["0", "1", "2", "3", "4", "5", "Prev", "Next", "Submit"],
       pageState: 7,
-      clickedAarrowRight: false,
+      clickedAarrowBtn: false,
       prevOriginalImage: null,  //이전 사진 preload
       prevArtifactImage: null,  //이전 사진 preload
       prevDifferenceImage: null,  //이전 사진 preload
@@ -375,38 +375,47 @@ export default {
     keydown(e) {
       switch (e.key) {
         case 'ArrowLeft':
+          this.clickedArrowBtn = true;
           e.preventDefault();
           this.changeBackPatchImage();
           break;
         case 'ArrowRight':
-          this.clickedAarrowRight = true;
+          this.clickedArrowBtn = true;
           e.preventDefault();
           this.changeNextPatchImage();
           break;
         case 'ArrowUp':
+          this.clickedArrowBtn = true;
           e.preventDefault();
           this.changeUpImage();
           break;
         case 'ArrowDown':
+          this.clickedArrowBtn = true;
           e.preventDefault();
           this.changeDowmImage();
           break;
         case '0':
+          this.clickedArrowBtn = true;
           this.labeling(0);
           break;
         case '1':
+          this.clickedArrowBtn = true;
           this.labeling(1);
           break;
         case '2':
+          this.clickedArrowBtn = true;
           this.labeling(2);
           break;
         case '3':
+          this.clickedArrowBtn = true;
           this.labeling(3);
           break;
         case '4':
+          this.clickedArrowBtn = true;
           this.labeling(4);
           break;
         case '5':
+          this.clickedArrowBtn = true;
           this.labeling(5);
           break;
       }
@@ -455,9 +464,10 @@ export default {
     //부여된 점수 back-end로 전송
     postUserLabeling() {
       for (let i = 0; i < this.patchLength; i++) {
-        if (this.userLabeling[i] === undefined && this.clickedAr) {
+        if (this.userLabeling[i] === undefined && this.clickedArrowBtn === true) {
           this.userLabeling[i] = 0;
         }
+        else this.userLabeling[i] = -1;
       }
       console.log(this.userLabeling);
       console.log("current page is " + this.currentPage)
