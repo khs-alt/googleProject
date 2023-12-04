@@ -827,8 +827,8 @@ export default {
                         video3.currentTime = halfArtifactFrame + artifactFrame;
                     } else {
                         // 마지막 프레임을 버림
-                        if (video1.currentTime + originalFrame * 2 >= video1.duration || video2.currentTime + artifactFrame * 2 >= video2.duration
-                            || video3.currentTime + artifactFrame * 2 >= video3.duration || video1.ended || video2.ended || video3.ended) {
+                        if (video1.currentTime + originalFrame * 3 >= video1.duration || video2.currentTime + artifactFrame * 3 >= video2.duration
+                            || video3.currentTime + artifactFrame * 3 >= video3.duration || video1.ended || video2.ended || video3.ended) {
                             return;
                         }
                         video1.currentTime += originalFrame;
