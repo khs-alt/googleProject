@@ -506,7 +506,7 @@ export default {
             var videoEelement2 = document.getElementById('videoYesartifact');
             videoEelement1.style.transform = "scale(1)";
             videoEelement2.style.transform = "scale(1)";
-            is(this.isToggled){
+            if (this.isToggled) {
                 this.toggleVideo()
             }
             if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
@@ -567,7 +567,7 @@ export default {
                     console.log(err);
                 })
             this.resetZoomAndOffset();
-            is(this.isToggled){
+            if (this.isToggled) {
                 this.toggleVideo()
             }
             var videoEelement1 = document.getElementById('videoNoartifact');
