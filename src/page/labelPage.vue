@@ -113,7 +113,6 @@ export default {
       currentPage: parseInt(this.$route.query.currentPage),
       buttonString: ["0", "1", "2", "3", "4", "5", "Prev", "Next", "Submit"],
       pageState: 7,
-      clickedArrowBtn: false,
       prevOriginalImage: null,  //이전 사진 preload
       prevArtifactImage: null,  //이전 사진 preload
       prevDifferenceImage: null,  //이전 사진 preload
@@ -375,22 +374,18 @@ export default {
     keydown(e) {
       switch (e.key) {
         case 'ArrowLeft':
-          this.clickedArrowBtn = true;
           e.preventDefault();
           this.changeBackPatchImage();
           break;
         case 'ArrowRight':
-          this.clickedArrowBtn = true;
           e.preventDefault();
           this.changeNextPatchImage();
           break;
         case 'ArrowUp':
-          this.clickedArrowBtn = true;
           e.preventDefault();
           this.changeUpImage();
           break;
         case 'ArrowDown':
-          this.clickedArrowBtn = true;
           e.preventDefault();
           this.changeDowmImage();
           break;
@@ -427,7 +422,6 @@ export default {
 
     // 점수 부여 및 다음 Patch 이미지로 변경
     labeling(num) {
-      this.clickedArrowBtn = true;
       console.log("index: " + this.patchIndex);
       this.userLabeling[this.patchIndex] = num;
       this.changeNextPatchImage();
@@ -459,10 +453,7 @@ export default {
     //부여된 점수 back-end로 전송
     postUserLabeling() {
       for (let i = 0; i < this.patchLength; i++) {
-        if (this.clickedArrowBtn === true) {
-          if(this.userLabeling[i] === undefined)
-            this.userLabeling[i] = 0;
-        } else this.userLabeling[i] = -1;
+       if (this.userLabeling[i] === undefined) this.userLabeling[i] = 0;
       }
       console.log(this.userLabeling);
       console.log("current page is " + this.currentPage)
@@ -494,7 +485,6 @@ export default {
         this.i = 0;
         this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
-        this.clickedArrowBtn = false;
         this.$refs.img = this.prevImage;
         this.makeImageTemplete();
         this.getUserLabeling();
@@ -521,7 +511,6 @@ export default {
         this.i = 0;
         this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
-        this.clickedArrowBtn = false;
         this.$refs.img = this.nextImage;
         this.makeImageTemplete();
         this.getUserLabeling();

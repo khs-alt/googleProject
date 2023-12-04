@@ -189,6 +189,9 @@ export default {
         this.addEventVideoCurrentTime();
         // this.preloadNextVideo();
     },
+    unmounted(){
+
+    },
     computed: {
         // currentPageIndex() {
         //     return parseInt(this.videoNameIndex) + 1;
@@ -573,8 +576,8 @@ export default {
                 // for (var i = 0; i < this.videoIndex.length; i++) {
                 //     if (this.videoIndex[i] == this.currentPage) {
                 this.currentPage = this.videoIndex[this.videoNameIndex];
-                this.rightArtifactVideo();
-                this.leftOriginalVideo();
+                // this.rightArtifactVideo();
+                // this.leftOriginalVideo();
                 // break;
                 //     }
                 // }
@@ -641,8 +644,8 @@ export default {
                 // for (var i = 0; i < this.videoIndex.length; i++) {
                 //     if (this.videoIndex[i] == this.currentPage) {
                 this.currentPage = this.videoIndex[this.videoNameIndex];
-                this.rightArtifactVideo();
-                this.leftOriginalVideo();
+                // this.rightArtifactVideo();
+                // this.leftOriginalVideo();
                 // break;
                 //     }
                 // }
