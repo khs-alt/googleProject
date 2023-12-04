@@ -194,6 +194,9 @@ export default {
         //     return parseInt(this.videoNameIndex) + 1;
         // },
     },
+    updated() {
+        console.log("test1");
+    },
     methods: {
         async addEventVideoCurrentTime() {
             var video = document.getElementById('videoNoartifact');
