@@ -584,7 +584,7 @@ export default {
                         testcode: this.testCode,
                     }
                 })
-                this.$router.go(0);
+                this.$router.go();
                 return;
             } else {
                 // this.getVideoIndexCurrentPage();
@@ -606,7 +606,7 @@ export default {
                         testcode: this.testCode,
                     }
                 })
-                this.$router.go(0);
+                this.$router.go();
 
             }
         },
@@ -656,8 +656,7 @@ export default {
                         testcode: this.testCode,
                     }
                 })
-                this.$router.go(0);
-
+                this.$router.go();
                 return;
             } else {
                 this.videoNameIndex -= 1
@@ -678,8 +677,7 @@ export default {
                         testcode: this.testCode,
                     }
                 })
-                this.$router.go(0);
-
+                this.$router.go();
             }
         },
         // score button 눌렸는지 안눌렸는지 확인하는 method
