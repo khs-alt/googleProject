@@ -173,23 +173,11 @@ export default {
             preloadedNextArtifactVideo: "",
             preloadedPrevOriginalVideo: "",
             preloadedPrevArtifactVideo: "",
-            videoCurrentTime: 0,
-            videoDuration: 0,
+            videoCurrentTime: 0.00,
+            videoDuration: 0.00,
         }
     },
     created() { },
-    // updated() {
-    //     console.log("updated");
-    //     this.changeVideoButton();
-    //     this.getVideoIndexCurrentPage();
-    //     this.addEventVideoPlay();
-    //     this.isVideoPaused();
-    //     // this.getVideoCurrentTime();
-    //     document.addEventListener('mousemove', this.handleDragging);
-    //     document.addEventListener('mouseup', this.handleDragEnd);
-    //     window.addEventListener("keydown", this.keydown);
-    //     this.addEventVideoCurrentTime();
-    // },
     mounted() {
         this.changeVideoButton();
         this.getVideoIndexCurrentPage();
@@ -506,13 +494,13 @@ export default {
                     }
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoIndex)
-                    // this.videoCurrentTime = 0.00;
-                    // this.videoDuration = 0.00;
-                    // var video1 = document.getElementById('videoNoartifact');
-                    // this.videoCurrentTime = video1.currentTime.toFixed(2);
-                    // this.videoDuration = video1.duration.toFixed(2);
-                    // console.log("videoCurrentTime: " + this.videoCurrentTime);
-                    // console.log("videoDuration: " + this.videoDuration);
+                    this.videoCurrentTime = 0.00;
+                    this.videoDuration = 0.00;
+                    var video1 = document.getElementById('videoNoartifact');
+                    this.videoCurrentTime = video1.currentTime.toFixed(2);
+                    this.videoDuration = video1.duration.toFixed(2);
+                    console.log("videoCurrentTime: " + this.videoCurrentTime);
+                    console.log("videoDuration: " + this.videoDuration);
                 })
                 .catch((error) => {
                     console.log(error);
