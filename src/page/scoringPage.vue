@@ -371,7 +371,7 @@ export default {
                 this.imgSrc = require("../images/play_icon/iconmonstr-media-control-48-240.png")
             }
         },
-        async isVideoPaused() {
+        isVideoPaused() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             var toggleVideo = document.getElementById('toggleVideo');
@@ -394,6 +394,7 @@ export default {
                     toggleVideo.currentTime = 0;
                     this.changeImgSource();
                 }
+                // this.isPlaying = false;
             });
             video2.addEventListener("ended", () => {
                 this.videoButtonText = "Play";
