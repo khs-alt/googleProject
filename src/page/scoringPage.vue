@@ -216,6 +216,7 @@ export default {
             // this.videoDuration = video1.duration;
             video.addEventListener("playing", (event) => {
                 this.isPlaying = true;
+                console.log(event)
             })
         },
         async getVideoHeight() {
