@@ -22,7 +22,7 @@
             </div>
         </div>
         <div>
-            <div>{{ this.video1.currentPage }} / {{ this.video1.duration }}</div>
+            <div>{{ this.video1.currentTime }} / {{ this.video1.duration }}</div>
         </div>
         <div class="video-container">
             <div class="videoPlayer">
