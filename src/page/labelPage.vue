@@ -138,7 +138,7 @@ export default {
       resizeHeight: 0, //축소된 이미지의 세로
       i: 0, //patch 이미지의 세로 인덱스
       j: 0, //patch 이미지의 가로 인덱스
-      userLabeling: [0,],  //사용자가 부여한 점수
+      userLabeling: [],  //사용자가 부여한 점수
       isPressed: -1, //눌린 점수 체크
       menuBar: 'Home',
       lastPage: false, //마지막 이미지인지 체크
@@ -212,7 +212,7 @@ export default {
         })
         .then((response) => {
           console.log(response.data)
-          console.log(response.data.image_list)
+          console.log(response.data.image_list.length)
           if (this.currentPage <= 0 || this.currentPage >= response.data.image_list.length) {  //URL에 입력한 페이지 번호가 범위 바깥에 있을 때
             this.currentPage = response.data.current_page;
           }
