@@ -14,7 +14,7 @@
         <p style="font-size: 24px; margin-top: 10px">Video Ghosting Artifact Scoring System</p>
         <div style="display: flex;">
             <div style="font-size: 20px; margin-left: auto; margin-right: 10px;">
-                {{ currentPageIndex }}/{{ totalLength }}
+                {{ currentPageIndex }}/{{ totalLength}}
             </div>
             <div style="margin-right: auto; margin-top: auto; margin-bottom: auto;" class="toggle-switch"
                 :class="{ 'active': isToggled }" @click="toggleVideo">
@@ -205,11 +205,11 @@ export default {
     setup() {
         console.log("setup")
     },
-    // computed: {
-    //     currentPageIndex() {
-    //         return parseInt(this.videoNameIndex) + 1;
-    //     },
-    // },
+    computed: {
+        currentPageIndex() {
+            return parseInt(this.videoNameIndex) + 1;
+        },
+    },
     methods: {
         async addEventVideoCurrentTime() {
             var video = document.getElementById('videoNoartifact');
