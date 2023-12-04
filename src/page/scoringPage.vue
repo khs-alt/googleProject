@@ -702,7 +702,7 @@ export default {
 
             var playPromise = video1.play();
             if (playPromise !== undefined) {
-                playPromise.then(_ => {
+                playPromise.then(() => {
                     var temp = video2.currentTime;
                     video1.currentTime = temp;
                     toggleVideo.currentTime = temp;
