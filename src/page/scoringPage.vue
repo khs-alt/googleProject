@@ -126,14 +126,6 @@
 import axios from 'axios'
 export default {
     name: 'scoringPage',
-    watch: {
-        '$route'(to, from) {
-            if (to.path !== from.path) {
-                console.log("call watch")
-                this.getVideoIndexCurrentPage();
-            }
-        }
-    },
     data() {
         return {
             clickedButton: -1,
@@ -185,7 +177,6 @@ export default {
         }
     },
     created() { },
-
     mounted() {
         this.changeVideoButton();
         this.getVideoIndexCurrentPage();
@@ -832,7 +823,15 @@ export default {
                 }
             }
         },
-    }
+    },
+    watch: {
+        '$route'(to, from) {
+            console.log("to: " + to)
+            console.log("from: " + from)
+            console.log("call watch")
+            this.getVideoIndexCurrentPage();
+        }
+    },
 }
 </script>
 
