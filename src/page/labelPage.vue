@@ -212,8 +212,8 @@ export default {
         })
         .then((response) => {
           console.log(response.data)
-          console.log(this.imageIndexList)
-          if (this.currentPage <= 0 || this.currentPage >= this.imageIndexList.length) {  //URL에 입력한 페이지 번호가 범위 바깥에 있을 때
+          console.log(response.data.image_list)
+          if (this.currentPage <= 0 || this.currentPage >= response.data.image_list.length) {  //URL에 입력한 페이지 번호가 범위 바깥에 있을 때
             this.currentPage = response.data.current_page;
           }
           //유저가 입력한 데이터가 있고, URL에 직접 페이지 번호를 줬을 경우
