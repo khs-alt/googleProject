@@ -480,15 +480,6 @@ export default {
         // 	"currentPage": currentPage,
         // 	"videoList":   videoList,
         // }
-        async getVideoDuration() {
-            this.videoCurrentTime = 0.00;
-            this.videoDuration = 0.00;
-            var video1 = document.getElementById('videoNoartifact');
-            this.videoCurrentTime = video1.currentTime.toFixed(2);
-            this.videoDuration = video1.duration.toFixed(2);
-            console.log("videoCurrentTime: " + this.videoCurrentTime);
-            console.log("videoDuration: " + this.videoDuration);
-        },
         async getVideoIndexCurrentPage() {
             console.log("getVideoIndexCurrentPage")
             var temp = String(this.currentPage)
@@ -586,8 +577,6 @@ export default {
                     }
                 })
                 this.getVideoIndexCurrentPage();
-                this.getVideoDuration();
-
             }
         },
         changeBackVideo() {
@@ -616,7 +605,6 @@ export default {
                     }
                 })
                 this.getVideoIndexCurrentPage();
-                this.getVideoDuration();
                 return;
             } else {
                 this.videoNameIndex -= 1
@@ -631,7 +619,6 @@ export default {
                     }
                 })
                 this.getVideoIndexCurrentPage();
-                this.getVideoDuration();
             }
         },
         // score button 눌렸는지 안눌렸는지 확인하는 method
@@ -799,14 +786,6 @@ export default {
             }
         },
     },
-    // watch: {
-    //     '$route'(to, from) {
-    //         console.log("to: " + to)
-    //         console.log("from: " + from)
-    //         console.log("call watch")
-    //         this.getVideoIndexCurrentPage();
-    //     }
-    // },
 }
 </script>
 
