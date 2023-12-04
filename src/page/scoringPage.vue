@@ -207,6 +207,9 @@ export default {
                 this.videoCurrentTime = event.target.currentTime.toFixed(2);
                 this.videoDuration = event.target.duration.toFixed(2);
             });
+            video.addEventListener("play", (event) => {
+                this.currentTime = event.target.currentTime.toFixed(2);
+            })
             // this.videoCurrentTime = video1.currentTime;
             // this.currentTime = video1.currentTime;
             // this.videoDuration = video1.duration;
