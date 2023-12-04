@@ -289,7 +289,7 @@ export default {
                     console.log(error);
                 })
         },
-        async goToBegin() {
+        goToBegin() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             var video3 = document.getElementById('toggleVideo');
@@ -303,8 +303,8 @@ export default {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             var video3 = document.getElementById('toggleVideo');
-            // const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
-            const temp = video1.duration;
+            const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
+            const temp = video1.duration - 1 / originalFrame;
             // video1.pause();
             // video2.pause();
             video1.currentTime = temp;
@@ -781,9 +781,9 @@ export default {
                 const halfArtifactFrame = (1 / artifactFrame) / 2;
                 if (video1 && video2) {
                     if (video1.currentTime == 0 && video2.currentTime == 0) {
-                        video1.currentTime = halfOriginalFrame;
-                        video2.currentTime = halfArtifactFrame;
-                        video3.currentTime = halfArtifactFrame;
+                        video1.currentTime = halfOriginalFrame + originalFrame;
+                        video2.currentTime = halfArtifactFrame + artifactFrame;
+                        video3.currentTime = halfArtifactFrame + artifactFrame;
                     } else {
                         // 마지막 프레임을 버림
                         if (video1.currentTime + originalFrame * 3 >= video1.duration) {

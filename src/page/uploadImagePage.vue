@@ -9,6 +9,9 @@
                     <a href="/label/signup/" style="margin-right: 10px;">
                         <button class="signup-btn-style">Sign up</button>
                     </a>
+                    <a href="/label/admin/" style="margin-right: 10px;">
+                        <button class="signup-btn-style">Admin</button>
+                    </a>
                     <a href="/label/admin/imagetestcode/">
                         <button class="signup-btn-style">Image Test Code</button>
                     </a>
