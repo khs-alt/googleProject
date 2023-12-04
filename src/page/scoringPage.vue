@@ -560,7 +560,7 @@ export default {
             if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
                 alert("This is the last page of this test code. Thank you!");
                 this.$router.push({
-                    path: '/scoring',
+                    path: '/label/scoring',
                     query: {
                         currentPage: this.currentPage,
                         userName: this.currentUser,
@@ -580,7 +580,7 @@ export default {
                 // }
                 this.isPressed = [false, false, false, false, false, false]
                 this.$router.push({
-                    path: '/scoring',
+                    path: '/label/scoring',
                     query: {
                         currentPage: this.currentPage,
                         userName: this.currentUser,
@@ -628,7 +628,7 @@ export default {
             if (this.currentPage == this.videoIndex[0]) {
                 alert("This is the first page of this test code.");
                 this.$router.push({
-                    path: '/scoring',
+                    path: '/label/scoring',
                     query: {
                         currentPage: parseInt(this.currentPage),
                         userName: this.currentUser,
@@ -648,7 +648,7 @@ export default {
                 // }
                 this.isPressed = [false, false, false, false, false, false]
                 this.$router.push({
-                    path: '/scoring',
+                    path: '/label/scoring',
                     query: {
                         currentPage: this.currentPage,
                         userName: this.currentUser,
