@@ -213,7 +213,7 @@ export default {
         .then((response) => {
           console.log(response.data)
           //유저가 입력한 데이터가 있고, URL에 직접 페이지 번호를 줬을 경우
-          if (response.data.current_page > 0 && this.currentPage != response.data.current_page ) {
+          if (response.data.current_page >= 0 && this.currentPage != response.data.current_page ) {
             this.$router.push({
               query: {
                 userName: this.currentUser,
@@ -221,7 +221,7 @@ export default {
                 testcode: this.testCode
               }
             });
-          } else if (response.data.current_page > 0) this.currentPage = response.data.current_page; //마지막으로 한 페이지
+          } else if (response.data.current_page >= 0) this.currentPage = response.data.current_page; //마지막으로 한 페이지
           else this.currentPage = 0; //유저가 입력한 데이터가 없을 경우
           // currentPage를 받아서 labeling 이미지를 만듦
           // cuurentPage에 따라 imageID가 달라져서 이를 반영하기 위해 axios를 받은 후에 makeImageTemplete()를 호출함
@@ -480,7 +480,7 @@ export default {
         this.$refs.img = this.prevImage;
         this.$router.push({
           query: {
-            userName: this.currentUser,
+            current_user: this.currentUser,
             currentPage: this.currentPage,
             testcode: this.testcode
           }
@@ -506,7 +506,7 @@ export default {
         this.$refs.img = this.nextImage;
         this.$router.push({
           query: {
-            userName: this.currentUser,
+            current_user: this.currentUser,
             currentPage: this.currentPage,
             testcode: this.testcode
           }
