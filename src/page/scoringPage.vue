@@ -465,7 +465,7 @@ export default {
         // 	"videoList":   videoList,
         // }
         async getVideoIndexCurrentPage() {
-            console.log("getVideoIndexCurrentPage:" + this.baseUrl + "getVideoIndexCurrentPage")
+            console.log("getVideoIndexCurrentPage")
             var temp = String(this.currentPage)
             await axios
                 .post(this.baseUrl + "getVideoIndexCurrentPage", {
@@ -512,11 +512,11 @@ export default {
             }
         },
         leftOriginalVideo() {
-            console.log("leftOriginalVideo: " + this.baseUrl + "postvideo/original/" + this.currentPage)
+            // console.log("leftOriginalVideo: " + this.baseUrl + "postvideo/original/" + this.currentPage)
             return String(this.baseUrl + "postvideo/original/" + this.currentPage)
         },
         rightArtifactVideo() {
-            console.log("rightArtifactVideo: " + this.baseUrl + "postvideo/artifact/" + this.currentPage)
+            // console.log("rightArtifactVideo: " + this.baseUrl + "postvideo/artifact/" + this.currentPage)
             return String(this.baseUrl + "postvideo/artifact/" + this.currentPage)
         },
         changeNextVideo() {
@@ -560,6 +560,7 @@ export default {
             if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
                 alert("This is the last page of this test code. Thank you!");
                 this.$router.push({
+                    path: '/scoring',
                     query: {
                         currentPage: this.currentPage,
                         userName: this.currentUser,
@@ -579,6 +580,7 @@ export default {
                 // }
                 this.isPressed = [false, false, false, false, false, false]
                 this.$router.push({
+                    path: '/scoring',
                     query: {
                         currentPage: this.currentPage,
                         userName: this.currentUser,
@@ -626,6 +628,7 @@ export default {
             if (this.currentPage == this.videoIndex[0]) {
                 alert("This is the first page of this test code.");
                 this.$router.push({
+                    path: '/scoring',
                     query: {
                         currentPage: parseInt(this.currentPage),
                         userName: this.currentUser,
@@ -645,6 +648,7 @@ export default {
                 // }
                 this.isPressed = [false, false, false, false, false, false]
                 this.$router.push({
+                    path: '/scoring',
                     query: {
                         currentPage: this.currentPage,
                         userName: this.currentUser,
