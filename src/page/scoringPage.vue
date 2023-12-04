@@ -495,7 +495,7 @@ export default {
                     }
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoIndex)
-                    document.getElementById('videoNoartifact').onload = function () {
+                    document.getElementById('videoNoartifact').loadeddata = function () {
                         this.videoCurrentTime = 0.00;
                         this.videoDuration = 0.00;
                         var video1 = document.getElementById('videoNoartifact');
