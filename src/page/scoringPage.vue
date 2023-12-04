@@ -649,12 +649,21 @@ export default {
             var video2 = document.getElementById('videoYesartifact');
             // toggleVideo는 videoYesartifact와 같은 비디오 
             var toggleVideo = document.getElementById('toggleVideo');
+            const originalFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
+            const artifactFrame = 1 / this.artifactVideoFrameList[this.videoNameIndex];
+
             if (video1 && video2 && toggleVideo) {
+                if (video1.currentTime + originalFrame * 3 >= video1.currentTime || video2.currentTime + artifactFrame * 3 >= video2.currentTime
+                    || toggleVideo.currentTime + artifactFrame * 3 >= toggleVideo.currentTime || video1.ended || video2.ended || toggleVideo.ended) {
+                    video1.currentTime = 0;
+                    video2.currentTime = 0;
+                    toggleVideo.currentTime = 0;
+                }
                 video1.currentTime = video2.currentTime;
                 video1.currentTime = video2.currentTime;
                 toggleVideo.currentTime = video2.currentTime;
                 toggleVideo.currentTime = video2.currentTime;
-                await video1.play();
+                video1.play();
             }
         },
         addEventVideoPlay() {
