@@ -465,6 +465,7 @@ export default {
         // 	"videoList":   videoList,
         // }
         async getVideoIndexCurrentPage() {
+            console.log("getVideoIndexCurrentPage:" + this.baseUrl + "getVideoIndexCurrentPage")
             await axios
                 .post(this.baseUrl + "getVideoIndexCurrentPage", {
                     userID: this.currentUser,
@@ -483,6 +484,7 @@ export default {
                     if (curScore != -1) {
                         this.isPressed[curScore] = true;
                         this.clickedButton = curScore;
+                        console.log("curScore: " + curScore)
                     }
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoIndex)
