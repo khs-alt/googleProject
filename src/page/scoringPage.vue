@@ -176,7 +176,6 @@ export default {
             preloadedPrevArtifactVideo: "",
             videoCurrentTime: 0.00,
             videoDuration: 0.00,
-            isPlaying: false,
         }
     },
     created() { },
@@ -214,10 +213,7 @@ export default {
             // this.videoCurrentTime = video1.currentTime;
             // this.currentTime = video1.currentTime;
             // this.videoDuration = video1.duration;
-            video.addEventListener("playing", (event) => {
-                this.isPlaying = true;
-                console.log(event)
-            })
+
         },
         async getVideoHeight() {
             var video1 = document.getElementById('videoNoartifact');
@@ -394,7 +390,6 @@ export default {
                     toggleVideo.currentTime = 0;
                     this.changeImgSource();
                 }
-                // this.isPlaying = false;
             });
             video2.addEventListener("ended", () => {
                 this.videoButtonText = "Play";
@@ -655,7 +650,7 @@ export default {
             const originalFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
             const artifactFrame = 1 / this.artifactVideoFrameList[this.videoNameIndex];
 
-            if (video1 && video2 && toggleVideo && !this.isPlaying) {
+            if (video1 && video2 && toggleVideo) {
                 if (video1.currentTime + originalFrame * 3 >= video1.duration || video2.currentTime + artifactFrame * 3 >= video2.duration
                     || toggleVideo.currentTime + artifactFrame * 3 >= toggleVideo.duration || video1.ended || video2.ended || toggleVideo.ended) {
                     video1.currentTime = 0;
@@ -721,12 +716,11 @@ export default {
             //         });
             // }
 
-            if (video1 && video2 && toggleVideo && this.isPlaying && !video1.paused && !video2.paused && !toggleVideo.paused) {
+            if (video1 && video2 && toggleVideo) {
                 var temp = video2.currentTime;
                 video1.currentTime = temp;
                 toggleVideo.currentTime = temp;
                 video1.pause();
-                this.isPlaying = false;
             }
         },
         // Play/Stop 및 text 변경 버튼
