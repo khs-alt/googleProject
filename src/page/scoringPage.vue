@@ -176,18 +176,7 @@ export default {
             videoDuration: 0,
         }
     },
-    created() {
-        console.log("updated");
-        this.changeVideoButton();
-        this.getVideoIndexCurrentPage();
-        this.addEventVideoPlay();
-        this.isVideoPaused();
-        // this.getVideoCurrentTime();
-        document.addEventListener('mousemove', this.handleDragging);
-        document.addEventListener('mouseup', this.handleDragEnd);
-        window.addEventListener("keydown", this.keydown);
-        this.addEventVideoCurrentTime();
-    },
+    created() { },
     // updated() {
     //     console.log("updated");
     //     this.changeVideoButton();
@@ -580,7 +569,9 @@ export default {
             if (this.isToggled) {
                 this.toggleVideo()
             }
+
             if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
+                this.getVideoIndexCurrentPage();
                 alert("This is the last page of this test code. Thank you!");
                 this.$router.push({
                     path: '/label/scoring',
@@ -592,6 +583,7 @@ export default {
                 })
                 return;
             } else {
+                this.getVideoIndexCurrentPage();
                 this.videoNameIndex += 1
                 // for (var i = 0; i < this.videoIndex.length; i++) {
                 //     if (this.videoIndex[i] == this.currentPage) {
