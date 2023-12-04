@@ -298,7 +298,7 @@ export default {
             video1.currentTime = 0;
             video2.currentTime = 0;
             video3.currentTime = 0;
-            console.log("goToEnd");
+            console.log("goToBegin");
             console.log("video1: " + video1.currentTime);
             console.log("video2: " + video2.currentTime);
             console.log("video3: " + video3.currentTime);
@@ -308,7 +308,7 @@ export default {
             var video2 = document.getElementById('videoYesartifact');
             var video3 = document.getElementById('toggleVideo');
             const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
-            const temp = video1.duration - 1 / originalFrame;
+            const temp = video1.duration - (1 / originalFrame) * 3;
             // video1.pause();
             // video2.pause();
             video1.currentTime = temp;
@@ -716,7 +716,7 @@ export default {
             const video1 = this.$refs.videoNoartifact;
             const video2 = this.$refs.videoYesartifact;
             var video3 = document.getElementById("toggleVideo");
-            const originalFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
+            const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
             const artifactFrame = 1 / this.artifactVideoFrameList[this.videoNameIndex];
             console.log("originalFrame: " + originalFrame)
             console.log("artifactFrame: " + artifactFrame)
