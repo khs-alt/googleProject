@@ -700,11 +700,17 @@ export default {
             var video2 = document.getElementById('videoYesartifact');
             var toggleVideo = document.getElementById('toggleVideo');
 
-            if (video1 && video2 && toggleVideo) {
-                var temp = video2.currentTime;
-                video1.currentTime = temp;
-                toggleVideo.currentTime = temp;
-                video1.pause();
+            var playPromise = video1.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    var temp = video2.currentTime;
+                    video1.currentTime = temp;
+                    toggleVideo.currentTime = temp;
+                    video1.pause();
+                })
+                    .catch(error => {
+                        console.log(error);
+                    });
             }
         },
         // Play/Stop 및 text 변경 버튼
