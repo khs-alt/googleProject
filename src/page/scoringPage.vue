@@ -650,8 +650,8 @@ export default {
             const artifactFrame = 1 / this.artifactVideoFrameList[this.videoNameIndex];
 
             if (video1 && video2 && toggleVideo) {
-                if (video1.currentTime + originalFrame * 2 >= video1.duration || video2.currentTime + artifactFrame * 2 >= video2.duration
-                    || toggleVideo.currentTime + artifactFrame * 2 >= toggleVideo.duration || video1.ended || video2.ended || toggleVideo.ended) {
+                if (video1.currentTime + originalFrame * 3 >= video1.duration || video2.currentTime + artifactFrame * 3 >= video2.duration
+                    || toggleVideo.currentTime + artifactFrame * 3 >= toggleVideo.duration || video1.ended || video2.ended || toggleVideo.ended) {
                     video1.currentTime = 0;
                     video2.currentTime = 0;
                     toggleVideo.currentTime = 0;
