@@ -568,14 +568,14 @@ export default {
                 return;
             } else {
                 this.videoNameIndex += 1
-                for (var i = 0; i < this.videoIndex.length; i++) {
-                    if (this.videoIndex[i] == this.currentPage) {
-                        this.currentPage = this.videoIndex[i + 1];
-                        this.rightArtifactVideo();
-                        this.leftOriginalVideo();
-                        break;
-                    }
-                }
+                // for (var i = 0; i < this.videoIndex.length; i++) {
+                //     if (this.videoIndex[i] == this.currentPage) {
+                this.currentPage = this.videoIndex[this.videoNameIndex];
+                this.rightArtifactVideo();
+                this.leftOriginalVideo();
+                // break;
+                //     }
+                // }
                 this.isPressed = [false, false, false, false, false, false]
                 this.$router.push({
                     query: {
@@ -634,14 +634,14 @@ export default {
                 return;
             } else {
                 this.videoNameIndex -= 1
-                for (var i = 0; i < this.videoIndex.length; i++) {
-                    if (this.videoIndex[i] == this.currentPage) {
-                        this.currentPage = this.videoIndex[i - 1];
-                        this.rightArtifactVideo();
-                        this.leftOriginalVideo();
-                        break;
-                    }
-                }
+                // for (var i = 0; i < this.videoIndex.length; i++) {
+                //     if (this.videoIndex[i] == this.currentPage) {
+                this.currentPage = this.videoIndex[this.videoNameIndex];
+                this.rightArtifactVideo();
+                this.leftOriginalVideo();
+                // break;
+                //     }
+                // }
                 this.isPressed = [false, false, false, false, false, false]
                 this.$router.push({
                     query: {
