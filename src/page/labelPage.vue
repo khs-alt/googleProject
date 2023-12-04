@@ -395,27 +395,21 @@ export default {
           this.changeDowmImage();
           break;
         case '0':
-          this.clickedArrowBtn = true;
           this.labeling(0);
           break;
         case '1':
-          this.clickedArrowBtn = true;
           this.labeling(1);
           break;
         case '2':
-          this.clickedArrowBtn = true;
           this.labeling(2);
           break;
         case '3':
-          this.clickedArrowBtn = true;
           this.labeling(3);
           break;
         case '4':
-          this.clickedArrowBtn = true;
           this.labeling(4);
           break;
         case '5':
-          this.clickedArrowBtn = true;
           this.labeling(5);
           break;
       }
@@ -433,6 +427,7 @@ export default {
 
     // 점수 부여 및 다음 Patch 이미지로 변경
     labeling(num) {
+      this.clickedArrowBtn = true;
       console.log("index: " + this.patchIndex);
       this.userLabeling[this.patchIndex] = num;
       this.changeNextPatchImage();
@@ -464,10 +459,10 @@ export default {
     //부여된 점수 back-end로 전송
     postUserLabeling() {
       for (let i = 0; i < this.patchLength; i++) {
-        if (this.userLabeling[i] === undefined && this.clickedArrowBtn === true) {
-          this.userLabeling[i] = 0;
-        }
-        else this.userLabeling[i] = -1;
+        if (this.clickedArrowBtn === true) {
+          if(this.userLabeling[i] === undefined)
+            this.userLabeling[i] = 0;
+        } else this.userLabeling[i] = -1;
       }
       console.log(this.userLabeling);
       console.log("current page is " + this.currentPage)

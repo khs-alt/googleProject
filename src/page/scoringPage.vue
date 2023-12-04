@@ -758,25 +758,26 @@ export default {
             const video1 = this.$refs.videoNoartifact;
             const video2 = this.$refs.videoYesartifact;
             var video3 = document.getElementById("toggleVideo");
-            const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
-            const artifactFrame = this.artifactVideoFrameList[this.videoNameIndex];
+            const originalFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
+            const artifactFrame = 1 / this.artifactVideoFrameList[this.videoNameIndex];
             console.log("originalFrame: " + originalFrame)
             console.log("artifactFrame: " + artifactFrame)
 
             if (originalFrame != 0 && artifactFrame != 0) {
-                const halfOriginalFrame = (1 / originalFrame) / 2;
-                const halfArtifactFrame = (1 / artifactFrame) / 2;
+                const halfOriginalFrame = (originalFrame) / 2;
+                const halfArtifactFrame = (artifactFrame) / 2;
 
                 if (video1 && video2) {
                     if (video1.currentTime == 0 || video2.currentTime) {
-                        video1.currentTime = halfOriginalFrame + 1 / originalFrame;
-                        video2.currentTime = halfArtifactFrame + 1 / artifactFrame;
-                        video3.currentTime = halfArtifactFrame + 1 / artifactFrame;
+                        video1.currentTime = halfOriginalFrame + originalFrame;
+                        video2.currentTime = halfArtifactFrame + artifactFrame;
+                        video3.currentTime = halfArtifactFrame + artifactFrame;
                     } else {
-                        video1.currentTime -= 1 / originalFrame;
-                        video2.currentTime -= 1 / artifactFrame;
-                        video3.currentTime -= 1 / artifactFrame;
+                        video1.currentTime -= originalFrame;
+                        video2.currentTime -= artifactFrame;
+                        video3.currentTime -= artifactFrame;
                     }
+                    console.log("seekBackward")
                     console.log("video1: " + video1.currentTime);
                     console.log("video2: " + video2.currentTime);
                     console.log("video3: " + video3.currentTime);
@@ -793,8 +794,8 @@ export default {
             console.log("artifactFrame: " + artifactFrame)
 
             if (originalFrame != 0 && artifactFrame != 0) {
-                const halfOriginalFrame = (1 / originalFrame) / 2;
-                const halfArtifactFrame = (1 / artifactFrame) / 2;
+                const halfOriginalFrame = (originalFrame) / 2;
+                const halfArtifactFrame = (artifactFrame) / 2;
                 if (video1 && video2) {
                     if (video1.currentTime == 0 || video2.currentTime == 0) {
                         video1.currentTime = halfOriginalFrame + originalFrame;
@@ -809,6 +810,7 @@ export default {
                         video2.currentTime += artifactFrame;
                         video3.currentTime += artifactFrame;
                     }
+                    console.log("seekForward")
                     console.log("video1: " + video1.currentTime);
                     console.log("video2: " + video2.currentTime);
                     console.log("video3: " + video3.currentTime);
