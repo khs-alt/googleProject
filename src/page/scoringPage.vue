@@ -497,7 +497,7 @@ export default {
                     this.originalVideoFrameList = response.data.originalVideoFPSList;
                     this.artifactVideoFrameList = response.data.artifactVideoFPSList;
                     var curScore = response.data.userScore;
-                    this.videoNameIndex = this.currentPage;
+                    this.videoNameIndex = parseInt(this.currentPage);
                     if (curScore != -1) {
                         this.isPressed[curScore] = true;
                         this.clickedButton = curScore;
