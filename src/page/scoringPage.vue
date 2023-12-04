@@ -720,7 +720,7 @@ export default {
             //         });
             // }
 
-            if (video1 && video2 && toggleVideo && this.isPlaying) {
+            if (video1 && video2 && toggleVideo && this.isPlaying && !video1.paused && !video2.paused && !toggleVideo.paused) {
                 var temp = video2.currentTime;
                 video1.currentTime = temp;
                 toggleVideo.currentTime = temp;
