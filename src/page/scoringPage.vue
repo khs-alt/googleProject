@@ -746,7 +746,7 @@ export default {
             }
             this.changeImgSource();
         },
-        seekBackward() {
+        async seekBackward() {
             const video1 = this.$refs.videoNoartifact;
             const video2 = this.$refs.videoYesartifact;
             var video3 = document.getElementById("toggleVideo");
@@ -775,7 +775,7 @@ export default {
                 }
             }
         },
-        seekForward() {
+        async seekForward() {
             const video1 = this.$refs.videoNoartifact;
             const video2 = this.$refs.videoYesartifact;
             const video3 = document.getElementById('toggleVideo');

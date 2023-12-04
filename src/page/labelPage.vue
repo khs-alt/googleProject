@@ -455,7 +455,7 @@ export default {
     //부여된 점수 back-end로 전송
     postUserLabeling() {
       for (let i = 0; i < this.patchLength; i++) {
-        if (this.userLabeling[i] === undefined) {
+        if (this.userLabeling[i] === undefined && this.clickedAr) {
           this.userLabeling[i] = 0;
         }
       }
