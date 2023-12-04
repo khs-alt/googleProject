@@ -204,7 +204,7 @@ export default {
             var video = document.getElementById('videoNoartifact');
             video.addEventListener("loadeddata", (event) => {
                 console.log(event.target.currentTime);
-                // this.videoCurrentTime = event.target.currentTime.toFixed(2);
+                this.videoCurrentTime = event.target.currentTime.toFixed(2);
                 this.videoDuration = event.target.duration.toFixed(2);
             });
             video.addEventListener("timeupdate", (event) => {
