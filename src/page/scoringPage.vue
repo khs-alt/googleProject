@@ -22,7 +22,8 @@
             </div>
         </div>
         <div>
-            <div>{{ this.video1.currentTime }} / {{ this.video1.duration }}</div>
+            <!-- TODO: -->
+            <div>{{ this.videoCurrentTime }} / {{ this.videoDuration }}</div>
         </div>
         <div class="video-container">
             <div class="videoPlayer">
@@ -172,6 +173,8 @@ export default {
             preloadedNextArtifactVideo: "",
             preloadedPrevOriginalVideo: "",
             preloadedPrevArtifactVideo: "",
+            videoCurrentTime: 0,
+            videoDuration: 0,
         }
     },
     created() { },
@@ -180,6 +183,7 @@ export default {
         this.getVideoIndexCurrentPage();
         this.addEventVideoPlay();
         this.isVideoPaused();
+        this.getVideoCurrentTime();
         document.addEventListener('mousemove', this.handleDragging);
         document.addEventListener('mouseup', this.handleDragEnd);
         window.addEventListener("keydown", this.keydown);
@@ -191,6 +195,12 @@ export default {
         },
     },
     methods: {
+        async getVideoCurrentTime() {
+            var video1 = document.getElementById('videoNoartifact');
+            this.videoCurrentTime = video1.currentTime;
+            this.currentTime = video1.currentTime;
+            this.videoDuration = video1.duration;
+        },
         async getVideoHeight() {
             var video1 = document.getElementById('videoNoartifact');
             const temp = video1.style.height;
