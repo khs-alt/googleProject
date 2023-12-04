@@ -128,7 +128,7 @@ export default {
     name: 'scoringPage',
     watch: {
         '$route'(to, from) {
-            if (to.path !== form.path) {
+            if (to.path !== from.path) {
                 console.log("call watch")
                 this.getVideoIndexCurrentPage();
             }
