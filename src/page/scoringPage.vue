@@ -722,8 +722,8 @@ export default {
             console.log("artifactFrame: " + artifactFrame)
 
             if (originalFrame != 0 && artifactFrame != 0) {
-                const halfOriginalFrame = (originalFrame) / 2;
-                const halfArtifactFrame = (artifactFrame) / 2;
+                // const halfOriginalFrame = (originalFrame) / 2;
+                // const halfArtifactFrame = (artifactFrame) / 2;
                 if (video1 && video2) {
                     if (video1.currentTime - originalFrame <= 0 || video2.currentTime - artifactFrame <= 0 || video3.currentTime <= 0) {
                         return;
