@@ -470,6 +470,7 @@ export default {
                 .post(this.baseUrl + "getVideoIndexCurrentPage", {
                     userID: this.currentUser,
                     testcode: this.testCode,
+                    currentPage: this.currentPage,
                 })
                 .then((response) => {
                     // this.currentPage = parseInt(response.data.currentPage); //여기다 1 더해서 
