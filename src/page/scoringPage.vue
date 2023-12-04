@@ -14,13 +14,14 @@
         <p style="font-size: 24px; margin-top: 10px">Video Ghosting Artifact Scoring System</p>
         <div style="display: flex;">
             <div style="font-size: 20px; margin-left: auto; margin-right: 10px;">
-                <!-- {{ currentPageIndex }}/{{ totalLength }} -->
+                {{ currentPageIndex }}/{{ totalLength }}
             </div>
             <div style="margin-right: auto; margin-top: auto; margin-bottom: auto;" class="toggle-switch"
                 :class="{ 'active': isToggled }" @click="toggleVideo">
                 <div class="toggle-button" :style="{ left: isToggled ? '24px' : '0px' }"></div>
             </div>
         </div>
+        <!-- 현재 시간 / 총 시간 -->
         <div>
             <div>{{ this.videoCurrentTime }} / {{ this.videoDuration }}</div>
         </div>
@@ -215,8 +216,8 @@ export default {
             video.addEventListener("timeupdate", (event) => {
                 console.log("The currentTime attribute has been updated. Again.");
                 console.log(event.target.currentTime);
-                this.videoCurrentTime = event.target.currentTime;
-                this.videoDuration = event.target.duration;
+                this.videoCurrentTime = event.target.currentTime.toFixed(2);
+                this.videoDuration = event.target.duration.toFixed(2);
             });
             // this.videoCurrentTime = video1.currentTime;
             // this.currentTime = video1.currentTime;
@@ -505,6 +506,8 @@ export default {
                     }
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoIndex)
+                    this.videoCurrentTime = 0;
+                    this.videoDuration = 0;
                     // this.$router.push({
                     //     query: {
                     //         currentPage: this.currentPage,
