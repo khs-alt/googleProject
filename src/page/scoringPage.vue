@@ -185,7 +185,7 @@ export default {
         this.getVideoIndexCurrentPage();
         this.addEventVideoPlay();
         this.isVideoPaused();
-        this.getVideoCurrentTime();
+        // this.getVideoCurrentTime();
         document.addEventListener('mousemove', this.handleDragging);
         document.addEventListener('mouseup', this.handleDragEnd);
         window.addEventListener("keydown", this.keydown);
