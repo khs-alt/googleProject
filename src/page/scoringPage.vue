@@ -641,7 +641,7 @@ export default {
                 })
         },
         // video 2개 동시에 플레이 시키는 method
-        async playVideos() {
+        playVideos() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             // toggleVideo는 videoYesartifact와 같은 비디오 
