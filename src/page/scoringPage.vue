@@ -526,11 +526,11 @@ export default {
                 this.$router.push('/');
             }
         },
-        leftOriginalVideo() {
+        async leftOriginalVideo() {
             // console.log("leftOriginalVideo: " + this.baseUrl + "postvideo/original/" + this.currentPage)
             return String(this.baseUrl + "postvideo/original/" + this.currentPage)
         },
-        rightArtifactVideo() {
+        async rightArtifactVideo() {
             // console.log("rightArtifactVideo: " + this.baseUrl + "postvideo/artifact/" + this.currentPage)
             return String(this.baseUrl + "postvideo/artifact/" + this.currentPage)
         },
