@@ -178,7 +178,16 @@ export default {
     },
     created() { },
     updated() {
-        console.log("test1");
+        console.log("updated");
+        this.changeVideoButton();
+        this.getVideoIndexCurrentPage();
+        this.addEventVideoPlay();
+        this.isVideoPaused();
+        // this.getVideoCurrentTime();
+        document.addEventListener('mousemove', this.handleDragging);
+        document.addEventListener('mouseup', this.handleDragEnd);
+        window.addEventListener("keydown", this.keydown);
+        this.addEventVideoCurrentTime();
     },
     mounted() {
         this.changeVideoButton();
