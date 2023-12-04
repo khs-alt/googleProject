@@ -506,7 +506,9 @@ export default {
             var videoEelement2 = document.getElementById('videoYesartifact');
             videoEelement1.style.transform = "scale(1)";
             videoEelement2.style.transform = "scale(1)";
-
+            is(this.isToggled){
+                this.toggleVideo()
+            }
             if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
                 alert("This is the last page of this test code. Thank you!");
                 this.$router.push({
@@ -565,6 +567,9 @@ export default {
                     console.log(err);
                 })
             this.resetZoomAndOffset();
+            is(this.isToggled){
+                this.toggleVideo()
+            }
             var videoEelement1 = document.getElementById('videoNoartifact');
             var videoEelement2 = document.getElementById('videoYesartifact');
             videoEelement1.style.transform = "scale(1)";
