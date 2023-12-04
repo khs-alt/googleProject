@@ -695,7 +695,7 @@ export default {
             })
         },
         // video 2개 동시에 Stop 시키는 method
-        async pauseVideos() {
+        pauseVideos() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             var toggleVideo = document.getElementById('toggleVideo');
