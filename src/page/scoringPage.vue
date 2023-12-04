@@ -39,7 +39,7 @@
                                         controlsList="nodownload" key="videoDiff" :src="rightArtifactVideo()"
                                         @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                                         @mouseup="handleDragEnd" @mousemove="handleDragging" onChange="isVideoPaused"
-                                        preload="metadata">
+                                        preload="auto">
                                     </video>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                                     ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
                                     :src="leftOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
                                     @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
-                                    onChange="isVideoPaused" preload="metadata">
+                                    onChange="isVideoPaused" preload="auto">
                                 </video>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                                 ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
                                 :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
                                 @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
-                                onChange="isVideoPaused" preload="metadata">
+                                onChange="isVideoPaused" preload="auto">
                             </video>
                         </div>
                         <div>
@@ -176,6 +176,7 @@ export default {
             preloadedPrevArtifactVideo: "",
             videoCurrentTime: 0.00,
             videoDuration: 0.00,
+            isPlaying: false,
         }
     },
     created() { },
@@ -213,6 +214,9 @@ export default {
             // this.videoCurrentTime = video1.currentTime;
             // this.currentTime = video1.currentTime;
             // this.videoDuration = video1.duration;
+            video.addEventListener("playing", (event) => {
+                this.isPlaying = true;
+            })
         },
         async getVideoHeight() {
             var video1 = document.getElementById('videoNoartifact');
@@ -715,11 +719,12 @@ export default {
             //         });
             // }
 
-            if (video1 && video2 && toggleVideo) {
+            if (video1 && video2 && toggleVideo && this.isPlaying) {
                 var temp = video2.currentTime;
                 video1.currentTime = temp;
                 toggleVideo.currentTime = temp;
                 video1.pause();
+                this.isPlaying = false;
             }
         },
         // Play/Stop 및 text 변경 버튼
