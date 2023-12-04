@@ -289,7 +289,7 @@ export default {
                     console.log(error);
                 })
         },
-        goToBegin() {
+        async goToBegin() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             var video3 = document.getElementById('toggleVideo');
@@ -498,6 +498,7 @@ export default {
                         this.isPressed = [false, false, false, false, false, false]
                     }
                     this.resetZoomAndOffset();
+                    this.updateVideoStyle();
                 })
                 .catch((err) => {
                     console.log(err);
@@ -506,6 +507,7 @@ export default {
             var videoEelement2 = document.getElementById('videoYesartifact');
             videoEelement1.style.transform = "scale(1)";
             videoEelement2.style.transform = "scale(1)";
+
             if (this.isToggled) {
                 this.toggleVideo()
             }
@@ -567,6 +569,7 @@ export default {
                     console.log(err);
                 })
             this.resetZoomAndOffset();
+            this.updateVideoStyle();
             if (this.isToggled) {
                 this.toggleVideo()
             }

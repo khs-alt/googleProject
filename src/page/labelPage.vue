@@ -213,9 +213,15 @@ export default {
         .then((response) => {
           console.log(response.data)
           console.log(response.data.image_list.length)
-          if (this.currentPage <= 0 || this.currentPage > response.data.image_list.length - 1) this.currentPage = response.data.current_page; //url로 접근하는데 범위 밖일 때
-          else if (response.data.current_page < 0) this.currentPage = 0; //유저의 데이터가 없을 때 0번째로
-          else if (response.data.current_page >= 0) this.currentPage = response.data.current_page + 1; //마지막으로 한 페이지
+          if (this.currentPage <= 0 || this.currentPage > response.data.image_list.length - 1) {
+            this.currentPage = response.data.current_page; //url로 접근하는데 범위 밖일 때
+          }
+          else if (response.data.current_page < 0) {
+            this.currentPage = 0; //유저의 데이터가 없을 때 0번째로
+          }
+          else if (response.data.current_page >= 0 && this.currentPage === response.data.current_page) {
+            this.currentPage = response.data.current_page + 1; //마지막으로 한 페이지
+          }
 
           // currentPage를 받아서 labeling 이미지를 만듦
           // cuurentPage에 따라 imageID가 달라져서 이를 반영하기 위해 axios를 받은 후에 makeImageTemplete()를 호출함
