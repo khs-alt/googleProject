@@ -378,6 +378,7 @@ export default {
           this.changeBackPatchImage();
           break;
         case 'ArrowRight':
+          this.clickeAarrowRight = true;
           e.preventDefault();
           this.changeNextPatchImage();
           break;
