@@ -586,7 +586,7 @@ export default {
                 })
                 return;
             } else {
-                this.getVideoIndexCurrentPage();
+                // this.getVideoIndexCurrentPage();
                 this.videoNameIndex += 1
                 // for (var i = 0; i < this.videoIndex.length; i++) {
                 //     if (this.videoIndex[i] == this.currentPage) {
