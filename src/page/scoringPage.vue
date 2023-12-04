@@ -200,10 +200,9 @@ export default {
         },
     },
     methods: {
-        async addEventVideoCurrentTime() {
+        addEventVideoCurrentTime() {
             var video = document.getElementById('videoNoartifact');
-            video.addEventListener("timeupdate", (event) => {
-                console.log("The currentTime attribute has been updated. Again.");
+            video.addEventListener("loadeddata", (event) => {
                 console.log(event.target.currentTime);
                 this.videoCurrentTime = event.target.currentTime.toFixed(2);
                 this.videoDuration = event.target.duration.toFixed(2);
@@ -495,15 +494,15 @@ export default {
                     }
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoIndex)
-                    document.getElementById('videoNoartifact').loadeddata = function () {
-                        this.videoCurrentTime = 0.00;
-                        this.videoDuration = 0.00;
-                        var video1 = document.getElementById('videoNoartifact');
-                        this.videoCurrentTime = video1.currentTime.toFixed(2);
-                        this.videoDuration = video1.duration.toFixed(2);
-                        console.log("videoCurrentTime: " + this.videoCurrentTime);
-                        console.log("videoDuration: " + this.videoDuration);
-                    };
+                    // document.getElementById('videoNoartifact').loadeddata = function () {
+                    //     this.videoCurrentTime = 0.00;
+                    //     this.videoDuration = 0.00;
+                    //     var video1 = document.getElementById('videoNoartifact');
+                    //     this.videoCurrentTime = video1.currentTime.toFixed(2);
+                    //     this.videoDuration = video1.duration.toFixed(2);
+                    //     console.log("videoCurrentTime: " + this.videoCurrentTime);
+                    //     console.log("videoDuration: " + this.videoDuration);
+                    // };
                 })
                 .catch((error) => {
                     console.log(error);
