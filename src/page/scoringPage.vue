@@ -506,11 +506,13 @@ export default {
                     }
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoIndex)
-                    this.videoCurrentTime = 0;
-                    this.videoDuration = 0;
+                    this.videoCurrentTime = 0.00;
+                    this.videoDuration = 0.00;
                     var video1 = document.getElementById('videoNoartifact');
                     this.videoCurrentTime = video1.currentTime.toFixed(2);
                     this.videoDuration = video1.duration.toFixed(2);
+                    console.log("videoCurrentTime: " + this.videoCurrentTime);
+                    console.log("videoDuration: " + this.videoDuration);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -537,28 +539,6 @@ export default {
             }
             this.userScoring = this.clickedButton
             console.log("user scoring: ", this.userScoring)
-            //마지막 페이지 확인
-            // axios
-            //     .post(this.baseUrl + "getUserScore", {
-            //         CurrentUser: this.currentUser,
-            //         ImageId: parseInt(this.currentPage),
-            //         TestCode: this.testCode,
-            //     })
-            //     .then((response) => {
-            //         var curScore = response.data;
-            //         if (curScore != -1) {
-            //             this.isPressed[curScore] = true;
-            //             this.clickedButton = curScore;
-            //         } else {
-            //             curScore = -1
-            //             this.clickedButton = curScore;
-            //             this.isPressed = [false, false, false, false, false, false]
-            //         }
-
-            //     })
-            //     .catch((err) => {
-            //         console.log(err);
-            //     })
             this.resetZoomAndOffset();
             this.updateVideoStyle();
             var videoEelement1 = document.getElementById('videoNoartifact');
@@ -586,14 +566,7 @@ export default {
             } else {
                 // this.getVideoIndexCurrentPage();
                 this.videoNameIndex += 1
-                // for (var i = 0; i < this.videoIndex.length; i++) {
-                //     if (this.videoIndex[i] == this.currentPage) {
                 this.currentPage = this.videoIndex[this.videoNameIndex];
-                // this.rightArtifactVideo();
-                // this.leftOriginalVideo();
-                // break;
-                //     }
-                // }
                 this.isPressed = [false, false, false, false, false, false]
                 this.$router.push({
                     path: '/label/scoring',
@@ -612,27 +585,6 @@ export default {
             }
             this.userScoring = this.clickedButton
             console.log("user scoring: ", this.userScoring)
-            //마지막 페이지 확인
-            // axios
-            //     .post(this.baseUrl + "getUserScore", {
-            //         CurrentUser: this.currentUser,
-            //         ImageId: parseInt(this.currentPage),
-            //         TestCode: this.testCode,
-            //     })
-            //     .then((response) => {
-            //         var curScore = response.data;
-            //         if (curScore != -1) {
-            //             this.isPressed[curScore] = true;
-            //             this.clickedButton = curScore;
-            //         } else {
-            //             curScore = -1
-            //             this.clickedButton = curScore;
-            //             this.isPressed = [false, false, false, false, false, false]
-            //         }
-            //     })
-            //     .catch((err) => {
-            //         console.log(err);
-            //     })
             this.resetZoomAndOffset();
             this.updateVideoStyle();
             if (this.isToggled) {
@@ -656,14 +608,7 @@ export default {
                 return;
             } else {
                 this.videoNameIndex -= 1
-                // for (var i = 0; i < this.videoIndex.length; i++) {
-                //     if (this.videoIndex[i] == this.currentPage) {
                 this.currentPage = this.videoIndex[this.videoNameIndex];
-                // this.rightArtifactVideo();
-                // this.leftOriginalVideo();
-                // break;
-                //     }
-                // }
                 this.isPressed = [false, false, false, false, false, false]
                 this.$router.push({
                     path: '/label/scoring',
@@ -697,12 +642,10 @@ export default {
                     this.resetZoomAndOffset();
                     this.updateVideoStyle();
                     console.log(res.data)
-
                 })
                 .catch(error => {
                     console.error(error);
                 })
-
         },
         // video 2개 동시에 플레이 시키는 method
         async playVideos() {
