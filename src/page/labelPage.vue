@@ -113,7 +113,7 @@ export default {
       currentPage: parseInt(this.$route.query.currentPage),
       buttonString: ["0", "1", "2", "3", "4", "5", "Prev", "Next", "Submit"],
       pageState: 7,
-      clickedAarrowBtn: false,
+      clickedArrowBtn: false,
       prevOriginalImage: null,  //이전 사진 preload
       prevArtifactImage: null,  //이전 사진 preload
       prevDifferenceImage: null,  //이전 사진 preload
@@ -499,6 +499,7 @@ export default {
         this.i = 0;
         this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
+        this.clickedArrowBtn = false;
         this.$refs.img = this.prevImage;
         this.makeImageTemplete();
         this.getUserLabeling();
@@ -525,6 +526,7 @@ export default {
         this.i = 0;
         this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
+        this.clickedArrowBtn = false;
         this.$refs.img = this.nextImage;
         this.makeImageTemplete();
         this.getUserLabeling();

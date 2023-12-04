@@ -298,6 +298,10 @@ export default {
             video1.currentTime = 0;
             video2.currentTime = 0;
             video3.currentTime = 0;
+            console.log("goToEnd");
+            console.log("video1: " + video1.currentTime);
+            console.log("video2: " + video2.currentTime);
+            console.log("video3: " + video3.currentTime);
         },
         goToEnd() {
             var video1 = document.getElementById('videoNoartifact');
@@ -310,6 +314,10 @@ export default {
             video1.currentTime = temp;
             video2.currentTime = temp;
             video3.currentTime = temp;
+            console.log("goToEnd");
+            console.log("video1: " + video1.currentTime);
+            console.log("video2: " + video2.currentTime);
+            console.log("video3: " + video3.currentTime);
         },
         changeImgSource() {
             if (this.videoButtonText != "Play") {
