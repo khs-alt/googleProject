@@ -824,14 +824,14 @@ export default {
             }
         },
     },
-    watch: {
-        '$route'(to, from) {
-            console.log("to: " + to)
-            console.log("from: " + from)
-            console.log("call watch")
-            this.getVideoIndexCurrentPage();
-        }
-    },
+    // watch: {
+    //     '$route'(to, from) {
+    //         console.log("to: " + to)
+    //         console.log("from: " + from)
+    //         console.log("call watch")
+    //         this.getVideoIndexCurrentPage();
+    //     }
+    // },
 }
 </script>
 
