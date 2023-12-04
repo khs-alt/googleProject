@@ -394,39 +394,12 @@ export default {
             this.dragStartX = event.clientX - this.offsetX;
             this.dragStartY = event.clientY - this.offsetY;
         },
-        // handleDragging(event) {
-        //     if (this.dragging) {
-        //         this.offsetX = event.clientX - this.dragStartX;
-        //         this.offsetY = event.clientY - this.dragStartY;
-        //         this.updateVideoStyle();
-        //     }
-        // },
         handleDragging(event) {
-            if (!this.dragging) return;
-
-            // 현재 마우스 위치 계산
-            let newX = event.clientX - this.dragStartX;
-            let newY = event.clientY - this.dragStartY;
-
-            // 박스의 경계를 계산합니다 (박스의 크기와 위치에 따라 다름)
-            const boxBounds = this.$refs.videoContainer.getBoundingClientRect();
-
-            // 비디오의 현재 크기와 위치를 가져옵니다
-            const videoBounds = this.$refs.toggleVideo.getBoundingClientRect();
-
-            // 비디오가 박스 경계를 넘어가지 않도록 조정
-            if (newX < boxBounds.left) newX = boxBounds.left;
-            else if (newX + videoBounds.width > boxBounds.right) newX = boxBounds.right - videoBounds.width;
-
-            if (newY < boxBounds.top) newY = boxBounds.top;
-            else if (newY + videoBounds.height > boxBounds.bottom) newY = boxBounds.bottom - videoBounds.height;
-
-            // 비디오의 새 위치를 설정
-            this.offsetX = newX;
-            this.offsetY = newY;
-
-            // 비디오 스타일 업데이트
-            this.updateVideoStyle();
+            if (this.dragging) {
+                this.offsetX = event.clientX - this.dragStartX;
+                this.offsetY = event.clientY - this.dragStartY;
+                this.updateVideoStyle();
+            }
         },
         handleDragEnd() {
             this.dragging = false;
@@ -784,10 +757,10 @@ export default {
                 const halfArtifactFrame = (1 / artifactFrame) / 2;
 
                 if (video1 && video2) {
-                    if (video1.currentTime == 0) {
-                        video1.currentTime = halfOriginalFrame;
-                        video2.currentTime = halfArtifactFrame;
-                        video3.currentTime = halfArtifactFrame
+                    if (video1.currentTime == 0 || video2.currentTime) {
+                        video1.currentTime = halfOriginalFrame + 1 / originalFrame;
+                        video2.currentTime = halfArtifactFrame + 1 / artifactFrame;
+                        video3.currentTime = halfArtifactFrame + 1 / artifactFrame;
                     } else {
                         video1.currentTime -= 1 / originalFrame;
                         video2.currentTime -= 1 / artifactFrame;
@@ -807,7 +780,7 @@ export default {
                 const halfOriginalFrame = (1 / originalFrame) / 2;
                 const halfArtifactFrame = (1 / artifactFrame) / 2;
                 if (video1 && video2) {
-                    if (video1.currentTime == 0 && video2.currentTime == 0) {
+                    if (video1.currentTime == 0 || video2.currentTime == 0) {
                         video1.currentTime = halfOriginalFrame + originalFrame;
                         video2.currentTime = halfArtifactFrame + artifactFrame;
                         video3.currentTime = halfArtifactFrame + artifactFrame;
