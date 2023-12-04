@@ -201,6 +201,9 @@ export default {
         this.addEventVideoCurrentTime();
         // this.preloadNextVideo();
     },
+    setup() {
+        console.log("setup")
+    },
     // computed: {
     //     currentPageIndex() {
     //         return parseInt(this.videoNameIndex) + 1;
@@ -571,7 +574,7 @@ export default {
             }
 
             if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
-                this.getVideoIndexCurrentPage();
+                // this.getVideoIndexCurrentPage();
                 alert("This is the last page of this test code. Thank you!");
                 this.$router.push({
                     path: '/label/scoring',
