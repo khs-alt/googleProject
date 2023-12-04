@@ -190,9 +190,9 @@ export default {
         // this.preloadNextVideo();
     },
     computed: {
-        currentPageIndex() {
-            return parseInt(this.videoNameIndex) + 1;
-        },
+        // currentPageIndex() {
+        //     return parseInt(this.videoNameIndex) + 1;
+        // },
     },
     methods: {
         async addEventVideoCurrentTime() {
@@ -490,13 +490,13 @@ export default {
                     }
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoIndex)
-                    this.$router.push({
-                        query: {
-                            currentPage: this.currentPage,
-                            userName: this.currentUser,
-                            testcode: this.testCode,
-                        }
-                    })
+                    // this.$router.push({
+                    //     query: {
+                    //         currentPage: this.currentPage,
+                    //         userName: this.currentUser,
+                    //         testcode: this.testCode,
+                    //     }
+                    // })
                     this.leftOriginalVideo();
                     this.rightArtifactVideo();
                 })
