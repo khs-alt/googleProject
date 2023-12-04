@@ -212,6 +212,7 @@ export default {
         })
         .then((response) => {
           console.log(response.data)
+          console.log(this.imageIndexList)
           if (this.currentPage <= 0 || this.currentPage >= this.imageIndexList.length) {  //URL에 입력한 페이지 번호가 범위 바깥에 있을 때
             this.currentPage = response.data.current_page;
           }
@@ -220,7 +221,7 @@ export default {
             this.currentPage = response.data.current_page;
           } else if (response.data.current_page >= 0) this.currentPage = response.data.current_page + 1; //마지막으로 한 페이지
           else this.currentPage = 0; //유저가 입력한 데이터가 없을 경우
-          
+
           // currentPage를 받아서 labeling 이미지를 만듦
           // cuurentPage에 따라 imageID가 달라져서 이를 반영하기 위해 axios를 받은 후에 makeImageTemplete()를 호출함
           // makeImageTemplete()에서는 labeling 이미지를 만드는 함수임
