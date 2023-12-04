@@ -614,48 +614,6 @@ export default {
                     }
                 })
             }
-            // if (this.currentPage == this.videoIndex[0]) {
-            //     alert("This is the first page.");
-            //     return;
-            // } else {
-            //     if (this.videoButtonText == 'Stop') {
-            //         this.changeVideoButton();
-            //     }
-            //     this.isPressed = [false, false, false, false, false, false]
-            //     for (var i = 1; i < this.videoIndex.length; i++) {
-            //         if (this.videoIndex[i] == this.currentPage) {
-            //             this.videoNameIndex -= 1
-            //             this.currentPage = this.videoIndex[i - 1];
-            //             this.leftOriginalVideo();
-            //             this.rightArtifactVideo();
-            //             var curScore = 0;
-            //             axios
-            //                 .post(this.baseUrl + "getUserScore", {
-            //                     CurrentUser: this.currentUser,
-            //                     ImageId: parseInt(this.currentPage),
-            //                     TestCode: this.testCode,
-            //                 })
-            //                 .then((response) => {
-            //                     curScore = response.data;
-            //                     //console.log(curScore)
-            //                     if (curScore != -1) {
-            //                         this.isPressed[curScore] = true;
-            //                         this.clickedButton = curScore;
-            //                     } else {
-            //                         curScore = -1
-            //                         this.clickedButton = curScore;
-            //                         this.isPressed = [false, false, false, false, false, false]
-            //                     }
-            //                     //console.log("curScore: " + curScore);
-            //                 })
-            //                 .catch((err) => {
-            //                     console.log(err);
-            //                 })
-            //             return;
-            //         }
-            //     }
-            //     this.clickedButton = -1
-            // }
         },
         // score button 눌렸는지 안눌렸는지 확인하는 method
         toggleButton(index) {
@@ -803,7 +761,7 @@ export default {
                         video3.currentTime = halfArtifactFrame + artifactFrame;
                     } else {
                         // 마지막 프레임을 버림
-                        if (video1.currentTime + originalFrame * 3 >= video1.duration) {
+                        if (video1.currentTime + originalFrame * 3 >= video1.duration || video2.currentTime + artifactFrame * 3 >= video2.duration || video3.currentTime + artifactFrame * 3 >= video3.duration) {
                             return;
                         }
                         video1.currentTime += originalFrame;
