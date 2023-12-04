@@ -136,6 +136,7 @@ export default {
             isPressed: [false, false, false, false, false, false],
             isClicked: false,
             menuBar: ['Home'],
+            // TODO: 함수로 parseInt로 바꾸기 
             currentPage: parseInt(this.$route.query.currentPage),
             currentUser: this.$route.query.userName,
             testCode: this.$route.query.testcode,
@@ -494,13 +495,15 @@ export default {
                     }
                     console.log("current page: ", this.currentPage);
                     console.log("video list: ", this.videoIndex)
-                    this.videoCurrentTime = 0.00;
-                    this.videoDuration = 0.00;
-                    var video1 = document.getElementById('videoNoartifact');
-                    this.videoCurrentTime = video1.currentTime.toFixed(2);
-                    this.videoDuration = video1.duration.toFixed(2);
-                    console.log("videoCurrentTime: " + this.videoCurrentTime);
-                    console.log("videoDuration: " + this.videoDuration);
+                    document.getElementById('videoNoartifact').onload = function () {
+                        this.videoCurrentTime = 0.00;
+                        this.videoDuration = 0.00;
+                        var video1 = document.getElementById('videoNoartifact');
+                        this.videoCurrentTime = video1.currentTime.toFixed(2);
+                        this.videoDuration = video1.duration.toFixed(2);
+                        console.log("videoCurrentTime: " + this.videoCurrentTime);
+                        console.log("videoDuration: " + this.videoDuration);
+                    };
                 })
                 .catch((error) => {
                     console.log(error);
