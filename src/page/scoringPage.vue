@@ -188,17 +188,17 @@ export default {
         },
     },
     methods: {
-        async getVideoHeight() {
-            var video1 = document.getElementById('videoNoartifact');
-            const temp = video1.clientHeight;
-            var video1Height = document.getElementById('left-video-cover').style.height;
-            var video2Height = document.getElementById('right-video-cover').style.height;
-            video1Height = temp;
-            video2Height = temp;
+        // async getVideoHeight() {
+        //     var video1 = document.getElementById('videoNoartifact');
+        //     const temp = video1.clientHeight;
+        //     var video1Height = document.getElementById('left-video-cover').style.height;
+        //     var video2Height = document.getElementById('right-video-cover').;
+        //     video1Height = temp;
+        //     video2Height = temp;
 
-            console.log("video1Height: " + video1Height);
-            console.log("video2Height: " + video2Height);
-        },
+        //     console.log("video1Height: " + video1Height);
+        //     console.log("video2Height: " + video2Height);
+        // },
     },
     //키보드 이벤트 함수
     keydown(e) {
