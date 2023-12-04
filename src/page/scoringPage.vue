@@ -512,8 +512,8 @@ export default {
                     //         testcode: this.testCode,
                     //     }
                     // })
-                    this.leftOriginalVideo();
-                    this.rightArtifactVideo();
+                    // this.leftOriginalVideo();
+                    // this.rightArtifactVideo();
                 })
                 .catch((error) => {
                     console.log(error);
@@ -526,11 +526,11 @@ export default {
                 this.$router.push('/');
             }
         },
-        async leftOriginalVideo() {
+        leftOriginalVideo() {
             // console.log("leftOriginalVideo: " + this.baseUrl + "postvideo/original/" + this.currentPage)
             return String(this.baseUrl + "postvideo/original/" + this.currentPage)
         },
-        async rightArtifactVideo() {
+        rightArtifactVideo() {
             // console.log("rightArtifactVideo: " + this.baseUrl + "postvideo/artifact/" + this.currentPage)
             return String(this.baseUrl + "postvideo/artifact/" + this.currentPage)
         },
