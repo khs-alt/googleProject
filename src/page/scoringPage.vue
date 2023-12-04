@@ -792,8 +792,7 @@ export default {
                 console.log("video3: " + video3.currentTime);
             }
         }
-    }
-},
+    },
 }
 </script>
 
