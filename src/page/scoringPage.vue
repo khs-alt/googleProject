@@ -466,11 +466,12 @@ export default {
         // }
         async getVideoIndexCurrentPage() {
             console.log("getVideoIndexCurrentPage:" + this.baseUrl + "getVideoIndexCurrentPage")
+            var temp = String(this.currentPage)
             await axios
                 .post(this.baseUrl + "getVideoIndexCurrentPage", {
                     userID: this.currentUser,
                     testcode: this.testCode,
-                    currentPage: String(this.currentPage),
+                    currentPage: temp,
                 })
                 .then((response) => {
                     // this.currentPage = parseInt(response.data.currentPage); //여기다 1 더해서 
