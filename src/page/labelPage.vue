@@ -113,6 +113,7 @@ export default {
       currentPage: parseInt(this.$route.query.currentPage),
       buttonString: ["0", "1", "2", "3", "4", "5", "Prev", "Next", "Submit"],
       pageState: 7,
+      clickedAarrowRight: false,
       prevOriginalImage: null,  //이전 사진 preload
       prevArtifactImage: null,  //이전 사진 preload
       prevDifferenceImage: null,  //이전 사진 preload
@@ -378,7 +379,7 @@ export default {
           this.changeBackPatchImage();
           break;
         case 'ArrowRight':
-          this.clickeAarrowRight = true;
+          this.clickedAarrowRight = true;
           e.preventDefault();
           this.changeNextPatchImage();
           break;

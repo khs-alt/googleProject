@@ -752,6 +752,9 @@ export default {
             var video3 = document.getElementById("toggleVideo");
             const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
             const artifactFrame = this.artifactVideoFrameList[this.videoNameIndex];
+            console.log("originalFrame: " + originalFrame)
+            console.log("artifactFrame: " + artifactFrame)
+
             if (originalFrame != 0 && artifactFrame != 0) {
                 const halfOriginalFrame = (1 / originalFrame) / 2;
                 const halfArtifactFrame = (1 / artifactFrame) / 2;
@@ -778,6 +781,8 @@ export default {
             const video3 = document.getElementById('toggleVideo');
             const originalFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
             const artifactFrame = 1 / this.artifactVideoFrameList[this.videoNameIndex];
+            console.log("originalFrame: " + originalFrame)
+            console.log("artifactFrame: " + artifactFrame)
 
             if (originalFrame != 0 && artifactFrame != 0) {
                 const halfOriginalFrame = (1 / originalFrame) / 2;
