@@ -126,6 +126,14 @@
 import axios from 'axios'
 export default {
     name: 'scoringPage',
+    watch: {
+        '$route'(to, from) {
+            if (to.path !== form.path) {
+                console.log("call watch")
+                this.getVideoIndexCurrentPage();
+            }
+        }
+    },
     data() {
         return {
             clickedButton: -1,
@@ -177,6 +185,7 @@ export default {
         }
     },
     created() { },
+
     mounted() {
         this.changeVideoButton();
         this.getVideoIndexCurrentPage();
@@ -188,9 +197,6 @@ export default {
         window.addEventListener("keydown", this.keydown);
         this.addEventVideoCurrentTime();
         // this.preloadNextVideo();
-    },
-    unmounted(){
-
     },
     computed: {
         // currentPageIndex() {
