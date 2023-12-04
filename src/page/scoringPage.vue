@@ -176,8 +176,7 @@ export default {
             videoDuration: 0,
         }
     },
-    created() { },
-    updated() {
+    created() {
         console.log("updated");
         this.changeVideoButton();
         this.getVideoIndexCurrentPage();
@@ -189,6 +188,18 @@ export default {
         window.addEventListener("keydown", this.keydown);
         this.addEventVideoCurrentTime();
     },
+    // updated() {
+    //     console.log("updated");
+    //     this.changeVideoButton();
+    //     this.getVideoIndexCurrentPage();
+    //     this.addEventVideoPlay();
+    //     this.isVideoPaused();
+    //     // this.getVideoCurrentTime();
+    //     document.addEventListener('mousemove', this.handleDragging);
+    //     document.addEventListener('mouseup', this.handleDragEnd);
+    //     window.addEventListener("keydown", this.keydown);
+    //     this.addEventVideoCurrentTime();
+    // },
     mounted() {
         this.changeVideoButton();
         this.getVideoIndexCurrentPage();
