@@ -213,7 +213,7 @@ export default {
         .then((response) => {
           console.log(response.data)
           //유저가 입력한 데이터가 있고, URL에 직접 페이지 번호를 줬을 경우
-          if (response.data.current_page >= 0 && this.currentPage != response.data.current_page ) {
+          if (response.data.current_page >= 0 && this.currentPage != response.data.current_page) {
             this.$router.push({
               query: {
                 userName: this.currentUser,
@@ -478,16 +478,16 @@ export default {
         this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.prevImage;
-        this.$router.push({
-          query: {
-            current_user: this.currentUser,
-            currentPage: this.currentPage,
-            testcode: this.testcode
-          }
-        });
         this.makeImageTemplete();
         this.getUserLabeling();
         this.preloadImage();
+        this.$router.push({
+          query: {
+            userName: this.currentUser,
+            currentPage: this.currentPage,
+            testcode: this.testCode
+          }
+        });
       }
     },
 
@@ -504,16 +504,16 @@ export default {
         this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.nextImage;
-        this.$router.push({
-          query: {
-            current_user: this.currentUser,
-            currentPage: this.currentPage,
-            testcode: this.testcode
-          }
-        });
         this.makeImageTemplete();
         this.getUserLabeling();
         this.preloadImage();
+        this.$router.push({
+          query: {
+            userName: this.currentUser,
+            currentPage: this.currentPage,
+            testcode: this.testCode
+          }
+        });
       }
     },
 
