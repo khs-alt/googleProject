@@ -357,7 +357,7 @@ export default {
             var video2 = document.getElementById('videoYesartifact');
             var video3 = document.getElementById('toggleVideo');
             const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
-            const temp = video1.duration - (1 / originalFrame) * 3;
+            const temp = video1.duration - (1 / originalFrame) * 2;
             // video1.pause();
             // video2.pause();
             video1.currentTime = temp;
@@ -714,8 +714,8 @@ export default {
             const artifactFrame = 1 / this.artifactVideoFrameList[this.videoNameIndex];
 
             if (video1 && video2 && toggleVideo) {
-                if (video1.currentTime + originalFrame * 3 >= video1.currentTime || video2.currentTime + artifactFrame * 3 >= video2.currentTime
-                    || toggleVideo.currentTime + artifactFrame * 3 >= toggleVideo.currentTime || video1.ended || video2.ended || toggleVideo.ended) {
+                if (video1.currentTime + originalFrame * 2 >= video1.currentTime || video2.currentTime + artifactFrame * 2 >= video2.currentTime
+                    || toggleVideo.currentTime + artifactFrame * 2 >= toggleVideo.currentTime || video1.ended || video2.ended || toggleVideo.ended) {
                     video1.currentTime = 0;
                     video2.currentTime = 0;
                     toggleVideo.currentTime = 0;
@@ -827,8 +827,8 @@ export default {
                         video3.currentTime = halfArtifactFrame + artifactFrame;
                     } else {
                         // 마지막 프레임을 버림
-                        if (video1.currentTime + originalFrame * 3 >= video1.duration || video2.currentTime + artifactFrame * 3 >= video2.duration
-                            || video3.currentTime + artifactFrame * 3 >= video3.duration || video1.ended || video2.ended || video3.ended) {
+                        if (video1.currentTime + originalFrame * 2 >= video1.duration || video2.currentTime + artifactFrame * 2 >= video2.duration
+                            || video3.currentTime + artifactFrame * 2 >= video3.duration || video1.ended || video2.ended || video3.ended) {
                             return;
                         }
                         video1.currentTime += originalFrame;
