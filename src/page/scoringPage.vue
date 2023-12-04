@@ -21,6 +21,9 @@
                 <div class="toggle-button" :style="{ left: isToggled ? '24px' : '0px' }"></div>
             </div>
         </div>
+        <div>
+            <div>{{ this.video1.currentPage }} / {{ this.video1.duration }}</div>
+        </div>
         <div class="video-container">
             <div class="videoPlayer">
                 <div id="video-margin" style="display: flex; max-height: 60%;">
