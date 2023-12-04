@@ -766,6 +766,9 @@ export default {
                         video2.currentTime -= 1 / artifactFrame;
                         video3.currentTime -= 1 / artifactFrame;
                     }
+                    console.log("video1: " + video1.currentTime);
+                    console.log("video2: " + video2.currentTime);
+                    console.log("video3: " + video3.currentTime);
                 }
             }
         },
@@ -793,6 +796,9 @@ export default {
                         video2.currentTime += artifactFrame;
                         video3.currentTime += artifactFrame;
                     }
+                    console.log("video1: " + video1.currentTime);
+                    console.log("video2: " + video2.currentTime);
+                    console.log("video3: " + video3.currentTime);
                 }
             }
         }
