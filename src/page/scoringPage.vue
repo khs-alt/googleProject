@@ -497,6 +497,7 @@ export default {
                         this.clickedButton = curScore;
                         this.isPressed = [false, false, false, false, false, false]
                     }
+                    this.resetZoomAndOffset();
                 })
                 .catch((err) => {
                     console.log(err);
@@ -563,6 +564,7 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 })
+            this.resetZoomAndOffset();
             var videoEelement1 = document.getElementById('videoNoartifact');
             var videoEelement2 = document.getElementById('videoYesartifact');
             videoEelement1.style.transform = "scale(1)";
@@ -571,7 +573,6 @@ export default {
                 alert("This is the first page of this test code.");
                 this.$router.push({
                     query: {
-                        // path: process.env.BASE_URL + "/scoring",
                         currentPage: parseInt(this.currentPage),
                         userName: this.currentUser,
                         testcode: this.testCode,
