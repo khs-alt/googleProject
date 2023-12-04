@@ -191,8 +191,8 @@ export default {
         async getVideoHeight() {
             var video1 = document.getElementById('videoNoartifact');
             const temp = video1.clientHeight;
-            var video1Height = document.getElementById('left-video-cover').clientHeight;
-            var video2Height = document.getElementById('right-video-cover').clientHeight;
+            var video1Height = document.getElementById('left-video-cover').style.height;
+            var video2Height = document.getElementById('right-video-cover').style.height;
             video1Height = temp;
             video2Height = temp;
 
