@@ -104,7 +104,7 @@ export default {
         clickExport() {
             console.log("clicked testcode: " + this.clickedTestcodeBtn);
             axios
-                .post(this.baseUrl + 'getCSVFile', {
+                .post(this.baseUrl + 'exportVideo', {
                     testcode: this.clickedTestcodeBtn
                 })
                 .then((response) => {

@@ -100,14 +100,14 @@
             <div style="display: flex; margin-left: auto; margin-right: auto;">
                 <div style="margin-left: auto; margin-right: auto; display: flex;">
                     <button v-on="click" class="btn-style"
-                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 0.5px;"
+                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
                         @click="[changeBackVideo(), preloadNextVideo()]">prev</button>
                     <button v-for="a in 6" ref="score" :key="a - 1" v-on:click="clickedButton = a - 1"
-                        style="width: 50px; height: 40px; font-size:x-large; padding-top: 2px;"
+                        style="width: 50px; height: 40px; font-size:x-large; padding-top: 1px;"
                         :class="{ 'clicked-btn-style': isPressed[a - 1], 'btn-style': !isPressed[a - 1] }"
                         @click="toggleButton(a - 1)">{{ a - 1 }}</button>
                     <button v-on="click" class="btn-style"
-                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 0.5px;"
+                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
                         @click="[changeNextVideo(), preloadNextVideo()]">next</button>
                 </div>
             </div>
@@ -188,17 +188,20 @@ export default {
         },
     },
     methods: {
-        // async getVideoHeight() {
-        //     var video1 = document.getElementById('videoNoartifact');
-        //     const temp = video1.clientHeight;
-        //     var video1Height = document.getElementById('left-video-cover').style.height;
-        //     var video2Height = document.getElementById('right-video-cover').;
-        //     video1Height = temp;
-        //     video2Height = temp;
+        async getVideoHeight() {
+            var video1 = document.getElementById('videoNoartifact');
+            const temp = video1.style.height;
+            var video1Height = document.getElementById('left-video-cover');
+            var video2Height = document.getElementById('right-video-cover');
+            var video3Height = document.getElementById('toggleVideo');
+            video1Height.style.height = temp;
+            video2Height.style.height = temp;
+            video3Height.style.height = temp;
 
-        //     console.log("video1Height: " + video1Height);
-        //     console.log("video2Height: " + video2Height);
-        // },
+            console.log("video1Height: " + video1Height);
+            console.log("video2Height: " + video2Height);
+            console.log("video3Height: " + video3Height);
+        },
         //키보드 이벤트 함수
         keydown(e) {
             switch (e.key) {
