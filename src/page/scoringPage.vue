@@ -297,14 +297,12 @@ export default {
             // artifact video와 original video에 대한 DOM 레퍼런스를 가져옵니다.
             const originalVideo = this.$refs.videoNoartifact;
             const toggleVideo = this.$refs.toggleVideo;
-            var originalVideoHeader = document.getElementById('videoNoartifact');
-            var originalVideoStyle = window.getComputedStyle(originalVideoHeader);
-            const leftMargin = originalVideoStyle.getPropertyValue('margin-left');
             if (this.isToggled) {
                 // originalVideo의 위치와 크기를 가져옵니다.
                 const rect = originalVideo.getBoundingClientRect();
-                // toggleVideo를 originalVideo 위치 위로 배치합니다.
-                toggleVideo.style.left = leftMargin;
+
+                toggleVideo.style.left = 0 + 'px';
+                toggleVideo.style.target = rect.top + 'px';
                 toggleVideo.style.width = rect.width + 'px';
                 toggleVideo.style.height = rect.height + 'px';
                 toggleVideo.style.zIndex = 10; // toggleVideo를 위로
@@ -317,6 +315,30 @@ export default {
                 toggleVideo.style.zIndex = 0;
             }
         },
+        // applyVideoOverlay() {
+        //     // artifact video와 original video에 대한 DOM 레퍼런스를 가져옵니다.
+        //     const originalVideo = this.$refs.videoNoartifact;
+        //     const toggleVideo = this.$refs.toggleVideo;
+        //     var originalVideoHeader = document.getElementById('videoNoartifact');
+        //     var originalVideoStyle = window.getComputedStyle(originalVideoHeader);
+        //     const leftMargin = originalVideoStyle.getPropertyValue('margin-left');
+        //     if (this.isToggled) {
+        //         // originalVideo의 위치와 크기를 가져옵니다.
+        //         const rect = originalVideo.getBoundingClientRect();
+        //         // toggleVideo를 originalVideo 위치 위로 배치합니다.
+        //         toggleVideo.style.left = leftMargin;
+        //         toggleVideo.style.width = rect.width + 'px';
+        //         toggleVideo.style.height = rect.height + 'px';
+        //         toggleVideo.style.zIndex = 10; // toggleVideo를 위로
+        //         console.log("rect.width: " + rect.width)
+        //         console.log("rect.height: " + rect.height)
+        //         console.log("toggleVideo.style.width: " + toggleVideo.style.width)
+        //         console.log("toggleVideo.style.height: " + toggleVideo.style.height)
+        //     } else {
+        //         // isToggled가 false일 때, toggleVideo를 원래 상태로 되돌립니다.
+        //         toggleVideo.style.zIndex = 0;
+        //     }
+        // },
         clickExport() {
             axios
                 .post(this.baseUrl + 'getCSVFile', {
@@ -664,6 +686,9 @@ export default {
                 video1.play();
             }
         },
+        // videosIsLoded(){
+
+        // },
         addEventVideoPlay() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
