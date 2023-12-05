@@ -305,8 +305,8 @@ export default {
                 toggleVideo.style.top = 0 + 'px';
 
                 // toggleVideo.style.target = rect.top + 'px';
-                toggleVideo.style.width = rect.width + 'px';
-                toggleVideo.style.height = rect.height + 'px';
+                // toggleVideo.style.width = rect.width + 'px';
+                // toggleVideo.style.height = rect.height + 'px';
                 toggleVideo.style.zIndex = 10; // toggleVideo를 위로
                 console.log("rect.width: " + rect.width)
                 console.log("rect.height: " + rect.height)
