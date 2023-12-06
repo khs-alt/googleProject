@@ -188,6 +188,8 @@ export default {
         window.addEventListener("keydown", this.keydown);
         this.addEventVideoCurrentTime();
         // this.preloadNextVideo();
+        this.leftVideoUrl = this.leftOriginalVideo();
+        this.rightVideoUrl = this.rightArtifactVideo();
     },
     setup() {
         console.log("setup")
@@ -638,6 +640,8 @@ export default {
                 })
                 this.getVideoIndexCurrentPage();
             }
+            this.leftVideoUrl = this.leftOriginalVideo();
+            this.rightVideoUrl = this.rightArtifactVideo();
         },
         // score button 눌렸는지 안눌렸는지 확인하는 method
         toggleButton(index) {
