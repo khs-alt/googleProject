@@ -36,17 +36,16 @@
                                 <div style="max-height: 550px; overflow: hidden;">
                                     <video id="toggleVideo" :style="videoStyles"
                                         style="position: absolute; max-width: 100%; max-height: 550px;" ref="toggleVideo"
-                                        controlsList="nodownload" key="videoDiff" :src="rightArtifactVideo()"
-                                        @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
-                                        @mouseup="handleDragEnd" @mousemove="handleDragging" onChange="isVideoPaused"
-                                        preload="auto">
+                                        controlsList="nodownload" key="videoDiff" :src="rightVideoUrl" @wheel="handleWheel"
+                                        @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
+                                        @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
                                     </video>
                                 </div>
                             </div>
                             <div>
                                 <video id="videoNoartifact" :style="videoStyles" style="max-height: 550px; max-width: 100%;"
                                     ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
-                                    :src="leftOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
+                                    :src="leftVideoUrl" @wheel="handleWheel" @click="setZoomCenter"
                                     @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
                                     onChange="isVideoPaused" preload="auto">
                                 </video>
@@ -61,10 +60,10 @@
                         <div id="right-video-cover"
                             style="max-width: 100%; max-height: 550px; overflow: hidden; border: solid 1px gray; width: fit-content; height: fit-content;">
                             <video id="videoYesartifact" :style="videoStyles" style="max-height: 550px; max-width: 100%;"
-                                ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
-                                :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
-                                @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
-                                onChange="isVideoPaused" preload="auto">
+                                ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="rightVideoUrl"
+                                @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
+                                @mouseup="handleDragEnd" @mousemove="handleDragging" onChange="isVideoPaused"
+                                preload="auto">
                             </video>
                         </div>
                         <div>
@@ -595,6 +594,8 @@ export default {
                 })
                 this.getVideoIndexCurrentPage();
             }
+            this.leftVideoUrl = this.leftOriginalVideo();
+            this.rightVideoUrl = this.rightArtifactVideo();
         },
         changeBackVideo() {
             if (this.videoButtonText == 'Stop') {
