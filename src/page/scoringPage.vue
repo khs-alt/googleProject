@@ -105,14 +105,14 @@
                 <div style="margin-left: auto; margin-right: auto; display: flex;">
                     <button v-on="click" class="btn-style"
                         style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
-                        @click="[changeBackVideo(), preloadNextVideo()]">prev</button>
+                        @click="[changeBackVideo()]">prev</button>
                     <button v-for="a in 6" ref="score" :key="a - 1" v-on:click="clickedButton = a - 1"
                         style="width: 50px; height: 40px; font-size:x-large; padding-top: 1px;"
                         :class="{ 'clicked-btn-style': isPressed[a - 1], 'btn-style': !isPressed[a - 1] }"
                         @click="toggleButton(a - 1)">{{ a - 1 }}</button>
                     <button v-on="click" class="btn-style"
                         style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
-                        @click="[changeNextVideo(), preloadNextVideo()]">next</button>
+                        @click="[changeNextVideo()]">next</button>
                 </div>
             </div>
         </div>
@@ -136,7 +136,6 @@ export default {
             isPressed: [false, false, false, false, false, false],
             isClicked: false,
             menuBar: ['Home'],
-            // TODO: 함수로 parseInt로 바꾸기 
             currentPage: parseInt(this.$route.query.currentPage),
             currentUser: this.$route.query.userName,
             testCode: this.$route.query.testcode,
@@ -260,35 +259,35 @@ export default {
                     break;
             }
         },
-        async preloadNextVideo() {
-            this.preloadedNextOriginalVideo = document.createElement('video');
-            this.preloadedNextArtifactVideo = document.createElement('video');
-            this.preloadedPrevOriginalVideo = document.createElement('video');
-            this.preloadedPrevArtifactVideo = document.createElement('video');
+        // async preloadNextVideo() {
+        //     this.preloadedNextOriginalVideo = document.createElement('video');
+        //     this.preloadedNextArtifactVideo = document.createElement('video');
+        //     this.preloadedPrevOriginalVideo = document.createElement('video');
+        //     this.preloadedPrevArtifactVideo = document.createElement('video');
 
-            if (this.videoIndex[0] == this.currentPage) {
-                this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
-                this.preloadedNextArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
-            }
-            else if (this.videoIndex[this.videoIndex.length - 1] == this.currentPage) {
-                this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
-                this.preloadedNextArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
-            } else {
-                for (let i = 0; i < this.videoIndex.length; i++) {
-                    if (this.videoIndex[i] == this.currentPage) {
-                        this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i + 1]));
-                        this.preloadedNextArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]));
-                        this.preloadedPrevOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i - 1]));
-                        this.preloadedPrevArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i - 1]));
-                        console.log("preloadedNextArtifactVideo: " + this.preloadedNextArtifactVideo.src)
-                        console.log("preloadedNextOriginalVideo: " + this.preloadedNextOriginalVideo.src)
-                        console.log("preloadedPrevOriginalVideo: " + this.preloadedPrevOriginalVideo.src)
-                        console.log("preloadedPrevArtifactVideo: " + this.preloadedPrevArtifactVideo.src)
-                        break;
-                    }
-                }
-            }
-        },
+        //     if (this.videoIndex[0] == this.currentPage) {
+        //         this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
+        //         this.preloadedNextArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
+        //     }
+        //     else if (this.videoIndex[this.videoIndex.length - 1] == this.currentPage) {
+        //         this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
+        //         this.preloadedNextArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
+        //     } else {
+        //         for (let i = 0; i < this.videoIndex.length; i++) {
+        //             if (this.videoIndex[i] == this.currentPage) {
+        //                 this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i + 1]));
+        //                 this.preloadedNextArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]));
+        //                 this.preloadedPrevOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i - 1]));
+        //                 this.preloadedPrevArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i - 1]));
+        //                 console.log("preloadedNextArtifactVideo: " + this.preloadedNextArtifactVideo.src)
+        //                 console.log("preloadedNextOriginalVideo: " + this.preloadedNextOriginalVideo.src)
+        //                 console.log("preloadedPrevOriginalVideo: " + this.preloadedPrevOriginalVideo.src)
+        //                 console.log("preloadedPrevArtifactVideo: " + this.preloadedPrevArtifactVideo.src)
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // },
         toggleVideo() {
             this.isToggled = !this.isToggled;
             this.applyVideoOverlay();
