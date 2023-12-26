@@ -103,6 +103,10 @@ export default {
         this.getTestcodeWithTag();
     },
     methods: {
+        toggleButton() {
+            this.isToggled = !this.isToggled;
+        },
+
         // TODO: tag를 누르면 거기에 있는 data list 이름이 보이게 만들기
         // ex) ALL 누르면 모든 비디오 영상이 나오고, bright 누르면 bright태그에 있는 모든 영상 리스트 보여주기 
 
@@ -114,11 +118,11 @@ export default {
                     testcode: this.clickedTestcodeBtn
                 })
                 .then((response) => {
-                    //console.log(response.data);
+                    console.log(response.data);
                     alert("Exported testcode: " + this.clickedTestcodeBtn);
                 })
                 .catch((error) => {
-                    //console.log(error);
+                    console.log(error);
                 })
         },
         clickTestcodeBtn(testcodeName) {
@@ -129,7 +133,7 @@ export default {
 
             const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
             const tagIndex = testcodeIndex;
-            //console.log("tagcode index: ", tagIndex);
+            console.log("tagcode index: ", tagIndex);
             if (testcodeIndex !== -1) {
                 for(var i = 0; i < this.tag.length; i++) {
                     this.clickTagBtn(i);
@@ -165,7 +169,7 @@ export default {
                     this.videoFromTag = response.data;
                 })
                 .catch((error) => {
-                    //console.log(error);
+                    console.log(error);
                 })
         },
         selectAllTags() {
@@ -219,7 +223,7 @@ export default {
                     this.tag = response.data;
                 })
                 .catch((error) => {
-                    //console.log(error);
+                    console.log(error);
                 })
         },
         //     ressult := struct {
@@ -238,7 +242,7 @@ export default {
                     //console.log("exist testcode tags: ", this.existTestcode.tags);
                 })
                 .catch((error) => {
-                    //console.log(error);
+                    console.log(error);
                 })
         },
         async generateTestcode() {
@@ -264,7 +268,7 @@ export default {
                     this.getTestcodeWithTag();
                 })
                 .catch((error) => {
-                    //console.log(error);
+                    console.log(error);
                 })
         },
         clickTagBtn(index) {

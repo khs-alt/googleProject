@@ -51,6 +51,7 @@
                         <div style="margin-bottom: 50px;">
                             <h4 class="home-h2-font">Password</h4>
                             <input class="home-input-style" v-model="password" type="password" placeholder="Password">
+                            <div style="font: red;">Do not use important password</div>
                         </div>
                         <div style="margin-bottom: 25px;">
                             <h4 class="home-h2-font">Testcode</h4>

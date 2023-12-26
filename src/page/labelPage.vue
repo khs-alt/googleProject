@@ -4,24 +4,6 @@
   </div>
   <div class="labelContainor">
     <div class="imageContainor">
-      <!-- <div class="image-grid-wrapper">
-        <div class="image-grid">
-          <div v-for="(item, index) in originalPatchImageList" :key="index"
-            :class="addBorder(index)"
-            class="image-grid-item">
-            <img :src="item" class="imageStyle" />
-          </div>
-        </div>
-      </div>
-      <div class="image-grid-wrapper">
-        <div class="image-grid">
-          <div v-for="(item, index) in artifactPatchImageList" :key="index"
-            :class="addBorder(index)"
-            class="image-grid-item">
-            <img :src="item" class="imageStyle" />
-          </div>
-        </div>
-      </div> -->
       <div class="images">
         <div v-for="i in patchRow" :key="i">
           <div v-for="j in patchColumn" :key="j">
@@ -137,24 +119,6 @@ export default {
   },
 
   methods: {
-    // TODO: 임시로 로컬에서 patch 이미지 가져오는 method 백엔드 연결하면 삭제하기
-    // 임시로 로컬에서 patch 이미지 가져오는 method
-    // async getPatchImagesTemp() {
-    //   for (let i = 0; i < this.patchRow; i++) {
-    //     for (let j = 0; j < this.patchColumn; j++) {
-    //       let image = require(`../images/patches/original/denoised_frame_0001_30000_patch_${i}_${j}.png`)
-    //       this.originalPatchImageList.push(image)
-
-    //     }
-    //   }
-    //   for (let i = 0; i < this.patchRow; i++) {
-    //     for (let j = 0; j < this.patchColumn; j++) {
-    //       let image = require(`../images/patches/artifact/denoised_frame_0002_30000_patch_${i}_${j}.png`)
-    //       this.artifactPatchImageList.push(image)
-    //     }
-    //   }
-    // },
-
     // Backend에서 patch size(행렬) 가져오는 method
     // TODO: 백엔드 연결 필요
     getPatchSize() {
@@ -333,9 +297,6 @@ export default {
     },
 
     changeNextPatchImage() {
-      // this.patchIndex = this.patchIndex + 1 > this.patchLength - 1 ? 0 : this.patchIndex + 1;
-      // console.log(this.patchIndex);
-
       this.setPatch(this.i, ++this.j);
       if (this.userLabeling[this.patchIndex] >= 0) {
         this.isPressed = this.userLabeling[this.patchIndex];
@@ -346,9 +307,6 @@ export default {
 
     // 이전 patch로 변경
     changeBackPatchImage() {
-      // this.patchIndex = this.patchIndex - 1 < 0 ? this.patchLength - 1 : this.patchIndex - 1;
-      // console.log(this.patchIndex);
-
       this.setPatch(this.i, --this.j);
       if (this.userLabeling[this.patchIndex] >= 0) {
         this.isPressed = this.userLabeling[this.patchIndex];
@@ -359,24 +317,12 @@ export default {
 
     //위 화살표 누르면 한 줄 위로 올라가는 method
     changeUpImage() {
-      // if (this.patchIndex - this.patchColumn <= 0) {
-      //   this.patchIndex = this.patchLength - (this.patchColumn - this.patchIndex);
-      // } else {
-      //   this.patchIndex -= this.patchColumn;
-      // }
-
       this.setPatch(--this.i, this.j);
       this.isPressed = this.userLabeling[this.patchIndex];
     },
 
     //아래 화살표 누르면 한 줄 아래로 내려가는 method
     changeDowmImage() {
-      // if (this.patchIndex + this.patchColumn >= this.patchLength) {
-      //   this.patchIndex = this.patchColumn - (this.patchLength - this.patchIndex);
-      // } else {
-      //   this.patchIndex += this.patchColumn;
-      // }
-
       this.setPatch(++this.i, this.j);
       this.isPressed = this.userLabeling[this.patchIndex];
     },
