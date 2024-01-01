@@ -4,6 +4,8 @@
       <div class="menu">
         <div class="menu-header">
           <div class="menu-content">
+            <button class="signup-btn-style" style="margin-right: 10px;" @click="toggleModal(0)">Guide</button>
+            <button class="signup-btn-style" style="margin-right: 10px;" @click="toggleModal(1)">progress</button>
             <a href="/label/" style="margin-right: 10px;">
               <button class="signup-btn-style">Home</button>
             </a>
@@ -11,6 +13,26 @@
         </div>
       </div>
     </div>
+    <div class="modal-wrap" v-show="progressModal"> <!--진행상황-->
+    <div class="modal-container">
+      <h3>Progress</h3>
+      <div v-for="i in imageIndexList.length" :key="i"><button :class="userLabeling[i-1] > 0 ? 'pressed' : 'scoreButton' " @click="changePage(i)">{{ i }}</button></div> 
+      <div class="btncontainer">
+        <button class="scoreButton" @click="toggleModal(1)">Close</button>
+      </div>
+    </div>
+    </div>
+    <div class="modal-wrap" v-show="openModal"> <!--사용법-->
+    <div class="modal-container">
+      <h3>{{ modalTitle[modalPage] }}</h3>
+      <div v-for="i in modalContent[modalPage]" :key="i"><p>{{ i }}</p></div> 
+      <div class="btncontainer">
+        <button class="scoreButton" @click="changeModal(0)">&lt;</button>
+        <button class="scoreButton" @click="toggleModal(0)">Close</button>
+        <button class="scoreButton" @click="changeModal(1)">></button>
+      </div>
+    </div>
+  </div>
     <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
       <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
       <div class="labelcontainer">
@@ -106,6 +128,11 @@ export default {
   name: 'scoringPage',
   data() {
     return {
+      openModal: true, //modal창
+      progressModal: false, //progress modal창
+      modalPage: 0,
+      modalTitle: ["How To Use", "Example"],
+      modalContent: [["1. Use the arrow keys to move the patch image.", "2. Press the number keys to score the patch image.", "3. Press the Prev button to go back to the previous image.", "4. Press the Next button to go to the next image.", "5. Press the Submit button to submit the score."], ["Score 1", "Score 5"]],
       index: 0,
       imageIndex: 0,
       currentUser: this.$route.query.userName,
@@ -162,6 +189,44 @@ export default {
   },
 
   methods: {
+    toggleModal(flag) {
+      if(flag === 0)
+        this.openModal = !this.openModal;
+      if(flag === 1)
+        this.progressModal = !this.progressModal;
+    },
+
+    changeModal(flag) {
+      if (flag === 0) {
+        if (this.modalPage === 0) {
+          this.modalPage = this.modalTitle.length - 1;
+        } else {
+          this.modalPage--;
+        }
+      } else {
+        if (this.modalPage === this.modalTitle.length - 1) {
+          this.modalPage = 0;
+        } else {
+          this.modalPage++;
+        }
+      }
+    },
+
+    //진행상황 페이지에서 페이지 이동
+    changePage(index) {
+      this.currentPage = index;
+      this.$router.push({
+        query: {
+          userName: this.currentUser,
+          currentPage: this.currentPage,
+          testcode: this.testCode
+        }
+      });
+      this.makeImageTemplete();
+      this.getUserLabeling();
+      this.toggleModal(1);
+    },
+    
     serveOriginalImage() {
       return String(this.baseUrl + "postimage/original/" + (this.currentPage))
     },
@@ -240,11 +305,11 @@ export default {
           });
           this.makeImageTemplete();
         })
-        .catch((error) => {
-          console.log(error);
-          alert("login failed")
-          this.$router.push(process.env.BASE_URL);
-        })
+        // .catch((error) => {
+        //   console.log(error);
+        //   alert("login failed")
+        //   this.$router.push(process.env.BASE_URL);
+        // })
     },
     makeImageTemplete() {
       this.getImageSize()
