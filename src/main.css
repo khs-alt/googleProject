@@ -1,9 +1,76 @@
+#left-video-cover {
+  max-width: 100%;
+  display: grid;
+  max-height: 550px;
+  overflow: hidden;
+  border: solid 1px gray;
+  width: fit-content;
+  height: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.icon-style {
+  width: 30px;
+  height: 30px;
+}
+
+#right-video-cover {
+  max-width: 100%;
+  display: grid;
+  max-height: 550px;
+  overflow: hidden;
+  border: solid 1px gray;
+  width: fit-content;
+  height: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#scoring-button {
+  margin-left: 50px;
+  margin-right: 50px;
+  max-width: 100%;
+  margin-top: 0px;
+}
+
 .labelingPage {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-use-select: none;
   user-select: none;
 }
+
+.video-style {
+  max-height: 500px;
+  max-width: 100%;
+}
+
+.video-cover {
+  max-height: 500px;
+}
+
+@media (max-height: 900px) {
+  .video-style {
+    max-height: 250px;
+    max-width: 100%;
+  }
+
+  .video-cover {
+    max-height: 250px;
+  }
+
+  #left-video-cover {
+    max-height: 250px;
+    /* max-width: 60%; */
+  }
+
+  #right-video-cover {
+    max-height: 250px;
+    /* max-width: 60%; */
+  }
+}
+
 .video-container {
   margin-left: auto;
   margin-right: auto;
