@@ -5,7 +5,9 @@
         <div class="menu-header">
           <div class="menu-content" style="justify-content: space-between;">
             <div class="progressBar">
-              <div v-for="i in progressBarLength" :key="i" :class="progressBarCount[i - 1] == progressBarList[i - 1]? 'progressBar-item' : 'progressBar-item-empty' " @click="toggleProgressModal((i - 1))">
+              <div v-for="i in progressBarLength" :key="i"
+                :class="progressBarCount[i] == progressBarList[i] ? 'progressBar-item' : 'progressBar-item-empty'"
+                @click="toggleProgressModal((i - 1))">
               </div>
             </div>
             <div>
@@ -75,7 +77,7 @@
               :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
             </div>
           </div>
-          <p style="font-size: 14px; margin-top: 10px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
+          <p style="font-size: 14px; margin-top: 10px;">{{ originalImageName }}</p>
         </div>
         <div class="imageName">
           <div class="images">
@@ -94,7 +96,7 @@
               :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
             </div>
           </div>
-          <p style="font-size: 14px; margin-top: 10px;">{{ this.imageArtifactNameList[this.imageIndex] }}</p>
+          <p style="font-size: 14px; margin-top: 10px;">{{ artifactImageName}}</p>
         </div>
         <div style="clear:both;"></div>
       </div>
@@ -149,12 +151,16 @@ export default {
   name: 'scoringPage',
   data() {
     return {
+      originalImageName: null,
+      artifactImageName: null,
       openModal: true, //modal창
       progressModal: false, //progress modal창
       progressModalPage: 0,
-      progressBarLength: 0,
-      progressBarList: [], //progress bar 내용 갯수
-      progressBarCount: [], //progress bar 내용의 한 거 개수
+      // progressBarLength: 0,
+      progressBarLength: 9,
+      // progressBarList: [], //progress bar 내용 갯수
+      progressBarList: [100, 100, 100, 100, 100, 100, 100, 100, 56], //progress bar 내용 갯수
+      progressBarCount: [100, 99, 100, 98, 0, 20, 10, 0, 56], //progress bar 내용의 한 거 개수
       modalPage: 0,
       modalTitle: ["How To Use", "Example 1", "Example 2"],
       modalContent: [["1. Use the arrow keys to move the patch image.", "2. Press the number keys to score the patch image.", "3. Press the Prev button to go back to the previous image.", "4. Press the Next button to go to the next image.", "5. Press the Submit button to submit the score."], ["Score 1", "Score 5"], ["Moving", "Artifact"]],
@@ -216,6 +222,13 @@ export default {
   },
 
   methods: {
+    removeSuffix() {
+      this.originalImageName = this.imageOriginalNameList[this.currentPage]
+      this.originalImageName = this.originalImageName.replace(/_0\.\d+\.png$/, '.png');
+      this.artifactImageName = this.imageArtifactNameList[this.currentPage]
+      this.artifactImageName = this.artifactImageName.replace(/_0\.\d+\.png$/, '.png');
+    },
+
     toggleHelpModal() {
       this.openModal = !this.openModal;
     },
@@ -227,9 +240,9 @@ export default {
     },
 
     checkProgressBar() {
-      for(let i = 0; i < this.progressBarLength; i++) {
-        for(let j = 0; j < this.progressBarList[i]; j++) {
-          if(this.userLabeling[(i * 100) + j] != -1) this.progressBarCount[i]++;
+      for (let i = 0; i < this.progressBarLength; i++) {
+        for (let j = 0; j < this.progressBarList[i]; j++) {
+          if (this.userLabeling[(i * 100) + j] != -1) this.progressBarCount[i]++;
         }
       }
     },
@@ -653,5 +666,4 @@ export default {
 </script>
 
 <style>
-@import '../main.css';
-</style>
+@import '../main.css';</style>
