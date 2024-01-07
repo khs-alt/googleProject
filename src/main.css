@@ -114,9 +114,9 @@
   -ms-flex-align: center;
   align-items: center;
   box-shadow: rgb(146 153 184 / 5%) 0px 20px 20px;
-  -webkit-box-pack: space-between;
-  -ms-flex-pack: space-between;
-  -webkit-justify-content: space-between;
+  -webkit-box-pack: flex-end;
+  -ms-flex-pack: flex-end;
+  -webkit-justify-content: flex-end;
   /* justify-content: space-around; */
   float: right;
 }

@@ -3,9 +3,9 @@
     <div class="body-style">
       <div class="menu">
         <div class="menu-header">
-          <div class="menu-content">
+          <div class="menu-content" style="justify-content: space-between;">
             <div class="progressBar">
-              <div v-for="i in progressBarLength" :key="i" class="progressBar-item" @click="toggleProgressModal((i - 1))">
+              <div v-for="i in progressBarLength" :key="i" :class="progressBarCount[i - 1] == progressBarList[i - 1]? 'progressBar-item' : 'progressBar-item-empty' " @click="toggleProgressModal((i - 1))">
               </div>
             </div>
             <div>
@@ -152,8 +152,9 @@ export default {
       openModal: true, //modal창
       progressModal: false, //progress modal창
       progressModalPage: 0,
-      progressBarLength: 7,
-      progressBarList: [100, 100, 100, 100, 100, 100, 12],
+      progressBarLength: 0,
+      progressBarList: [], //progress bar 내용 갯수
+      progressBarCount: [], //progress bar 내용의 한 거 개수
       modalPage: 0,
       modalTitle: ["How To Use", "Example 1", "Example 2"],
       modalContent: [["1. Use the arrow keys to move the patch image.", "2. Press the number keys to score the patch image.", "3. Press the Prev button to go back to the previous image.", "4. Press the Next button to go to the next image.", "5. Press the Submit button to submit the score."], ["Score 1", "Score 5"], ["Moving", "Artifact"]],
@@ -171,8 +172,7 @@ export default {
       nextOriginalImage: null,  //다음 사진 preload
       nextArtifactImage: null,  //다음 사진 preload
       nextDifferenceImage: null,  //다음 사진 preload
-      // imageIndexList: [],
-      imageIndexList: [0, 1, 2, 3, 4],
+      imageIndexList: [],
       imageOriginalNameList: [],
       imageArtifactNameList: [],
       borderBox: 224, //Patch 이미지의 크기
@@ -191,8 +191,7 @@ export default {
       resizeHeight: 0, //축소된 이미지의 세로
       i: 0, //patch 이미지의 세로 인덱스
       j: 0, //patch 이미지의 가로 인덱스
-      // userLabeling: [],  //사용자가 부여한 점수
-      userLabeling: [0, 1, 2, 0, 5],  //사용자가 부여한 점수
+      userLabeling: [],  //사용자가 부여한 점수
       isPressed: -1, //눌린 점수 체크
       menuBar: 'Home',
       lastPage: false, //마지막 이미지인지 체크
@@ -208,6 +207,7 @@ export default {
     this.getImageIndexCurrentPage();
     this.getUserLabeling();
     this.getImageNameList();
+    this.checkProgressBar();
     //this.preloadImage();
   },
 
@@ -224,6 +224,14 @@ export default {
       console.log(this.progressBarList[index]);
       this.progressModal = !this.progressModal;
       this.progressModalPage = index;
+    },
+
+    checkProgressBar() {
+      for(let i = 0; i < this.progressBarLength; i++) {
+        for(let j = 0; j < this.progressBarList[i]; j++) {
+          if(this.userLabeling[(i * 100) + j] != -1) this.progressBarCount[i]++;
+        }
+      }
     },
 
     changeModal(flag) {
