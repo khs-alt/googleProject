@@ -2,12 +2,57 @@
     <div style="position: fixed; overflow: hidden; width: 100%; height: 100%;">
         <div class="body-style">
             <div class="menu">
-                <div class="menu-header">
-                    <div class="menu-content">
-                        <a href="/label/" style="margin-right: 10px;">
-                            <button class="signup-btn-style">Home</button>
-                        </a>
+                <div class="menu-header" style="display: flex;">
+                    <div class="menu-content" style="margin-right: 0; justify-content: space-between;">
+                        <div class="progressBar">
+                            <div v-for="i in progressBarLength" :key="i"
+                                :class="progressBarCount[i - 1] == progressBarList[i - 1] ? 'progressBar-item' : 'progressBar-item-empty'"
+                                @click="toggleProgressModal((i - 1))">
+                            </div>
+                        </div>
+                        <div>
+                            <button class=" signup-btn-style" style="margin-right: 10px;"
+                                @click="toggleHelpModal()">Help</button>
+                            <a href="/label/" style="margin-right: 10px;">
+                                <button class="signup-btn-style">Home</button>
+                            </a>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-wrap" v-show="progressModal"> <!--진행상황-->
+            <div class="modal-container">
+                <h3>Progress</h3>
+                <div style="display: flex; flex-wrap: wrap;">
+                    <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
+                            style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
+                            :class="userScoringList[(progressModalPage * 100) + (i - 1)] > 0 ? 'clicked-btn-style' : 'btn-style'"
+                            @click="changePage(i)">{{ (progressModalPage * 100) + (i - 1) }}</button></div>
+                </div>
+                <div class="btncontainer">
+                    <button class="btn-style" @click="toggleProgressModal()">Close</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-wrap" v-show="openModal"> <!--사용법-->
+            <div class="modal-container">
+                <h3>{{ modalTitle[modalPage] }}</h3>
+                <div :class="modalPage >= 1 ? 'exampleScore' : ''">
+                    <div v-for="i in modalContent[modalPage]" :key="i">
+                        <div v-if="modalPage < 1">
+                            <p>{{ i }}</p>
+                        </div>
+                        <div v-else-if="modalPage >= 1">
+                            <video autoplay loop :src="videoSrc[modalPage]" style="width: 80%; min-height: 400px;"></video>
+                            <p>{{ i }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="btncontainer">
+                    <button class="btn-style" @click="changeModal(0)">&lt;</button>
+                    <button class="btn-style" @click="toggleHelpModal()">Close</button>
+                    <button class="btn-style" @click="changeModal(1)">></button>
                 </div>
             </div>
         </div>
@@ -84,7 +129,7 @@
                     </button>
                     <button @click="seekBackward" @mouseover="isMouseOverMinus = true" @mouseout="isMouseOverMinus = false"
                         :class="{ 'btn-style': !isMouseOverMinus, 'clicked-btn-style': isMouseOverMinus }"
-                        style="margin-right: 4px; padding-bottom: 6px; padding-top: 6px;">
+                        style="margin-right: 4px; paddinasdg-bottom: 6px; padding-top: 6px;">
                         <img class="icon-style" src="../images/play_icon/iconmonstr-media-control-18-240.png"
                             alt="-1 frame">
                     </button>
@@ -109,7 +154,7 @@
                         <button v-on="click" class="btn-style"
                             style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
                             @click="[changeBackVideo(), preloadNextVideo()]">prev</button>
-                        <button v-for="a in 6" ref="score" :key="a - 1" v-on:click="clickedButton = a - 1"
+                        <button v-for="  a   in   6  " ref="score" :key="a - 1" v-on:click="clickedButton = a - 1"
                             style="width: 50px; height: 40px; font-size:x-large; padding-top: 1px;"
                             :class="{ 'clicked-btn-style': isPressed[a - 1], 'btn-style': !isPressed[a - 1] }"
                             @click="toggleButton(a - 1)">{{ a - 1 }}</button>
@@ -180,7 +225,21 @@ export default {
             videoCurrentTime: 0.00,
             videoDuration: 0.00,
             tempVideo: require("./original.mp4"),
-            tempVideo2: require("./denoise.mp4")
+            tempVideo2: require("./denoise.mp4"),
+            // progress bar
+            // 점수 체크 안한 비디오, 이미지는 -1로 들어오고 최대 Length까지 전부 들어옴 
+            // TODO: user의 testcode에 대한 모든 라벨링을 받아오는 함수 mounted에 넣기
+            userScoringList: [],
+            progressBarList: [100, 100, 100, 100, 50],
+            progressBarCount: [80, 100, 100, 20, 1], //progress bar 내용의 한 거 개수
+            progressBarLength: 5,
+            progressModalPage: 0,
+            modalPage: 0,
+            progressModal: false,
+            openModal: true,
+            modalTitle: ["How To Use", "Example 1", "Example 2"],
+            modalContent: [["1. Use the arrow keys to move next or prev video.", "2. Use the number keys to score the video.", "3. Use the mouse wheel to zoom in or out.", "4. Use the mouse to drag the video."], ["Score 1", "Score 5"], ["Moving", "Artifact"]],
+            videoSrc: [require("./original.mp4"), require("./denoise.mp4")],
         }
     },
     created() { },
@@ -195,6 +254,8 @@ export default {
         window.addEventListener("keydown", this.keydown);
         this.addEventVideoCurrentTime();
         // this.preloadNextVideo();
+        this.setProgressBar();
+        this.getUserScoringList();
     },
     setup() {
         console.log("setup")
@@ -206,6 +267,91 @@ export default {
         // },
     },
     methods: {
+        getUserScoringList() {
+            axios
+                .get(this.baseUrl + "getuserScoringList", {
+                    params: {
+                        userID: this.currentUser,
+                        testcode: this.testCode,
+                    }
+                })
+                .then((response) => {
+                    this.userScoringList = response.data.userScoringList;
+                    console.log(response.data.userScoringList);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        },
+        checkProgressBar() {
+            for (let i = 0; i < this.progressBarLength; i++) {
+                for (let j = 0; j < this.progressBarList[i]; j++) {
+                    if (this.userScoringList[(i * 100) + j] != -1) this.progressBarCount[i]++;
+                }
+            }
+        },
+        toggleHelpModal() {
+            console.log(this.openModal)
+            this.openModal = !this.openModal;
+        },
+
+        toggleProgressModal(index) {
+            console.log(this.progressBarList[index]);
+            this.progressModal = !this.progressModal;
+            this.progressModalPage = index;
+        },
+        changeModal(flag) {
+            if (flag === 0) {
+                if (this.modalPage === 0) {
+                    this.modalPage = this.modalTitle.length - 1;
+                } else {
+                    this.modalPage--;
+                }
+            } else {
+                if (this.modalPage === this.modalTitle.length - 1) {
+                    this.modalPage = 0;
+                } else {
+                    this.modalPage++;
+                }
+            }
+        },
+        //진행상황 페이지에서 페이지 이동
+        changePage(index) {
+            this.currentPage = index;
+            this.$router.push({
+                query: {
+                    userName: this.currentUser,
+                    currentPage: this.currentPage,
+                    testcode: this.testCode
+                }
+            });
+            this.makeImageTemplete();
+            // TODO:
+            // this.getuserScoringList();
+        },
+        setProgressBar() {
+            this.videoIndex.length = 452;
+            this.progressBarLength = Math.ceil(this.videoIndex.length / 100);
+            console.log("progressBarLength: " + this.progressBarLength);
+            this.progressBarList = [];
+            for (var i = 0; i < this.progressBarLength; i++) {
+                if (i == this.progressBarLength - 1) {
+                    this.progressBarList.push(this.videoIndex.length % 100);
+                } else {
+                    this.progressBarList.push(100);
+                }
+            }
+            // this.videoIndex.length % 100 === 0 ? this.progressBarLength = (this.videoIndex.length / 100) : this.progressBarLength = (this.videoIndex.length / 100) + 1;
+            // console.log("progressBarLength: " + this.progressBarLength);
+            // this.progressBarList = [];
+            // for (var i = 0; i < this.progressBarLength; i++) {
+            //     if (i == this.progressBarLength - 1) {
+            //         this.progressBarList.push(this.videoIndex.length % 100);
+            //     } else {
+            //         this.progressBarList.push(100);
+            //     }
+            // }
+        },
         addEventVideoCurrentTime() {
             var video = document.getElementById('videoNoartifact');
             video.addEventListener("loadeddata", (event) => {
@@ -479,6 +625,7 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error);
+                    // TODO: 
                     // alert("login failed")
                     // this.$router.push(process.env.BASE_URL);
                 })
