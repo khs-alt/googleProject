@@ -4,14 +4,15 @@
       <div class="menu">
         <div class="menu-header">
           <div class="menu-content">
-            <button class="signup-btn-style" style="margin-right: 10px;" @click="toggleHelpModal()">Help</button>
-            <a href="/label/" style="margin-right: 10px;">
-              <button class="signup-btn-style">Home</button>
-            </a>
-          </div>
-          <div class="progressBar">
-            <div v-for="i in progressBarLength" :key="i" class="progressBar-item"
-              @click="toggleProgressModal((i-1))">
+            <div class="progressBar">
+              <div v-for="i in progressBarLength" :key="i" class="progressBar-item" @click="toggleProgressModal((i - 1))">
+              </div>
+            </div>
+            <div>
+              <button class="signup-btn-style" style="margin-right: 10px;" @click="toggleHelpModal()">Help</button>
+              <a href="/label/" style="margin-right: 10px;">
+                <button class="signup-btn-style">Home</button>
+              </a>
             </div>
           </div>
         </div>
@@ -22,8 +23,10 @@
     <div class="modal-container">
       <h3>Progress</h3>
       <div style="display: flex; flex-wrap: wrap;">
-      <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
-        style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"  :class="userLabeling[(progressModalPage * 100)+(i - 1)] > 0 ? 'clicked-btn-style' : 'btn-style'" @click="changePage(i)">{{ (progressModalPage * 100)+(i - 1) }}</button></div>
+        <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
+            style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
+            :class="userLabeling[(progressModalPage * 100) + (i - 1)] > 0 ? 'clicked-btn-style' : 'btn-style'"
+            @click="changePage(i)">{{ (progressModalPage * 100) + (i - 1) }}</button></div>
       </div>
       <div class="btncontainer">
         <button class="btn-style" @click="toggleProgressModal()">Close</button>
