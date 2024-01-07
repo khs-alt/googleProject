@@ -3,20 +3,23 @@
         <div class="menu">
             <div class="menu-header">
                 <div class="menu-content">
-                    <a href="/label/" style="margin-right: 10px;">
+                    <a href="/label/">
                         <button class="signup-btn-style">Home</button>
                     </a>
-                    <a href="/label/signup/" style="margin-right: 10px;">
+                    <a href="/label/signup/">
                         <button class="signup-btn-style">Sign up</button>
                     </a>
-                    <a href="/label/admin/" style="margin-right: 10px;">
+                    <a href="/label/admin/">
                         <button class="signup-btn-style">Admin</button>
                     </a>
-                    <a href="/label/admin/imageupload/" style="margin-right: 10px;">
+                    <a href="/label/admin/imageupload/">
                         <button class="signup-btn-style">Image Upload</button>
                     </a>
                     <a href="/label/admin/testcode">
                         <button class="signup-btn-style">Test Code</button>
+                    </a>
+                    <a href="/label/admin/inputtestcode" style="margin-right: 0px;">
+                        <button class="signup-btn-style">Video Frame Selection</button>
                     </a>
                 </div>
             </div>
@@ -24,22 +27,17 @@
     </div>
     <div class="home-main-content">
         <div style=" width: 80%; margin-left: auto; margin-right: auto;">
+            <!-- original video -->
             <div class="file-upload-left-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
                 @drop="onOriginalDrop">
                 <div @click="onOriginalClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
-                    Drag & Drop Original Files
+                    Drag & Drop Original Videos
                     <!-- 업로드된 리스트 -->
                     <!-- TODO: 업로드된 리스트 안 쪽에 좀 더 깔끔하게 UI 만들기 -->
                     <div class="scrollingUploadedData">
                         <div class="file-upload-list">
                             <div class="file-upload-list__item" v-for="originalFile in originalFileList"
                                 :key="originalFile">
-                                <!-- <template v-if="originalFile.type.includes('.mp4') || originalFile.type.includes('.mov') ">
-                                <video :src="originalFile" width="100" height="100" muted></video>
-                            </template>
-                            <template v-else>
-                                <img :src="originalFile"  width="100" height="100">
-                            </template> -->
                                 <div class="file-upload-list__item__data-name">{{ originalFile.name }}</div>
                             </div>
                         </div>
@@ -52,21 +50,16 @@
             </div>
             <input type="file" ref="originalFileInput" class="file-upload-input" @change="onOriginalFileChange" multiple>
 
+            <!-- artifact video -->
             <div class="file-upload-right-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
                 @drop="onArtifactDrop">
                 <div @click="onArtifactClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
-                    Drag & Drop Artifact Files
+                    Drag & Drop Artifact Videos
                     <!-- 업로드된 리스트 -->
                     <div class="scrollingUploadedData">
                         <div class="file-upload-list">
                             <div class="file-upload-list__item" v-for="artifactFile in artifactFileList"
                                 :key="artifactFile">
-                                <!-- <template v-if="artifactFile.type.includes('.mp4') || artifactFile.type.includes('.mov')">
-                                <video :src="artifactFile" width="100" height="100" muted></video>
-                            </template>
-                            <template v-else>
-                                <img :src="artifactFile"  width="100" height="100">
-                            </template> -->
                                 <div class="file-upload-list__item__data-name">{{ artifactFile.name }}</div>
                             </div>
                         </div>
@@ -76,6 +69,27 @@
                     multiple>
                 <button class="btn-style" style="padding: 10px; font-weight: 400; margin-top: 30px;"
                     @click="artifactHandleRemove(index)">
+                    삭제
+                </button>
+            </div>
+
+            <!-- diff video -->
+            <div class="file-upload-right-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
+                @drop="onDiffDrop">
+                <div @click="onDiffClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
+                    Drag & Drop Diff Videos
+                    <!-- 업로드된 리스트 -->
+                    <div class="scrollingUploadedData">
+                        <div class="file-upload-list">
+                            <div class="file-upload-list__item" v-for="diffFile in diffFileList" :key="diffFile">
+                                <div class="file-upload-list__item__data-name">{{ diffFile.name }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="file" ref="diffFileInput" class="file-upload-input" @change="onDiffFileChange" multiple>
+                <button class="btn-style" style="padding: 10px; font-weight: 400; margin-top: 30px;"
+                    @click="diffHandleRemove(index)">
                     삭제
                 </button>
             </div>
@@ -146,6 +160,7 @@ export default {
             baseUrl: process.env.BASE_URL + "api/",
             originalFileList: [],
             artifactFileList: [],
+            diffFileList: [],
             isDragged: false,
             tagInput: "",
             tag: [],
@@ -155,6 +170,7 @@ export default {
             clickedUploadOption: null,
             uploadedOriginalFiles: [],
             uploadedArtifactFiles: [],
+            uploadedDiffFiles: [],
         }
     },
     created() { },
@@ -170,37 +186,26 @@ export default {
             }
         },
         uploadFiles() {
-            if (this.originalFileList.length == 0 || this.artifactFileList.length == 0) {
-                alert('Please select two video files.');
-                //console.log('Please select two video files.');
+            if (this.originalFileList.length == 0 || this.artifactFileList.length == 0 || this.diffFileList.length == 0) {
+                alert('Please select three video files.');
                 return;
             }
 
-            if (this.originalFileList.length != this.artifactFileList.length) {
+            if (this.originalFileList.length != this.artifactFileList.length || this.originalFileList.length != this.diffFileList.length) {
                 alert('Please match the number of original videos and artifact videos.');
-                //console.log('Please match the number of original videos and artifact videos.');
                 return;
             }
 
             if (this.clickedTagBtn.length == 0) {
                 alert('Please enter a Tag.');
-                //console.log('Please enter a Tag.');
-                return;
-            }
-
-            if (this.clickedUploadOption == null) {
-                alert('Please select upload option.');
-                //console.log('Please select upload option.');
                 return;
             }
 
             var formData = new FormData();
-            //console.log("Created formData");
 
             // original video formData에 저장
             for (let i = 0; i < this.originalFileList.length; i++) {
                 formData.append("original", this.originalFileList[i])
-                //console.log("original video");
                 for (let key of formData.keys()) {
                     console.log(key);
                 }
@@ -211,7 +216,6 @@ export default {
             // artifact video formData에 저장
             for (let i = 0; i < this.artifactFileList.length; i++) {
                 formData.append("artifact", this.artifactFileList[i])
-                //console.log("artifact video");
                 for (let key of formData.keys()) {
                     console.log(key);
                 }
@@ -219,49 +223,38 @@ export default {
                     console.log(value);
                 }
             }
+            // diff video formData에 저장
+            for (let i = 0; i < this.diffFileList.length; i++) {
+                // TODO: diff video가 diff 헤더로 들어간다는 걸 형섭이형한테 말해주기 
+                formData.append("diff", this.diff[i])
+                for (let key of formData.keys()) {
+                    console.log(key);
+                }
+                for (let value of formData.values()) {
+                    console.log(value);
+                }
+            }
+
             // 이 데이터에서 선택된 tag post하는 method
             formData.append("tags", this.clickedTagBtn)
 
             // video sending method
-            if (this.clickedUploadOption == "video") {
-                //console.log("video");
-                // label/
-                axios
-                    .post(this.baseUrl + 'upload/video', formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                    .then((response) => {
-                        alert("Data transfer successful.");
-                        this.originalFileList = [];
-                        this.artifactFileList = [];
-                        console.log(response.data);
-                    })
-                    .catch((error) => {
-                        alert(error);
-                        console.error(error);
-                    });
-            } else if (this.clickedUploadOption == "image") {
-                //console.log("image")
-                // image sending method ex)upload/image
-                axios
-                    .post(this.baseUrl + 'upload/image', formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                    .then((response) => {
-                        alert("Data transfer successful.");
-                        this.originalFileList = [];
-                        this.artifactFileList = [];
-                        console.log(response.data);
-                    })
-                    .catch((error) => {
-                        alert(error);
-                        console.error(error);
-                    });
-            }
+            axios
+                .post(this.baseUrl + 'upload/video', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then((response) => {
+                    alert("Data transfer successful.");
+                    this.originalFileList = [];
+                    this.artifactFileList = [];
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    alert(error);
+                    console.error(error);
+                });
         },
         clickUploadOptions(index) {
             if (this.activeButtonIndex === index) {
@@ -319,7 +312,6 @@ export default {
                 return;
             }
             this.tag.push(this.tagInput)
-            //console.log(this.tagInput)
 
             axios
                 .post(this.baseUrl + 'addTag', {
@@ -335,7 +327,6 @@ export default {
         },
         clickTagBtn(index) {
             const tagName = this.tag[index];
-            //console.log("index: ", index)
 
             if (this.isClicked[index] == true) {
                 for (var i = 0; i < this.clickedTagBtn.length; i++) {
@@ -344,7 +335,6 @@ export default {
                         this.clickedTagBtn.splice(i, 1);
                         this.isClicked[index] = !this.isClicked[index];
                         i--;
-                        //console.log("removed tag:", tagName);
                         break;
                     }
                 }
@@ -353,15 +343,16 @@ export default {
                 this.$refs.tag[index].className = 'clicked-btn-style';
                 this.isClicked[index] = !this.isClicked[index];
                 this.clickedTagBtn.push(tagName);
-                //console.log("added tag:", tagName);
             }
         },
         onOriginalClick() {
             this.$refs.originalFileInput.click()
-            //console.log(this.$refs.originalFileInput)
         },
         onArtifactClick() {
             this.$refs.artifactFileInput.click()
+        },
+        onDiffClick() {
+            this.$refs.diffFileInput.click()
         },
         onDragenter() {
             this.isDragged = true
@@ -383,6 +374,12 @@ export default {
             this.isDragged = false
             const files = event.dataTransfer.files
             this.addArtifactFiles(files)
+        },
+        onDiffDrop(event) {
+            event.preventDefault();
+            this.isDragged = false
+            const files = event.dataTransfer.files
+            this.addDiffFiles(files)
         },
         onOriginalFileChange(event) {
             const files = event.target.files;
@@ -406,6 +403,17 @@ export default {
             }
             this.addArtifactFiles(files)
         },
+        onDiffFileChange(event) {
+            const files = event.target.files;
+            if (files && files[0]) {
+                var reader = new FileReader();
+                reader.onload = (e) => {
+                    this.uploadedDiffFiles.push(e.target.result);
+                }
+                reader.readAsDataURL(files[0]);
+            }
+            this.addDiffFiles(files)
+        },
         async addOriginalFiles(files) {
             for (var i = 0; i < files.length; i++) {
                 const src = await this.readOriginalFiles(files[i])
@@ -418,6 +426,13 @@ export default {
                 const src = await this.readArtifactFiles(files[i])
                 files[i].src = src
                 this.artifactFileList.push(files[i])
+            }
+        },
+        async addDiffFiles(files) {
+            for (var i = 0; i < files.length; i++) {
+                const src = await this.readDiffFiles(files[i])
+                files[i].src = src
+                this.diffFileList.push(files[i])
             }
         },
         async readOriginalFiles(files) {
@@ -438,13 +453,23 @@ export default {
                 reader.readAsDataURL(files)
             })
         },
+        async readDiffFiles(files) {
+            return new Promise((resolve) => {
+                const reader = new FileReader()
+                reader.onload = async (e) => {
+                    resolve(e.target.result)
+                }
+                reader.readAsDataURL(files)
+            })
+        },
         originalHandleRemove(index) {
-            //console.log("remove")
             this.originalFileList.splice(index, 1)
         },
         artifactHandleRemove(index) {
-            //console.log("remove")
             this.artifactFileList.splice(index, 1)
+        },
+        diffHandleRemove(index) {
+            this.diffFileList.splice(index, 1)
         }
     },
 }

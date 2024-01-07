@@ -20,22 +20,6 @@
             <div style="padding-top: 10px; border: 0.5px; border-color: white;">
                 <div style="margin-top: 1px;"></div>
                 <div>
-                    <!-- <div style="margin-bottom: 25px;">
-                        <h3>Mode</h3>
-                        <button
-                            :class="{ 'clicked-btn-style': activeButtonIndex === 'scoring', 'btn-style': activeButtonIndex !== 'scoring' || hoveredButton }"
-                            @click="clickMenuBtn('scoring')" @mouseover="onMouseOverButton"
-                            @mouseout="onMouseOutButton">
-                            Scoring
-                        </button>
-                        <button
-                            :class="{ 'clicked-btn-style': activeButtonIndex === 'labeling', 'btn-style': activeButtonIndex !== 'labeling' || hoveredButton }"
-                            @click="clickMenuBtn('labeling')" @mouseover="onMouseOverButton"
-                            @mouseout="onMouseOutButton">
-                            Labeling
-                        </button>
-                    </div> -->
-
                     <div class="id-password-testcode-style">
                         <div style="margin-bottom: 50px;">
                             <h4 class="home-h2-font">ID</h4>
