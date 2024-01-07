@@ -21,6 +21,30 @@
   z-index: 101;
 }
 
+/* 한 거 */
+.progressbar-item {
+  width: 2px;
+  height: 2px;
+  border: #000 1px solid;
+  background-color: #000;
+  color: #fff;
+}
+
+.progressbar-item-empty {
+  width: 2px;
+  height: 2px;
+  background-color: #ffffff;
+  border: #000 1px solid;
+  color: #000;
+}
+
+.exampleScore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
 .labelingPage {
   -webkit-user-select: none;
   -moz-user-select: none;

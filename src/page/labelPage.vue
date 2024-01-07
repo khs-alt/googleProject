@@ -4,35 +4,53 @@
       <div class="menu">
         <div class="menu-header">
           <div class="menu-content">
-            <button class="signup-btn-style" style="margin-right: 10px;" @click="toggleModal(0)">Guide</button>
-            <button class="signup-btn-style" style="margin-right: 10px;" @click="toggleModal(1)">progress</button>
+            <button class="signup-btn-style" style="margin-right: 10px;" @click="toggleModal(0)">Help</button>
+            <button class="signup-btn-style" style="margin-right: 10px;" @click="toggleModal(1)">Progress bar</button>
             <a href="/label/" style="margin-right: 10px;">
               <button class="signup-btn-style">Home</button>
             </a>
           </div>
+          <div>
+              <div v-for="i in imageIndexList.length" :key="i" >
+                <div :class="userLabeling[i-1] > 0 ? 'progressBar-item' : 'progressBar-item-empty'" @click="changePage(i)">
+                  {{ i }}
+                </div>
+              </div>
+            </div>
         </div>
       </div>
     </div>
     <div class="modal-wrap" v-show="progressModal"> <!--진행상황-->
-    <div class="modal-container">
-      <h3>Progress</h3>
-      <div v-for="i in imageIndexList.length" :key="i"><button :class="userLabeling[i-1] > 0 ? 'pressed' : 'scoreButton' " @click="changePage(i)">{{ i }}</button></div> 
-      <div class="btncontainer">
-        <button class="scoreButton" @click="toggleModal(1)">Close</button>
+      <div class="modal-container">
+        <h3>Progress</h3>
+        <div v-for="i in imageIndexList.length" :key="i"><button
+            :class="userLabeling[i - 1] > 0 ? 'pressed' : 'scoreButton'" @click="changePage(i)">{{ i }}</button></div>
+        <div class="btncontainer">
+          <button class="scoreButton" @click="toggleModal(1)">Close</button>
+        </div>
       </div>
-    </div>
     </div>
     <div class="modal-wrap" v-show="openModal"> <!--사용법-->
-    <div class="modal-container">
-      <h3>{{ modalTitle[modalPage] }}</h3>
-      <div v-for="i in modalContent[modalPage]" :key="i"><p>{{ i }}</p></div> 
-      <div class="btncontainer">
-        <button class="scoreButton" @click="changeModal(0)">&lt;</button>
-        <button class="scoreButton" @click="toggleModal(0)">Close</button>
-        <button class="scoreButton" @click="changeModal(1)">></button>
+      <div class="modal-container">
+        <h3>{{ modalTitle[modalPage] }}</h3>
+        <div :class="modalPage >= 1 ? 'exampleScore' : ''">
+          <div v-for="i in modalContent[modalPage]" :key="i">
+            <div v-if="modalPage < 1">
+              <p>{{ i }}</p>
+            </div>
+            <div v-else-if="modalPage >= 1">
+              <img :src="imgSrc[modalPage]" style="width: 300px; height: 400px;">
+              <p>{{ i }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="btncontainer">
+          <button class="scoreButton" @click="changeModal(0)">&lt;</button>
+          <button class="scoreButton" @click="toggleModal(0)">Close</button>
+          <button class="scoreButton" @click="changeModal(1)">></button>
+        </div>
       </div>
     </div>
-  </div>
     <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
       <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
       <div class="labelcontainer">
@@ -131,8 +149,9 @@ export default {
       openModal: true, //modal창
       progressModal: false, //progress modal창
       modalPage: 0,
-      modalTitle: ["How To Use", "Example"],
-      modalContent: [["1. Use the arrow keys to move the patch image.", "2. Press the number keys to score the patch image.", "3. Press the Prev button to go back to the previous image.", "4. Press the Next button to go to the next image.", "5. Press the Submit button to submit the score."], ["Score 1", "Score 5"]],
+      modalTitle: ["How To Use", "Example 1", "Example 2"],
+      modalContent: [["1. Use the arrow keys to move the patch image.", "2. Press the number keys to score the patch image.", "3. Press the Prev button to go back to the previous image.", "4. Press the Next button to go to the next image.", "5. Press the Submit button to submit the score."], ["Score 1", "Score 5"], ["Moving", "Artifact"]],
+      imgSrc: [require("../images/1.jpg"), require("../images/addPadding.png")],
       index: 0,
       imageIndex: 0,
       currentUser: this.$route.query.userName,
@@ -146,7 +165,8 @@ export default {
       nextOriginalImage: null,  //다음 사진 preload
       nextArtifactImage: null,  //다음 사진 preload
       nextDifferenceImage: null,  //다음 사진 preload
-      imageIndexList: [],
+      // imageIndexList: [],
+      imageIndexList: [0, 1, 2, 3, 4],
       imageOriginalNameList: [],
       imageArtifactNameList: [],
       borderBox: 224, //Patch 이미지의 크기
@@ -165,7 +185,8 @@ export default {
       resizeHeight: 0, //축소된 이미지의 세로
       i: 0, //patch 이미지의 세로 인덱스
       j: 0, //patch 이미지의 가로 인덱스
-      userLabeling: [],  //사용자가 부여한 점수
+      // userLabeling: [],  //사용자가 부여한 점수
+      userLabeling: [0, 1, 2, 0, 5],  //사용자가 부여한 점수
       isPressed: -1, //눌린 점수 체크
       menuBar: 'Home',
       lastPage: false, //마지막 이미지인지 체크
@@ -190,9 +211,9 @@ export default {
 
   methods: {
     toggleModal(flag) {
-      if(flag === 0)
+      if (flag === 0)
         this.openModal = !this.openModal;
-      if(flag === 1)
+      if (flag === 1)
         this.progressModal = !this.progressModal;
     },
 
@@ -226,7 +247,7 @@ export default {
       this.getUserLabeling();
       this.toggleModal(1);
     },
-    
+
     serveOriginalImage() {
       return String(this.baseUrl + "postimage/original/" + (this.currentPage))
     },
@@ -305,11 +326,11 @@ export default {
           });
           this.makeImageTemplete();
         })
-        // .catch((error) => {
-        //   console.log(error);
-        //   alert("login failed")
-        //   this.$router.push(process.env.BASE_URL);
-        // })
+      // .catch((error) => {
+      //   console.log(error);
+      //   alert("login failed")
+      //   this.$router.push(process.env.BASE_URL);
+      // })
     },
     makeImageTemplete() {
       this.getImageSize()
