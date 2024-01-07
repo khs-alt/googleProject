@@ -19,10 +19,9 @@
                         <div style="margin: 15px;">
                             <div id="left-video-cover">
                                 <div style="display: flex;">
-                                    <!-- TODO: src 바꿔야 함 this.leftOriginalVideo() -->
                                     <video id="videoNoartifact" :style="videoStyles" class="video-style"
                                         ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
-                                        :src="tempVideo" @wheel="handleWheel" @click="setZoomCenter"
+                                        :src="leftOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
                                         @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
                                         onChange="isVideoPaused" preload="auto">
                                     </video>
@@ -36,10 +35,9 @@
                         </div>
                         <div style="margin: 15px;">
                             <div id="right-video-cover">
-                                <!-- TODO: src 바꿔야 함  this.rightArtifactVideo() -->
                                 <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
                                     ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
-                                    :src="tempVideo2" @wheel="handleWheel" @click="setZoomCenter"
+                                    :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
                                     @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
                                     onChange="isVideoPaused" preload="auto">
                                 </video>
@@ -131,8 +129,8 @@ export default {
             artifactVideoNameList: [],
             videoNameIndex: 0,
             videoFrameList: [],
-            originalVideoFrameList: [],
-            artifactVideoFrameList: [],
+            // originalVideoFrameList: [],
+            // artifactVideoFrameList: [],
             dragging: false,
             dragStartX: 0,
             dragStartY: 0,
@@ -144,8 +142,8 @@ export default {
             videoOriginalWidth: 0,
             videoCurrentTime: 0.00,
             videoDuration: 0.00,
-            tempVideo: require("./original.mp4"),
-            tempVideo2: require("./denoise.mp4"),
+            // tempVideo: require("./original.mp4"),
+            // tempVideo2: require("./denoise.mp4"),
             selectedVideoTime: 0.00,
         }
     },
@@ -167,9 +165,9 @@ export default {
     },
     computed: {
         // TODO: 주석 풀기 
-        // currentPageIndex() {
-        //     return parseInt(this.videoNameIndex) + 1;
-        // },
+        currentPageIndex() {
+            return parseInt(this.videoNameIndex) + 1;
+        },
     },
     methods: {
         getVideoIndex() {
@@ -187,7 +185,7 @@ export default {
                     console.log(error);
                 })
         },
-        // TODO: 그 frame을 선택하면 백엔드로 요청을 보내는 함수
+        // frame을 선택하면 백엔드로 요청을 보내는 함수
         async selectArtifactFrame() {
             var video = document.getElementById("videoNoartifact");
             this.selectedVideoTime = video.currentTime;
@@ -494,11 +492,10 @@ export default {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             // toggleVideo는 videoYesartifact와 같은 비디오 
-            const originalFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
-            const artifactFrame = 1 / this.artifactVideoFrameList[this.videoNameIndex];
+            const videoFrame = 1 / this.videoFrameList[this.videoNameIndex];
 
             if (video1 && video2) {
-                if (video1.currentTime + originalFrame * 3 >= video1.duration || video2.currentTime + artifactFrame * 3 >= video2.duration
+                if (video1.currentTime + videoFrame * 3 >= video1.duration || video2.currentTime + videoFrame * 3 >= video2.duration
                     || video1.ended || video2.ended) {
                     video1.currentTime = 0;
                     video2.currentTime = 0;
@@ -557,61 +554,32 @@ export default {
         async seekBackward() {
             const video1 = this.$refs.videoNoartifact;
             const video2 = this.$refs.videoYesartifact;
-            // TODO: 임시 비디오 frame 30 추후 수정 필요
-            // const originalFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
-            // const artifactFrame = 1 / this.artifactVideoFrameList[this.videoNameIndex];
-            // TODO: videoFrame을 하나로 통일 했음
-            // const videoFrame = this.videoFrameList[this.videoNameIndex];
-            // if (videoFrame != 0) {
-            //     if (videoFrame) {
-            //         if (video1.currentTime - videoFrame <= 0 || video2.currentTime - videoFrame <= 0) {
-            //             return;
-            //         }
-            //         video1.currentTime -= videoFrame;
-            //         video2.currentTime -= videoFrame;
-            //     }
-            // }
 
-            const originalFrame = 1 / 30;
-            const artifactFrame = 1 / 30;
-
-            if (originalFrame != 0 && artifactFrame != 0) {
-                // const halfOriginalFrame = (originalFrame) / 2;
-                // const halfArtifactFrame = (artifactFrame) / 2;
-                if (video1 && video2) {
-                    if (video1.currentTime - originalFrame <= 0 || video2.currentTime - artifactFrame <= 0) {
+            // videoFrame을 하나로 통일 했음
+            const videoFrame = this.videoFrameList[this.videoNameIndex];
+            if (videoFrame != 0) {
+                if (videoFrame) {
+                    if (video1.currentTime - videoFrame <= 0 || video2.currentTime - videoFrame <= 0) {
                         return;
                     }
-                    video1.currentTime -= originalFrame;
-                    video2.currentTime -= artifactFrame;
+                    video1.currentTime -= videoFrame;
+                    video2.currentTime -= videoFrame;
                 }
             }
         },
         async seekForward() {
             const video1 = this.$refs.videoNoartifact;
             const video2 = this.$refs.videoYesartifact;
-            // TODO: 임시 비디오 frame 30 추후 수정 필요
-            // const originalFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
-            // const artifactFrame = 1 / this.artifactVideoFrameList[this.videoNameIndex];
-            const originalFrame = 1 / 30;
-            const artifactFrame = 1 / 30;
 
-            if (originalFrame != 0 && artifactFrame != 0) {
-                const halfOriginalFrame = (originalFrame) / 2;
-                const halfArtifactFrame = (artifactFrame) / 2;
-                if (video1 && video2) {
-                    if (video1.currentTime == 0 || video2.currentTime == 0) {
-                        video1.currentTime = halfOriginalFrame + originalFrame;
-                        video2.currentTime = halfArtifactFrame + artifactFrame;
-                    } else {
-                        // 마지막 프레임을 버림
-                        if (video1.currentTime + originalFrame * 3 >= video1.duration || video2.currentTime + artifactFrame * 3 >= video2.duration
-                            || video1.ended || video2.ended) {
-                            return;
-                        }
-                        video1.currentTime += originalFrame;
-                        video2.currentTime += artifactFrame;
+            // videoFrame을 하나로 통일 했음
+            const videoFrame = this.videoFrameList[this.videoNameIndex];
+            if (videoFrame != 0) {
+                if (videoFrame) {
+                    if (video1.currentTime - videoFrame * 3 >= video1.duration || video2.currentTime - videoFrame * 3 >= video1.duration) {
+                        return;
                     }
+                    video1.currentTime += videoFrame;
+                    video2.currentTime += videoFrame;
                 }
             }
         },

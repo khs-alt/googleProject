@@ -60,8 +60,7 @@
             <p style="font-size: 24px; margin-top: 10px; margin-bottom:4px">Video Ghosting Artifact Scoring System</p>
             <div style="display: flex;">
                 <div style="font-size: 20px; margin-left: auto; margin-right: 10px;">
-                    <!-- TODO: 주석 풀기 -->
-                    <!-- {{ currentPageIndex`` }}/{{ totalLength }} -->
+                    {{ currentPageIndex }}/{{ totalLength }}
                 </div>
                 <div style="margin-right: auto; margin-top: auto; margin-bottom: auto;" class="toggle-switch"
                     :class="{ 'active': isToggled }" @click="toggleVideo">
@@ -82,7 +81,7 @@
                                     <div style=" overflow: hidden;" class="video-cover">
                                         <video id="toggleVideo" :style="videoStyles" style="position: absolute;"
                                             class="video-style" ref="toggleVideo" controlsList="nodownload" key="videoDiff"
-                                            :src="tempVideo2" @wheel="handleWheel" @click="setZoomCenter"
+                                            :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
                                             @mousedown="handleDragStart" @mouseup="handleDragEnd"
                                             @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
                                         </video>
@@ -91,7 +90,7 @@
                                 <div style="display: flex;">
                                     <video id="videoNoartifact" :style="videoStyles" class="video-style"
                                         ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
-                                        :src="tempVideo" @wheel="handleWheel" @click="setZoomCenter"
+                                        :src="leftOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
                                         @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
                                         onChange="isVideoPaused" preload="auto">
                                     </video>
@@ -107,7 +106,7 @@
                             <div id="right-video-cover">
                                 <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
                                     ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
-                                    :src="tempVideo2" @wheel="handleWheel" @click="setZoomCenter"
+                                    :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
                                     @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
                                     onChange="isVideoPaused" preload="auto">
                                 </video>
@@ -228,7 +227,6 @@ export default {
             tempVideo2: require("./denoise.mp4"),
             // progress bar
             // 점수 체크 안한 비디오, 이미지는 -1로 들어오고 최대 Length까지 전부 들어옴 
-            // TODO: user의 testcode에 대한 모든 라벨링을 받아오는 함수 mounted에 넣기
             userScoringList: [],
             progressBarList: [100, 100, 100, 100, 50],
             progressBarCount: [80, 100, 100, 20, 1], //progress bar 내용의 한 거 개수
@@ -261,10 +259,9 @@ export default {
         console.log("setup")
     },
     computed: {
-        // 주석 풀기 
-        // currentPageIndex() {
-        //     return parseInt(this.videoNameIndex) + 1;
-        // },
+        currentPageIndex() {
+            return parseInt(this.videoNameIndex) + 1;
+        },
     },
     methods: {
         getUserScoringList() {
@@ -326,8 +323,7 @@ export default {
                 }
             });
             this.makeImageTemplete();
-            // TODO:
-            // this.getuserScoringList();
+            this.getUserScoringList();
         },
         setProgressBar() {
             this.videoIndex.length = 452;
@@ -341,16 +337,6 @@ export default {
                     this.progressBarList.push(100);
                 }
             }
-            // this.videoIndex.length % 100 === 0 ? this.progressBarLength = (this.videoIndex.length / 100) : this.progressBarLength = (this.videoIndex.length / 100) + 1;
-            // console.log("progressBarLength: " + this.progressBarLength);
-            // this.progressBarList = [];
-            // for (var i = 0; i < this.progressBarLength; i++) {
-            //     if (i == this.progressBarLength - 1) {
-            //         this.progressBarList.push(this.videoIndex.length % 100);
-            //     } else {
-            //         this.progressBarList.push(100);
-            //     }
-            // }
         },
         addEventVideoCurrentTime() {
             var video = document.getElementById('videoNoartifact');
@@ -489,7 +475,6 @@ export default {
                 this.imgSrc = require("../images/play_icon/iconmonstr-media-control-48-240.png")
             }
         },
-        // TODO:
         isVideoPaused() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
@@ -625,9 +610,8 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error);
-                    // TODO: 
-                    // alert("login failed")
-                    // this.$router.push(process.env.BASE_URL);
+                    alert("login failed")
+                    this.$router.push(process.env.BASE_URL);
                 })
         },
         navigateTo(item) {
