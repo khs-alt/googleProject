@@ -5,8 +5,7 @@
         <div class="menu-header">
           <div class="menu-content" style="justify-content: space-between;">
             <div class="progressBar">
-              <div v-for="i in progressBarLength" :key="i"
-                :class="progressBarCount[i - 1] === progressBarList[i - 1] ? 'progressBar-item' : 'progressBar-item-empty'"
+              <div v-for="i in progressBarLength" :key="i" :class="getProgressBarClass(i - 1)"
                 @click="toggleProgressModal((i - 1))">
               </div>
             </div>
@@ -161,7 +160,7 @@ export default {
       progressBarList: [], //progress bar 내용 갯수
       // progressBarList: [100, 100, 100, 100, 100, 100, 100, 100, 56], //progress bar 내용 갯수
       progressBarCount: [], //progress bar 내용의 한 거 개수
-      // progressBarCount: [100, 100, 100, 98, 0, 20, 100, 0, 56], //progress bar 내용의 한 거 개수
+      // progressBarCount: [100, 30, 50, 75, 0, 20, 100, 0, 56], //progress bar 내용의 한 거 개수
       modalPage: 0,
       modalTitle: ["How To Use", "Example 1", "Example 2"],
       modalContent: [["1. Use the arrow keys to move the patch image.", "2. Press the number keys to score the patch image.", "3. Press the Prev button to go back to the previous image.", "4. Press the Next button to go to the next image.", "5. Press the Submit button to submit the score."], ["Score 1", "Score 5"], ["Moving", "Artifact"]],
@@ -246,6 +245,22 @@ export default {
         for (let j = 0; j < this.progressBarList[i]; j++) {
           if (this.userLabeling[(i * 100) + j] != -1) this.progressBarCount[i]++;
         }
+      }
+    },
+
+    //TODO: progress bar를 진행도에 따라 class를 바꾸는 함수
+    getProgressBarClass(index) {
+      const progress = this.progressBarCount[index]; //한 것 개수
+      const total = this.progressBarList[index]; //전체 개수
+
+      if (progress === total) {
+        return 'progressBar-item'; // 다 했을 때
+      } else if (progress >= total * 0.7) {
+        return 'progressBar-item-1'; // 70% 이상 했을 때
+      } else if (progress >= total * 0.35) {
+        return 'progressBar-item-2'; // 35% 이상 했을 때
+      } else {
+        return 'progressBar-item-empty';
       }
     },
 
@@ -357,11 +372,11 @@ export default {
           });
           this.makeImageTemplete();
         })
-      // .catch((error) => {
-      //   console.log(error);
-      //   alert("login failed")
-      //   this.$router.push(process.env.BASE_URL);
-      // })
+        .catch((error) => {
+          console.log(error);
+          alert("login failed")
+          this.$router.push(process.env.BASE_URL);
+        })
     },
     makeImageTemplete() {
       this.getImageSize()
