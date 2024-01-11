@@ -226,7 +226,7 @@ export default {
             // diff video formData에 저장
             for (let i = 0; i < this.diffFileList.length; i++) {
                 // TODO: diff video가 diff 헤더로 들어간다는 걸 형섭이형한테 말해주기 
-                formData.append("diff", this.diff[i])
+                formData.append("diff", this.diffFileList[i])
                 for (let key of formData.keys()) {
                     console.log(key);
                 }
