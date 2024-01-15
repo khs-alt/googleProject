@@ -71,6 +71,10 @@
             <div>
                 <div>{{ this.videoCurrentTime }} / {{ this.videoDuration }}</div>
             </div>
+            <!-- TODO: 몇 번쨰 video frame인지 보여주기 -->
+            <div>
+                {{ this.currentVideoFrame }} / {{ this.videoFrameLength }}
+            </div>
             <div class="video-container">
                 <div class="videoPlayer">
                     <div id="video-margin" style="display: flex; max-height: 60%;">
@@ -152,14 +156,14 @@
                     <div style="margin-left: auto; margin-right: auto; display: flex;">
                         <button v-on="click" class="btn-style"
                             style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
-                            @click="[changeBackVideo(), preloadNextVideo()]">prev</button>
+                            @click="changeBackVideo()">prev</button>
                         <button v-for="  a   in   6  " ref="score" :key="a - 1" v-on:click="clickedButton = a - 1"
                             style="width: 50px; height: 40px; font-size:x-large; padding-top: 1px;"
                             :class="{ 'clicked-btn-style': isPressed[a - 1], 'btn-style': !isPressed[a - 1] }"
                             @click="toggleButton(a - 1)">{{ a - 1 }}</button>
                         <button v-on="click" class="btn-style"
                             style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
-                            @click="[changeNextVideo(), preloadNextVideo()]">next</button>
+                            @click="changeNextVideo()">next</button>
                     </div>
                 </div>
             </div>
@@ -238,6 +242,8 @@ export default {
             modalTitle: ["How To Use", "Example 1", "Example 2"],
             modalContent: [["1. Use the arrow keys to move next or prev video.", "2. Use the number keys to score the video.", "3. Use the mouse wheel to zoom in or out.", "4. Use the mouse to drag the video."], ["Score 1", "Score 5"], ["Moving", "Artifact"]],
             videoSrc: [require("./original.mp4"), require("./denoise.mp4")],
+            currentVideoFrame: 0,
+            videoFrameLength: 0,
         }
     },
     created() { },
