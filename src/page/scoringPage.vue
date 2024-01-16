@@ -60,13 +60,16 @@
             <p style="font-size: 24px; margin-top: 10px; margin-bottom:4px">Video Ghosting Artifact Scoring System</p>
             <div style="display: flex;">
                 <div style="font-size: 20px; margin-left: auto; margin-right: 10px;">
-                    {{ currentPageIndex }}/{{ totalLength }}
+                    {{ currentPage }}/{{ totalLength }}
                 </div>
                 <div style="margin-right: auto; margin-top: auto; margin-bottom: auto;" class="toggle-switch"
                     :class="{ 'active': isToggled }" @click="toggleVideo">
                     <div class="toggle-button" :style="{ left: isToggled ? '24px' : '0px' }"></div>
                 </div>
             </div>
+            <div>currentPage: {{this.currentPage}}</div>    
+            <div>videoNameIndex {{this.videoNameIndex}} </div>
+
             <!-- 현재 시간 / 총 시간 -->
             <div>
                 <div>{{ this.videoCurrentTime }} / {{ this.videoDuration }}</div>
@@ -152,14 +155,14 @@
                     <div style="margin-left: auto; margin-right: auto; display: flex;">
                         <button v-on="click" class="btn-style"
                             style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
-                            @click="[changeBackVideo(), preloadNextVideo()]">prev</button>
+                            @click="[changeBackVideo()]">prev</button>
                         <button v-for="  a   in   6  " ref="score" :key="a - 1" v-on:click="clickedButton = a - 1"
                             style="width: 50px; height: 40px; font-size:x-large; padding-top: 1px;"
                             :class="{ 'clicked-btn-style': isPressed[a - 1], 'btn-style': !isPressed[a - 1] }"
                             @click="toggleButton(a - 1)">{{ a - 1 }}</button>
                         <button v-on="click" class="btn-style"
                             style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
-                            @click="[changeNextVideo(), preloadNextVideo()]">next</button>
+                            @click="[changeNextVideo()]">{{this.nextButtonName}}</button>
                     </div>
                 </div>
             </div>
@@ -238,6 +241,7 @@ export default {
             modalTitle: ["How To Use", "Example 1", "Example 2"],
             modalContent: [["1. Use the arrow keys to move next or prev video.", "2. Use the number keys to score the video.", "3. Use the mouse wheel to zoom in or out.", "4. Use the mouse to drag the video."], ["Score 1", "Score 5"], ["Moving", "Artifact"]],
             videoSrc: [require("./original.mp4"), require("./denoise.mp4")],
+            nextButtonName: "next"
         }
     },
     created() { },
@@ -265,6 +269,7 @@ export default {
     },
     methods: {
         getUserScoringList() {
+            console.log("getUserScoringList")
             axios
                 .get(this.baseUrl + "getuserScoringList", {
                     params: {
@@ -274,7 +279,7 @@ export default {
                 })
                 .then((response) => {
                     this.userScoringList = response.data.userScoringList;
-                    console.log(response.data.userScoringList);
+                    console.log("userScoringList" + response.data.userScoringList);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -583,6 +588,7 @@ export default {
                 })
                 .then((response) => {
                     // this.currentPage = parseInt(response.data.currentPage); //여기다 1 더해서 
+                    console.log("response current page: ", this.currentPage);
                     this.videoIndex = response.data.videoList;
                     this.totalLength = this.videoIndex.length;
                     this.originalVideoNameList = response.data.originalVideoNameList;
@@ -590,13 +596,20 @@ export default {
                     this.originalVideoFrameList = response.data.originalVideoFPSList;
                     this.artifactVideoFrameList = response.data.artifactVideoFPSList;
                     var curScore = response.data.userScore;
-                    this.videoNameIndex = parseInt(this.currentPage);
+                    
+                    for(var i = 0; i < this.videoIndex.length; i++) {
+                        if(this.videoIndex[i] == this.currentPage) {
+                            this.videoNameIndex = i;
+                            break;
+                        }
+                    }
+
                     if (curScore != -1) {
                         this.isPressed[curScore] = true;
                         this.clickedButton = curScore;
                         console.log("curScore: " + curScore)
                     }
-                    console.log("current page: ", this.currentPage);
+
                     console.log("video list: ", this.videoIndex)
                     // document.getElementById('videoNoartifact').loadeddata = function () {
                     //     this.videoCurrentTime = 0.00;
@@ -627,7 +640,8 @@ export default {
             // console.log("rightArtifactVideo: " + this.baseUrl + "postvideo/artifact/" + this.currentPage)
             return String(this.baseUrl + "postvideo/artifact/" + this.currentPage)
         },
-        changeNextVideo() {
+        async changeNextVideo() {
+            console.log("changeNextVideo")
             if (this.videoButtonText == 'Stop') {
                 this.changeVideoButton();
             }
@@ -658,11 +672,19 @@ export default {
                 this.getVideoIndexCurrentPage();
                 return;
             } else {
+                // if(this.currentPage == this.videoIndex[this.videoIndex.length - 2]){
+                //     this.nextButtonName = "submit"
+                // } else{
+                //     this.nextButtonName = "next";
+                // }
+
                 // this.getVideoIndexCurrentPage();
                 this.videoNameIndex += 1
                 this.currentPage = this.videoIndex[this.videoNameIndex];
+                console.log("videoNameIndex: " + this.videoNameIndex)
+                console.log("currentPage: " + this.currentPage)
                 this.isPressed = [false, false, false, false, false, false]
-                this.$router.push({
+                await this.$router.push({
                     path: '/label/scoring',
                     query: {
                         currentPage: this.currentPage,
@@ -670,6 +692,7 @@ export default {
                         testcode: this.testCode,
                     }
                 })
+                // TODO: nex button을 누르면 처음 비디오로 다시 리로딩 되는 버그 발생 -> 임시 주석 처리  
                 this.getVideoIndexCurrentPage();
             }
         },

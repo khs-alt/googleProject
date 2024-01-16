@@ -58,6 +58,9 @@
   </div>
   <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
     <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
+
+  <div>imageIndex: {{this.imageIndex}}</div>
+  <div>currentPage: {{this.currentPage}}</div>
     <div class="labelcontainer">
       <div :class="this.imageWidth <= 1080 ? 'imagecontainer' : 'imagecontainer-column'">
         <div class="imageName">
@@ -215,7 +218,7 @@ export default {
     this.getUserLabeling();
     this.getImageNameList();
     this.checkProgressBar();
-    this.removeSuffix();
+    //this.removeSuffix();
     //this.preloadImage();
   },
 
@@ -325,18 +328,18 @@ export default {
     // },
     // Backend에서 patch size(행렬) 가져오는 method
     async getImageIndexCurrentPage() {
+      console.log("[getImageIndexCurrentPage]")
       let temp = String(this.currentPage);
-      console.log(temp);
+      // console.log(temp);
       await axios
         .post(this.baseUrl + "getImageIndexCurrentPage", {
           userID: this.currentUser,
           testcode: this.testCode,
         })
         .then((response) => {
-          console.log(response.data)
           console.log(response.data.image_list.length)
           if (this.currentPage <= 0 || this.currentPage > response.data.image_list.length - 1) {
-            this.currentPage = response.data.currentPage; //url로 접근하는데 범위 밖일 때
+            this.currentPage = response.data.current_page; //url로 접근하는데 범위 밖일 때
           }
           else if (response.data.current_page < 0) {
             this.currentPage = '0'; //유저의 데이터가 없을 때 0번째로
@@ -344,6 +347,8 @@ export default {
           else if (response.data.current_page >= 0 && this.currentPage === response.data.current_page) {
             this.currentPage = temp; //마지막으로 한 페이지
           }
+
+          console.log("getImageIndexCurrentPage: " + response.data.current_page)
 
           // currentPage를 받아서 labeling 이미지를 만듦
           // cuurentPage에 따라 imageID가 달라져서 이를 반영하기 위해 axios를 받은 후에 makeImageTemplete()를 호출함
@@ -404,11 +409,13 @@ export default {
 
     //라벨링 여부에 따라 userLabeling 가져오는 함수
     getUserLabeling() {
-      console.log("get current page is " + this.currentPage)
+      console.log("[getUserLabeling]")
+      var id = parseInt(this.currentPage)
+      // console.log("get current page is " + this.currentPage)
       axios
         .post(this.baseUrl + "getUserImageScore", {
           current_user: this.currentUser,
-          image_id: this.currentPage,
+          image_id: id,
         })
         //Backend에서 들어간 iamge_id의 다음 id를 가져오는 기능이 내장됨
         //따라서 그 다음 image_id값에 접근함
@@ -586,10 +593,11 @@ export default {
       }
       console.log(this.userLabeling);
       console.log("current page is " + this.currentPage)
+      var id = parseInt(this.currentPage)
       axios
         .post(this.baseUrl + "postimagedata", {
           current_user: this.currentUser,
-          image_id: this.currentPage,
+          image_id: id,
           test_code: this.testCode,
           score: this.userLabeling,
         })
@@ -655,13 +663,14 @@ export default {
     },
 
     findIndex() {
+      console.log("[findIndex]");
       for (let i = 0; i < this.imageIndexList.length; i++) {
-        if (this.imageIndexList[i] === this.currentPage) {
+        if (this.imageIndexList[i] == this.currentPage) {
           this.imageIndex = i;
+          console.log("index is " + this.imageIndex);
           break;
         }
       }
-      console.log("index is " + this.imageIndex);
     },
   }
 }

@@ -52,7 +52,7 @@ export default {
     data() {
         return {
             currentUser: '',
-            // currentMode: 'Nothing',
+            currentMode: 'scoring',
             userScoring: [],
             scoreNum: [1, 2, 3, 4, 5],
             isPressed: [false, false, false, false, false, false],
@@ -139,7 +139,15 @@ export default {
                             this.currentUser = this.userId
                             this.currentPage = parseInt(res.data.lastPage);
                             console.log("lastPage: " + this.currentPage)
-                            this.goToPage(res.data.path);
+                            // this.goToPage(res.data.path);
+                            this.$router.push({
+                                path: 'scoring',
+                                query: {
+                                    userName: this.userId,
+                                    currentPage: this.currentPage,
+                                    testcode: this.testcode
+                                }
+                            });
                         } else if (res.data.path == "labeling") {
                             this.currentUser = this.userId;
                             this.currentPage = parseInt(res.data.lastPage);

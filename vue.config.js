@@ -30,7 +30,7 @@ module.exports = defineConfig({
     //port: 8080, // HTTPS 서버 포트 설정
     proxy: {
       "/label/api/": {
-        target: "http://localhost:80", // 백엔드 서버 주소
+        target: "http://localhost:8000", // 백엔드 서버 주소
         //  changeOrigin: true,
         ws: false,
       },
