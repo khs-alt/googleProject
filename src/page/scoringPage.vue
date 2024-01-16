@@ -328,7 +328,8 @@ export default {
                     testcode: this.testCode
                 }
             });
-            this.makeImageTemplete();
+            // this.makeImageTemplete();
+            this.getVideoIndexCurrentPage();
             this.getUserScoringList();
         },
         setProgressBar() {
