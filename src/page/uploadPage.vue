@@ -2,25 +2,29 @@
     <div class="body-style">
         <div class="menu">
             <div class="menu-header">
-                <div class="menu-content">
-                    <a href="/label/">
-                        <button class="signup-btn-style">Home</button>
-                    </a>
-                    <a href="/label/signup/">
-                        <button class="signup-btn-style">Sign up</button>
-                    </a>
-                    <a href="/label/admin/">
-                        <button class="signup-btn-style">Admin</button>
-                    </a>
-                    <a href="/label/admin/imageupload/">
-                        <button class="signup-btn-style">Image Upload</button>
-                    </a>
-                    <a href="/label/admin/testcode">
-                        <button class="signup-btn-style">Test Code</button>
-                    </a>
-                    <a href="/label/admin/inputtestcode" style="margin-right: 0px;">
-                        <button class="signup-btn-style">Video Frame Selection</button>
-                    </a>
+                <div class="menu-content" style="justify-content: space-between;">
+                    <div>
+                        <a href="/label/admin/imageupload/">
+                            <button class="signup-btn-style">Image Upload</button>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/label/">
+                            <button class="signup-btn-style">Home</button>
+                        </a>
+                        <a href="/label/signup/">
+                            <button class="signup-btn-style">Sign up</button>
+                        </a>
+                        <a href="/label/admin/">
+                            <button class="signup-btn-style">Admin</button>
+                        </a>
+                        <a href="/label/admin/testcode">
+                            <button class="signup-btn-style">Test Code</button>
+                        </a>
+                        <a href="/label/admin/inputtestcode" style="margin-right: 0px;">
+                            <button class="signup-btn-style">Video Frame Selection</button>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
