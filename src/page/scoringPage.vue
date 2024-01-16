@@ -727,6 +727,7 @@ export default {
                         testcode: this.testCode,
                     }
                 })
+                this.getUserScoringList();
                 this.getVideoIndexCurrentPage();
                 return;
             } else {
