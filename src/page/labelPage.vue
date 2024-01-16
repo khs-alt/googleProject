@@ -383,6 +383,7 @@ export default {
     getImageNameList() {
       axios
         .post(this.baseUrl + "imageNameList", {
+          user_id: this.currentUser,
           testcode: this.testCode,
         })
         .then((response) => {

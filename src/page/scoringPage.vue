@@ -226,14 +226,14 @@ export default {
             preloadedPrevArtifactVideo: "",
             videoCurrentTime: 0.00,
             videoDuration: 0.00,
-            tempVideo: require("./original.mp4"),
-            tempVideo2: require("./denoise.mp4"),
+            // tempVideo: require("./original.mp4"),
+            // tempVideo2: require("./denoise.mp4"),
             // progress bar
             // 점수 체크 안한 비디오, 이미지는 -1로 들어오고 최대 Length까지 전부 들어옴 
             userScoringList: [],
-            progressBarList: [100, 100, 100, 100, 50],
-            progressBarCount: [80, 100, 100, 20, 1], //progress bar 내용의 한 거 개수
-            progressBarLength: 5,
+            progressBarList: [],
+            progressBarCount: [], //progress bar 내용의 한 거 개수
+            progressBarLength: 0,
             progressModalPage: 0,
             modalPage: 0,
             progressModal: false,
@@ -331,13 +331,16 @@ export default {
             this.getUserScoringList();
         },
         setProgressBar() {
-            this.videoIndex.length = 452;
+            // this.videoIndex.length = 452;
             this.progressBarLength = Math.ceil(this.videoIndex.length / 100);
-            console.log("progressBarLength: " + this.progressBarLength);
+            // if(this.progressBarLength == 0) {
+            //     this.progressBarLength = 1;
+            // }
             this.progressBarList = [];
             for (var i = 0; i < this.progressBarLength; i++) {
                 if (i == this.progressBarLength - 1) {
                     this.progressBarList.push(this.videoIndex.length % 100);
+                    console.log("videoIndex.length % 100: " + this.videoIndex.length % 100);
                 } else {
                     this.progressBarList.push(100);
                 }
@@ -620,6 +623,7 @@ export default {
                     //     console.log("videoCurrentTime: " + this.videoCurrentTime);
                     //     console.log("videoDuration: " + this.videoDuration);
                     // };
+                    this.setProgressBar();
                 })
                 .catch((error) => {
                     console.log(error);
