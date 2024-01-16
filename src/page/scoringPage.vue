@@ -698,6 +698,7 @@ export default {
                     }
                 })
                 // TODO: nex button을 누르면 처음 비디오로 다시 리로딩 되는 버그 발생 -> 임시 주석 처리  
+                this.getUserScoringList();
                 this.getVideoIndexCurrentPage();
             }
         },
