@@ -60,15 +60,15 @@
             <p style="font-size: 24px; margin-top: 10px; margin-bottom:4px">Video Ghosting Artifact Scoring System</p>
             <div style="display: flex;">
                 <div style="font-size: 20px; margin-left: auto; margin-right: 10px;">
-                    {{ currentPage }}/{{ totalLength }}
+                    {{ videoNameIndex }}/{{ totalLength }}
                 </div>
                 <div style="margin-right: auto; margin-top: auto; margin-bottom: auto;" class="toggle-switch"
                     :class="{ 'active': isToggled }" @click="toggleVideo">
                     <div class="toggle-button" :style="{ left: isToggled ? '24px' : '0px' }"></div>
                 </div>
             </div>
-            <div>currentPage: {{this.currentPage}}</div>    
-            <div>videoNameIndex {{this.videoNameIndex}} </div>
+            <!-- <div>currentPage: {{this.currentPage}}</div>    
+            <div>videoNameIndex {{this.videoNameIndex}} </div> -->
 
             <!-- 현재 시간 / 총 시간 -->
             <div>
@@ -162,7 +162,7 @@
                             @click="toggleButton(a - 1)">{{ a - 1 }}</button>
                         <button v-on="click" class="btn-style"
                             style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
-                            @click="[changeNextVideo()]">{{this.nextButtonName}}</button>
+                            @click="[changeNextVideo()]">{{ this.nextButtonName }}</button>
                     </div>
                 </div>
             </div>
@@ -241,7 +241,8 @@ export default {
             modalTitle: ["How To Use", "Example 1", "Example 2"],
             modalContent: [["1. Use the arrow keys to move next or prev video.", "2. Use the number keys to score the video.", "3. Use the mouse wheel to zoom in or out.", "4. Use the mouse to drag the video."], ["Score 1", "Score 5"], ["Moving", "Artifact"]],
             videoSrc: [require("./original.mp4"), require("./denoise.mp4")],
-            nextButtonName: "next"
+            nextButtonName: "next",
+            currentProgress: 0,
         }
     },
     created() { },
@@ -599,9 +600,9 @@ export default {
                     this.originalVideoFrameList = response.data.originalVideoFPSList;
                     this.artifactVideoFrameList = response.data.artifactVideoFPSList;
                     var curScore = response.data.userScore;
-                    
-                    for(var i = 0; i < this.videoIndex.length; i++) {
-                        if(this.videoIndex[i] == this.currentPage) {
+
+                    for (var i = 0; i < this.videoIndex.length; i++) {
+                        if (this.videoIndex[i] == this.currentPage) {
                             this.videoNameIndex = i;
                             break;
                         }
