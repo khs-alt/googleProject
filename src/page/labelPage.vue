@@ -76,7 +76,7 @@
               :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
             </div>
           </div>
-          <p style="font-size: 14px; margin-top: 10px;">{{ originalImageName }}</p>
+          <p style="font-size: 14px; margin-top: 10px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
         </div>
         <div class="imageName">
           <div class="images">
@@ -95,7 +95,7 @@
               :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
             </div>
           </div>
-          <p style="font-size: 14px; margin-top: 10px;">{{ artifactImageName }}</p>
+          <p style="font-size: 14px; margin-top: 10px;">{{ this.imageArtifactNameList[this.imageIndex] }}</p>
         </div>
         <div style="clear:both;"></div>
       </div>
@@ -215,7 +215,7 @@ export default {
     this.getUserLabeling();
     this.getImageNameList();
     this.checkProgressBar();
-    this.removeSuffix();
+    // this.removeSuffix();
     this.setProgressBar();
     //this.preloadImage();
   },
@@ -237,14 +237,14 @@ export default {
         }
       }
     },
-    removeSuffix() {
-      if (this.originalImageName != null && this.artifactImageName != null) {
-        this.originalImageName = this.imageOriginalNameList[this.currentPage]
-        this.originalImageName = this.originalImageName.replace(/_0\.\d+\.png$/, '.png');
-        this.artifactImageName = this.imageArtifactNameList[this.currentPage]
-        this.artifactImageName = this.artifactImageName.replace(/_0\.\d+\.png$/, '.png');
-      }
-    },
+    // removeSuffix() {
+    //   if (this.originalImageNameList != null && this.artifactImageNameList != null) {
+    //     this.originalImageName = this.imageOriginalNameList[this.currentPage]
+    //     // this.originalImageName = this.originalImageName.replace(/_0\.\d+\.png$/, '.png');
+    //     this.artifactImageName = this.imageArtifactNameList[this.currentPage]
+    //     // this.artifactImageName = this.artifactImageName.replace(/_0\.\d+\.png$/, '.png');
+    //   }
+    // },
 
     toggleHelpModal() {
       this.openModal = !this.openModal;
@@ -431,7 +431,7 @@ export default {
           this.imageOriginalNameList = response.data.original_list;
           this.imageArtifactNameList = response.data.artifact_list;
           this.findIndex();
-          this.removeSuffix();
+          // this.removeSuffix();
         })
         .catch((error) => {
           console.log(error);
