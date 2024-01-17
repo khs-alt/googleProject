@@ -46,7 +46,10 @@
                             <p>{{ i }}</p>
                         </div>
                         <div v-else-if="modalPage >= 1">
-                            <video autoplay loop :src="videoSrc[modalPage]" style="width: 80%; min-height: 400px;"></video>
+                            <video autoplay loop :src="videoSrc[(modalPage - 1) * 2]"
+                                style="width: 80%; min-height: 400px;"></video> 
+                            <video autoplay loop :src="videoSrc[(modalPage - 1) * 2 - 1]"
+                                style="width: 80%; min-height: 400px;"></video>
                             <p>{{ i }}</p>
                         </div>
                     </div>
@@ -239,9 +242,11 @@ export default {
             modalPage: 0,
             progressModal: false,
             openModal: true,
-            modalTitle: ["How To Use", "Example 1", "Example 2"],
-            modalContent: [["1. Use the arrow keys to move next or prev video.", "2. Use the number keys to score the video.", "3. Use the mouse wheel to zoom in or out.", "4. Use the mouse to drag the video.", "5. On the left top there are progress bar, you can check what you did and also you can move that video"], ["Score 1", "Score 5"], ["Moving", "Artifact"]],
-            videoSrc: [require("./original.mp4"), require("./denoise.mp4")],
+            modalTitle: ["Manual", "Score 0", "Score 1", "Score 2", "Score 3", "Score 4", "Score 5"],
+            modalContent: [["1. Use the arrow keys to move next or prev video.", "2. Use the number keys to score the video.", "3. Use the mouse wheel to zoom in or out.", "4. Use the mouse to drag the video.", "5. On the left top there are progress bar, you can check what you did and also you can move that video"], ["Original", "Denoise"], ["Original", "Denoise"], ["Original", "Denoise"], ["Original", "Denoise"], ["Original", "Denoise"],],
+            videoSrc: [require("../videos/original_animals_p64_0.1.mp4"), require("../videos/denoised_animals_p64_0.1.mp4"), require("../videos/original_birds1_p64_0.2.mp4"), require("../videos/denoised_birds1_p64_0.2.mp4"),
+            require("../videos/original_amusement_park1_p64_0.3.mp4"), require("../videos/denoised_amusement_park1_p64_0.3.mp4"), require("../videos/original_boat1_p64_0.4.mp4"), require("../videos/denoised_boat1_p64_0.4.mp4"),
+            require("../videos/original_build_log_p64_0.5.mp4"), require("../videos/denoised_build_log_p64_0.5.mp4")],
             nextButtonName: "next",
             currentProgress: 0,
         }
