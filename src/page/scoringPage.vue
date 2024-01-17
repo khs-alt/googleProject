@@ -28,7 +28,8 @@
                     <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
                             style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
                             :class="userScoringList[(progressModalPage * 100) + (i)] > 0 ? 'clicked-btn-style' : 'btn-style'"
-                            @click="changePage(i)">{{ (progressModalPage * 100) + (i) }}</button></div>
+                            @click="changePage(progressModalPage * 100 + i)">{{ (progressModalPage * 100) + (i) }}</button>
+                    </div>
                 </div>
                 <div class="btncontainer">
                     <button class="btn-style" @click="toggleProgressModal()">Close</button>
