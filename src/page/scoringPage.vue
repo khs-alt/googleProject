@@ -46,9 +46,7 @@
                             <p>{{ i }}</p>
                         </div>
                         <div v-else-if="modalPage >= 1">
-                            <video autoplay loop :src="videoSrc[(modalPage - 1) * 2]"
-                                style="width: 80%; min-height: 400px;"></video>
-                            <video autoplay loop :src="videoSrc[(modalPage - 1) * 2 - 1]"
+                            <video autoplay loop :src="helpPageVideoNum((modalPage - 1) * 2)"
                                 style="width: 80%; min-height: 400px;"></video>
                             <p>{{ i }}</p>
                         </div>
@@ -184,6 +182,7 @@ export default {
     name: 'scoringPage',
     data() {
         return {
+            helpPageVideoNum: false,
             clickedButton: -1,
             noScore: false,
             userScoring: 0,
@@ -275,6 +274,14 @@ export default {
         },
     },
     methods: {
+        helpPageVideoNum(index){
+            this.helpPageVideoNum = !this.helpPageVideoNum;
+            if(this.helpPageVideoNum === false) {
+                return this.videoSrc[index+1];
+            }
+            return this.videoSrc[index];
+        },
+
         getUserScoringList() {
             console.log("getUserScoringList")
             axios

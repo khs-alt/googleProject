@@ -2,7 +2,7 @@
   <div class="body-style">
     <div class="menu">
       <div class="menu-header">
-        <div class="menu-content">
+        <div class="menu-content" style="margin-right: 0; justify-content: space-between;">
           <a href="/label/">
             <button class="signup-btn-style">Home</button>
           </a>
