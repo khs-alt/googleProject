@@ -307,7 +307,8 @@ export default {
     //진행상황 페이지에서 페이지 이동
     async changePage(index) {
       this.currentPage = this.imageIndexList[index];
-      console.log("changePage: " + this.currentPage)
+      console.log("changePage: " + this.currentPage);
+      console.log("imageIndexList: " + this.imageIndexList);
       this.isPressed = [false, false, false, false, false, false]
       await this.$router.push({
         path: '/label/label',
