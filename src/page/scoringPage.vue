@@ -133,7 +133,7 @@
                     <button @click="seekBackward" @mouseover="isMouseOverMinus = true" @mouseout="isMouseOverMinus = false"
                         :class="{ 'btn-style': !isMouseOverMinus, 'clicked-btn-style': isMouseOverMinus }"
                         style="margin-right: 4px; paddinasdg-bottom: 6px; padding-top: 6px;">
-                        <img class="icon-style" src=" ../images/play_icon/iconmonstr-media-control-18-240.png">
+                        <img class="icon-style" src="../images/play_icon/iconmonstr-media-control-18-240.png">
                     </button>
                     <button id="videoButton" key="videoButton" @click="changeVideoButton(); changeImgSource()"
                         @mouseover="isMouseOverPlay = true" @mouseout="isMouseOverPlay = false"
@@ -321,7 +321,7 @@ export default {
         },
         //진행상황 페이지에서 페이지 이동
         async changePage(index) {
-            this.currentPage = this.videoIndex[index - 1];
+            this.currentPage = this.videoIndex[index];
             console.log("changePage: " + this.currentPage)
             this.isPressed = [false, false, false, false, false, false]
             await this.$router.push({
@@ -335,7 +335,6 @@ export default {
             // this.makeImageTemplete();
             this.getVideoIndexCurrentPage();
             this.getUserScoringList();
-
         },
         setProgressBar() {
             // this.videoIndex.length = 452;
@@ -712,6 +711,7 @@ export default {
                 })
                 // TODO: nex button을 누르면 처음 비디오로 다시 리로딩 되는 버그 발생 -> 임시 주석 처리  
                 this.getUserScoringList();
+                this.setProgressBar();
                 this.getVideoIndexCurrentPage();
             }
         },
