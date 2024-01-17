@@ -727,12 +727,13 @@ export default {
 
     findIndex() {
       for (let i = 0; i < this.imageIndexList.length; i++) {
-        if (this.imageIndexList[i] === this.currentPage) {
+        if (this.imageIndexList[i] == this.currentPage) {
           this.imageIndex = i;
           break;
         }
       }
       console.log("[findIndex] index is " + this.imageIndex);
+      this.currentPage = this.imageIndexList[this.imageIndex];
     },
   }
 }
