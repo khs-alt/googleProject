@@ -182,7 +182,7 @@ export default {
     name: 'scoringPage',
     data() {
         return {
-            helpPageVideoNum: false,
+            helpPageVideo: false,
             clickedButton: -1,
             noScore: false,
             userScoring: 0,
