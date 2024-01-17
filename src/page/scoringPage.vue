@@ -321,7 +321,7 @@ export default {
         },
         //진행상황 페이지에서 페이지 이동
         async changePage(index) {
-            this.currentPage = this.videoIndex[index];
+            this.currentPage = this.videoIndex[index - 1];
             console.log("changePage: " + this.currentPage)
             this.isPressed = [false, false, false, false, false, false]
             await this.$router.push({
