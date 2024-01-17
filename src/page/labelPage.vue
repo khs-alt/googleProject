@@ -306,6 +306,7 @@ export default {
 
     //진행상황 페이지에서 페이지 이동
     async changePage(index) {
+      console.log("[changePage]");
       this.currentPage = this.imageIndexList[index - 1];
       console.log("changePage: " + this.currentPage);
       console.log("imageIndexList: " + this.imageIndexList);
@@ -386,7 +387,7 @@ export default {
             this.currentPage = response.data.currentPage; //url로 접근하는데 범위 밖일 때
           }
           else if (response.data.current_page < 0) {
-            this.currentPage = '0'; //유저의 데이터가 없을 때 0번째로
+            this.currentPage = 1; //유저의 데이터가 없을 때 1번째로
           }
           else if (response.data.current_page >= 0 && this.currentPage === response.data.current_page) {
             this.currentPage = temp; //마지막으로 한 페이지
