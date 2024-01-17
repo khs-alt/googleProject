@@ -616,7 +616,7 @@ export default {
       }
       console.log(this.userLabeling);
       console.log("current page is " + this.currentPage)
-      let temp = String(this.currentPage);
+      let temp = parseInt(this.currentPage);
       axios
         .post(this.baseUrl + "postimagedata", {
           current_user: this.currentUser,
