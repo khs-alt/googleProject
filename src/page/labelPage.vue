@@ -224,10 +224,12 @@ export default {
 
   methods: {
     removeSuffix() {
-      this.originalImageName = this.imageOriginalNameList[this.currentPage]
-      this.originalImageName = this.originalImageName.replace(/_0\.\d+\.png$/, '.png');
-      this.artifactImageName = this.imageArtifactNameList[this.currentPage]
-      this.artifactImageName = this.artifactImageName.replace(/_0\.\d+\.png$/, '.png');
+      if (this.originalImageName != null && this.artifactImageName != null) {
+        this.originalImageName = this.imageOriginalNameList[this.currentPage]
+        this.originalImageName = this.originalImageName.replace(/_0\.\d+\.png$/, '.png');
+        this.artifactImageName = this.imageArtifactNameList[this.currentPage]
+        this.artifactImageName = this.artifactImageName.replace(/_0\.\d+\.png$/, '.png');
+      }
     },
 
     toggleHelpModal() {
@@ -372,17 +374,16 @@ export default {
           });
           this.makeImageTemplete();
         })
-        .catch((error) => {
-          console.log(error);
-          alert("login failed")
-          this.$router.push(process.env.BASE_URL);
-        })
+      .catch((error) => {
+        console.log(error);
+        alert("login failed")
+        this.$router.push(process.env.BASE_URL);
+      })
     },
     makeImageTemplete() {
       this.getImageSize()
         .then(() => {
           this.resizeImage();
-          //console.log("resizeImage")
         })
         .catch((error) => {
           console.error(error);
@@ -402,6 +403,7 @@ export default {
           this.imageOriginalNameList = response.data.original_list;
           this.imageArtifactNameList = response.data.artifact_list;
           this.findIndex();
+          this.removeSuffix();
         })
         .catch((error) => {
           console.log(error);
@@ -431,7 +433,6 @@ export default {
           console.log(response.data)
           if (response.data.patch[0] != -1) { //r
             console.log("axios get label image success\n");
-            // console.log("id is " + this.currentPage)
             console.log(response.data.patch)
             this.userLabeling = response.data.patch;
             this.isPressed = this.userLabeling[this.patchIndex];
