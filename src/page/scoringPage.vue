@@ -60,7 +60,7 @@
             <p style="font-size: 24px; margin-top: 10px; margin-bottom:4px">Video Ghosting Artifact Scoring System</p>
             <div style="display: flex;">
                 <div style="font-size: 20px; margin-left: auto; margin-right: 10px;">
-                    {{ videoNameIndex }}/{{ totalLength }}
+                    {{ currentPageIndex }}/{{ totalLength }}
                 </div>
                 <div style="margin-right: auto; margin-top: auto; margin-bottom: auto;" class="toggle-switch"
                     :class="{ 'active': isToggled }" @click="toggleVideo">
