@@ -309,6 +309,7 @@ export default {
       console.log("[changePage]");
       this.currentPage = this.imageIndexList[index - 1];
       console.log("changePage: " + this.currentPage);
+      this.imageIndex = index - 1;
       console.log("imageIndexList: " + this.imageIndexList);
       this.isPressed = [false, false, false, false, false, false]
       await this.$router.push({
@@ -397,6 +398,14 @@ export default {
           // cuurentPage에 따라 imageID가 달라져서 이를 반영하기 위해 axios를 받은 후에 makeImageTemplete()를 호출함
           // makeImageTemplete()에서는 labeling 이미지를 만드는 함수임
           this.setProgressBar();
+
+          for (let i = 0; i < this.imageIndexList.length; i++) {
+            if (this.imageIndexList[i] == this.currentPage) {
+              this.imageIndex = i;
+              break;
+            }
+          }
+
           console.log("[getImageIndexCurrentPage] before route current page is " + this.currentPage);
           this.$router.push({
             query: {
