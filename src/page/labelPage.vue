@@ -224,6 +224,18 @@ export default {
   },
 
   methods: {
+    setProgressBar() {
+      this.progressBarLength = Math.ceil(this.imageIndexList.length / 100);
+      this.progressBarList = [];
+      for (var i = 0; i < this.progressBarLength; i++) {
+        if (i == this.progressBarLength - 1) {
+          this.progressBarList.push(this.imageIndexList.length % 100);
+          console.log("imageIndexList.length % 100: " + this.imageIndexList.length % 100);
+        } else {
+          this.progressBarList.push(100);
+        }
+      }
+    },
     removeSuffix() {
       if (this.originalImageName != null && this.artifactImageName != null) {
         this.originalImageName = this.imageOriginalNameList[this.currentPage]
@@ -436,10 +448,11 @@ export default {
     //라벨링 여부에 따라 userLabeling 가져오는 함수
     getUserLabeling() {
       console.log("get current page is " + this.currentPage)
+      let temp = parseInt(this.currentPage);
       axios
         .post(this.baseUrl + "getUserImageScore", {
           current_user: this.currentUser,
-          image_id: this.currentPage,
+          image_id: temp,
         })
         //Backend에서 들어간 iamge_id의 다음 id를 가져오는 기능이 내장됨
         //따라서 그 다음 image_id값에 접근함
