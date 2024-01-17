@@ -216,6 +216,7 @@ export default {
     this.getImageNameList();
     this.checkProgressBar();
     this.removeSuffix();
+    this.setProgressBar();
     //this.preloadImage();
   },
 
@@ -398,6 +399,7 @@ export default {
             }
           });
           this.makeImageTemplete();
+          this.setProgressBar();
         })
         .catch((error) => {
           console.log(error);
@@ -669,6 +671,7 @@ export default {
             testcode: this.testCode
           }
         });
+        this.setProgressBar();
       }
     },
 
@@ -695,6 +698,7 @@ export default {
             testcode: this.testCode
           }
         });
+        this.setProgressBar();
       }
     },
 

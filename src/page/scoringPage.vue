@@ -181,7 +181,7 @@ export default {
     name: 'scoringPage',
     data() {
         return {
-            
+
             helpPageVideo: false,
             clickedButton: -1,
             noScore: false,
@@ -771,6 +771,7 @@ export default {
                 })
                 this.getUserScoringList();
                 this.getVideoIndexCurrentPage();
+                this.setProgressBar();
                 return;
             } else {
                 this.videoNameIndex -= 1
@@ -784,7 +785,9 @@ export default {
                         testcode: this.testCode,
                     }
                 })
+                this.getUserScoringList();
                 this.getVideoIndexCurrentPage();
+                this.setProgressBar();
             }
         },
         // score button 눌렸는지 안눌렸는지 확인하는 method
