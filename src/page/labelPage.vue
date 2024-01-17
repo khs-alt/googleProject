@@ -225,7 +225,7 @@ export default {
   },
 
   methods: {
-    setProgressBar() {
+    async setProgressBar() {
       this.progressBarLength = Math.ceil(this.imageIndexList.length / 100);
       this.progressBarList = [];
       for (var i = 0; i < this.progressBarLength; i++) {
