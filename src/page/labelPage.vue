@@ -318,8 +318,11 @@ export default {
         }
       });
       // this.makeImageTemplete();
-      this.getVideoIndexCurrentPage();
-      this.getUserScoringList();
+      // this.getVideoIndexCurrentPage();
+      this.getImageIndexCurrentPage();
+      this.getUserLabeling();
+      this.setProgressBar();
+      // this.getUserScoringList();
     },
 
     serveOriginalImage() {
