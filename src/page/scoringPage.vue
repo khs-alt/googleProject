@@ -5,8 +5,7 @@
                 <div class="menu-header" style="display: flex;">
                     <div class="menu-content" style="margin-right: 0; justify-content: space-between;">
                         <div class="progressBar">
-                            <div v-for="i in progressBarLength" :key="i"
-                                :class="progressBarCount[i - 1] == progressBarList[i - 1] ? 'progressBar-item' : 'progressBar-item-empty'"
+                            <div v-for="i in progressBarLength" :key="i" :class="getProgressBarClass(i - 1)"
                                 @click="toggleProgressModal((i - 1))">
                             </div>
                         </div>
@@ -182,6 +181,7 @@ export default {
     name: 'scoringPage',
     data() {
         return {
+            
             helpPageVideo: false,
             clickedButton: -1,
             noScore: false,
@@ -274,10 +274,10 @@ export default {
         },
     },
     methods: {
-        helpPageVideoNum(index){
+        helpPageVideoNum(index) {
             this.helpPageVideo = !this.helpPageVideo;
-            if(this.helpPageVideo === false) {
-                return this.videoSrc[index+1];
+            if (this.helpPageVideo === false) {
+                return this.videoSrc[index + 1];
             }
             return this.videoSrc[index];
         },
@@ -308,6 +308,22 @@ export default {
                 }
             }
         },
+
+        getProgressBarClass(index) {
+            const progress = this.progressBarCount[index]; //한 것 개수
+            const total = this.progressBarList[index]; //전체 개수
+
+            if (progress === total) {
+                return 'progressBar-item'; // 다 했을 때
+            } else if (progress >= total * 0.7) {
+                return 'progressBar-item-1'; // 70% 이상 했을 때
+            } else if (progress >= total * 0.35) {
+                return 'progressBar-item-2'; // 35% 이상 했을 때
+            } else {
+                return 'progressBar-item-empty';
+            }
+        },
+
         toggleHelpModal() {
             console.log(this.openModal)
             this.openModal = !this.openModal;

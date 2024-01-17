@@ -2,7 +2,7 @@
     <div style="position: fixed; overflow: hidden; width: 100%; height: 100%;">
         <div class="body-style">
             <div class="menu">
-                <div class="menu-header">
+                <div class="menu-header" style="display: flex;">
                     <div class="menu-content" style="margin-right: 0; justify-content: space-between;">
                         <a href="/label/" style="margin-right: 10px;">
                             <button class="signup-btn-style">Home</button>

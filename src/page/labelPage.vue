@@ -2,7 +2,7 @@
   <div class="labelingPage">
     <div class="body-style">
       <div class="menu">
-        <div class="menu-header">
+        <div class="menu-header" style="display: flex;">
           <div class="menu-content" style="justify-content: space-between;">
             <div class="progressBar">
               <div v-for="i in progressBarLength" :key="i" :class="getProgressBarClass(i - 1)"

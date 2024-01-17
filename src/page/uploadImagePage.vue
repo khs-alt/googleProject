@@ -1,7 +1,7 @@
 <template>
     <div class="body-style">
         <div class="menu">
-            <div class="menu-header">
+            <div class="menu-header" style="display: flex;">
                 <div class="menu-content" style="justify-content: space-between;">
                     <div>
                         <a href="/label/admin/upload">
