@@ -383,8 +383,8 @@ export default {
           testcode: this.testCode,
         })
         .then((response) => {
-          console.log(response.data)
-          console.log(response.data.image_list.length)
+          console.log("getImageIndexCurrentPage" + response.data)
+          console.log("getImageIndexCurrentPage image list length: " + response.data.image_list.length)
           if (this.currentPage <= 0 || this.currentPage > response.data.image_list.length - 1) {
             this.currentPage = response.data.current_page; //url로 접근하는데 범위 밖일 때
           }
