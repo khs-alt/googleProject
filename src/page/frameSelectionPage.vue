@@ -3,7 +3,7 @@
         <div class="body-style">
             <div class="menu">
                 <div class="menu-header" style="display: flex;">
-                    <div class="menu-content" style="margin-right: 0; justify-content: space-between;">
+                    <div class="menu-content" style="margin-right: 0; justify-content: right;">
                         <a href="/label/" style="margin-right: 10px;">
                             <button class="signup-btn-style">Home</button>
                         </a>
