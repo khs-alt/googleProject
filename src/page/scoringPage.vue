@@ -320,7 +320,8 @@ export default {
         },
         //진행상황 페이지에서 페이지 이동
         async changePage(index) {
-            this.currentPage = index;
+            this.currentPage = videoIndex[index];
+            console.log("changePage: " + this.currentPage)
             await this.$router.push({
                 currentPage: this.currentPage,
                 userName: this.currentUser,
