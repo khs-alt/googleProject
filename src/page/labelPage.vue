@@ -164,7 +164,7 @@ export default {
       modalPage: 0,
       helpPageImage: false,
       modalTitle: ["How To Use", "Examples of score 0", "Examples of score 1", "Examples of score 2", "Examples of score 3", "Examples of score 4", "Examples of score 5"],
-      modalContent: [["1. Use the arrow keys to move the patch image.", "2. Press the number keys to score the patch image.", "3. Press the Prev button to go back to the previous image.", "4. Press the Next button to go to the next image.", "5. Press the Submit button to submit the score."], ["when the original and denoised images look almost same or ", "you cannot feel any perceptually image quality degradation."], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"]],
+      modalContent: [["1. Use the arrow keys to move the patch image.", "2. Press the number keys to score the patch image.", "3. Press the Prev button to go back to the previous image.", "4. Press the Next button to go to the next image.", "5. Press the Submit button to submit the score."], ["when the original and denoised images look almost same", "or you cannot feel any perceptually image quality degradation."], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"]],
       imgSrc: [require("../images/score1_original.png"), require("../images/score1_denoised.png"), require("../images/score2_original.png"), require("../images/score2_denoised.png"), require("../images/score3_original.png"), require("../images/score3_denoised.png"), require("../images/score4_original.png"), require("../images/score4_denoised.png"), require("../images/score5_original.png"), require("../images/score5_denoised.png")],
       index: 0,
       imageIndex: 0,
@@ -389,8 +389,8 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          // alert("login failed")
-          // this.$router.push(process.env.BASE_URL);
+          alert("login failed")
+          this.$router.push(process.env.BASE_URL);
         })
     },
     makeImageTemplete() {
