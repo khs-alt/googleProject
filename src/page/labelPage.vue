@@ -59,8 +59,8 @@
   <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
     <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
 
-  <div>imageIndex: {{this.imageIndex}}</div>
-  <div>currentPage: {{this.currentPage}}</div>
+    <div>imageIndex: {{ this.imageIndex }}</div>
+    <div>currentPage: {{ this.currentPage }}</div>
     <div class="labelcontainer">
       <div :class="this.imageWidth <= 1080 ? 'imagecontainer' : 'imagecontainer-column'">
         <div class="imageName">
@@ -143,7 +143,7 @@
     </div>
   </div>
   <div class="footer">
-    <p>Copyright © 2023 Pi:Lab, SMU. All rights reserved.</p>
+    <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
     <p>help@pilab.smu.ac.kr</p>
   </div>
 </template>

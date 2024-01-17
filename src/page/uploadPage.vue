@@ -146,7 +146,7 @@
 
     </div>
     <div class="footer">
-        <p>Copyright © 2023 Pi:Lab, SMU. All rights reserved.</p>
+        <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
         <p>help@pilab.smu.ac.kr</p>
     </div>
 </template>
