@@ -27,7 +27,7 @@
                 <div style="display: flex; flex-wrap: wrap;">
                     <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
                             style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
-                            :class="userScoringList[(progressModalPage * 100) + (i)] >= 0 ? 'clicked-btn-style' : 'btn-style'"
+                            :class="userScoringList[progressModalPage * 100 + i] >= 0 ? 'clicked-btn-style' : 'btn-style'"
                             @click="changePage(progressModalPage * 100 + i)">{{ (progressModalPage * 100) + (i) }}</button>
                     </div>
                 </div>
@@ -133,8 +133,7 @@
                     <button @click="seekBackward" @mouseover="isMouseOverMinus = true" @mouseout="isMouseOverMinus = false"
                         :class="{ 'btn-style': !isMouseOverMinus, 'clicked-btn-style': isMouseOverMinus }"
                         style="margin-right: 4px; paddinasdg-bottom: 6px; padding-top: 6px;">
-                        <img class="icon-style" src=" ../images/play_icon/iconmonstr-media-control-18-240.png"
-                            alt="-1 frame">
+                        <img class="icon-style" src=" ../images/play_icon/iconmonstr-media-control-18-240.png">
                     </button>
                     <button id="videoButton" key="videoButton" @click="changeVideoButton(); changeImgSource()"
                         @mouseover="isMouseOverPlay = true" @mouseout="isMouseOverPlay = false"
@@ -144,7 +143,7 @@
                     </button>
                     <button @click="seekForward" @mouseover="isMouseOverPlus = true" @mouseout="isMouseOverPlus = false"
                         :class="{ 'btn-style': !isMouseOverPlus, 'clicked-btn-style': isMouseOverPlus }"
-                        style="margin-left: 4px; padding-bottom: 6px; padding-top: 6px;s">
+                        style="margin-left: 4px; padding-bottom: 6px; padding-top: 6px;">
                         <img class="icon-style" src="../images/play_icon/iconmonstr-media-control-13-240.png"
                             alt="+1 frame">
                     </button>
