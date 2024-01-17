@@ -27,7 +27,7 @@
                 <div style="display: flex; flex-wrap: wrap;">
                     <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
                             style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
-                            :class="userScoringList[(progressModalPage * 100) + (i)] > 0 ? 'clicked-btn-style' : 'btn-style'"
+                            :class="userScoringList[(progressModalPage * 100) + (i)] >= 0 ? 'clicked-btn-style' : 'btn-style'"
                             @click="changePage(progressModalPage * 100 + i)">{{ (progressModalPage * 100) + (i) }}</button>
                     </div>
                 </div>
@@ -133,8 +133,8 @@
                     <button @click="seekBackward" @mouseover="isMouseOverMinus = true" @mouseout="isMouseOverMinus = false"
                         :class="{ 'btn-style': !isMouseOverMinus, 'clicked-btn-style': isMouseOverMinus }"
                         style="margin-right: 4px; paddinasdg-bottom: 6px; padding-top: 6px;">
-                        <img class="icon-style" style="width: 30px; height: 30px;"
-                            src="../images/play_icon/iconmonstr-media-control-18-240.png" alt="-1 frame">
+                        <img class="icon-style" src=" ../images/play_icon/iconmonstr-media-control-18-240.png"
+                            alt="-1 frame">
                     </button>
                     <button id="videoButton" key="videoButton" @click="changeVideoButton(); changeImgSource()"
                         @mouseover="isMouseOverPlay = true" @mouseout="isMouseOverPlay = false"
@@ -240,7 +240,7 @@ export default {
             progressModal: false,
             openModal: true,
             modalTitle: ["How To Use", "Example 1", "Example 2"],
-            modalContent: [["1. Use the arrow keys to move next or prev video.", "2. Use the number keys to score the video.", "3. Use the mouse wheel to zoom in or out.", "4. Use the mouse to drag the video.", "5. On the left top there are progress bar, you can "], ["Score 1", "Score 5"], ["Moving", "Artifact"]],
+            modalContent: [["1. Use the arrow keys to move next or prev video.", "2. Use the number keys to score the video.", "3. Use the mouse wheel to zoom in or out.", "4. Use the mouse to drag the video.", "5. On the left top there are progress bar, you can check what you did and also you can move that video"], ["Score 1", "Score 5"], ["Moving", "Artifact"]],
             videoSrc: [require("./original.mp4"), require("./denoise.mp4")],
             nextButtonName: "next",
             currentProgress: 0,
@@ -290,7 +290,9 @@ export default {
         checkProgressBar() {
             for (let i = 0; i < this.progressBarLength; i++) {
                 for (let j = 0; j < this.progressBarList[i]; j++) {
-                    if (this.userScoringList[(i * 100) + j] != -1) this.progressBarCount[i]++;
+                    if (this.userScoringList[(i * 100) + j] != -1) {
+                        this.progressBarCount[i]++;
+                    }
                 }
             }
         },
@@ -298,7 +300,6 @@ export default {
             console.log(this.openModal)
             this.openModal = !this.openModal;
         },
-
         toggleProgressModal(index) {
             console.log(this.progressBarList[index]);
             this.progressModal = !this.progressModal;
