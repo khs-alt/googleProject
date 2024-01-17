@@ -323,13 +323,17 @@ export default {
             this.currentPage = this.videoIndex[index - 1];
             console.log("changePage: " + this.currentPage)
             await this.$router.push({
-                currentPage: this.currentPage,
-                userName: this.currentUser,
-                testcode: this.testCode,
+                path: '/label/scoring',
+                query: {
+                    currentPage: this.currentPage,
+                    userName: this.currentUser,
+                    testcode: this.testCode,
+                }
             });
             // this.makeImageTemplete();
             this.getVideoIndexCurrentPage();
             this.getUserScoringList();
+
         },
         setProgressBar() {
             // this.videoIndex.length = 452;
