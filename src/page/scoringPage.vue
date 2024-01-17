@@ -322,6 +322,7 @@ export default {
         async changePage(index) {
             this.currentPage = this.videoIndex[index];
             console.log("changePage: " + this.currentPage)
+            this.isPressed = [false, false, false, false, false, false]
             await this.$router.push({
                 path: '/label/scoring',
                 query: {
