@@ -387,8 +387,8 @@ export default {
           testcode: this.testCode,
         })
         .then((response) => {
-          console.log("getImageIndexCurrentPage" + response.data.current_page)
-          console.log("getImageIndexCurrentPage image list length: " + response.data.image_list.length)
+          console.log("[getImageIndexCurrentPage] response.data.current_page: " + response.data.current_page)
+          console.log("[getImageIndexCurrentPage] response.data.image_list.length: " + response.data.image_list.length)
           if (this.currentPage <= 0 || this.currentPage > response.data.image_list.length - 1) {
             this.currentPage = response.data.current_page; //url로 접근하는데 범위 밖일 때
           }
@@ -445,8 +445,8 @@ export default {
           testcode: this.testCode,
         })
         .then((response) => {
-          console.log("axios get image list success\n");
-          console.log(response.data.image_list)
+          console.log("[getImageNameList] axios get image list success\n");
+          console.log("[getImageNameList] response.data.image_list\n" + response.data.image_list)
           this.imageIndexList = response.data.image_list;
           this.imageOriginalNameList = response.data.original_list;
           this.imageArtifactNameList = response.data.artifact_list;
@@ -654,7 +654,7 @@ export default {
         if (this.userLabeling[i] === undefined) this.userLabeling[i] = 0;
       }
       console.log(this.userLabeling);
-      console.log("current page is " + this.currentPage)
+      console.log("[postUserLabeling] current page is " + this.currentPage)
       let temp = parseInt(this.currentPage);
       axios
         .post(this.baseUrl + "postimagedata", {
@@ -664,7 +664,7 @@ export default {
           score: this.userLabeling,
         })
         .then((response) => {
-          console.log(response.data)
+          console.log("[postUserLabeling] response.data: " + response.data)
           //사용자가 입력한 데이터가 없을 경우
         })
         .catch((error) => {
@@ -699,7 +699,6 @@ export default {
       }
     },
 
-
     changeNextPage() {
       if (this.imageIndex >= this.imageIndexList.length - 1) {
         this.postUserLabeling();
@@ -733,7 +732,7 @@ export default {
           break;
         }
       }
-      console.log("index is " + this.imageIndex);
+      console.log("[findIndex] index is " + this.imageIndex);
     },
   }
 }
