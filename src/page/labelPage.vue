@@ -198,6 +198,9 @@ export default {
       resizeHeight: 0, //축소된 이미지의 세로
       i: 0, //patch 이미지의 세로 인덱스
       j: 0, //patch 이미지의 가로 인덱스
+      // TODO: userLabeling 은 유저가 "patch"에 부여한 점수를 저장하는 배열, 
+      // TODO: 따라서 전체 이미지를 리스트로 받아와서 각각이 라벨링이 되었는지 받아와야 함 
+      // TODO: video scoring 에서의 getUserScoringList()와 같은 기능을 하는 함수가 필요함
       userLabeling: [],  //사용자가 부여한 점수
       isPressed: -1, //눌린 점수 체크
       menuBar: 'Home',
@@ -479,7 +482,7 @@ export default {
           console.log("[getUserLabeling] response data" + response.data)
           if (response.data.patch[0] != -1) { //r
             console.log("[getUserLabeling] axios get label image success\n");
-            console.log("[getUserLabeling] patch data" + response.data.patch)
+            console.log("[getUserLabeling] patch data\n" + response.data.patch)
             this.userLabeling = response.data.patch;
             this.isPressed = this.userLabeling[this.patchIndex];
             return;
