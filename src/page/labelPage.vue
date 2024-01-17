@@ -231,11 +231,11 @@ export default {
       for (var i = 0; i < this.progressBarLength; i++) {
         if (i == this.progressBarLength - 1) {
           this.progressBarList.push(this.imageIndexList.length % 100);
-          console.log("imageIndexList.length % 100: " + this.imageIndexList.length % 100);
         } else {
           this.progressBarList.push(100);
         }
       }
+      console.log("[setProgressBar] progressBarList: " + this.progressBarList);
     },
     // removeSuffix() {
     //   if (this.originalImageNameList != null && this.artifactImageNameList != null) {
@@ -259,7 +259,9 @@ export default {
     checkProgressBar() {
       for (let i = 0; i < this.progressBarLength; i++) {
         for (let j = 0; j < this.progressBarList[i]; j++) {
-          if (this.userLabeling[(i * 100) + j] != -1) this.progressBarCount[i]++;
+          if (this.userLabeling[(i * 100) + j] != -1) {
+            this.progressBarCount[i]++;
+          }
         }
       }
     },
@@ -306,12 +308,11 @@ export default {
 
     //진행상황 페이지에서 페이지 이동
     async changePage(index) {
-      console.log("[changePage]");
       this.currentPage = this.imageIndexList[index - 1];
-      console.log("changePage: " + this.currentPage);
+      console.log("[changePage] currentPage: " + this.currentPage);
       this.imageIndex = index - 1;
-      console.log("imageIndex: " + this.imageIndex);
-      console.log("imageIndexList: " + this.imageIndexList);
+      console.log("[changePage] imageIndex: " + this.imageIndex);
+      console.log("[changePage] imageIndexList: " + this.imageIndexList);
       this.isPressed = [false, false, false, false, false, false]
       await this.$router.push({
         path: '/label/label',
@@ -323,7 +324,7 @@ export default {
       });
       // this.makeImageTemplete();
       // this.getVideoIndexCurrentPage();
-      this.getImageIndexCurrentPage();
+      // this.getImageIndexCurrentPage();
       this.getUserLabeling();
       this.setProgressBar();
       // this.getUserScoringList();
@@ -383,7 +384,7 @@ export default {
           testcode: this.testCode,
         })
         .then((response) => {
-          console.log("getImageIndexCurrentPage" + response.data)
+          console.log("getImageIndexCurrentPage" + response.data.current_page)
           console.log("getImageIndexCurrentPage image list length: " + response.data.image_list.length)
           if (this.currentPage <= 0 || this.currentPage > response.data.image_list.length - 1) {
             this.currentPage = response.data.current_page; //url로 접근하는데 범위 밖일 때
@@ -529,14 +530,18 @@ export default {
     },
 
     // progress bar의 개수를 구하는 함수
-    countProgressBar() {
-      this.progressBarLength = 0;
-      if (this.imageIndexList.length % 100 === 0 ? this.progressBarLength = this.imageIndexList.length / 100 : this.progressBarLength = Math.floor(this.imageIndexList.length / 100) + 1);
-      for (let i = 0; i < this.progressBarLength; i++) {
-        if (i === this.progressBarLength - 1) this.progressBarList.push(this.imageIndexList.length % 100);
-        else this.progressBarList.push(100);
-      }
-    },
+    // countProgressBar() {
+    //   this.progressBarLength = 0;
+    //   if (this.imageIndexList.length % 100 == 0 ? this.progressBarLength = this.imageIndexList.length / 100 : this.progressBarLength = Math.floor(this.imageIndexList.length / 100) + 1);
+    //   for (let i = 0; i < this.progressBarLength; i++) {
+    //     if (i == this.progressBarLength - 1) {
+    //       this.progressBarList.push(this.imageIndexList.length % 100);
+    //     }
+    //     else {
+    //       this.progressBarList.push(100);
+    //     }
+    //   }
+    // },
 
     //patch 이미지의 위치를 조정하는 함수
     setPatch(i, j) {
