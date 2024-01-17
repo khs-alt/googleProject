@@ -20,22 +20,6 @@
             <div style="padding-top: 10px; border: 0.5px; border-color: white;">
                 <div style="margin-top: 1px;"></div>
                 <div>
-                    <!-- <div style="margin-bottom: 25px;">
-                        <h3>Mode</h3>
-                        <button
-                            :class="{ 'clicked-btn-style': activeButtonIndex === 'scoring', 'btn-style': activeButtonIndex !== 'scoring' || hoveredButton }"
-                            @click="clickMenuBtn('scoring')" @mouseover="onMouseOverButton"
-                            @mouseout="onMouseOutButton">
-                            Scoring
-                        </button>
-                        <button
-                            :class="{ 'clicked-btn-style': activeButtonIndex === 'labeling', 'btn-style': activeButtonIndex !== 'labeling' || hoveredButton }"
-                            @click="clickMenuBtn('labeling')" @mouseover="onMouseOverButton"
-                            @mouseout="onMouseOutButton">
-                            Labeling
-                        </button>
-                    </div> -->
-
                     <div class="id-password-testcode-style">
                         <div style="margin-bottom: 50px;">
                             <h4 class="home-h2-font">ID</h4>
@@ -56,7 +40,7 @@
         </div>
     </div>
     <div class="footer">
-        <p>Copyright © 2023 Pi:Lab, SMU. All rights reserved.</p>
+        <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
         <p>help@pilab.smu.ac.kr</p>
     </div>
 </template>
@@ -68,7 +52,7 @@ export default {
     data() {
         return {
             currentUser: '',
-            // currentMode: 'Nothing',
+            currentMode: 'scoring',
             userScoring: [],
             scoreNum: [1, 2, 3, 4, 5],
             isPressed: [false, false, false, false, false, false],
@@ -155,7 +139,15 @@ export default {
                             this.currentUser = this.userId
                             this.currentPage = parseInt(res.data.lastPage);
                             console.log("lastPage: " + this.currentPage)
-                            this.goToPage(res.data.path);
+                            // this.goToPage(res.data.path);
+                            this.$router.push({
+                                path: 'scoring',
+                                query: {
+                                    userName: this.userId,
+                                    currentPage: this.currentPage,
+                                    testcode: this.testcode
+                                }
+                            });
                         } else if (res.data.path == "labeling") {
                             this.currentUser = this.userId;
                             this.currentPage = parseInt(res.data.lastPage);

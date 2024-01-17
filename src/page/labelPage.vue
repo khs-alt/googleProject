@@ -35,15 +35,15 @@
     </div>
   </div>
   <div class="modal-wrap" v-show="openModal"> <!--사용법-->
-    <div class="modal-container">
+    <div class="modal-container" style="width: fit-content;">
       <h3>{{ modalTitle[modalPage] }}</h3>
-      <div :class="modalPage >= 1 ? 'exampleScore' : ''">
+      <div :class="modalPage >= 2 ? 'exampleScore' : ''">
         <div v-for="i in modalContent[modalPage]" :key="i">
-          <div v-if="modalPage < 1">
+          <div v-if="modalPage < 2">
             <p>{{ i }}</p>
           </div>
-          <div v-else-if="modalPage >= 1">
-            <img :src="imgSrc[modalPage]" style="width: 300px; height: 400px;">
+          <div v-else>
+            <img :src="helpPageImageNum((modalPage-2)*2)" style="width: 400px; height: 300px;">
             <p>{{ i }}</p>
           </div>
         </div>
@@ -139,7 +139,7 @@
     </div>
   </div>
   <div class="footer">
-    <p>Copyright © 2023 Pi:Lab, SMU. All rights reserved.</p>
+    <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
     <p>help@pilab.smu.ac.kr</p>
   </div>
 </template>
@@ -162,9 +162,10 @@ export default {
       progressBarCount: [], //progress bar 내용의 한 거 개수
       // progressBarCount: [100, 30, 50, 75, 0, 20, 100, 0, 56], //progress bar 내용의 한 거 개수
       modalPage: 0,
-      modalTitle: ["How To Use", "Example 1", "Example 2"],
-      modalContent: [["1. Use the arrow keys to move the patch image.", "2. Press the number keys to score the patch image.", "3. Press the Prev button to go back to the previous image.", "4. Press the Next button to go to the next image.", "5. Press the Submit button to submit the score."], ["Score 1", "Score 5"], ["Moving", "Artifact"]],
-      imgSrc: [require("../images/1.jpg"), require("../images/addPadding.png")],
+      helpPageImage: false,
+      modalTitle: ["How To Use", "Examples of score 0", "Examples of score 1", "Examples of score 2", "Examples of score 3", "Examples of score 4", "Examples of score 5"],
+      modalContent: [["1. Use the arrow keys to move the patch image.", "2. Press the number keys to score the patch image.", "3. Press the Prev button to go back to the previous image.", "4. Press the Next button to go to the next image.", "5. Press the Submit button to submit the score."], ["when the original and denoised images look almost same or ", "you cannot feel any perceptually image quality degradation."], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"]],
+      imgSrc: [require("../images/score1_original.png"), require("../images/score1_denoised.png"), require("../images/score2_original.png"), require("../images/score2_denoised.png"), require("../images/score3_original.png"), require("../images/score3_denoised.png"), require("../images/score4_original.png"), require("../images/score4_denoised.png"), require("../images/score5_original.png"), require("../images/score5_denoised.png")],
       index: 0,
       imageIndex: 0,
       currentUser: this.$route.query.userName,
@@ -282,18 +283,30 @@ export default {
       }
     },
 
+    helpPageImageNum(index){
+      this.helpPageImage = !this.helpPageImage;
+      if(this.helpPageImage === false) {
+        return this.imgSrc[index+1];
+      }
+      return this.imgSrc[index];
+    },
+
     //진행상황 페이지에서 페이지 이동
-    changePage(index) {
-      this.currentPage = index;
-      this.$router.push({
+    async changePage(index) {
+      this.currentPage = this.imageIndexList[index];
+      console.log("changePage: " + this.currentPage)
+      this.isPressed = [false, false, false, false, false, false]
+      await this.$router.push({
+        path: '/label/label',
         query: {
-          userName: this.currentUser,
           currentPage: this.currentPage,
-          testcode: this.testCode
+          userName: this.currentUser,
+          testcode: this.testCode,
         }
       });
-      this.makeImageTemplete();
-      this.getUserLabeling();
+      // this.makeImageTemplete();
+      this.getVideoIndexCurrentPage();
+      this.getUserScoringList();
     },
 
     serveOriginalImage() {
@@ -374,11 +387,11 @@ export default {
           });
           this.makeImageTemplete();
         })
-      .catch((error) => {
-        console.log(error);
-        alert("login failed")
-        this.$router.push(process.env.BASE_URL);
-      })
+        .catch((error) => {
+          console.log(error);
+          // alert("login failed")
+          // this.$router.push(process.env.BASE_URL);
+        })
     },
     makeImageTemplete() {
       this.getImageSize()

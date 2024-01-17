@@ -1,124 +1,176 @@
 <template>
-    <div class="body-style">
-        <div class="menu">
-            <div class="menu-header">
-                <div class="menu-content">
-                    <a href="/label/" style="margin-right: 10px;">
-                        <button class="signup-btn-style">Home</button>
-                    </a>
+    <div style="position: fixed; overflow: hidden; width: 100%; height: 100%;">
+        <div class="body-style">
+            <div class="menu">
+                <div class="menu-header" style="display: flex;">
+                    <div class="menu-content" style="margin-right: 0; justify-content: space-between;">
+                        <div class="progressBar">
+                            <div v-for="i in progressBarLength" :key="i"
+                                :class="progressBarCount[i - 1] == progressBarList[i - 1] ? 'progressBar-item' : 'progressBar-item-empty'"
+                                @click="toggleProgressModal((i - 1))">
+                            </div>
+                        </div>
+                        <div>
+                            <button class=" signup-btn-style" style="margin-right: 10px;"
+                                @click="toggleHelpModal()">Help</button>
+                            <a href="/label/" style="margin-right: 10px;">
+                                <button class="signup-btn-style">Home</button>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px; margin-bottom: 8px;">
-        <p style="font-size: 24px; margin-top: 10px">Video Ghosting Artifact Scoring System</p>
-        <div style="display: flex;">
-            <div style="font-size: 20px; margin-left: auto; margin-right: 10px;">
-                {{ currentPageIndex }}/{{ totalLength }}
-            </div>
-            <div style="margin-right: auto; margin-top: auto; margin-bottom: auto;" class="toggle-switch"
-                :class="{ 'active': isToggled }" @click="toggleVideo">
-                <div class="toggle-button" :style="{ left: isToggled ? '24px' : '0px' }"></div>
+        <div class="modal-wrap" v-show="progressModal"> <!--진행상황-->
+            <div class="modal-container">
+                <h3>Progress</h3>
+                <div style="display: flex; flex-wrap: wrap;">
+                    <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
+                            style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
+                            :class="userScoringList[progressModalPage * 100 + i] >= 0 ? 'clicked-btn-style' : 'btn-style'"
+                            @click="changePage(progressModalPage * 100 + i)">{{ (progressModalPage * 100) + (i) }}</button>
+                    </div>
+                </div>
+                <div class="btncontainer">
+                    <button class="btn-style" @click="toggleProgressModal()">Close</button>
+                </div>
             </div>
         </div>
-        <!-- 현재 시간 / 총 시간 -->
-        <div>
-            <div>{{ this.videoCurrentTime }} / {{ this.videoDuration }}</div>
+        <div class="modal-wrap" v-show="openModal"> <!--사용법-->
+            <div class="modal-container">
+                <h3>{{ modalTitle[modalPage] }}</h3>
+                <div :class="modalPage >= 1 ? 'exampleScore' : ''">
+                    <div v-for="i in modalContent[modalPage]" :key="i">
+                        <div v-if="modalPage < 1">
+                            <p>{{ i }}</p>
+                        </div>
+                        <div v-else-if="modalPage >= 1">
+                            <video autoplay loop :src="videoSrc[modalPage]" style="width: 80%; min-height: 400px;"></video>
+                            <p>{{ i }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="btncontainer">
+                    <button class="btn-style" @click="changeModal(0)">&lt;</button>
+                    <button class="btn-style" @click="toggleHelpModal()">Close</button>
+                    <button class="btn-style" @click="changeModal(1)">></button>
+                </div>
+            </div>
         </div>
-        <div class="video-container">
-            <div class="videoPlayer">
-                <div id="video-margin" style="display: flex; max-height: 60%;">
-                    <div style="margin: 15px;">
-                        <div id="left-video-cover"
-                            style="max-width: 100%; max-height: 550px; overflow: hidden; border: solid 1px gray; width: fit-content; height: fit-content;">
-                            <!-- toggle된 video -->
-                            <div v-show="isToggled" style="position: relative;">
-                                <div style="max-height: 550px; overflow: hidden;">
-                                    <video id="toggleVideo" :style="videoStyles"
-                                        style="position: absolute; max-width: 100%; max-height: 550px;" ref="toggleVideo"
-                                        controlsList="nodownload" key="videoDiff" :src="rightVideoUrl" @wheel="handleWheel"
-                                        @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                                        @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
+        <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px; margin-bottom: 8px;">
+            <p style="font-size: 24px; margin-top: 10px; margin-bottom:4px">Video Ghosting Artifact Scoring System</p>
+            <div style="display: flex;">
+                <div style="font-size: 20px; margin-left: auto; margin-right: 10px;">
+                    {{ currentPageIndex }}/{{ totalLength }}
+                </div>
+                <div style="margin-right: auto; margin-top: auto; margin-bottom: auto;" class="toggle-switch"
+                    :class="{ 'active': isToggled }" @click="toggleVideo">
+                    <div class="toggle-button" :style="{ left: isToggled ? '24px' : '0px' }"></div>
+                </div>
+            </div>
+            <!-- <div>currentPage: {{this.currentPage}}</div>    
+            <div>videoNameIndex {{this.videoNameIndex}} </div> -->
+
+            <!-- 현재 시간 / 총 시간 -->
+            <div>
+                <div>{{ this.videoCurrentTime }} / {{ this.videoDuration }}</div>
+            </div>
+            <div class="video-container">
+                <div class="videoPlayer">
+                    <div id="video-margin" style="display: flex; max-height: 60%;">
+                        <div style="margin: 15px;">
+                            <div id="left-video-cover">
+                                <!-- toggle된 video -->
+                                <div v-show="isToggled" style="position: relative;">
+                                    <div style=" overflow: hidden;" class="video-cover">
+                                        <video id="toggleVideo" :style="videoStyles" style="position: absolute;"
+                                            class="video-style" ref="toggleVideo" controlsList="nodownload" key="videoDiff"
+                                            :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
+                                            @mousedown="handleDragStart" @mouseup="handleDragEnd"
+                                            @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
+                                        </video>
+                                    </div>
+                                </div>
+                                <div style="display: flex;">
+                                    <video id="videoNoartifact" :style="videoStyles" class="video-style"
+                                        ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
+                                        :src="leftOriginalVideo()" @wheel="handleWheel" @click="setZoomCenter"
+                                        @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
+                                        onChange="isVideoPaused" preload="auto">
                                     </video>
                                 </div>
                             </div>
                             <div>
-                                <video id="videoNoartifact" :style="videoStyles" style="max-height: 550px; max-width: 100%;"
-                                    ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact"
-                                    :src="leftVideoUrl" @wheel="handleWheel" @click="setZoomCenter"
+                                <div style="margin-top: 8px; font-size: 14px; ">{{
+                                    this.originalVideoNameList[videoNameIndex] }}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin: 15px;">
+                            <div id="right-video-cover">
+                                <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
+                                    ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
+                                    :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter"
                                     @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging"
                                     onChange="isVideoPaused" preload="auto">
                                 </video>
                             </div>
-                        </div>
-                        <div>
-                            <div style="margin-top: 8px; font-size: 14px; ">{{ this.originalVideoNameList[videoNameIndex] }}
-                            </div>
-                        </div>
-                    </div>
-                    <div style="margin: 15px;">
-                        <div id="right-video-cover"
-                            style="max-width: 100%; max-height: 550px; overflow: hidden; border: solid 1px gray; width: fit-content; height: fit-content;">
-                            <video id="videoYesartifact" :style="videoStyles" style="max-height: 550px; max-width: 100%;"
-                                ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="rightVideoUrl"
-                                @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
-                                @mouseup="handleDragEnd" @mousemove="handleDragging" onChange="isVideoPaused"
-                                preload="auto">
-                            </video>
-                        </div>
-                        <div>
-                            <div style="margin-top: 8px; font-size: 14px;">{{ this.artifactVideoNameList[videoNameIndex] }}
+                            <div>
+                                <div style="margin-top: 8px; font-size: 14px;">{{
+                                    this.artifactVideoNameList[videoNameIndex] }}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="scoring-button" style="margin-left: 50px; margin-right: 50px; max-width: 100%; margin-top: 0px;">
-            <div style="margin-bottom: 5px;">
-                <button class="btn-style" @click="goToBegin">
-                    <img style="width: 30px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-52-240.png">
-                </button>
-                <button @click="seekBackward" @mouseover="isMouseOverMinus = true" @mouseout="isMouseOverMinus = false"
-                    :class="{ 'btn-style': !isMouseOverMinus, 'clicked-btn-style': isMouseOverMinus }"
-                    style="margin-right: 2%;">
-                    <img style="width: 30px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-18-240.png"
-                        alt="-1 frame">
-                </button>
-                <button id="videoButton" key="videoButton" @click="changeVideoButton(); changeImgSource()"
-                    @mouseover="isMouseOverPlay = true" @mouseout="isMouseOverPlay = false"
-                    :class="{ 'btn-style': !isMouseOverPlay, 'clicked-btn-style': isMouseOverPlay }">
-                    <img style="width: 30px; height: 30px;" :src=imgSrc>
-                </button>
-                <button @click="seekForward" @mouseover="isMouseOverPlus = true" @mouseout="isMouseOverPlus = false"
-                    :class="{ 'btn-style': !isMouseOverPlus, 'clicked-btn-style': isMouseOverPlus }"
-                    style="margin-left: 2%;">
-                    <img style="width: 30px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-13-240.png"
-                        alt="+1 frame">
-                </button>
-                <button class="btn-style" @click="goToEnd">
-                    <img style="width: 30px; height: 30px;" src="../images/play_icon/iconmonstr-media-control-53-240.png">
-                </button>
-            </div>
-            <div style="display: flex; margin-left: auto; margin-right: auto;">
-                <div style="margin-left: auto; margin-right: auto; display: flex;">
-                    <button v-on="click" class="btn-style"
-                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
-                        @click="[changeBackVideo()]">prev</button>
-                    <button v-for="a in 6" ref="score" :key="a - 1" v-on:click="clickedButton = a - 1"
-                        style="width: 50px; height: 40px; font-size:x-large; padding-top: 1px;"
-                        :class="{ 'clicked-btn-style': isPressed[a - 1], 'btn-style': !isPressed[a - 1] }"
-                        @click="toggleButton(a - 1)">{{ a - 1 }}</button>
-                    <button v-on="click" class="btn-style"
-                        style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
-                        @click="[changeNextVideo()]">next</button>
+            <div id="scoring-button">
+                <div style="margin-bottom: 0px;">
+                    <button class="btn-style" style="padding-bottom: 6px; padding-top: 6px;" @click="goToBegin">
+                        <img style="width: 30px; height: 30px;"
+                            src="../images/play_icon/iconmonstr-media-control-52-240.png">
+                    </button>
+                    <button @click="seekBackward" @mouseover="isMouseOverMinus = true" @mouseout="isMouseOverMinus = false"
+                        :class="{ 'btn-style': !isMouseOverMinus, 'clicked-btn-style': isMouseOverMinus }"
+                        style="margin-right: 4px; paddinasdg-bottom: 6px; padding-top: 6px;">
+                        <img class="icon-style" src="../images/play_icon/iconmonstr-media-control-18-240.png">
+                    </button>
+                    <button id="videoButton" key="videoButton" @click="changeVideoButton(); changeImgSource()"
+                        @mouseover="isMouseOverPlay = true" @mouseout="isMouseOverPlay = false"
+                        :class="{ 'btn-style': !isMouseOverPlay, 'clicked-btn-style': isMouseOverPlay }"
+                        style="padding-bottom: 6px; padding-top: 6px;">
+                        <img class="icon-style" :src=imgSrc>
+                    </button>
+                    <button @click="seekForward" @mouseover="isMouseOverPlus = true" @mouseout="isMouseOverPlus = false"
+                        :class="{ 'btn-style': !isMouseOverPlus, 'clicked-btn-style': isMouseOverPlus }"
+                        style="margin-left: 4px; padding-bottom: 6px; padding-top: 6px;">
+                        <img class="icon-style" src="../images/play_icon/iconmonstr-media-control-13-240.png"
+                            alt="+1 frame">
+                    </button>
+                    <button class="btn-style" @click="goToEnd" style="padding-bottom: 6px; padding-top: 6px;">
+                        <img class="icon-style" src="../images/play_icon/iconmonstr-media-control-53-240.png">
+                    </button>
+                </div>
+                <div style="display: flex; margin-left: auto; margin-right: auto; margin-bottom: 10px;">
+                    <div style="margin-left: auto; margin-right: auto; display: flex;">
+                        <button v-on="click" class="btn-style"
+                            style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
+                            @click="[changeBackVideo()]">prev</button>
+                        <button v-for="  a   in   6  " ref="score" :key="a - 1" v-on:click="clickedButton = a - 1"
+                            style="width: 50px; height: 40px; font-size:x-large; padding-top: 1px;"
+                            :class="{ 'clicked-btn-style': isPressed[a - 1], 'btn-style': !isPressed[a - 1] }"
+                            @click="toggleButton(a - 1)">{{ a - 1 }}</button>
+                        <button v-on="click" class="btn-style"
+                            style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
+                            @click="[changeNextVideo()]">{{ this.nextButtonName }}</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="footer">
-        <p>Copyright © 2023 Pi:Lab, SMU. All rights reserved.</p>
-        <p>help@pilab.smu.ac.kr</p>
+        <div class="footer">
+            <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
+            <p>help@pilab.smu.ac.kr</p>
+        </div>
     </div>
 </template>
 
@@ -174,6 +226,23 @@ export default {
             preloadedPrevArtifactVideo: "",
             videoCurrentTime: 0.00,
             videoDuration: 0.00,
+            // tempVideo: require("./original.mp4"),
+            // tempVideo2: require("./denoise.mp4"),
+            // progress bar
+            // 점수 체크 안한 비디오, 이미지는 -1로 들어오고 최대 Length까지 전부 들어옴 
+            userScoringList: [],
+            progressBarList: [],
+            progressBarCount: [], //progress bar 내용의 한 거 개수
+            progressBarLength: 0,
+            progressModalPage: 0,
+            modalPage: 0,
+            progressModal: false,
+            openModal: true,
+            modalTitle: ["How To Use", "Example 1", "Example 2"],
+            modalContent: [["1. Use the arrow keys to move next or prev video.", "2. Use the number keys to score the video.", "3. Use the mouse wheel to zoom in or out.", "4. Use the mouse to drag the video.", "5. On the left top there are progress bar, you can check what you did and also you can move that video"], ["Score 1", "Score 5"], ["Moving", "Artifact"]],
+            videoSrc: [require("./original.mp4"), require("./denoise.mp4")],
+            nextButtonName: "next",
+            currentProgress: 0,
         }
     },
     created() { },
@@ -188,8 +257,8 @@ export default {
         window.addEventListener("keydown", this.keydown);
         this.addEventVideoCurrentTime();
         // this.preloadNextVideo();
-        this.leftVideoUrl = this.leftOriginalVideo();
-        this.rightVideoUrl = this.rightArtifactVideo();
+        this.setProgressBar();
+        this.getUserScoringList();
     },
     setup() {
         console.log("setup")
@@ -200,6 +269,89 @@ export default {
         },
     },
     methods: {
+        getUserScoringList() {
+            console.log("getUserScoringList")
+            axios
+                .get(this.baseUrl + "getuserScoringList", {
+                    params: {
+                        userID: this.currentUser,
+                        testcode: this.testCode,
+                    }
+                })
+                .then((response) => {
+                    this.userScoringList = response.data.userScoringList;
+                    console.log("userScoringList" + response.data.userScoringList);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        },
+        checkProgressBar() {
+            for (let i = 0; i < this.progressBarLength; i++) {
+                for (let j = 0; j < this.progressBarList[i]; j++) {
+                    if (this.userScoringList[(i * 100) + j] != -1) {
+                        this.progressBarCount[i]++;
+                    }
+                }
+            }
+        },
+        toggleHelpModal() {
+            console.log(this.openModal)
+            this.openModal = !this.openModal;
+        },
+        toggleProgressModal(index) {
+            console.log(this.progressBarList[index]);
+            this.progressModal = !this.progressModal;
+            this.progressModalPage = index;
+        },
+        changeModal(flag) {
+            if (flag === 0) {
+                if (this.modalPage === 0) {
+                    this.modalPage = this.modalTitle.length - 1;
+                } else {
+                    this.modalPage--;
+                }
+            } else {
+                if (this.modalPage === this.modalTitle.length - 1) {
+                    this.modalPage = 0;
+                } else {
+                    this.modalPage++;
+                }
+            }
+        },
+        //진행상황 페이지에서 페이지 이동
+        async changePage(index) {
+            this.currentPage = this.videoIndex[index];
+            console.log("changePage: " + this.currentPage)
+            this.isPressed = [false, false, false, false, false, false]
+            await this.$router.push({
+                path: '/label/scoring',
+                query: {
+                    currentPage: this.currentPage,
+                    userName: this.currentUser,
+                    testcode: this.testCode,
+                }
+            });
+            // this.makeImageTemplete();
+            this.getVideoIndexCurrentPage();
+            this.getUserScoringList();
+        },
+        setProgressBar() {
+            // this.videoIndex.length = 452;
+            this.progressBarLength = Math.ceil(this.videoIndex.length / 100);
+            // if(this.progressBarLength == 0) {
+            //     this.progressBarLength = 1;
+            // }
+            this.progressBarList = [];
+            for (var i = 0; i < this.progressBarLength; i++) {
+                if (i == this.progressBarLength - 1) {
+                    this.progressBarList.push(this.videoIndex.length % 100);
+                    console.log("videoIndex.length % 100: " + this.videoIndex.length % 100);
+                } else {
+                    this.progressBarList.push(100);
+                }
+            }
+        },
         addEventVideoCurrentTime() {
             var video = document.getElementById('videoNoartifact');
             video.addEventListener("loadeddata", (event) => {
@@ -213,7 +365,6 @@ export default {
             // this.videoCurrentTime = video1.currentTime;
             // this.currentTime = video1.currentTime;
             // this.videoDuration = video1.duration;
-
         },
         async getVideoHeight() {
             var video1 = document.getElementById('videoNoartifact');
@@ -260,77 +411,21 @@ export default {
                     break;
             }
         },
-        // async preloadNextVideo() {
-        //     this.preloadedNextOriginalVideo = document.createElement('video');
-        //     this.preloadedNextArtifactVideo = document.createElement('video');
-        //     this.preloadedPrevOriginalVideo = document.createElement('video');
-        //     this.preloadedPrevArtifactVideo = document.createElement('video');
-
-        //     if (this.videoIndex[0] == this.currentPage) {
-        //         this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
-        //         this.preloadedNextArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
-        //     }
-        //     else if (this.videoIndex[this.videoIndex.length - 1] == this.currentPage) {
-        //         this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.currentPage));
-        //         this.preloadedNextArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.currentPage));
-        //     } else {
-        //         for (let i = 0; i < this.videoIndex.length; i++) {
-        //             if (this.videoIndex[i] == this.currentPage) {
-        //                 this.preloadedNextOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i + 1]));
-        //                 this.preloadedNextArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i + 1]));
-        //                 this.preloadedPrevOriginalVideo.src = String(this.baseUrl + "/postvideo/original/" + (this.videoIndex[i - 1]));
-        //                 this.preloadedPrevArtifactVideo.src = String(this.baseUrl + "/postvideo/artifact/" + (this.videoIndex[i - 1]));
-        //                 console.log("preloadedNextArtifactVideo: " + this.preloadedNextArtifactVideo.src)
-        //                 console.log("preloadedNextOriginalVideo: " + this.preloadedNextOriginalVideo.src)
-        //                 console.log("preloadedPrevOriginalVideo: " + this.preloadedPrevOriginalVideo.src)
-        //                 console.log("preloadedPrevArtifactVideo: " + this.preloadedPrevArtifactVideo.src)
-        //                 break;
-        //             }
-        //         }
-        //     }
-        // },
         toggleVideo() {
             this.isToggled = !this.isToggled;
             this.applyVideoOverlay();
-        },
-        applyVideoOverlay() {
-            // artifact video와 original video에 대한 DOM 레퍼런스를 가져옵니다.
-            const originalVideo = this.$refs.videoNoartifact;
-            const toggleVideo = this.$refs.toggleVideo;
-            if (this.isToggled) {
-                // originalVideo의 위치와 크기를 가져옵니다.
-                const rect = originalVideo.getBoundingClientRect();
-
-                toggleVideo.style.left = 0 + 'px';
-                toggleVideo.style.top = 0 + 'px';
-
-                // toggleVideo.style.target = rect.top + 'px';
-                // toggleVideo.style.width = rect.width + 'px';
-                // toggleVideo.style.height = rect.height + 'px';
-                toggleVideo.style.zIndex = 10; // toggleVideo를 위로
-                console.log("rect.width: " + rect.width)
-                console.log("rect.height: " + rect.height)
-                console.log("toggleVideo.style.width: " + toggleVideo.style.width)
-                console.log("toggleVideo.style.height: " + toggleVideo.style.height)
-            } else {
-                // isToggled가 false일 때, toggleVideo를 원래 상태로 되돌립니다.
-                toggleVideo.style.zIndex = 0;
-            }
         },
         // applyVideoOverlay() {
         //     // artifact video와 original video에 대한 DOM 레퍼런스를 가져옵니다.
         //     const originalVideo = this.$refs.videoNoartifact;
         //     const toggleVideo = this.$refs.toggleVideo;
-        //     var originalVideoHeader = document.getElementById('videoNoartifact');
-        //     var originalVideoStyle = window.getComputedStyle(originalVideoHeader);
-        //     const leftMargin = originalVideoStyle.getPropertyValue('margin-left');
         //     if (this.isToggled) {
         //         // originalVideo의 위치와 크기를 가져옵니다.
         //         const rect = originalVideo.getBoundingClientRect();
         //         // toggleVideo를 originalVideo 위치 위로 배치합니다.
         //         toggleVideo.style.left = leftMargin;
-        //         toggleVideo.style.width = rect.width + 'px';
-        //         toggleVideo.style.height = rect.height + 'px';
+        //         // toggleVideo.style.width = rect.width + 'px';
+        //         // toggleVideo.style.height = rect.height + 'px';
         //         toggleVideo.style.zIndex = 10; // toggleVideo를 위로
         //         console.log("rect.width: " + rect.width)
         //         console.log("rect.height: " + rect.height)
@@ -341,6 +436,30 @@ export default {
         //         toggleVideo.style.zIndex = 0;
         //     }
         // },
+        applyVideoOverlay() {
+            // artifact video와 original video에 대한 DOM 레퍼런스를 가져옵니다.
+            const originalVideo = this.$refs.videoNoartifact;
+            const toggleVideo = this.$refs.toggleVideo;
+            var originalVideoHeader = document.getElementById('videoNoartifact');
+            var originalVideoStyle = window.getComputedStyle(originalVideoHeader);
+            const leftMargin = originalVideoStyle.getPropertyValue('margin-left');
+            if (this.isToggled) {
+                // originalVideo의 위치와 크기를 가져옵니다.
+                const rect = originalVideo.getBoundingClientRect();
+                // toggleVideo를 originalVideo 위치 위로 배치합니다.
+                toggleVideo.style.left = leftMargin;
+                toggleVideo.style.width = rect.width + 'px';
+                toggleVideo.style.height = rect.height + 'px';
+                toggleVideo.style.zIndex = 10; // toggleVideo를 위로
+                console.log("rect.width: " + rect.width)
+                console.log("rect.height: " + rect.height)
+                console.log("toggleVideo.style.width: " + toggleVideo.style.width)
+                console.log("toggleVideo.style.height: " + toggleVideo.style.height)
+            } else {
+                // isToggled가 false일 때, toggleVideo를 원래 상태로 되돌립니다.
+                toggleVideo.style.zIndex = 0;
+            }
+        },
         clickExport() {
             axios
                 .post(this.baseUrl + 'getCSVFile', {
@@ -395,8 +514,9 @@ export default {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             var toggleVideo = document.getElementById('toggleVideo');
-            video1.addEventListener("ended", () => {
-                this.videoButtonText = "Play";
+            // 비디오가 end 되면 실행
+            const pauseAndPlayVideo = () => {
+                // this.videoButtonText = "Play";
                 if (video1.currentTime < video2.currentTime) {
                     video1.pause();
                     video2.pause();
@@ -414,27 +534,9 @@ export default {
                     toggleVideo.currentTime = 0;
                     this.changeImgSource();
                 }
-            });
-            video2.addEventListener("ended", () => {
-                this.videoButtonText = "Play";
-                if (video1.currentTime < video2.currentTime) {
-                    video1.pause();
-                    video2.pause();
-                    toggleVideo.pause();
-                    video1.currentTime = 0;
-                    video2.currentTime = 0;
-                    toggleVideo.currentTime = 0;
-                    this.changeImgSource();
-                } else {
-                    video1.pause();
-                    video2.pause();
-                    toggleVideo.pause();
-                    video1.currentTime = 0;
-                    video2.currentTime = 0;
-                    toggleVideo.currentTime = 0;
-                    this.changeImgSource();
-                }
-            });
+            };
+            video1.addEventListener("ended", pauseAndPlayVideo());
+            video2.addEventListener("ended", pauseAndPlayVideo());
         },
         zoomIn() {
             this.zoom += 0.1;
@@ -464,13 +566,22 @@ export default {
         },
         handleDragStart(event) {
             this.dragging = true;
-            this.dragStartX = event.clientX - this.offsetX;
-            this.dragStartY = event.clientY - this.offsetY;
+            this.dragStartX = event.clientX;
+            this.dragStartY = event.clientY;
         },
         handleDragging(event) {
             if (this.dragging) {
-                this.offsetX = event.clientX - this.dragStartX;
-                this.offsetY = event.clientY - this.dragStartY;
+                // Zoom level에 따라 드래그 속도 조정
+                const adjustedX = (event.clientX - this.dragStartX) / this.zoom;
+                const adjustedY = (event.clientY - this.dragStartY) / this.zoom;
+
+                this.offsetX += adjustedX;
+                this.offsetY += adjustedY;
+
+                // 초기 드래그 위치 업데이트
+                this.dragStartX = event.clientX;
+                this.dragStartY = event.clientY;
+
                 this.updateVideoStyle();
             }
         },
@@ -491,11 +602,18 @@ export default {
             this.offsetX = 0;
             this.offsetY = 0;
         },
+        removeSuffix() {
+            this.originalImageName = this.imageOriginalNameList[this.currentPage]
+            this.originalImageName = this.originalImageName.replace(/_0\.\d+\.mp4$/, '.mp4');
+            this.artifactImageName = this.imageArtifactNameList[this.currentPage]
+            this.artifactImageName = this.artifactImageName.replace(/_0\.\d+\.mp4$/, '.mp4');
+        },
         // json 받아오는 형식
         // resData := map[string]string{
         // 	"currentPage": currentPage,
         // 	"videoList":   videoList,
         // }
+
         async getVideoIndexCurrentPage() {
             console.log("getVideoIndexCurrentPage")
             var temp = String(this.currentPage)
@@ -507,6 +625,7 @@ export default {
                 })
                 .then((response) => {
                     // this.currentPage = parseInt(response.data.currentPage); //여기다 1 더해서 
+                    console.log("response current page: ", this.currentPage);
                     this.videoIndex = response.data.videoList;
                     this.totalLength = this.videoIndex.length;
                     this.originalVideoNameList = response.data.originalVideoNameList;
@@ -514,13 +633,20 @@ export default {
                     this.originalVideoFrameList = response.data.originalVideoFPSList;
                     this.artifactVideoFrameList = response.data.artifactVideoFPSList;
                     var curScore = response.data.userScore;
-                    this.videoNameIndex = parseInt(this.currentPage);
+
+                    for (var i = 0; i < this.videoIndex.length; i++) {
+                        if (this.videoIndex[i] == this.currentPage) {
+                            this.videoNameIndex = i;
+                            break;
+                        }
+                    }
+
                     if (curScore != -1) {
                         this.isPressed[curScore] = true;
                         this.clickedButton = curScore;
                         console.log("curScore: " + curScore)
                     }
-                    console.log("current page: ", this.currentPage);
+
                     console.log("video list: ", this.videoIndex)
                     // document.getElementById('videoNoartifact').loadeddata = function () {
                     //     this.videoCurrentTime = 0.00;
@@ -531,6 +657,7 @@ export default {
                     //     console.log("videoCurrentTime: " + this.videoCurrentTime);
                     //     console.log("videoDuration: " + this.videoDuration);
                     // };
+                    this.setProgressBar();
                 })
                 .catch((error) => {
                     console.log(error);
@@ -551,7 +678,8 @@ export default {
             // console.log("rightArtifactVideo: " + this.baseUrl + "postvideo/artifact/" + this.currentPage)
             return String(this.baseUrl + "postvideo/artifact/" + this.currentPage)
         },
-        changeNextVideo() {
+        async changeNextVideo() {
+            console.log("changeNextVideo")
             if (this.videoButtonText == 'Stop') {
                 this.changeVideoButton();
             }
@@ -582,11 +710,19 @@ export default {
                 this.getVideoIndexCurrentPage();
                 return;
             } else {
+                // if(this.currentPage == this.videoIndex[this.videoIndex.length - 2]){
+                //     this.nextButtonName = "submit"
+                // } else{
+                //     this.nextButtonName = "next";
+                // }
+
                 // this.getVideoIndexCurrentPage();
                 this.videoNameIndex += 1
                 this.currentPage = this.videoIndex[this.videoNameIndex];
+                console.log("videoNameIndex: " + this.videoNameIndex)
+                console.log("currentPage: " + this.currentPage)
                 this.isPressed = [false, false, false, false, false, false]
-                this.$router.push({
+                await this.$router.push({
                     path: '/label/scoring',
                     query: {
                         currentPage: this.currentPage,
@@ -594,6 +730,9 @@ export default {
                         testcode: this.testCode,
                     }
                 })
+                // TODO: nex button을 누르면 처음 비디오로 다시 리로딩 되는 버그 발생 -> 임시 주석 처리  
+                this.getUserScoringList();
+                this.setProgressBar();
                 this.getVideoIndexCurrentPage();
             }
             this.leftVideoUrl = this.leftOriginalVideo();
@@ -624,6 +763,7 @@ export default {
                         testcode: this.testCode,
                     }
                 })
+                this.getUserScoringList();
                 this.getVideoIndexCurrentPage();
                 return;
             } else {
@@ -689,6 +829,8 @@ export default {
                 video1.currentTime = video2.currentTime;
                 toggleVideo.currentTime = video2.currentTime;
                 toggleVideo.currentTime = video2.currentTime;
+                // var temp = VideoDecoder()
+                // temp.flush();
                 video1.play();
             }
         },
@@ -703,7 +845,8 @@ export default {
             video1.currentTime = video2_currentTime;
             toggleVideo.currentTime = video2_currentTime;
             video2.currentTime = video2_currentTime;
-            video1.addEventListener("play", function () {
+
+            video1.addEventListener("play", () => {
                 document.getElementById('videoYesartifact').play();
                 document.getElementById('toggleVideo').play();
                 console.log("play");
@@ -712,18 +855,19 @@ export default {
                 console.log("toggle: " + toggleVideo.currentTime);
                 console.log("==========================");
             });
-            video1.addEventListener("pause", function () {
+            video1.addEventListener("pause", () => {
                 document.getElementById('videoYesartifact').pause();
                 document.getElementById('toggleVideo').pause();
                 var temp = video2.currentTime;
                 video1.currentTime = temp;
                 toggleVideo.currentTime = temp;
                 video2.currentTime = temp;
-                console.log("stop");
-                console.log("video1: " + video1.currentTime);
-                console.log("video2: " + video2.currentTime);
-                console.log("toggle: " + toggleVideo.currentTime);
-                console.log("==========================");
+            })
+            video1.addEventListener("ended", () => {
+                video1.currentTime = 0;
+                video2.currentTime = 0;
+                toggleVideo.currentTime = 0;
+                video1.play();
             })
         },
         // video 2개 동시에 Stop 시키는 method
@@ -731,21 +875,6 @@ export default {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
             var toggleVideo = document.getElementById('toggleVideo');
-
-            // var playPromise = video1.play();
-
-            // if (playPromise !== undefined) {
-            //     playPromise.then(_ => {
-            //         // Automatic playback started!
-            //         // Show playing UI.
-            //         // We can now safely pause video...
-            //         video.pause();
-            //     })
-            //         .catch(error => {
-            //             // Auto-play was prevented
-            //             // Show paused UI.
-            //         });
-            // }
 
             if (video1 && video2 && toggleVideo) {
                 var temp = video2.currentTime;
@@ -785,10 +914,6 @@ export default {
                     video2.currentTime -= artifactFrame;
                     video3.currentTime -= artifactFrame;
                 }
-                console.log("seekForward")
-                console.log("video1: " + video1.currentTime);
-                console.log("video2: " + video2.currentTime);
-                console.log("video3: " + video3.currentTime);
             }
         },
         async seekForward() {
@@ -818,10 +943,6 @@ export default {
                         video2.currentTime += artifactFrame;
                         video3.currentTime += artifactFrame;
                     }
-                    console.log("seekForward")
-                    console.log("video1: " + video1.currentTime);
-                    console.log("video2: " + video2.currentTime);
-                    console.log("video3: " + video3.currentTime);
                 }
             }
         },
