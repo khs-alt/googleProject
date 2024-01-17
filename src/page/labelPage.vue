@@ -43,7 +43,7 @@
             <p>{{ i }}</p>
           </div>
           <div v-else>
-            <img :src="helpPageImageNum((modalPage-2)*2)" style="width: 400px; height: 300px;">
+            <img :src="helpPageImageNum((modalPage - 2) * 2)" style="width: 400px; height: 300px;">
             <p>{{ i }}</p>
           </div>
         </div>
@@ -283,10 +283,10 @@ export default {
       }
     },
 
-    helpPageImageNum(index){
+    helpPageImageNum(index) {
       this.helpPageImage = !this.helpPageImage;
-      if(this.helpPageImage === false) {
-        return this.imgSrc[index+1];
+      if (this.helpPageImage === false) {
+        return this.imgSrc[index + 1];
       }
       return this.imgSrc[index];
     },
@@ -615,10 +615,11 @@ export default {
       }
       console.log(this.userLabeling);
       console.log("current page is " + this.currentPage)
+      let temp = String(this.currentPage);
       axios
         .post(this.baseUrl + "postimagedata", {
           current_user: this.currentUser,
-          image_id: this.currentPage,
+          image_id: temp,
           test_code: this.testCode,
           score: this.userLabeling,
         })
