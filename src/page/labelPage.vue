@@ -466,7 +466,7 @@ export default {
 
     //라벨링 여부에 따라 userLabeling 가져오는 함수
     getUserLabeling() {
-      console.log("get current page is " + this.currentPage)
+      console.log("[getUserLabeling] get current page is " + this.currentPage)
       let temp = parseInt(this.currentPage);
       axios
         .post(this.baseUrl + "getUserImageScore", {
@@ -476,10 +476,10 @@ export default {
         //Backend에서 들어간 iamge_id의 다음 id를 가져오는 기능이 내장됨
         //따라서 그 다음 image_id값에 접근함
         .then((response) => {
-          console.log(response.data)
+          console.log("[getUserLabeling] response data" + response.data)
           if (response.data.patch[0] != -1) { //r
-            console.log("axios get label image success\n");
-            console.log(response.data.patch)
+            console.log("[getUserLabeling] axios get label image success\n");
+            console.log("[getUserLabeling] patch data" + response.data.patch)
             this.userLabeling = response.data.patch;
             this.isPressed = this.userLabeling[this.patchIndex];
             return;
