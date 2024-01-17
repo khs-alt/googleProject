@@ -275,8 +275,8 @@ export default {
     },
     methods: {
         helpPageVideoNum(index){
-            this.helpPageVideoNum = !this.helpPageVideoNum;
-            if(this.helpPageVideoNum === false) {
+            this.helpPageVideo = !this.helpPageVideo;
+            if(this.helpPageVideo === false) {
                 return this.videoSrc[index+1];
             }
             return this.videoSrc[index];
