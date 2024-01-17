@@ -27,8 +27,8 @@
                 <div style="display: flex; flex-wrap: wrap;">
                     <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
                             style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
-                            :class="userScoringList[(progressModalPage * 100) + (i - 1)] > 0 ? 'clicked-btn-style' : 'btn-style'"
-                            @click="changePage(i)">{{ (progressModalPage * 100) + (i - 1) }}</button></div>
+                            :class="userScoringList[(progressModalPage * 100) + (i)] > 0 ? 'clicked-btn-style' : 'btn-style'"
+                            @click="changePage(i)">{{ (progressModalPage * 100) + (i) }}</button></div>
                 </div>
                 <div class="btncontainer">
                     <button class="btn-style" @click="toggleProgressModal()">Close</button>
@@ -320,7 +320,7 @@ export default {
         },
         //진행상황 페이지에서 페이지 이동
         async changePage(index) {
-            this.currentPage = this.videoIndex[index - 1];
+            this.currentPage = this.videoIndex[index];
             console.log("changePage: " + this.currentPage)
             await this.$router.push({
                 path: '/label/scoring',
