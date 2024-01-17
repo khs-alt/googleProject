@@ -319,14 +319,12 @@ export default {
             }
         },
         //진행상황 페이지에서 페이지 이동
-        changePage(index) {
+        async changePage(index) {
             this.currentPage = index;
-            this.$router.push({
-                query: {
-                    userName: this.currentUser,
-                    currentPage: this.currentPage,
-                    testcode: this.testCode
-                }
+            await this.$router.push({
+                currentPage: this.currentPage,
+                userName: this.currentUser,
+                testcode: this.testCode,
             });
             // this.makeImageTemplete();
             this.getVideoIndexCurrentPage();
