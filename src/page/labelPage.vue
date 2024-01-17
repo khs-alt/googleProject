@@ -26,8 +26,8 @@
       <div style="display: flex; flex-wrap: wrap;">
         <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
             style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
-            :class="userLabeling[(progressModalPage * 100) + (i - 1)] > 0 ? 'clicked-btn-style' : 'btn-style'"
-            @click="changePage(i)">{{ (progressModalPage * 100) + (i - 1) }}</button></div>
+            :class="userLabeling[(progressModalPage * 100) + i] > 0 ? 'clicked-btn-style' : 'btn-style'"
+            @click="changePage(i)">{{ (progressModalPage * 100) + i }}</button></div>
       </div>
       <div class="btncontainer">
         <button class="btn-style" @click="toggleProgressModal()">Close</button>
@@ -306,7 +306,7 @@ export default {
 
     //진행상황 페이지에서 페이지 이동
     async changePage(index) {
-      this.currentPage = this.imageIndexList[index];
+      this.currentPage = this.imageIndexList[index - 1];
       console.log("changePage: " + this.currentPage);
       console.log("imageIndexList: " + this.imageIndexList);
       this.isPressed = [false, false, false, false, false, false]
