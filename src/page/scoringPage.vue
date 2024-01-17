@@ -27,8 +27,9 @@
                 <div style="display: flex; flex-wrap: wrap;">
                     <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
                             style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
-                            :class="userScoringList[progressModalPage * 100 + i] >= 0 ? 'clicked-btn-style' : 'btn-style'"
-                            @click="changePage(progressModalPage * 100 + i)">{{ (progressModalPage * 100) + (i) }}</button>
+                            :class="userScoringList[progressModalPage * 100 + i - 1] >= 0 ? 'clicked-btn-style' : 'btn-style'"
+                            @click="changePage(progressModalPage * 100 + i - 1)">{{ (progressModalPage * 100) + (i)
+                            }}</button>
                     </div>
                 </div>
                 <div class="btncontainer">
@@ -45,7 +46,10 @@
                             <p>{{ i }}</p>
                         </div>
                         <div v-else-if="modalPage >= 1">
-                            <video autoplay loop :src="videoSrc[modalPage]" style="width: 80%; min-height: 400px;"></video>
+                            <video autoplay loop :src="videoSrc[(modalPage - 1) * 2]"
+                                style="width: 80%; min-height: 400px;"></video>
+                            <video autoplay loop :src="videoSrc[(modalPage - 1) * 2 - 1]"
+                                style="width: 80%; min-height: 400px;"></video>
                             <p>{{ i }}</p>
                         </div>
                     </div>
@@ -238,9 +242,11 @@ export default {
             modalPage: 0,
             progressModal: false,
             openModal: true,
-            modalTitle: ["How To Use", "Example 1", "Example 2"],
-            modalContent: [["1. Use the arrow keys to move next or prev video.", "2. Use the number keys to score the video.", "3. Use the mouse wheel to zoom in or out.", "4. Use the mouse to drag the video.", "5. On the left top there are progress bar, you can check what you did and also you can move that video"], ["Score 1", "Score 5"], ["Moving", "Artifact"]],
-            videoSrc: [require("./original.mp4"), require("./denoise.mp4")],
+            modalTitle: ["Manual", "Score 0", "Score 1", "Score 2", "Score 3", "Score 4", "Score 5"],
+            modalContent: [["1. Use the arrow keys to move next or prev video.", "2. Use the number keys to score the video.", "3. Use the mouse wheel to zoom in or out.", "4. Use the mouse to drag the video.", "5. On the left top there are progress bar, you can check what you did and also you can move that video"], ["Original", "Denoise"], ["Original", "Denoise"], ["Original", "Denoise"], ["Original", "Denoise"], ["Original", "Denoise"],],
+            videoSrc: [require("../videos/original_animals_p64_0.1.mp4"), require("../videos/denoised_animals_p64_0.1.mp4"), require("../videos/original_birds1_p64_0.2.mp4"), require("../videos/denoised_birds1_p64_0.2.mp4"),
+            require("../videos/original_amusement_park1_p64_0.3.mp4"), require("../videos/denoised_amusement_park1_p64_0.3.mp4"), require("../videos/original_boat1_p64_0.4.mp4"), require("../videos/denoised_boat1_p64_0.4.mp4"),
+            require("../videos/original_build_log_p64_0.5.mp4"), require("../videos/denoised_build_log_p64_0.5.mp4")],
             nextButtonName: "next",
             currentProgress: 0,
         }
@@ -415,27 +421,6 @@ export default {
             this.isToggled = !this.isToggled;
             this.applyVideoOverlay();
         },
-        // applyVideoOverlay() {
-        //     // artifact video와 original video에 대한 DOM 레퍼런스를 가져옵니다.
-        //     const originalVideo = this.$refs.videoNoartifact;
-        //     const toggleVideo = this.$refs.toggleVideo;
-        //     if (this.isToggled) {
-        //         // originalVideo의 위치와 크기를 가져옵니다.
-        //         const rect = originalVideo.getBoundingClientRect();
-        //         // toggleVideo를 originalVideo 위치 위로 배치합니다.
-        //         toggleVideo.style.left = leftMargin;
-        //         // toggleVideo.style.width = rect.width + 'px';
-        //         // toggleVideo.style.height = rect.height + 'px';
-        //         toggleVideo.style.zIndex = 10; // toggleVideo를 위로
-        //         console.log("rect.width: " + rect.width)
-        //         console.log("rect.height: " + rect.height)
-        //         console.log("toggleVideo.style.width: " + toggleVideo.style.width)
-        //         console.log("toggleVideo.style.height: " + toggleVideo.style.height)
-        //     } else {
-        //         // isToggled가 false일 때, toggleVideo를 원래 상태로 되돌립니다.
-        //         toggleVideo.style.zIndex = 0;
-        //     }
-        // },
         applyVideoOverlay() {
             // artifact video와 original video에 대한 DOM 레퍼런스를 가져옵니다.
             const originalVideo = this.$refs.videoNoartifact;
@@ -448,8 +433,8 @@ export default {
                 const rect = originalVideo.getBoundingClientRect();
                 // toggleVideo를 originalVideo 위치 위로 배치합니다.
                 toggleVideo.style.left = leftMargin;
-                toggleVideo.style.width = rect.width + 'px';
-                toggleVideo.style.height = rect.height + 'px';
+                // toggleVideo.style.width = rect.width + 'px';
+                // toggleVideo.style.height = rect.height + 'px';
                 toggleVideo.style.zIndex = 10; // toggleVideo를 위로
                 console.log("rect.width: " + rect.width)
                 console.log("rect.height: " + rect.height)
@@ -735,8 +720,6 @@ export default {
                 this.setProgressBar();
                 this.getVideoIndexCurrentPage();
             }
-            this.leftVideoUrl = this.leftOriginalVideo();
-            this.rightVideoUrl = this.rightArtifactVideo();
         },
         changeBackVideo() {
             if (this.videoButtonText == 'Stop') {
@@ -780,8 +763,6 @@ export default {
                 })
                 this.getVideoIndexCurrentPage();
             }
-            this.leftVideoUrl = this.leftOriginalVideo();
-            this.rightVideoUrl = this.rightArtifactVideo();
         },
         // score button 눌렸는지 안눌렸는지 확인하는 method
         toggleButton(index) {
@@ -834,9 +815,6 @@ export default {
                 video1.play();
             }
         },
-        // videosIsLoded(){
-
-        // },
         addEventVideoPlay() {
             var video1 = document.getElementById('videoNoartifact');
             var video2 = document.getElementById('videoYesartifact');
