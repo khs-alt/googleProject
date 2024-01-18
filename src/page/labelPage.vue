@@ -513,6 +513,7 @@ export default {
             this.userLabeling = [];
             this.isPressed = this.userLabeling[this.patchIndex];
           }
+          this.checkProgressBar();
         })
         .catch((error) => {
           console.log(error);
