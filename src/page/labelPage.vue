@@ -251,7 +251,7 @@ export default {
       this.progressModalPage = index;
     },
 
-    checkProgressBar() {
+    async checkProgressBar() {
       for (let i = 0; i < this.progressBarLength; i++) {
         this.userLabelingCount = 0;
         this.progressBarCount[i] = 0;
