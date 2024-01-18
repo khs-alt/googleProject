@@ -112,7 +112,7 @@
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
                 <img :src="serveArtifactImage()" class="selected-patch"
-                  :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="artifact">
+                  :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="denoised">
               </div>
               <label class="textLabel">denoised</label>
             </div>
@@ -227,6 +227,7 @@ export default {
   methods: {
     async setProgressBar() {
       this.progressBarLength = Math.ceil(this.imageIndexList.length / 100);
+      console.log("[setProgressBar] progressBarLength: " + this.progressBarLength);
       this.progressBarList = [];
       for (var i = 0; i < this.progressBarLength; i++) {
         if (i == this.progressBarLength - 1) {
@@ -262,6 +263,8 @@ export default {
     getProgressBarClass(index) {
       const progress = this.progressBarCount[index]; //한 것 개수
       const total = this.progressBarList[index]; //전체 개수
+      console.log("[getProgressBarClass] progress: " + progress);
+      console.log("[getProgressBarClass] total: " + total);
 
       if (progress === total) {
         return 'progressBar-item'; // 다 했을 때

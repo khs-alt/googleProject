@@ -133,7 +133,7 @@
                     </button>
                     <button @click="seekBackward" @mouseover="isMouseOverMinus = true" @mouseout="isMouseOverMinus = false"
                         :class="{ 'btn-style': !isMouseOverMinus, 'clicked-btn-style': isMouseOverMinus }"
-                        style="margin-right: 4px; paddinasdg-bottom: 6px; padding-top: 6px;">
+                        style="margin-right: 4px; padding-bottom: 6px; padding-top: 6px;">
                         <img class="icon-style" src="../images/play_icon/iconmonstr-media-control-18-240.png">
                     </button>
                     <button id="videoButton" key="videoButton" @click="changeVideoButton(); changeImgSource()"
@@ -312,6 +312,7 @@ export default {
         getProgressBarClass(index) {
             const progress = this.progressBarCount[index]; //한 것 개수
             const total = this.progressBarList[index]; //전체 개수
+            console.log("progress: " + progress);
 
             if (progress === total) {
                 return 'progressBar-item'; // 다 했을 때
@@ -368,6 +369,7 @@ export default {
         setProgressBar() {
             // this.videoIndex.length = 452;
             this.progressBarLength = Math.ceil(this.videoIndex.length / 100);
+            console.log("progressBarLength: " + this.progressBarLength);
             // if(this.progressBarLength == 0) {
             //     this.progressBarLength = 1;
             // }
