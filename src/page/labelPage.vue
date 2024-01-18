@@ -273,7 +273,7 @@ export default {
       const total = this.progressBarList[index]; //전체 개수
       console.log("[getProgressBarClass] progress: " + progress);
       console.log("[getProgressBarClass] total: " + total);
-      console.log("[getProgressBarClass] progressbarcount: " + this.progressBarCount;
+      console.log("[getProgressBarClass] progressbarcount: " + this.progressBarCount);
 
       if (progress == total) {
         return 'progressBar-item'; // 다 했을 때
