@@ -216,9 +216,9 @@ export default {
     this.getImageNameList();
     this.getUserLabeling();
     this.getImageIndexCurrentPage();
-    this.checkProgressBar();
-    this.setProgressBar();
     this.getUserLabelingList();
+    this.setProgressBar();
+    this.checkProgressBar();
     //this.preloadImage();
   },
 
@@ -390,6 +390,7 @@ export default {
         .then((response) => {
           console.log("[getImageIndexCurrentPage] response.data.current_page: " + response.data.current_page)
           console.log("[getImageIndexCurrentPage] response.data.image_list.length: " + response.data.image_list.length)
+          this.imageIndexList = response.data.image_list;
           if (this.currentPage <= 0 || this.currentPage > response.data.image_list.length - 1) {
             this.currentPage = response.data.current_page; //url로 접근하는데 범위 밖일 때
           }
