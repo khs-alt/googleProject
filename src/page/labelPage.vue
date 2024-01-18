@@ -421,7 +421,6 @@ export default {
             }
           });
           this.makeImageTemplete();
-          this.setProgressBar();
         })
         .catch((error) => {
           console.log(error);
