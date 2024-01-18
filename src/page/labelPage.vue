@@ -251,7 +251,7 @@ export default {
       this.progressModalPage = index;
     },
 
-    async checkProgressBar() {
+    checkProgressBar() {
       for (let i = 0; i < this.progressBarLength; i++) {
         this.userLabelingCount = 0;
         this.progressBarCount[i] = 0;
@@ -379,10 +379,10 @@ export default {
     //   }
     // },
     // Backend에서 patch size(행렬) 가져오는 method
-    async getImageIndexCurrentPage() {
+    getImageIndexCurrentPage() {
       let temp = String(this.currentPage);
       console.log(temp);
-      await axios
+      axios
         .post(this.baseUrl + "getImageIndexCurrentPage", {
           userID: this.currentUser,
           testcode: this.testCode,
@@ -390,7 +390,7 @@ export default {
         .then((response) => {
           console.log("[getImageIndexCurrentPage] response.data.current_page: " + response.data.current_page)
           console.log("[getImageIndexCurrentPage] response.data.image_list.length: " + response.data.image_list.length)
-          //this.imageIndexList = response.data.image_list;
+          this.imageIndexList = response.data.image_list;
           if (this.currentPage <= 0 || this.currentPage > response.data.image_list.length - 1) {
             this.currentPage = response.data.current_page; //url로 접근하는데 범위 밖일 때
           }
