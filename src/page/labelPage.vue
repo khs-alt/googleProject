@@ -323,6 +323,7 @@ export default {
       this.i = 0;
       this.j = 0;
       this.setProgressBar();
+      this.checkProgressBar();
     },
 
     serveOriginalImage() {
@@ -460,7 +461,7 @@ export default {
     },
 
     //사용자의 전체 레이블링 데이터 가져오는 함수
-    getUserLabelingList(){
+    getUserLabelingList() {
       console.log("getUserLabelingList")
       axios
         .post(this.baseUrl + "getUserLabelingList", {
@@ -700,6 +701,7 @@ export default {
         this.getUserLabeling();
         //this.preloadImage();
         this.setProgressBar();
+        this.checkProgressBar();
         this.$router.push({
           query: {
             userName: this.currentUser,
@@ -726,6 +728,7 @@ export default {
         this.getUserLabeling();
         //this.preloadImage();
         this.setProgressBar();
+        this.checkProgressBar();
         this.$router.push({
           query: {
             userName: this.currentUser,
