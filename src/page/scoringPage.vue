@@ -754,7 +754,7 @@ export default {
                 this.getUserScoringList();
                 this.setProgressBar();
                 this.getVideoIndexCurrentPage();
-                this.checkProgressBar();
+                //this.checkProgressBar();
             }
         },
         changeBackVideo() {
@@ -785,7 +785,7 @@ export default {
                 this.getUserScoringList();
                 this.getVideoIndexCurrentPage();
                 this.setProgressBar();
-                this.checkProgressBar();
+                //this.checkProgressBar();
                 return;
             } else {
                 this.videoNameIndex -= 1
@@ -802,7 +802,7 @@ export default {
                 this.getUserScoringList();
                 this.getVideoIndexCurrentPage();
                 this.setProgressBar();
-                this.checkProgressBar();
+                //this.checkProgressBar();
             }
         },
         // score button 눌렸는지 안눌렸는지 확인하는 method
