@@ -252,7 +252,7 @@ export default {
     },
 
     checkProgressBar() {
-      this.progressBarCount = [0,];
+      this.progressBarCount = [0, 0, ];
       for (let i = 0; i < this.progressBarLength; i++) {
         this.userLabelingCount = 0;
         for (let j = 0; j < this.progressBarList[i]; j++) {
