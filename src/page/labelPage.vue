@@ -213,10 +213,10 @@ export default {
 
   mounted() {
     window.addEventListener('keydown', this.keydown);
+    this.getUserLabelingList();
     this.getImageNameList();
     this.getUserLabeling();
     this.getImageIndexCurrentPage();
-    this.getUserLabelingList();
     this.setProgressBar();
     this.checkProgressBar();
     //this.preloadImage();
@@ -390,7 +390,7 @@ export default {
         .then((response) => {
           console.log("[getImageIndexCurrentPage] response.data.current_page: " + response.data.current_page)
           console.log("[getImageIndexCurrentPage] response.data.image_list.length: " + response.data.image_list.length)
-          this.imageIndexList = response.data.image_list;
+          this.vid
           if (this.currentPage <= 0 || this.currentPage > response.data.image_list.length - 1) {
             this.currentPage = response.data.current_page; //url로 접근하는데 범위 밖일 때
           }
