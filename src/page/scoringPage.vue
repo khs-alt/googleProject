@@ -323,7 +323,6 @@ export default {
             this.checkProgressBar();
             const progress = this.progressBarCount[index]; //한 것 개수
             const total = this.progressBarList[index]; //전체 개수
-            console.log("progress: " + progress);
 
             if (progress === total) {
                 return 'progressBar-item'; // 다 했을 때
