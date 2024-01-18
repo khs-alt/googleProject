@@ -239,6 +239,7 @@ export default {
         }
       }
       console.log("[setProgressBar] progressBarList: " + this.progressBarList);
+      this.checkProgressBar();
     },
 
     toggleHelpModal() {
