@@ -26,7 +26,7 @@
       <div style="display: flex; flex-wrap: wrap;">
         <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
             style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
-            :class="userLabeling[progressModalPage * 100 + i] >= 0 ? 'clicked-btn-style' : 'btn-style'"
+            :class="userLabelingList[progressModalPage * 100 + i] >= 0 ? 'clicked-btn-style' : 'btn-style'"
             @click="changePage(progressModalPage * 100 + i)">{{ progressModalPage * 100 + i }}</button></div>
       </div>
       <div class="btncontainer">
@@ -114,7 +114,7 @@
                 <img :src="serveArtifactImage()" class="selected-patch"
                   :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="artifact">
               </div>
-              <label class="textLabel">artifact</label>
+              <label class="textLabel">denoised</label>
             </div>
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
@@ -156,11 +156,8 @@ export default {
       progressModal: false, //progress modal창
       progressModalPage: 0,
       progressBarLength: 0,
-      // progressBarLength: 9,
       progressBarList: [], //progress bar 내용 갯수
-      // progressBarList: [100, 100, 100, 100, 100, 100, 100, 100, 56], //progress bar 내용 갯수
       progressBarCount: [], //progress bar 내용의 한 거 개수
-      // progressBarCount: [100, 30, 50, 75, 0, 20, 100, 0, 56], //progress bar 내용의 한 거 개수
       modalPage: 0,
       helpPageImage: false,
       modalTitle: ["How To Use", "Examples of score 0", "Examples of score 1", "Examples of score 2", "Examples of score 3", "Examples of score 4", "Examples of score 5"],
@@ -202,6 +199,7 @@ export default {
       // TODO: 따라서 전체 이미지를 리스트로 받아와서 각각이 라벨링이 되었는지 받아와야 함 
       // TODO: video scoring 에서의 getUserScoringList()와 같은 기능을 하는 함수가 필요함
       userLabeling: [],  //사용자가 부여한 점수
+      userLabelingList: [], //사용자가 부여한 점수 리스트
       isPressed: -1, //눌린 점수 체크
       menuBar: 'Home',
       lastPage: false, //마지막 이미지인지 체크
@@ -218,7 +216,6 @@ export default {
     this.getUserLabeling();
     this.getImageIndexCurrentPage();
     this.checkProgressBar();
-    // this.removeSuffix();
     this.setProgressBar();
     //this.preloadImage();
   },
@@ -240,14 +237,6 @@ export default {
       }
       console.log("[setProgressBar] progressBarList: " + this.progressBarList);
     },
-    // removeSuffix() {
-    //   if (this.originalImageNameList != null && this.artifactImageNameList != null) {
-    //     this.originalImageName = this.imageOriginalNameList[this.currentPage]
-    //     // this.originalImageName = this.originalImageName.replace(/_0\.\d+\.png$/, '.png');
-    //     this.artifactImageName = this.imageArtifactNameList[this.currentPage]
-    //     // this.artifactImageName = this.artifactImageName.replace(/_0\.\d+\.png$/, '.png');
-    //   }
-    // },
 
     toggleHelpModal() {
       this.openModal = !this.openModal;
@@ -325,12 +314,12 @@ export default {
           testcode: this.testCode,
         }
       });
-      // this.makeImageTemplete();
-      // this.getVideoIndexCurrentPage();
       // this.getImageIndexCurrentPage();
       this.getUserLabeling();
+      this.makeImageTemplete();
+      this.i = 0;
+      this.j = 0;
       this.setProgressBar();
-      // this.getUserScoringList();
     },
 
     serveOriginalImage() {
@@ -465,6 +454,25 @@ export default {
       } else {
         alert("Still developed")
       }
+    },
+
+    //사용자의 전체 레이블링 데이터 가져오는 함수
+    getUserLabelingList(){
+      console.log("getUserLabelingList")
+      axios
+        .post(this.baseUrl + "getUserLabelingList", {
+          user_id: this.currentUser,
+          testcode: this.testCode,
+        })
+        .then((response) => {
+          console.log("[getAllUserLabeling] axios get all userlabeling success\n");
+          console.log("[getAllUserLabeling] response.data.image_list\n" + response.data.image_list)
+          this.userLabelingList = response.data.userLabelingList;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
     },
 
     //라벨링 여부에 따라 userLabeling 가져오는 함수
