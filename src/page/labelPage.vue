@@ -128,7 +128,7 @@
         <div class="btncontainer">
           <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="btn-style"
             style="width: 50px; height: 40px; padding-top: 1px; font-size: x-large;"
-            :class="{ 'clicked-btn-style': this.isPressed === a - 1 }">{{ buttonString[a - 1] }}</button>
+            :class="{ 'clicked-btn-style': this.isPressed == a - 1 }">{{ buttonString[a - 1] }}</button>
         </div>
         <div class="btncontainer">
           <button class="btn-style" @click="changePreviousPage()">{{ buttonString[6] }}</button>
@@ -261,7 +261,7 @@ export default {
           }
           else this.userLabelingCount++;
         }
-        if (this.userLabelingCount === this.progressBarList[i]) this.progressBarCount[i] = -1;
+        if (this.userLabelingCount == this.progressBarList[i]) this.progressBarCount[i] = -1;
       }
     },
 
@@ -272,7 +272,7 @@ export default {
       console.log("[getProgressBarClass] progress: " + progress);
       console.log("[getProgressBarClass] total: " + total);
 
-      if (progress === total) {
+      if (progress == total) {
         return 'progressBar-item'; // 다 했을 때
       } else if (progress >= total * 0.7) {
         return 'progressBar-item-1'; // 70% 이상 했을 때
@@ -284,14 +284,14 @@ export default {
     },
 
     changeModal(flag) {
-      if (flag === 0) {
-        if (this.modalPage === 0) {
+      if (flag == 0) {
+        if (this.modalPage == 0) {
           this.modalPage = this.modalTitle.length - 1;
         } else {
           this.modalPage--;
         }
       } else {
-        if (this.modalPage === this.modalTitle.length - 1) {
+        if (this.modalPage == this.modalTitle.length - 1) {
           this.modalPage = 0;
         } else {
           this.modalPage++;
@@ -301,7 +301,7 @@ export default {
 
     helpPageImageNum(index) {
       this.helpPageImage = !this.helpPageImage;
-      if (this.helpPageImage === false) {
+      if (this.helpPageImage == false) {
         return this.imgSrc[index + 1];
       }
       return this.imgSrc[index];
@@ -397,7 +397,7 @@ export default {
           else if (response.data.current_page < 0) {
             this.currentPage = 0; //유저의 데이터가 없을 때 0번째로
           }
-          else if (response.data.current_page >= 0 && this.currentPage === response.data.current_page) {
+          else if (response.data.current_page >= 0 && this.currentPage == response.data.current_page) {
             this.currentPage = temp; //마지막으로 한 페이지
           }
 
@@ -462,7 +462,7 @@ export default {
 
     //홈으로 가게 하는 함수
     navigateTo(item) {
-      if (item === 'Home') {
+      if (item == 'Home') {
         this.$router.push('/');
       } else {
         alert("Still developed")
@@ -672,7 +672,7 @@ export default {
     //부여된 점수 back-end로 전송
     postUserLabeling() {
       for (let i = 0; i < this.patchLength; i++) {
-        if (this.userLabeling[i] === undefined) this.userLabeling[i] = 0;
+        if (this.userLabeling[i] == undefined) this.userLabeling[i] = 0;
       }
       console.log(this.userLabeling);
       console.log("[postUserLabeling] current page is " + this.currentPage)
@@ -695,7 +695,7 @@ export default {
 
     changePreviousPage() {
       this.pageState = 7;
-      if (this.imageIndex === 0) {
+      if (this.imageIndex == 0) {
         this.postUserLabeling();
         alert("this is first image");
       }
@@ -728,7 +728,7 @@ export default {
         this.postUserLabeling();
         alert("this is last page");
       } else {
-        if (this.imageIndex === this.imageIndexList.length - 2) this.pageState = 8;
+        if (this.imageIndex == this.imageIndexList.length - 2) this.pageState = 8;
         this.postUserLabeling();
         this.imageIndex += 1;
         this.i = 0;
