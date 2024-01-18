@@ -213,10 +213,10 @@ export default {
 
   mounted() {
     window.addEventListener('keydown', this.keydown);
+    this.getImageIndexCurrentPage();
     this.getUserLabeling();
     this.getUserLabelingList();
     this.getImageNameList();
-    this.getImageIndexCurrentPage();
     this.checkProgressBar();
     this.setProgressBar();
     //this.preloadImage();
