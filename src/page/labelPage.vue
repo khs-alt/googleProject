@@ -404,7 +404,6 @@ export default {
           // currentPage를 받아서 labeling 이미지를 만듦
           // cuurentPage에 따라 imageID가 달라져서 이를 반영하기 위해 axios를 받은 후에 makeImageTemplete()를 호출함
           // makeImageTemplete()에서는 labeling 이미지를 만드는 함수임
-          this.setProgressBar();
 
           for (let i = 0; i < this.imageIndexList.length; i++) {
             if (this.imageIndexList[i] == this.currentPage) {
