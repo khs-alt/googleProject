@@ -252,6 +252,7 @@ export default {
     },
 
     async checkProgressBar() {
+      console.log("[checkProgressBar] imageIndexList.length: " + this.imageIndexList.length);
       for (let i = 0; i < this.progressBarLength; i++) {
         this.userLabelingCount = 0;
         this.progressBarCount[i] = 0;
@@ -328,7 +329,6 @@ export default {
       this.makeImageTemplete();
       this.i = 0;
       this.j = 0;
-      this.progressBarCount = [0,];
       this.setProgressBar();
       this.checkProgressBar();
       this.getUserLabelingList();
@@ -706,7 +706,6 @@ export default {
         this.imageIndex -= 1;
         this.i = 0;
         this.j = 0;
-        this.progressBarCount = [0,];
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.prevImage;
         this.makeImageTemplete();
@@ -735,7 +734,6 @@ export default {
         this.imageIndex += 1;
         this.i = 0;
         this.j = 0;
-        this.progressBarCount = [0,];
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.nextImage;
         this.makeImageTemplete();
