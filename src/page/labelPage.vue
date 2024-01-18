@@ -470,7 +470,7 @@ export default {
     },
 
     //사용자의 전체 레이블링 데이터 가져오는 함수
-    getUserLabelingList() {
+    async getUserLabelingList() {
       console.log("getUserLabelingList")
       axios
         .post(this.baseUrl + "getUserLabelingList", {
