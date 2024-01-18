@@ -472,7 +472,7 @@ export default {
         })
         .then((response) => {
           console.log("[getAllUserLabeling] axios get all userlabeling success\n");
-          console.log("[getAllUserLabeling] response.data.image_list\n" + response.data.image_list)
+          console.log("[getAllUserLabeling] response.data.userLabelingList\n" + response.data.userLabelingList)
           this.userLabelingList = response.data.userLabelingList;
         })
         .catch((error) => {
