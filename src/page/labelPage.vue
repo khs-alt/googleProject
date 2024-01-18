@@ -253,6 +253,7 @@ export default {
 
     checkProgressBar() {
       console.log("[checkProgressBar] imageIndexList.length: " + this.imageIndexList.length);
+      console.log("[checkProgressBar] progressBarLength: " + this.progressBarLength);
       for (let i = 0; i < this.progressBarLength; i++) {
         console.log("[checkProgressBar] progressCount: " + this.progressBarCount[i]);
         this.userLabelingCount = 0;
