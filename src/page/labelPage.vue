@@ -472,7 +472,7 @@ export default {
     //사용자의 전체 레이블링 데이터 가져오는 함수
     async getUserLabelingList() {
       console.log("getUserLabelingList")
-      axios
+      await axios
         .post(this.baseUrl + "getUserLabelingList", {
           user_id: this.currentUser,
           testcode: this.testCode,
