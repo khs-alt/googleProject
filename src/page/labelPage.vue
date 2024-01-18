@@ -452,6 +452,7 @@ export default {
           this.imageOriginalNameList = response.data.original_list;
           this.imageArtifactNameList = response.data.artifact_list;
           this.findIndex();
+          this.checkProgressBar();
           // this.removeSuffix();
         })
         .catch((error) => {
@@ -480,7 +481,7 @@ export default {
           console.log("[getAllUserLabeling] axios get all userlabeling success\n");
           console.log("[getAllUserLabeling] response.data.userLabelingList\n" + response.data.userLabelingList)
           this.userLabelingList = response.data.userLabelingList;
-          this.checkProgressBar();
+          this.setProgressBar();
         })
         .catch((error) => {
           console.log(error);
