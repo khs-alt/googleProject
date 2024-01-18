@@ -217,6 +217,7 @@ export default {
     this.getImageIndexCurrentPage();
     this.checkProgressBar();
     this.setProgressBar();
+    this.getUserLabelingList();
     //this.preloadImage();
   },
 
@@ -324,6 +325,7 @@ export default {
       this.j = 0;
       this.setProgressBar();
       this.checkProgressBar();
+      this.getUserLabelingList();
     },
 
     serveOriginalImage() {
@@ -702,6 +704,7 @@ export default {
         //this.preloadImage();
         this.setProgressBar();
         this.checkProgressBar();
+        this.getUserLabelingList();
         this.$router.push({
           query: {
             userName: this.currentUser,
@@ -729,6 +732,7 @@ export default {
         //this.preloadImage();
         this.setProgressBar();
         this.checkProgressBar();
+        this.getUserLabelingList();
         this.$router.push({
           query: {
             userName: this.currentUser,
