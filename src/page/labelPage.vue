@@ -217,8 +217,8 @@ export default {
     this.getImageNameList();
     this.getUserLabeling();
     this.getImageIndexCurrentPage();
-    this.setProgressBar();
     this.checkProgressBar();
+    this.setProgressBar();
     //this.preloadImage();
   },
 
