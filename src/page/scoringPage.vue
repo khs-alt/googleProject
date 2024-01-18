@@ -296,7 +296,6 @@ export default {
                 .then((response) => {
                     this.userScoringList = response.data.userScoringList;
                     console.log("userScoringList" + response.data.userScoringList);
-                    this.checkProgressBar();
                 })
                 .catch((error) => {
                     console.log(error);
@@ -320,7 +319,6 @@ export default {
         },
 
         getProgressBarClass(index) {
-            this.checkProgressBar();
             const progress = this.progressBarCount[index]; //한 것 개수
             const total = this.progressBarList[index]; //전체 개수
             console.log("progress: " + progress);
@@ -756,6 +754,7 @@ export default {
                 this.getUserScoringList();
                 this.setProgressBar();
                 this.getVideoIndexCurrentPage();
+                this.checkProgressBar();
             }
         },
         changeBackVideo() {
@@ -786,6 +785,7 @@ export default {
                 this.getUserScoringList();
                 this.getVideoIndexCurrentPage();
                 this.setProgressBar();
+                this.checkProgressBar();
                 return;
             } else {
                 this.videoNameIndex -= 1
@@ -802,6 +802,7 @@ export default {
                 this.getUserScoringList();
                 this.getVideoIndexCurrentPage();
                 this.setProgressBar();
+                this.checkProgressBar();
             }
         },
         // score button 눌렸는지 안눌렸는지 확인하는 method
