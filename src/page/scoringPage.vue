@@ -234,8 +234,9 @@ export default {
             // progress bar
             // 점수 체크 안한 비디오, 이미지는 -1로 들어오고 최대 Length까지 전부 들어옴 
             userScoringList: [],
+            userScoringCount: 0,
             progressBarList: [],
-            progressBarCount: [], //progress bar 내용의 한 거 개수
+            progressBarCount: [0,], //progress bar 내용의 한 거 개수
             progressBarLength: 0,
             progressModalPage: 0,
             modalPage: 0,
@@ -303,12 +304,18 @@ export default {
         },
 
         checkProgressBar() {
+            this.progressBarCount = [0,];
             for (let i = 0; i < this.progressBarLength; i++) {
+                this.userScoringCount = 0;
                 for (let j = 0; j < this.progressBarList[i]; j++) {
                     if (this.userScoringList[(i * 100) + j] != -1) {
                         this.progressBarCount[i]++;
-                    }
+                    } else this.userScoringCount++;
                 }
+                if (this.userScoringCount === this.progressBarList[i]) {
+                    this.progressBarCount[i] = -1;
+                }
+
             }
         },
 
