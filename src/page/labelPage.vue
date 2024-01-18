@@ -215,10 +215,10 @@ export default {
     window.addEventListener('keydown', this.keydown);
     this.getImageIndexCurrentPage();
     this.getUserLabeling();
-    this.getUserLabelingList();
     this.getImageNameList();
     this.checkProgressBar();
     this.setProgressBar();
+    this.getUserLabelingList();
     //this.preloadImage();
   },
 
