@@ -5,7 +5,7 @@
         <div class="menu-header" style="display: flex;">
           <div class="menu-content" style="justify-content: space-between;">
             <div class="progressBar">
-              <div v-for="i in progressBarLength" :key="i" :class="getProgressBarClass(i - 1)" 
+              <div v-for="i in progressBarLength" :key="i" :class="getProgressBarClass(i - 1)"
                 @click="toggleProgressModal((i - 1))">
               </div>
             </div>
@@ -413,7 +413,7 @@ export default {
           }
 
           console.log("[getImageIndexCurrentPage] before route current page is " + this.currentPage);
-          
+
           this.$router.push({
             query: {
               userName: this.currentUser,
@@ -470,9 +470,9 @@ export default {
     },
 
     //사용자의 전체 레이블링 데이터 가져오는 함수
-    async getUserLabelingList() {
+    getUserLabelingList() {
       console.log("getUserLabelingList")
-      await axios
+      axios
         .post(this.baseUrl + "getUserLabelingList", {
           user_id: this.currentUser,
           testcode: this.testCode,
