@@ -256,6 +256,7 @@ export default {
         this.userLabelingCount = 0;
         for (let j = 0; j < this.progressBarList[i]; j++) {
           console.log("[checkProgressBar] userLabelingList[" + (i * 100) + j + "]: " + this.userLabelingList[(i * 100) + j][0]);
+          console.log("[checkProgressBar] progressBarList[i]: " + this.progressBarList[i]);
           if (this.userLabelingList[(i * 100) + j][0] >= 0) {
             this.progressBarCount[i]++;
             console.log("[checkProgressBar] progressBarCount[" + i + "]: " + this.progressBarCount[i]);
