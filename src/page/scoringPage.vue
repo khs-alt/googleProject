@@ -306,7 +306,7 @@ export default {
         checkProgressBar() {
             for (let i = 0; i < this.progressBarLength; i++) {
                 this.userScoringCount = 0;
-                this.progressBarCount = 0;
+                this.progressBarCount[i] = 0;
                 for (let j = 0; j < this.progressBarList[i]; j++) {
                     if (this.userScoringList[(i * 100) + j] != -1) {
                         this.progressBarCount[i]++;
