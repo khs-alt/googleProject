@@ -26,7 +26,7 @@
       <div style="display: flex; flex-wrap: wrap;">
         <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
             style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
-            :class="userLabelingList[progressModalPage * 100 + i] >= 0 ? 'clicked-btn-style' : 'btn-style'"
+            :class="userLabelingList[progressModalPage * 100 + i][0] >= 0 ? 'clicked-btn-style' : 'btn-style'"
             @click="changePage(progressModalPage * 100 + i)">{{ progressModalPage * 100 + i }}</button></div>
       </div>
       <div class="btncontainer">
@@ -255,8 +255,8 @@ export default {
         for (let j = 0; j < this.progressBarList[i]; j++) {
           console.log("[checkProgressBar] userLabelingList[" + (i * 100) + j + "]: " + this.userLabelingList[(i * 100) + j][0]);
           if (this.userLabelingList[(i * 100) + j][0] >= 0) {
-            this.progressBarCount[i]++;
-            console.log("[checkProgressBar] progressBarCount[" + i + "]: " + this.progressBarCount[i]);
+            this.progressBarCount[i][j]++;
+            console.log("[checkProgressBar] progressBarCount[" + i + "]: " + this.progressBarCount[i][j]);
           }
         }
       }
