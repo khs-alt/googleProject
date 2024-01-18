@@ -257,7 +257,6 @@ export default {
         this.getVideoIndexCurrentPage();
         this.addEventVideoPlay();
         this.isVideoPaused();
-        this.checkProgressBar();
         // this.getVideoCurrentTime();
         document.addEventListener('mousemove', this.handleDragging);
         document.addEventListener('mouseup', this.handleDragEnd);
@@ -266,6 +265,7 @@ export default {
         // this.preloadNextVideo();
         this.setProgressBar();
         this.getUserScoringList();
+        this.checkProgressBar();
     },
     setup() {
         console.log("setup")
@@ -307,7 +307,7 @@ export default {
                 this.userScoringCount = 0;
                 this.progressBarCount[i] = 0;
                 for (let j = 0; j < this.progressBarList[i]; j++) {
-                    if (this.userScoringList[(i * 100) + j] != -1) {
+                    if (this.userScoringList[(i * 100) + j] >= 0) {
                         this.progressBarCount[i]++;
                     } else this.userScoringCount++;
                 }
