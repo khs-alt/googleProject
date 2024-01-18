@@ -5,7 +5,7 @@
         <div class="menu-header" style="display: flex;">
           <div class="menu-content" style="justify-content: space-between;">
             <div class="progressBar">
-              <div v-for="i in progressBarLength" :key="i" :class="getProgressBarClass(i - 1)"
+              <div v-for="i in progressBarLength" :key="i" :class="getProgressBarClass(i - 1)" 
                 @click="toggleProgressModal((i - 1))">
               </div>
             </div>
@@ -413,17 +413,16 @@ export default {
           }
 
           console.log("[getImageIndexCurrentPage] before route current page is " + this.currentPage);
-          this.setProgressBar();
-
-            this.$router.push({
-              query: {
-                userName: this.currentUser,
-                currentPage: this.currentPage,
-                testcode: this.testCode
-              }
-            });
-            this.makeImageTemplete();
-          })
+          
+          this.$router.push({
+            query: {
+              userName: this.currentUser,
+              currentPage: this.currentPage,
+              testcode: this.testCode
+            }
+          });
+          this.makeImageTemplete();
+        })
         .catch((error) => {
           console.log(error);
           alert("login failed")
