@@ -156,8 +156,8 @@ export default {
       progressModal: false, //progress modal창
       progressModalPage: 0,
       progressBarLength: 0,
-      progressBarList: [], //progress bar 내용 갯수
-      progressBarCount: [], //progress bar 내용의 한 거 개수
+      progressBarList: [0,], //progress bar 내용 갯수
+      progressBarCount: [0,], //progress bar 내용의 한 거 개수
       modalPage: 0,
       helpPageImage: false,
       modalTitle: ["How To Use", "Examples of score 0", "Examples of score 1", "Examples of score 2", "Examples of score 3", "Examples of score 4", "Examples of score 5"],
@@ -326,6 +326,7 @@ export default {
       this.makeImageTemplete();
       this.i = 0;
       this.j = 0;
+      this.progressBarCount = [0,];
       this.setProgressBar();
       this.checkProgressBar();
       this.getUserLabelingList();
@@ -700,6 +701,7 @@ export default {
         this.imageIndex -= 1;
         this.i = 0;
         this.j = 0;
+        this.progressBarCount = [0,];
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.prevImage;
         this.makeImageTemplete();
@@ -728,6 +730,7 @@ export default {
         this.imageIndex += 1;
         this.i = 0;
         this.j = 0;
+        this.progressBarCount = [0,];
         this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.nextImage;
         this.makeImageTemplete();
