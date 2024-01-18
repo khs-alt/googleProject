@@ -413,7 +413,6 @@ export default {
           }
 
           console.log("[getImageIndexCurrentPage] before route current page is " + this.currentPage);
-          this.setProgressBar();
           this.$router.push({
             query: {
               userName: this.currentUser,
@@ -422,6 +421,7 @@ export default {
             }
           });
           this.makeImageTemplete();
+          this.setProgressBar();
         })
         .catch((error) => {
           console.log(error);
