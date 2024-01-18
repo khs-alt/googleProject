@@ -146,7 +146,6 @@
 
 <script>
 import axios from 'axios'
-import { inject } from 'vue';
 export default {
   name: 'scoringPage',
   data() {
@@ -257,7 +256,7 @@ export default {
       for (let i = 0; i < this.progressBarLength; i++) {
         this.userLabelingCount = 0;
         for (let j = 0; j < this.progressBarList[i]; j++) {
-          console.log("[checkProgressBar] userLabelingList[" + int(i * 100) + int(j) + "]: " + this.userLabelingList[(i * 100) + j][0]);
+          console.log("[checkProgressBar] userLabelingList[" + Number(i * 100) + Number(j) + "]: " + this.userLabelingList[(i * 100) + j][0]);
           // console.log("[checkProgressBar] progressBarList[i]: " + this.progressBarList[i]);
           if (this.userLabelingList[(i * 100) + j][0] >= 0) {
             this.progressBarCount[i]++;
