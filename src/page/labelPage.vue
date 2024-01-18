@@ -261,8 +261,9 @@ export default {
           }
           else this.userLabelingCount++;
         }
-        if(this.userLabelingCount === this.progressBarList[i]) this.progressBarCount[i] = -1;
-      console.log("[checkProgressBar] progressBarCount type " + typeof(this.progressBarCount[i]));
+        if (this.userLabelingCount === this.progressBarList[i]) this.progressBarCount[i] = -1;
+        console.log("[checkProgressBar] userLabelingCount: " + this.userLabelingCount);
+        console.log("[checkProgressBar] progressBarCount type " + typeof (this.progressBarCount[i]));
       }
     },
 
