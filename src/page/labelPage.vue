@@ -228,6 +228,7 @@ export default {
 
   methods: {
     setProgressBar() {
+      this.getImageIndexCurrentPage();
       this.progressBarLength = Math.ceil(this.imageIndexList.length / 100);
       console.log("[setProgressBar] progressBarLength: " + this.progressBarLength);
       this.progressBarList = [];
