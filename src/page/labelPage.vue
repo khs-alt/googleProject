@@ -58,7 +58,7 @@
   <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
     <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
     <div class="labelcontainer">
-      <div :class="this.imageWidth <= 1080 ? 'imagecontainer' : 'imagecontainer-column'">
+      <div :class="this.imageWidth < this.imageHeight ? 'imagecontainer' : 'imagecontainer-column'">
         <div class="imageName">
           <div class="images">
             <div v-for="i in patchRow" :key="i">

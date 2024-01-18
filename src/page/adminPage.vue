@@ -92,7 +92,6 @@ export default {
                     })
                     .then(res => {
                         if (res.data == "yes") {
-                            alert("login success")
                             this.currentUser = this.userId
                             this.$router.push(process.env.BASE_URL + 'admin/upload/')
                         } else {
