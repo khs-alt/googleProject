@@ -254,6 +254,7 @@ export default {
     async checkProgressBar() {
       console.log("[checkProgressBar] imageIndexList.length: " + this.imageIndexList.length);
       for (let i = 0; i < this.progressBarLength; i++) {
+        console.log("[checkProgressBar] progressCount: " + this.progressBarCount[i]);
         this.userLabelingCount = 0;
         this.progressBarCount[i] = 0;
         for (let j = 0; j < this.progressBarList[i]; j++) {
@@ -272,6 +273,7 @@ export default {
       const total = this.progressBarList[index]; //전체 개수
       console.log("[getProgressBarClass] progress: " + progress);
       console.log("[getProgressBarClass] total: " + total);
+      console.log("[getProgressBarClass] progressbarlist: " + this.progressBarList);
 
       if (progress == total) {
         return 'progressBar-item'; // 다 했을 때
