@@ -260,7 +260,7 @@ export default {
           }
         }
       }
-      console.log("[checkProgressBar] progressBarCount: " + this.progressBarCount);
+      console.log("[checkProgressBar] progressBarCount type " + typeof(this.progressBarCount[i]));
     },
 
     //TODO: progress bar를 진행도에 따라 class를 바꾸는 함수
