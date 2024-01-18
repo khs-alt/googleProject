@@ -200,6 +200,7 @@ export default {
       // TODO: video scoring 에서의 getUserScoringList()와 같은 기능을 하는 함수가 필요함
       userLabeling: [],  //사용자가 부여한 점수
       userLabelingList: [], //사용자가 부여한 점수 리스트
+      userLabelingCount: 0, //사용자가 부여한 점수 개수
       isPressed: -1, //눌린 점수 체크
       menuBar: 'Home',
       lastPage: false, //마지막 이미지인지 체크
@@ -258,8 +259,9 @@ export default {
             this.progressBarCount[i]++;
             console.log("[checkProgressBar] progressBarCount[" + i + "]: " + this.progressBarCount[i]);
           }
+          else this.userLabelingCount++;
         }
-
+        if(this.userLabelingCount === this.progressBarList[i]) this.progressBarCount[i] = -1;
       console.log("[checkProgressBar] progressBarCount type " + typeof(this.progressBarCount[i]));
       }
     },
