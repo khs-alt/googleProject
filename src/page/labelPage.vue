@@ -5,7 +5,7 @@
         <div class="menu-header" style="display: flex;">
           <div class="menu-content" style="justify-content: space-between;">
             <div class="progressBar">
-              <div v-for="i in progressBarLength" :key="i" :class="getProgressBarClass(i - 1)" @loadedmetadata="getImageIndexCurrentPage()"
+              <div v-for="i in progressBarLength" :key="i" :class="getProgressBarClass(i - 1)" 
                 @click="toggleProgressModal((i - 1))">
               </div>
             </div>
@@ -390,7 +390,7 @@ export default {
         .then((response) => {
           console.log("[getImageIndexCurrentPage] response.data.current_page: " + response.data.current_page)
           console.log("[getImageIndexCurrentPage] response.data.image_list.length: " + response.data.image_list.length)
-          this.vid
+          this.imageIndexList = response.data.image_list;
           if (this.currentPage <= 0 || this.currentPage > response.data.image_list.length - 1) {
             this.currentPage = response.data.current_page; //url로 접근하는데 범위 밖일 때
           }
