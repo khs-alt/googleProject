@@ -239,6 +239,7 @@ export default {
         }
       }
       console.log("[setProgressBar] progressBarList: " + this.progressBarList);
+      this.checkProgressBar();
     },
 
     toggleHelpModal() {
@@ -251,7 +252,7 @@ export default {
       this.progressModalPage = index;
     },
 
-    async checkProgressBar() {
+    checkProgressBar() {
       console.log("[checkProgressBar] imageIndexList.length: " + this.imageIndexList.length);
       for (let i = 0; i < this.progressBarLength; i++) {
         console.log("[checkProgressBar] progressCount: " + this.progressBarCount[i]);
