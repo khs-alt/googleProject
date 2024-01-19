@@ -247,7 +247,7 @@ export default {
     },
 
     toggleProgressModal(index) {
-      console.log(this.progressBarList[index]);
+      //console.log(this.progressBarList[index]);
       this.progressModal = !this.progressModal;
       this.progressModalPage = index;
     },
