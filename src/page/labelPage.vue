@@ -24,7 +24,7 @@
     <div class="modal-container">
       <h3>Progress</h3>
       <div style="display: flex; flex-wrap: wrap;">
-        <div v-for="i in progressBarList[progressModalPage]`" :key="i"><button
+        <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
             style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
             :class="userLabelingList[progressModalPage * 100 + i][0] >= 0 ? 'clicked-btn-style' : 'btn-style'"
             @click="changePage(progressModalPage * 100 + i)">{{ progressModalPage * 100 + i }}</button></div>
@@ -239,7 +239,6 @@ export default {
         }
       }
       console.log("[setProgressBar] progressBarList: " + this.progressBarList);
-      this.checkProgressBar();
     },
 
     toggleHelpModal() {
@@ -252,9 +251,8 @@ export default {
       this.progressModalPage = index;
     },
 
-    checkProgressBar() {
+    async checkProgressBar() {
       console.log("[checkProgressBar] imageIndexList.length: " + this.imageIndexList.length);
-      console.log("[checkProgressBar] progressBarLength: " + this.progressBarLength);
       for (let i = 0; i < this.progressBarLength; i++) {
         console.log("[checkProgressBar] progressCount: " + this.progressBarCount[i]);
         this.userLabelingCount = 0;
