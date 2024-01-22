@@ -179,7 +179,8 @@ export default {
       imageIndexList: [],
       imageOriginalNameList: [],
       imageArtifactNameList: [],
-      borderBox: 224, //Patch 이미지의 크기
+      // borderBox: 224, //Patch 이미지의 크기
+      borderBox: 56, //240122 수정
       borderBoxResize: 0, //축소된 patch 이미지의 크기
       leftValue: 0, //borderBox의 left값
       topValue: 0,  //borderBox의 top값
@@ -677,7 +678,7 @@ export default {
     //부여된 점수 back-end로 전송
     postUserLabeling() {
       for (let i = 0; i < this.patchLength; i++) {
-        if (this.userLabeling[i] == undefined) this.userLabeling[i] = 0;
+        if (this.userLabeling[i] == undefined) this.userLabeling[i] = -1;
       }
       console.log(this.userLabeling);
       console.log("[postUserLabeling] current page is " + this.currentPage)
