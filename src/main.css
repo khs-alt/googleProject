@@ -302,6 +302,7 @@
   border: 1px solid #007bff;
 }
 .labeled-border {
+  display: flex;
   position: absolute;
   border: 2px solid red;
   color: red; /*점수 글씨색*/
