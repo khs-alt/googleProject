@@ -307,7 +307,7 @@
   color: red; /*점수 글씨색*/
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
   z-index: 1;
-  font-size: 4px;
+  font-size: 10px;
   /* 테두리 스타일 설정 */
 }
 .patch-container {
