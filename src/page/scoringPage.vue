@@ -79,29 +79,18 @@
                 <!-- toggle된 video -->
                 <div v-show="isToggled" style="position: relative;">
                   <div style=" overflow: hidden;" class="video-cover">
-                    <!-- <video id="toggleVideo" :style="videoStyles" style="position: absolute;" class="video-style"
+                    <video id="toggleVideo" :style="videoStyles" style="position: absolute;" class="video-style"
                       ref="toggleVideo" controlsList="nodownload" key="videoDiff" :src="rightArtifactVideo()"
                       @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                      @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
-                    </video> -->
-                    <video id="toggleVideo" :style="videoStyles" style="position: absolute;" class="video-style"
-                      ref="toggleVideo" controlsList="nodownload" key="videoDiff" :src="tempVideo2" @wheel="handleWheel"
-                      @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
                       @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
                     </video>
                   </div>
                 </div>
                 <div style="display: flex;">
-                  <!-- <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
+                  <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
                     controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()" @wheel="handleWheel"
                     @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
                     @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
-                     -->
-                  <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
-                    controlsList="nodownload" key="videoNoartifact" :src="tempVideo" @wheel="handleWheel"
-                    @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                    @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
-
                   </video>
                 </div>
               </div>
@@ -112,13 +101,8 @@
             </div>
             <div style="margin: 15px;">
               <div id="right-video-cover">
-                <!-- <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
-                  ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="rightArtifactVideo()"
-                  @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                  @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
-                </video> -->
                 <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
-                  ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="tempVideo2"
+                  ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="rightArtifactVideo()"
                   @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
                   @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
                 </video>
@@ -665,9 +649,8 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          // TODO: 커밋하기 전에 주석 빼기
-          // alert("login failed")
-          // this.$router.push(process.env.BASE_URL);
+          alert("login failed")
+          this.$router.push(process.env.BASE_URL);
         })
     },
     navigateTo(item) {
