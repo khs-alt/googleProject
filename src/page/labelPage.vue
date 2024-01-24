@@ -557,8 +557,8 @@ export default {
     // resizeImage 함수
     resizeImage() {
       console.log(this.imageWidth, this.imageHeight)
-      this.resizeWidth = this.imageWidth;
-      this.resizeHeight = this.imageHeight;
+      this.resizeWidth = this.imageWidth * 0.8;
+      this.resizeHeight = this.imageHeight * 0.8;
       this.borderBoxResize = this.borderBox * 2;
     },
 
