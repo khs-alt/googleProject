@@ -19,131 +19,134 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="modal-wrap" v-show="progressModal"> <!--진행상황-->
-    <div class="modal-container">
-      <h3>Progress</h3>
-      <div style="display: flex; flex-wrap: wrap;">
-        <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
-            style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
-            :class="userLabelingList[progressModalPage * 100 + i - 1][0] >= 0 ? 'clicked-btn-style' : 'btn-style'"
-            @click="changePage(progressModalPage * 100 + i)">{{ progressModalPage * 100 + i }}</button></div>
-      </div>
-      <div class="btncontainer">
-        <button class="btn-style" @click="toggleProgressModal()">Close</button>
+    <div class="modal-wrap" v-show="progressModal"> <!--진행상황-->
+      <div class="modal-container">
+        <h3>Progress</h3>
+        <div style="display: flex; flex-wrap: wrap;">
+          <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
+              style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
+              :class="userLabelingList[progressModalPage * 100 + i - 1][0] >= 0 ? 'clicked-btn-style' : 'btn-style'"
+              @click="changePage(progressModalPage * 100 + i)">{{ progressModalPage * 100 + i }}</button></div>
+        </div>
+        <div class="btncontainer">
+          <button class="btn-style" @click="toggleProgressModal()">Close</button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="modal-wrap" v-show="openModal"> <!--사용법-->
-    <div class="modal-container" style="width: fit-content;">
-      <h3>{{ modalTitle[modalPage] }}</h3>
-      <div :class="modalPage >= 2 ? 'exampleScore' : ''">
-        <div v-for="i in modalContent[modalPage]" :key="i">
-          <div v-if="modalPage < 2">
-            <p>{{ i }}</p>
-          </div>
-          <div v-else>
-            <img :src="helpPageImageNum((modalPage - 2) * 2)" style="width: 400px; height: 300px;">
-            <p>{{ i }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="btncontainer">
-        <button class="btn-style" @click="changeModal(0)">&lt;</button>
-        <button class="btn-style" @click="toggleHelpModal()">Close</button>
-        <button class="btn-style" @click="changeModal(1)">></button>
-      </div>
-    </div>
-  </div>
-  <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
-    <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
-    <div class="labelcontainer">
-      <div :class="this.imageWidth < this.imageHeight ? 'imagecontainer' : 'imagecontainer-column'">
-        <div class="imageName">
-          <div class="images">
-            <div v-for="i in patchRow" :key="i">
-              <div v-for="j in patchColumn" :key="j">
-                <div
-                  :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
-                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
-                  v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
-                  {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
-                </div>
-              </div>
+    <div class="modal-wrap" v-show="openModal"> <!--사용법-->
+      <div class="modal-container" style="width: fit-content;">
+        <h3>{{ modalTitle[modalPage] }}</h3>
+        <div :class="modalPage >= 2 ? 'exampleScore' : ''">
+          <div v-for="i in modalContent[modalPage]" :key="i">
+            <div v-if="modalPage < 2">
+              <p>{{ i }}</p>
             </div>
-            <img :src="serveOriginalImage()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
-              class="imageStyle" />
-            <div class="currentBorder"
-              :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
-            </div>
-          </div>
-          <p style="font-size: 14px; margin-top: 10px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
-        </div>
-        <div class="imageName">
-          <div class="images">
-            <div v-for="i in patchRow" :key="i">
-              <div v-for="j in patchColumn" :key="j">
-                <!-- 이 부분 수정(0이면 초록색으로 보이게) -->
-                <div 
-                  :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
-                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
-                  v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
-                  {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
-                </div>
-              </div>
-            </div>
-            <img :src="serveArtifactImage()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
-              class="imageStyle" />
-            <div class="currentBorder"
-              :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
-            </div>
-          </div>
-          <p style="font-size: 14px; margin-top: 10px;">{{ this.imageArtifactNameList[this.imageIndex] }}</p>
-        </div>
-        <div style="clear:both;"></div>
-      </div>
-      <div class="patchbtncontainer">
-        <div>
-          <div class="patch-container">
-            <div class="patchName">
-              <div class="selected-patch-image" :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px' }">
-                <img :src="serveOriginalImage()" class="selected-patch"
-                  :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="original">
-              </div>
-              <label class="textLabel">original</label>
-            </div>
-            <div class="patchName">
-              <div class="selected-patch-image" :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px' }">
-                <img :src="serveArtifactImage()" class="selected-patch"
-                  :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="denoised">
-              </div>
-              <label class="textLabel">denoised</label>
-            </div>
-            <div class="patchName">
-              <div class="selected-patch-image" :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px' }">
-                <img :src="serveDifferenceImage()" class="selected-patch"
-                  :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="difference">
-              </div>
-              <label class="textLabel">difference</label>
+            <div v-else>
+              <img :src="helpPageImageNum((modalPage - 2) * 2)" style="width: 400px; height: 300px;">
+              <p>{{ i }}</p>
             </div>
           </div>
         </div>
         <div class="btncontainer">
-          <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="btn-style"
-            style="width: 50px; height: 40px; padding-top: 1px; font-size: x-large;"
-            :class="{ 'clicked-btn-style': this.isPressed == a - 1 }">{{ buttonString[a - 1] }}</button>
-        </div>
-        <div class="btncontainer">
-          <button class="btn-style" @click="changePreviousPage()">{{ buttonString[6] }}</button>
-          <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageIndexList.length }}</span>
-          <button class="btn-style" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
+          <button class="btn-style" @click="changeModal(0)">&lt;</button>
+          <button class="btn-style" @click="toggleHelpModal()">Close</button>
+          <button class="btn-style" @click="changeModal(1)">></button>
         </div>
       </div>
     </div>
-  </div>
-  <div class="footer">
-    <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
-    <p>help@pilab.smu.ac.kr</p>
+    <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
+      <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
+      <div class="labelcontainer">
+        <div :class="this.imageWidth < this.imageHeight ? 'imagecontainer' : 'imagecontainer-column'">
+          <div class="imageName">
+            <div class="images">
+              <div v-for="i in patchRow" :key="i">
+                <div v-for="j in patchColumn" :key="j">
+                  <div
+                    :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
+                    :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+                    v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
+                    {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+                  </div>
+                </div>
+              </div>
+              <img :src="serveOriginalImage()" ref="img"
+                :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
+              <div class="currentBorder"
+                :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              </div>
+            </div>
+            <p style="font-size: 14px; margin-top: 10px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
+          </div>
+          <div class="imageName">
+            <div class="images">
+              <div v-for="i in patchRow" :key="i">
+                <div v-for="j in patchColumn" :key="j">
+                  <!-- 이 부분 수정(0이면 초록색으로 보이게) -->
+                  <div
+                    :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
+                    :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+                    v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
+                    {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+                  </div>
+                </div>
+              </div>
+              <img :src="serveArtifactImage()" ref="img"
+                :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
+              <div class="currentBorder"
+                :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              </div>
+            </div>
+            <p style="font-size: 14px; margin-top: 10px;">{{ this.imageArtifactNameList[this.imageIndex] }}</p>
+          </div>
+          <div style="clear:both;"></div>
+        </div>
+        <div class="patchbtncontainer">
+          <div>
+            <div class="patch-container">
+              <div class="patchName">
+                <div class="selected-patch-image"
+                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px' }">
+                  <img :src="serveOriginalImage()" class="selected-patch"
+                    :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="original">
+                </div>
+                <label class="textLabel">original</label>
+              </div>
+              <div class="patchName">
+                <div class="selected-patch-image"
+                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px' }">
+                  <img :src="serveArtifactImage()" class="selected-patch"
+                    :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="denoised">
+                </div>
+                <label class="textLabel">denoised</label>
+              </div>
+              <div class="patchName">
+                <div class="selected-patch-image"
+                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px' }">
+                  <img :src="serveDifferenceImage()" class="selected-patch"
+                    :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="difference">
+                </div>
+                <label class="textLabel">difference</label>
+              </div>
+            </div>
+          </div>
+          <div class="btncontainer">
+            <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="btn-style"
+              style="width: 50px; height: 40px; padding-top: 1px; font-size: x-large;"
+              :class="{ 'clicked-btn-style': this.isPressed == a - 1 }">{{ buttonString[a - 1] }}</button>
+          </div>
+          <div class="btncontainer">
+            <button class="btn-style" @click="changePreviousPage()">{{ buttonString[6] }}</button>
+            <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageIndexList.length }}</span>
+            <button class="btn-style" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
+      <p>help@pilab.smu.ac.kr</p>
+    </div>
   </div>
 </template>
 
@@ -557,8 +560,8 @@ export default {
     // resizeImage 함수
     resizeImage() {
       console.log(this.imageWidth, this.imageHeight)
-      if(this.imageWidth)
-      this.resizeWidth = this.imageWidth * 0.2;
+      if (this.imageWidth)
+        this.resizeWidth = this.imageWidth * 0.2;
       this.resizeHeight = this.imageHeight * 0.2;
       this.borderBoxResize = this.borderBox * 2;
     },
@@ -774,6 +777,4 @@ export default {
 }
 </script>
 
-<style>
-@import '../main.css';
-</style>
+<style>@import '../main.css';</style>
