@@ -168,7 +168,9 @@ export default {
     getVideoIndex() {
       axios
         .get(this.baseUrl + "admin/getVideoIndex", {
-          testcode: this.testcode
+          params: {
+            testcode: this.testcode
+          }
         })
         .then((response) => {
           this.videoIndex = response.videoIndex;
