@@ -787,7 +787,7 @@
   position: relative;
   display: flex;
   width: fit-content;
-  height: fit-content;
+  height: 35vh;
 }
 .currentBorder {
   border: 2px solid yellow;
