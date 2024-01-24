@@ -106,21 +106,21 @@
         <div>
           <div class="patch-container">
             <div class="patchName">
-              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+              <div class="selected-patch-image" :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px' }">
                 <img :src="serveOriginalImage()" class="selected-patch"
                   :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="original">
               </div>
               <label class="textLabel">original</label>
             </div>
             <div class="patchName">
-              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+              <div class="selected-patch-image" :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px' }">
                 <img :src="serveArtifactImage()" class="selected-patch"
                   :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="denoised">
               </div>
               <label class="textLabel">denoised</label>
             </div>
             <div class="patchName">
-              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+              <div class="selected-patch-image" :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px' }">
                 <img :src="serveDifferenceImage()" class="selected-patch"
                   :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="difference">
               </div>
