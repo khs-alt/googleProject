@@ -97,7 +97,7 @@
               </div>
               <div class="imageBox" style="width: imageWidth; height: imageHeight;">
                 <img :src="serveArtifactImage()" ref="img"
-                  :style="{ width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
+                  :style="{ ...imageStyles, transform: 'scale(' + zoom + ')', width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
                 <div class="currentBorder"
