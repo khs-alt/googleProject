@@ -240,6 +240,7 @@ export default {
     this.setProgressBar();
     this.getUserLabelingList();
     //this.preloadImage();
+    window.addEventListener('resize', this.resizeImage);
   },
 
   unmounted() {
@@ -799,4 +800,6 @@ export default {
 }
 </script>
 
-<style>@import '../main.css';</style>
+<style>
+@import '../main.css';
+</style>
