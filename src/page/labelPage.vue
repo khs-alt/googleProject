@@ -65,7 +65,7 @@
               <div v-for="j in patchColumn" :key="j">
                 <div
                   :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
-                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+                  :style="{ width: borderBox + 'px', height: borderBox + 'px', left: (j - 1) * borderBox + 'px', top: (i - 1) * borderBox + 'px' }"
                   v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
                   {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
                 </div>
@@ -74,7 +74,7 @@
             <img :src="serveOriginalImage()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
               class="imageStyle" />
             <div class="currentBorder"
-              :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              :style="{ width: borderBox + 'px', height: borderBox + 'px', left: leftValue + 'px', top: topValue + 'px' }">
             </div>
           </div>
           <p style="font-size: 14px; margin-top: 10px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
@@ -86,7 +86,7 @@
                 <!-- 이 부분 수정(0이면 초록색으로 보이게) -->
                 <div 
                   :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
-                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+                  :style="{ width: borderBox + 'px', height: borderBox + 'px', left: (j - 1) * borderBox + 'px', top: (i - 1) * borderBox + 'px' }"
                   v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
                   {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
                 </div>
@@ -95,7 +95,7 @@
             <img :src="serveArtifactImage()" ref="img" :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }"
               class="imageStyle" />
             <div class="currentBorder"
-              :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              :style="{ width: borderBox + 'px', height: borderBox + 'px', left: leftValue + 'px', top: topValue + 'px' }">
             </div>
           </div>
           <p style="font-size: 14px; margin-top: 10px;">{{ this.imageArtifactNameList[this.imageIndex] }}</p>
