@@ -64,7 +64,7 @@
                 <div v-for="j in patchColumn" :key="j">
                   <div
                     :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
-                    :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+                    :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
                     v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
                     {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
                   </div>
@@ -72,7 +72,7 @@
               </div>
               <div class="imageBox" style="width: imageWidth; height: imageHeight;">
                 <img :src="serveOriginalImage()" ref="img"
-                  :style="{ width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
+                  :style="{ ...imageStyles, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" />
                 <div class="currentBorder"
                   :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
@@ -221,6 +221,23 @@ export default {
       menuBar: 'Home',
       lastPage: false, //마지막 이미지인지 체크
       baseUrl: process.env.BASE_URL + "api/",
+      // zoom 관련 변수
+      dragging: false,
+      dragStartX: 0,
+      dragStartY: 0,
+      offsetX: 0,
+      offsetY: 0,
+      isMouseOverMinus: false,
+      isMouseOverPlus: false,
+      isMouseOverPlay: false,
+      // video의 index list. 안의 값은 순차적이지 않고 비디오들의 고유한 인덱스 값으로 구성
+      videoIndex: [],
+      zoom: 1,
+      minZoom: 1,
+      // video style을 바꿈으로써 줌과 offset을 조절
+      imageStyles: {},
+      zoomCenterX: 50,
+      zoomCenterY: 50,
     }
   },
 
@@ -244,6 +261,70 @@ export default {
   },
 
   methods: {
+    zoomIn() {
+      this.zoom += 0.1;
+      this.updateVideoStyle();
+    },
+    zoomOut() {
+      if (this.zoom >= this.minZoom + 0.1) {
+        this.zoom -= 0.1;
+        this.updateVideoStyle();
+      }
+    },
+    setZoomCenter() {
+      // 가운데를 기준으로 줌 센터를 고정합니다.
+      this.zoomCenterX = 50;
+      this.zoomCenterY = 50;
+      this.updateVideoStyle();
+    },
+    handleWheel(event) {
+      if (event.deltaY < 0) {
+        this.zoomIn();
+      } else {
+        this.zoomOut();
+      }
+      // 스크롤 이벤트로 인한 줌 변경 시 항상 가운데를 기준으로 설정합니다.
+      this.setZoomCenter(event);
+      event.preventDefault();
+    },
+    handleDragStart(event) {
+      this.dragging = true;
+      this.dragStartX = event.clientX;
+      this.dragStartY = event.clientY;
+    },
+    handleDragging(event) {
+      if (this.dragging) {
+        // Zoom level에 따라 드래그 속도 조정
+        const adjustedX = (event.clientX - this.dragStartX) / this.zoom;
+        const adjustedY = (event.clientY - this.dragStartY) / this.zoom;
+
+        this.offsetX += adjustedX;
+        this.offsetY += adjustedY;
+
+        // 초기 드래그 위치 업데이트
+        this.dragStartX = event.clientX;
+        this.dragStartY = event.clientY;
+
+        this.updateVideoStyle();
+      }
+    },
+    handleDragEnd() {
+      this.dragging = false;
+    },
+    updateVideoStyle() {
+      const scale = `scale(${this.zoom})`;
+      const translate = `translate(${this.offsetX}px, ${this.offsetY}px)`;
+
+      this.videoStyles = {
+        transform: `${scale} ${translate}`,
+        transformOrigin: `${this.zoomCenterX}% ${this.zoomCenterY}%`,
+      }
+    },
+    resetZoomAndOffset() {
+      this.zoom = this.minZoom;
+      this.offsetX = 0;
+      this.offsetY = 0;
+    },
     setProgressBar() {
       this.progressBarLength = Math.ceil(this.imageIndexList.length / 100);
       console.log("[setProgressBar] progressBarLength: " + this.progressBarLength);
