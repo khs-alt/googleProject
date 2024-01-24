@@ -106,7 +106,7 @@
             <div class="patch-container">
               <div class="patchName">
                 <div class="selected-patch-image"
-                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px' }">
+                  :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
                   <img :src="serveOriginalImage()" class="selected-patch"
                     :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="original">
                 </div>
@@ -114,7 +114,7 @@
               </div>
               <div class="patchName">
                 <div class="selected-patch-image"
-                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px' }">
+                  :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
                   <img :src="serveArtifactImage()" class="selected-patch"
                     :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="denoised">
                 </div>
@@ -122,7 +122,7 @@
               </div>
               <div class="patchName">
                 <div class="selected-patch-image"
-                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px' }">
+                  :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
                   <img :src="serveDifferenceImage()" class="selected-patch"
                     :style="{ right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="difference">
                 </div>
@@ -563,7 +563,7 @@ export default {
       if (this.imageWidth)
         this.resizeWidth = this.imageWidth * 0.2;
       this.resizeHeight = this.imageHeight * 0.2;
-      this.borderBoxResize = this.borderBox * 2;
+      this.borderBoxResize = this.borderBox;
     },
 
     // progress bar의 개수를 구하는 함수
@@ -659,7 +659,7 @@ export default {
       this.isPressed = this.userLabeling[this.patchIndex];
       setTimeout(() => {
         this.changeNextPatchImage()
-      }, 1000);
+      }, 500); //0.5초 후에 다음 patch로 넘어감
     },
 
     changeNextPatchImage() {
