@@ -70,8 +70,11 @@
                   </div>
                 </div>
               </div>
-              <img :src="serveOriginalImage()" ref="img"
-                :style="{ width: imageWidth + 'px', height: imageHeight + 'px' }" class="imageStyle" />
+              <!-- TODO:  -->
+              <!-- <img :src="serveOriginalImage()" ref="img"
+                :style="{ width: imageWidth + 'px', height: imageHeight + 'px' }" class="imageStyle" /> -->
+              <img :src="serveOriginalImage()" ref="img" :style="{ height: 35 + 'vh' }" class="imageStyle" />
+
               <div class="currentBorder"
                 :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
               </div>
@@ -91,8 +94,11 @@
                   </div>
                 </div>
               </div>
-              <img :src="serveArtifactImage()" ref="img"
-                :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
+              <!-- TODO: -->
+              <!-- <img :src="serveArtifactImage()" ref="img"
+                :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" /> -->
+
+              <img :src="serveArtifactImage()" ref="img" :style="{ height: 35 + 'vh' }" class="imageStyle" />
               <div class="currentBorder"
                 :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
               </div>
@@ -108,7 +114,8 @@
                 <div class="selected-patch-image"
                   :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
                   <img :src="serveOriginalImage()" class="selected-patch"
-                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }" alt="original">
+                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
+                    alt="original">
                 </div>
                 <label class="textLabel">original</label>
               </div>
@@ -116,7 +123,8 @@
                 <div class="selected-patch-image"
                   :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
                   <img :src="serveArtifactImage()" class="selected-patch"
-                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }" alt="denoised">
+                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
+                    alt="denoised">
                 </div>
                 <label class="textLabel">denoised</label>
               </div>
@@ -124,7 +132,8 @@
                 <div class="selected-patch-image"
                   :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
                   <img :src="serveDifferenceImage()" class="selected-patch"
-                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }" alt="difference">
+                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
+                    alt="difference">
                 </div>
                 <label class="textLabel">difference</label>
               </div>
