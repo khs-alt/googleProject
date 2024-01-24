@@ -140,6 +140,7 @@ export default {
       // tempVideo: require("./original.mp4"),
       // tempVideo2: require("./denoise.mp4"),
       selectedVideoTime: 0.00,
+      currentPage: 0,
     }
   },
   created() {
@@ -196,6 +197,8 @@ export default {
         })
         .then((response) => {
           this.videoIndex = response.videoIndex;
+          this.currentPage = this.videoIndex[this.videoNameIndex];
+          console.log("[getVideoIndex] videoIndex: ", this.videoIndex);
           this.originalVideoNameList = response.originalVideoNameList;
           this.artifactVideoNameList = response.artifactVideoNameList;
           this.videoFrameList = response.videoFrameList;
@@ -418,7 +421,7 @@ export default {
             testcode: this.testcode,
           }
         })
-        this.getVideoIndexCurrentPage();
+        // this.getVideoIndexCurrentPage();
         return;
       } else {
         // this.getVideoIndexCurrentPage();
@@ -433,7 +436,7 @@ export default {
             testcode: this.testcode,
           }
         })
-        this.getVideoIndexCurrentPage();
+        // this.getVideoIndexCurrentPage();
       }
     },
     changeBackVideo() {
@@ -461,7 +464,7 @@ export default {
             testcode: this.testcode,
           }
         })
-        this.getVideoIndexCurrentPage();
+        // this.getVideoIndexCurrentPage();
         return;
       } else {
         this.videoNameIndex -= 1
@@ -475,7 +478,7 @@ export default {
             testcode: this.testcode,
           }
         })
-        this.getVideoIndexCurrentPage();
+        // this.getVideoIndexCurrentPage();
       }
     },
     // score button 눌렸는지 안눌렸는지 확인하는 method
