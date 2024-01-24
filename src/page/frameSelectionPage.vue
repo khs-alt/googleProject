@@ -22,7 +22,7 @@
                   <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
                     controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()" @wheel="handleWheel"
                     @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                    @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
+                    @mousemove="handleDragging" preload="auto">
                   </video>
                 </div>
               </div>
@@ -37,7 +37,7 @@
                 <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
                   ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="rightArtifactVideo()"
                   @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                  @mousemove="handleDragging" onChange="isVideoPaused" preload="auto">
+                  @mousemove="handleDragging" preload="auto">
                 </video>
               </div>
               <div>
@@ -81,7 +81,7 @@
               @click="[changeBackVideo()]">prev</button>
             <button v-on="click" class="btn-style"
               style="font-size: x-large; width: 100px; height: 40px; padding-top: 0px;"
-              @click="[selectArtifactFrame()]">check</button>
+              @click="selectArtifactFrame()">check</button>
             <button v-on="click" class="btn-style"
               style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
               @click="[changeNextVideo()]">next</button>
@@ -89,9 +89,6 @@
         </div>
       </div>
     </div>
-
-    <div>{{ currentPage }}</div>
-    <div>{{ videoNameIndex }}</div>
     <div class="footer">
       <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
       <p>help@pilab.smu.ac.kr</p>
@@ -154,7 +151,7 @@ export default {
     this.getVideoIndex();
     this.changeVideoButton();
     this.addEventVideoPlay();
-    this.isVideoPaused();
+    // this.isVideoPaused();
     document.addEventListener('mousemove', this.handleDragging);
     document.addEventListener('mouseup', this.handleDragEnd);
     window.addEventListener("keydown", this.keydown);
@@ -303,29 +300,27 @@ export default {
         this.imgSrc = require("../images/play_icon/iconmonstr-media-control-48-240.png")
       }
     },
-    isVideoPaused() {
-      var video1 = document.getElementById('videoNoartifact');
-      var video2 = document.getElementById('videoYesartifact');
-      // 비디오가 end 되면 실행
-      const pauseAndPlayVideo = () => {
-        // this.videoButtonText = "Play";
-        if (video1.currentTime < video2.currentTime) {
-          video1.pause();
-          video2.pause();
-          video1.currentTime = 0;
-          video2.currentTime = 0;
-          this.changeImgSource();
-        } else {
-          video1.pause();
-          video2.pause();
-          video1.currentTime = 0;
-          video2.currentTime = 0;
-          this.changeImgSource();
-        }
-      };
-      video1.addEventListener("ended", pauseAndPlayVideo());
-      video2.addEventListener("ended", pauseAndPlayVideo());
-    },
+    // isVideoPaused() {
+    //   var video1 = document.getElementById('videoNoartifact');
+    //   var video2 = document.getElementById('videoYesartifact');
+    //   // 비디오가 end 되면 실행
+    //   const pauseAndPlayVideo = () => {
+    //     // this.videoButtonText = "Play";
+    //     if (video1.currentTime < video2.currentTime) {
+    //       video1.pause();
+    //       video1.currentTime = 0;
+    //       video2.currentTime = 0;
+    //       this.changeImgSource();
+    //     } else {
+    //       video1.pause();
+    //       video1.currentTime = 0;
+    //       video2.currentTime = 0;
+    //       this.changeImgSource();
+    //     }
+    //   };
+    //   video1.addEventListener("ended", pauseAndPlayVideo());
+    //   video2.addEventListener("ended", pauseAndPlayVideo());
+    // },
     zoomIn() {
       this.zoom += 0.1;
       this.updateVideoStyle();
@@ -400,8 +395,6 @@ export default {
       if (this.isVideoPlaying == true) {
         this.changeVideoButton();
       }
-      this.userScoring = this.clickedButton
-      console.log("user scoring: ", this.userScoring)
       this.resetZoomAndOffset();
       this.updateVideoStyle();
       var videoEelement1 = document.getElementById('videoNoartifact');
@@ -414,25 +407,17 @@ export default {
       }
 
       if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
-        // this.getVideoIndexCurrentPage();
         alert("This is the last page of this test code. Thank you!");
-
-        // this.getVideoIndexCurrentPage();
         return;
       } else {
-        // this.getVideoIndexCurrentPage();
         this.videoNameIndex += 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
-        this.isPressed = [false, false, false, false, false, false]
-        // this.getVideoIndexCurrentPage();
       }
     },
     changeBackVideo() {
       if (this.isVideoPlaying == true) {
         this.changeVideoButton();
       }
-      this.userScoring = this.clickedButton
-      console.log("user scoring: ", this.userScoring)
       this.resetZoomAndOffset();
       this.updateVideoStyle();
       if (this.isToggled) {
@@ -444,15 +429,10 @@ export default {
       videoEelement2.style.transform = "scale(1)";
       if (this.currentPage == this.videoIndex[0]) {
         alert("This is the first page of this test code.");
-
-        // this.getVideoIndexCurrentPage();
         return;
       } else {
         this.videoNameIndex -= 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
-        this.isPressed = [false, false, false, false, false, false]
-
-        // this.getVideoIndexCurrentPage();
       }
     },
 
