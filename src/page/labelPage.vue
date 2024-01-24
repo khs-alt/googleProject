@@ -75,8 +75,11 @@
                   :style="{ ...imageStyles, transform: 'scale(' + zoom + ')', width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
-                <div class="currentBorder"
+                <!-- <div class="currentBorder"
                   :style="{ ...imageStyles, transform: 'scale(' + zoom + ')', width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+                </div> -->
+                <div class="currentBorder"
+                  :style="{ ...imageStyles, transform: 'scale(' + zoom + ')', width: borderBoxResize + 'px', height: borderBoxResize + 'px' }">
                 </div>
               </div>
             </div>
@@ -240,6 +243,7 @@ export default {
       imageStyles: {},
       zoomCenterX: 50,
       zoomCenterY: 50,
+      currentBorderStyle: {},
     }
   },
 
@@ -265,6 +269,26 @@ export default {
   },
 
   methods: {
+    calculateAdjustedPosition() {
+      const zoomFactor = this.zoom - 1;
+
+      let deltaX = this.leftValue - (this.imageWidth * this.zoomCenterX / 100);
+      let deltaY = this.topValue - (this.imageHeight * this.zoomCenterY / 100);
+
+      let adjustedLeft = this.leftValue + deltaX * zoomFactor;
+      let adjustedTop = this.topValue + deltaY * zoomFactor;
+
+      return { left: adjustedLeft, top: adjustedTop };
+    },
+    updateBorderBoxPosition() {
+      let adjustedPosition = this.calculateAdjustedPosition();
+      this.currentBorderStyle = {
+        left: adjustedPosition.left + 'px',
+        top: adjustedPosition.top + 'px',
+        width: this.borderBoxResize + 'px',
+        height: this.borderBoxResize + 'px'
+      };
+    },
     zoomIn() {
       this.zoom += 0.1;
       this.updateImageStyle();
