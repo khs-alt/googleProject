@@ -17,6 +17,9 @@
         <!-- 현재 비디오 시간 -->
         <div>{{ this.videoCurrentTime }} / {{ this.videoDuration }}</div>
       </div>
+      <div>
+        <div>{{ this.currentFrame }} / {{ this.totalFrameLength }}</div>
+      </div>
       <div class="video-container">
         <div class="videoPlayer">
           <div id="video-margin" style="display: flex; max-height: 60%;">
@@ -145,6 +148,8 @@ export default {
       // tempVideo2: require("./denoise.mp4"),
       selectedVideoTime: 0.00,
       currentPage: 0,
+      totalFrameLength: 0,
+      currentFrame: 0,
     }
   },
   created() {
@@ -174,9 +179,15 @@ export default {
         console.log(event.target.currentTime);
         this.videoCurrentTime = (Math.round(event.target.currentTime * 100) / 100).toFixed(2);
         this.videoDuration = event.target.duration.toFixed(2);
+        const currentVideoFrameRate = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100).toFixed(2);
+        this.totalFrameLength = (Math.round((this.videoDuration / currentVideoFrameRate) * 100) / 100).toFixed(2);
+        this.currentFrame = (Math.round((this.videoCurrentTime / currentVideoFrameRate) * 100) / 100).toFixed(2);
       });
       video.addEventListener("timeupdate", (event) => {
         this.videoCurrentTime = (Math.round(event.target.currentTime * 100) / 100).toFixed(2);
+        const currentVideoFrameRate = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100).toFixed(2);
+        this.totalFrameLength = (Math.round((this.videoDuration / currentVideoFrameRate) * 100) / 100).toFixed(2);
+        this.currentFrame = (Math.round((this.videoCurrentTime / currentVideoFrameRate) * 100) / 100).toFixed(2);
       })
       // this.videoCurrentTime = video1.currentTime;
       // this.currentTime = video1.currentTime;
