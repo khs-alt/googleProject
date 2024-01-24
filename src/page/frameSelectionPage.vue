@@ -15,10 +15,10 @@
       <p style="font-size: 24px; margin-top: 10px; margin-bottom:4px">{{ this.testcode }}</p>
       <div>
         <!-- 현재 비디오 시간 -->
-        <div>{{ this.videoCurrentTime }} / {{ this.videoDuration }}</div>
+        <div>Time : {{ this.videoCurrentTime }} / {{ this.videoDuration }}</div>
       </div>
       <div>
-        <div>{{ this.currentFrame }} / {{ this.totalFrameLength }}</div>
+        <div>Frame : {{ this.currentFrame }} / {{ this.totalFrameLength }}</div>
       </div>
       <div class="video-container">
         <div class="videoPlayer">
@@ -186,8 +186,8 @@ export default {
       video.addEventListener("timeupdate", (event) => {
         this.videoCurrentTime = (Math.round(event.target.currentTime * 100) / 100).toFixed(2);
         const currentVideoFrameRate = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100).toFixed(2);
-        this.totalFrameLength = (Math.round((this.videoDuration / currentVideoFrameRate) * 100) / 100).toFixed(2);
-        this.currentFrame = (Math.round((this.videoCurrentTime / currentVideoFrameRate) * 100) / 100).toFixed(2);
+        this.totalFrameLength = (Math.round((this.videoDuration / currentVideoFrameRate) * 100) / 100);
+        this.currentFrame = (Math.round((this.videoCurrentTime / currentVideoFrameRate) * 100) / 100);
       })
       // this.videoCurrentTime = video1.currentTime;
       // this.currentTime = video1.currentTime;
