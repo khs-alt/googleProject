@@ -469,8 +469,8 @@ export default {
           if (video1CurrentTime - videoFrame * 2 <= 0 || video2CurrentTime - videoFrame * 2 <= 0) {
             return;
           }
-          video1.currentTime = (video1CurrentTime - videoFrame).toFixed(2);
-          video2.currentTime = (video2CurrentTime - videoFrame).toFixed(2);
+          video1.currentTime = (parseFloat(video1CurrentTime) - parseFloat(videoFrame)).toFixed(2);
+          video2.currentTime = (parseFloat(video2CurrentTime) - parseFloat(videoFrame)).toFixed(2);
         }
       }
       console.log("[seekForward] video1.currentTime: ", video1.currentTime);
@@ -488,8 +488,8 @@ export default {
           if (video1CurrentTime + videoFrame * 2 >= video1.duration || video2CurrentTime + videoFrame * 2 >= video1.duration) {
             return;
           }
-          video1.currentTime = (video1CurrentTime + videoFrame).toFixed(2);
-          video2.currentTime = (video2CurrentTime + videoFrame).toFixed(2);
+          video1.currentTime = (parseFloat(video1CurrentTime) + parseFloat(videoFrame)).toFixed(2);
+          video2.currentTime = (parseFloat(video2CurrentTime) + parseFloat(videoFrame)).toFixed(2);
         }
       }
       console.log("[seekForward] video1.currentTime: ", video1.currentTime);
