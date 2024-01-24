@@ -60,17 +60,17 @@
         <div :class="this.imageWidth < this.imageHeight ? 'imagecontainer' : 'imagecontainer-column'">
           <div class="imageName">
             <div class="images">
-              <div v-for="i in patchRow" :key="i">
-                <div v-for="j in patchColumn" :key="j">
-                  <div
-                    :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
-                    :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
-                    v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
-                    {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+              <div class="imageBox" style="width: imageWidth; height: imageHeight;">
+                <div v-for="i in patchRow" :key="i">
+                  <div v-for="j in patchColumn" :key="j">
+                    <div
+                      :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
+                      :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+                      v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
+                      {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="imageBox" style="width: imageWidth; height: imageHeight;">
                 <img :src="serveOriginalImage()" ref="img"
                   :style="{ ...imageStyles, transform: 'scale(' + zoom + ')', width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
@@ -84,81 +84,81 @@
           </div>
           <div class="imageName">
             <div class="images">
-              <div v-for="i in patchRow" :key="i">
-                <div v-for="j in patchColumn" :key="j">
-                  <!-- 이 부분 수정(0이면 초록색으로 보이게) -->
-                  <div
-                    :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
-                    :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
-                    v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
-                    {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+              <div class="imageBox" style="width: imageWidth; height: imageHeight;">
+                <div v-for="i in patchRow" :key="i">
+                  <div v-for="j in patchColumn" :key="j">
+                    <!-- 이 부분 수정(0이면 초록색으로 보이게) -->
+                    <div
+                      :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
+                      :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+                      v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
+                      {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+                    </div>
+                  </div>
+                </div>
+                  <img :src="serveArtifactImage()" ref="img"
+                    :style="{ ...imageStyles, transform: 'scale(' + zoom + ')', width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
+                    class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
+                    @mouseup="handleDragEnd" @mousemove="handleDragging" />
+                  <div class="currentBorder"
+                    :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
                   </div>
                 </div>
               </div>
-              <div class="imageBox" style="width: imageWidth; height: imageHeight;">
-                <img :src="serveArtifactImage()" ref="img"
-                  :style="{ ...imageStyles, transform: 'scale(' + zoom + ')', width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
-                  class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
-                  @mouseup="handleDragEnd" @mousemove="handleDragging" />
-                <div class="currentBorder"
-                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              <p style="font-size: 14px; margin-top: 10px;">{{ this.imageArtifactNameList[this.imageIndex] }}</p>
+            </div>
+            <div style="clear:both;"></div>
+          </div>
+          <div class="patchbtncontainer">
+            <div>
+              <div class="patch-container">
+                <div class="patchName">
+                  <div class="selected-patch-image"
+                    :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
+                    <img :src="serveOriginalImage()" class="selected-patch"
+                      :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
+                      alt="original">
+                  </div>
+                  <label class="textLabel">original</label>
+                </div>
+                <div class="patchName">
+                  <div class="selected-patch-image"
+                    :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
+                    <img :src="serveArtifactImage()" class="selected-patch"
+                      :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
+                      alt="denoised">
+                  </div>
+                  <label class="textLabel">denoised</label>
+                </div>
+                <div class="patchName">
+                  <div class="selected-patch-image"
+                    :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
+                    <img :src="serveDifferenceImage()" class="selected-patch"
+                      :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
+                      alt="difference">
+                  </div>
+                  <label class="textLabel">difference</label>
                 </div>
               </div>
             </div>
-            <p style="font-size: 14px; margin-top: 10px;">{{ this.imageArtifactNameList[this.imageIndex] }}</p>
-          </div>
-          <div style="clear:both;"></div>
-        </div>
-        <div class="patchbtncontainer">
-          <div>
-            <div class="patch-container">
-              <div class="patchName">
-                <div class="selected-patch-image"
-                  :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
-                  <img :src="serveOriginalImage()" class="selected-patch"
-                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
-                    alt="original">
-                </div>
-                <label class="textLabel">original</label>
-              </div>
-              <div class="patchName">
-                <div class="selected-patch-image"
-                  :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
-                  <img :src="serveArtifactImage()" class="selected-patch"
-                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
-                    alt="denoised">
-                </div>
-                <label class="textLabel">denoised</label>
-              </div>
-              <div class="patchName">
-                <div class="selected-patch-image"
-                  :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
-                  <img :src="serveDifferenceImage()" class="selected-patch"
-                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
-                    alt="difference">
-                </div>
-                <label class="textLabel">difference</label>
-              </div>
+            <div class="btncontainer">
+              <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="btn-style"
+                style="width: 50px; height: 40px; padding-top: 1px; font-size: x-large;"
+                :class="{ 'clicked-btn-style': this.isPressed == a - 1 }">{{ buttonString[a - 1] }}</button>
             </div>
-          </div>
-          <div class="btncontainer">
-            <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="btn-style"
-              style="width: 50px; height: 40px; padding-top: 1px; font-size: x-large;"
-              :class="{ 'clicked-btn-style': this.isPressed == a - 1 }">{{ buttonString[a - 1] }}</button>
-          </div>
-          <div class="btncontainer">
-            <button class="btn-style" @click="changePreviousPage()">{{ buttonString[6] }}</button>
-            <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageIndexList.length }}</span>
-            <button class="btn-style" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
+            <div class="btncontainer">
+              <button class="btn-style" @click="changePreviousPage()">{{ buttonString[6] }}</button>
+              <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageIndexList.length }}</span>
+              <button class="btn-style" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
+            </div>
           </div>
         </div>
       </div>
+      <div class="footer">
+        <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
+        <p>help@pilab.smu.ac.kr</p>
+      </div>
     </div>
-    <div class="footer">
-      <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
-      <p>help@pilab.smu.ac.kr</p>
-    </div>
-  </div>
 </template>
 
 <script>
