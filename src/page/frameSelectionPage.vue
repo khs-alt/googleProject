@@ -296,7 +296,7 @@ export default {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
       const videoFrame = this.videoFrameList[this.videoNameIndex];
-      const temp = video1.duration - (1 / videoFrame) * 2;
+      const temp = video1.duration - (1 / videoFrame);
       video1.currentTime = temp;
       video2.currentTime = temp;
       this.isVideoPlaying = false;
@@ -481,8 +481,8 @@ export default {
       const video2 = this.$refs.videoYesartifact;
       const video1CurrentTime = (Math.round((1 / video1.currentTime) * 100) / 100).toFixed(2);
       const video2CurrentTime = (Math.round((1 / video2.currentTime) * 100) / 100).toFixed(2);
-
       const videoFrame = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100).toFixed(2);
+
       if (videoFrame != 0) {
         if (videoFrame) {
           if (video1CurrentTime + videoFrame * 2 >= video1.duration || video2CurrentTime + videoFrame * 2 >= video1.duration) {
@@ -492,6 +492,9 @@ export default {
           video2.currentTime = (parseFloat(video2CurrentTime) + parseFloat(videoFrame)).toFixed(2);
         }
       }
+      console.log("[seekForward] video1CurrentTime: ", video1CurrentTime);
+      console.log("[seekForward] video2CurrentTime: ", video2CurrentTime);
+      console.log("[seekForward] videoFrame: ", videoFrame);
       console.log("[seekForward] video1.currentTime: ", video1.currentTime);
       console.log("[seekForward] video2.currentTime: ", video2.currentTime);
     },
