@@ -285,15 +285,14 @@ export default {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
       video1.pause();
-      video2.pause();
       video1.currentTime = 0;
       video2.currentTime = 0;
     },
     goToEnd() {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
-      const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
-      const temp = video1.duration - (1 / originalFrame) * 2;
+      const videoFrame = this.videoFrameList[this.videoNameIndex];
+      const temp = video1.duration - (1 / videoFrame) * 2;
       video1.currentTime = temp;
       video2.currentTime = temp;
     },
@@ -417,14 +416,7 @@ export default {
       if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
         // this.getVideoIndexCurrentPage();
         alert("This is the last page of this test code. Thank you!");
-        this.$router.push({
-          path: '/label/scoring',
-          query: {
-            currentPage: this.currentPage,
-            userName: this.currentUser,
-            testcode: this.testcode,
-          }
-        })
+
         // this.getVideoIndexCurrentPage();
         return;
       } else {
@@ -432,14 +424,6 @@ export default {
         this.videoNameIndex += 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
         this.isPressed = [false, false, false, false, false, false]
-        this.$router.push({
-          path: '/label/scoring',
-          query: {
-            currentPage: this.currentPage,
-            userName: this.currentUser,
-            testcode: this.testcode,
-          }
-        })
         // this.getVideoIndexCurrentPage();
       }
     },
@@ -460,77 +444,18 @@ export default {
       videoEelement2.style.transform = "scale(1)";
       if (this.currentPage == this.videoIndex[0]) {
         alert("This is the first page of this test code.");
-        this.$router.push({
-          path: '/label/scoring',
-          query: {
-            currentPage: parseInt(this.currentPage),
-            userName: this.currentUser,
-            testcode: this.testcode,
-          }
-        })
+
         // this.getVideoIndexCurrentPage();
         return;
       } else {
         this.videoNameIndex -= 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
         this.isPressed = [false, false, false, false, false, false]
-        this.$router.push({
-          path: '/label/scoring',
-          query: {
-            currentPage: this.currentPage,
-            userName: this.currentUser,
-            testcode: this.testcode,
-          }
-        })
+
         // this.getVideoIndexCurrentPage();
       }
     },
-    // score button 눌렸는지 안눌렸는지 확인하는 method
-    toggleButton(index) {
-      this.isPressed = [false, false, false, false, false, false]
-      this.isPressed[index] = !this.isPressed[index]
 
-      this.userScoring = index
-      axios
-        .post(this.baseUrl + "postdata", {
-          Title: "scoring data",
-          Score: this.userScoring,
-          CurrentUser: this.currentUser,
-          ImageId: parseInt(this.currentPage),
-          TestCode: this.testcode
-        })
-        .then(res => {
-          //after post we have to init data form userScoring and currentPage
-          this.userScoring = 0
-          // this.isPressed = [false, false, false, false, false, false]
-          this.resetZoomAndOffset();
-          this.updateVideoStyle();
-          console.log(res.data)
-        })
-        .catch(error => {
-          console.error(error);
-        })
-    },
-    // video 2개 동시에 플레이 시키는 method
-    playVideos() {
-      var video1 = document.getElementById('videoNoartifact');
-      var video2 = document.getElementById('videoYesartifact');
-      // toggleVideo는 videoYesartifact와 같은 비디오 
-      const videoFrame = 1 / this.videoFrameList[this.videoNameIndex];
-
-      if (video1 && video2) {
-        if (video1.currentTime + videoFrame * 3 >= video1.duration || video2.currentTime + videoFrame * 3 >= video2.duration
-          || video1.ended || video2.ended) {
-          video1.currentTime = 0;
-          video2.currentTime = 0;
-        }
-        video1.currentTime = video2.currentTime;
-        video1.currentTime = video2.currentTime;
-        // var temp = VideoDecoder()
-        // temp.flush();
-        video1.play();
-      }
-    },
     addEventVideoPlay() {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
@@ -553,25 +478,15 @@ export default {
         video1.play();
       })
     },
-    // video 2개 동시에 Stop 시키는 method
-    pauseVideos() {
-      var video1 = document.getElementById('videoNoartifact');
-      var video2 = document.getElementById('videoYesartifact');
 
-      if (video1 && video2) {
-        var temp = video2.currentTime;
-        video1.currentTime = temp;
-        video1.pause();
-      }
-    },
     // Play/Stop 및 text 변경 버튼
     async changeVideoButton() {
       if (this.videoButtonText == "Play") {
-        this.playVideos();
+        // this.playVideos();
         this.videoButtonText = "Stop";
       } else {
         this.videoButtonText = "Play";
-        this.pauseVideos();
+        // this.pauseVideos();
       }
       this.changeImgSource();
     },
@@ -580,7 +495,7 @@ export default {
       const video2 = this.$refs.videoYesartifact;
 
       // videoFrame을 하나로 통일 했음
-      const videoFrame = this.videoFrameList[this.videoNameIndex];
+      const videoFrame = (1 / this.videoFrameList[this.videoNameIndex]);
       if (videoFrame != 0) {
         if (videoFrame) {
           if (video1.currentTime - videoFrame <= 0 || video2.currentTime - videoFrame <= 0) {
@@ -596,7 +511,7 @@ export default {
       const video2 = this.$refs.videoYesartifact;
 
       // videoFrame을 하나로 통일 했음
-      const videoFrame = this.videoFrameList[this.videoNameIndex];
+      const videoFrame = (1 / this.videoFrameList[this.videoNameIndex]);
       if (videoFrame != 0) {
         if (videoFrame) {
           if (video1.currentTime - videoFrame * 3 >= video1.duration || video2.currentTime - videoFrame * 3 >= video1.duration) {
