@@ -154,9 +154,7 @@ export default {
     document.addEventListener('mousemove', this.handleDragging);
     document.addEventListener('mouseup', this.handleDragEnd);
     window.addEventListener("keydown", this.keydown);
-  },
-  setup() {
-    // console.log("setup")
+    this.addEventVideoCurrentTime();
   },
   computed: {
     // TODO: 주석 풀기 
@@ -165,6 +163,30 @@ export default {
     },
   },
   methods: {
+    addEventVideoCurrentTime() {
+      var video = document.getElementById('videoNoartifact');
+      video.addEventListener("loadeddata", (event) => {
+        console.log(event.target.currentTime);
+        this.videoCurrentTime = event.target.currentTime.toFixed(2);
+        this.videoDuration = event.target.duration.toFixed(2);
+      });
+      video.addEventListener("timeupdate", (event) => {
+        this.videoCurrentTime = event.target.currentTime.toFixed(2);
+      })
+      // this.videoCurrentTime = video1.currentTime;
+      // this.currentTime = video1.currentTime;
+      // this.videoDuration = video1.duration;
+    },
+    async postVideoFrameTime() {
+      axios
+        .post(this.baseUrl + "admin/postVideoFrameTime", {
+          videoIndex: this.currentPage,
+          videoIndexCurrentTime: this.videoCurrentTime
+        })
+        .then((response) => {
+          console.log(response);
+        })
+    },
     getVideoIndex() {
       axios
         .get(this.baseUrl + "admin/getVideoIndex", {
@@ -363,11 +385,9 @@ export default {
       this.offsetY = 0;
     },
     leftOriginalVideo() {
-      // console.log("leftOriginalVideo: " + this.baseUrl + "postvideo/original/" + this.currentPage)
       return String(this.baseUrl + "postvideo/original/" + this.currentPage)
     },
     rightArtifactVideo() {
-      // console.log("rightArtifactVideo: " + this.baseUrl + "postvideo/artifact/" + this.currentPage)
       return String(this.baseUrl + "postvideo/artifact/" + this.currentPage)
     },
     changeNextVideo() {
@@ -580,7 +600,7 @@ export default {
         }
       }
     },
-  },
+  }
 }
 </script>
 
