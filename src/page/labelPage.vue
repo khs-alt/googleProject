@@ -73,7 +73,7 @@
               <!-- TODO:  -->
               <!-- <img :src="serveOriginalImage()" ref="img"
                 :style="{ width: imageWidth + 'px', height: imageHeight + 'px' }" class="imageStyle" /> -->
-              <img :src="serveOriginalImage()" ref="img" :style="{ height: 35 + 'vh' }" class="imageStyle" />
+              <img :src="serveOriginalImage()" ref="img" :style="{ width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }" class="imageStyle" />
 
               <div class="currentBorder"
                 :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
@@ -98,7 +98,7 @@
               <!-- <img :src="serveArtifactImage()" ref="img"
                 :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" /> -->
 
-              <img :src="serveArtifactImage()" ref="img" :style="{ height: 35 + 'vh' }" class="imageStyle" />
+              <img :src="serveArtifactImage()" ref="img" :style="{ width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }" class="imageStyle" />
               <div class="currentBorder"
                 :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
               </div>
