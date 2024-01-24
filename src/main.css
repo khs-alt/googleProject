@@ -787,7 +787,7 @@
   position: relative;
   display: flex;
   width: fit-content;
-  height: 35vh;
+  height: fit-content;
 }
 .currentBorder {
   border: 2px solid yellow;
@@ -850,6 +850,7 @@
 }
 .imageStyle {
   margin: 2px;
+  height: 35vh;
 }
 .tagWrapper {
   max-width: 50%;
