@@ -91,6 +91,7 @@
     </div>
 
     <div>{{ currentPage }}</div>
+    <div>{{ videoNameIndex }}</div>
     <div class="footer">
       <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
       <p>help@pilab.smu.ac.kr</p>
