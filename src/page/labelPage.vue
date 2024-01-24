@@ -70,11 +70,13 @@
                   </div>
                 </div>
               </div>
-              <img :src="serveOriginalImage()" ref="img"
-                :style="{ width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
-                class="imageStyle" />
-              <div class="currentBorder"
-                :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              <div class="imageBox" style="width: imageWidth; height: imageHeight;">
+                <img :src="serveOriginalImage()" ref="img"
+                  :style="{ width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
+                  class="imageStyle" />
+                <div class="currentBorder"
+                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+                </div>
               </div>
             </div>
             <p style="font-size: 14px; margin-top: 10px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
@@ -92,11 +94,13 @@
                   </div>
                 </div>
               </div>
-              <img :src="serveArtifactImage()" ref="img"
-                :style="{ width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
-                class="imageStyle" />
-              <div class="currentBorder"
-                :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+              <div class="imageBox" style="width: imageWidth; height: imageHeight;">
+                <img :src="serveArtifactImage()" ref="img"
+                  :style="{ width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
+                  class="imageStyle" />
+                <div class="currentBorder"
+                  :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
+                </div>
               </div>
             </div>
             <p style="font-size: 14px; margin-top: 10px;">{{ this.imageArtifactNameList[this.imageIndex] }}</p>

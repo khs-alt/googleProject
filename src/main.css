@@ -789,6 +789,12 @@
   width: fit-content;
   height: fit-content;
 }
+
+.imageBox {
+  overflow: hidden;
+  border: grey 1px solid;
+}
+
 .currentBorder {
   border: 2px solid yellow;
   position: absolute;
