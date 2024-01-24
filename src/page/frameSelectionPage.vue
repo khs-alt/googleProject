@@ -202,6 +202,14 @@ export default {
           this.originalVideoNameList = response.originalVideoNameList;
           this.artifactVideoNameList = response.artifactVideoNameList;
           this.videoFrameList = response.videoFrameList;
+
+          this.$router.push({
+            path: '/label/admin',
+            query: {
+              currentPage: this.currentPage,
+              testcode: this.testCode,
+            }
+          })
         })
         .catch((error) => {
           console.log(error);
@@ -212,7 +220,7 @@ export default {
       var video = document.getElementById("videoNoartifact");
       this.selectedVideoTime = video.currentTime;
       axios
-        .post(this.baseUrl + "admin/selectArtifactFrame", {
+        .post(this.baseUrl + "admin/postVideoFrameTime", {
           videoIndex: this.videoIndex,
           selectedVideoTime: this.selectedVideoTime
         })
@@ -245,10 +253,10 @@ export default {
         //     }
         //     break;
         // 비디오 frmae 선택 
-        case 'Enter':
-          e.preventDefault();
-          this.selectArtifactFrame();
-          break;
+        // case 'Enter':
+        //   e.preventDefault();
+        //   this.selectArtifactFrame();
+        //   break;
         case 'ArrowLeft':
           e.preventDefault();
           this.seekBackward();
