@@ -63,9 +63,10 @@
           <div class="images">
             <div v-for="i in patchRow" :key="i">
               <div v-for="j in patchColumn" :key="j">
-                <div class="labeled-border"
+                <div
+                  :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
                   :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
-                  v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
+                  v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
                   {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
                 </div>
               </div>
@@ -82,9 +83,11 @@
           <div class="images">
             <div v-for="i in patchRow" :key="i">
               <div v-for="j in patchColumn" :key="j">
-                <div class="labeled-border"
+                <!-- 이 부분 수정(0이면 초록색으로 보이게) -->
+                <div 
+                  :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
                   :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
-                  v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] > 0">
+                  v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
                   {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
                 </div>
               </div>
@@ -239,7 +242,7 @@ export default {
           this.progressBarList.push(100);
         }
       }
-      console.log("[setProgressBar] progressBarList: " + this.progressBarList);
+      // console.log("[setProgressBar] progressBarList: " + this.progressBarList);
       this.checkProgressBar();
     },
 
@@ -254,9 +257,9 @@ export default {
     },
 
     checkProgressBar() {
-      console.log("[checkProgressBar] imageIndexList.length: " + this.imageIndexList.length);
+      // console.log("[checkProgressBar] imageIndexList.length: " + this.imageIndexList.length);
       for (let i = 0; i < this.progressBarLength; i++) {
-        console.log("[checkProgressBar] progressCount: " + this.progressBarCount[i]);
+        // console.log("[checkProgressBar] progressCount: " + this.progressBarCount[i]);
         this.userLabelingCount = 0;
         this.progressBarCount[i] = 0;
         for (let j = 0; j < this.progressBarList[i]; j++) {
@@ -273,9 +276,9 @@ export default {
     getProgressBarClass(index) {
       const progress = this.progressBarCount[index]; //한 것 개수
       const total = this.progressBarList[index]; //전체 개수
-      console.log("[getProgressBarClass] progress: " + progress);
-      console.log("[getProgressBarClass] total: " + total);
-      console.log("[getProgressBarClass] progressbarcount: " + this.progressBarCount);
+      // console.log("[getProgressBarClass] progress: " + progress);
+      // console.log("[getProgressBarClass] total: " + total);
+      // console.log("[getProgressBarClass] progressbarcount: " + this.progressBarCount);
 
       if (progress == total) {
         return 'progressBar-item'; // 다 했을 때
