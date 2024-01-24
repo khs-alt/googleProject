@@ -70,13 +70,9 @@
                   </div>
                 </div>
               </div>
-              <!-- TODO:  -->
-              <!-- <img :src="serveOriginalImage()" ref="img"
-                :style="{ width: imageWidth + 'px', height: imageHeight + 'px' }" class="imageStyle" /> -->
               <img :src="serveOriginalImage()" ref="img"
                 :style="{ width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                 class="imageStyle" />
-
               <div class="currentBorder"
                 :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
               </div>
@@ -96,10 +92,6 @@
                   </div>
                 </div>
               </div>
-              <!-- TODO: -->
-              <!-- <img :src="serveArtifactImage()" ref="img"
-                :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" /> -->
-
               <img :src="serveArtifactImage()" ref="img"
                 :style="{ width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                 class="imageStyle" />
@@ -579,10 +571,7 @@ export default {
       this.resizeHeight = this.imageHeight * 0.2;
       let img = this.$refs.img;
       const imgNaturalWidth = img.naturalWidth;
-      // const imgNaturalHeight = img.naturalHeight;
       let currentWidth = img.width;
-      // TODO:
-      // this.borderBoxResize = this.borderBox;
       this.borderBoxResize = (this.borderBox * currentWidth) / imgNaturalWidth;
     },
 
