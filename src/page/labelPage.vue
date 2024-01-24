@@ -559,7 +559,7 @@ export default {
       console.log(this.imageWidth, this.imageHeight)
       this.resizeWidth = this.imageWidth * 0.25;
       this.resizeHeight = this.imageHeight * 0.25;
-      this.borderBoxResize = this.borderBox * 0.25;
+      this.borderBoxResize = this.borderBox;
     },
 
     // progress bar의 개수를 구하는 함수
