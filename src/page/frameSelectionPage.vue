@@ -149,7 +149,7 @@ export default {
   },
   mounted() {
     this.getVideoIndex();
-    this.changeVideoButton();
+    // this.changeVideoButton();
     this.addEventVideoPlay();
     // this.isVideoPaused();
     document.addEventListener('mousemove', this.handleDragging);
@@ -300,27 +300,6 @@ export default {
         this.imgSrc = require("../images/play_icon/iconmonstr-media-control-48-240.png")
       }
     },
-    // isVideoPaused() {
-    //   var video1 = document.getElementById('videoNoartifact');
-    //   var video2 = document.getElementById('videoYesartifact');
-    //   // 비디오가 end 되면 실행
-    //   const pauseAndPlayVideo = () => {
-    //     // this.videoButtonText = "Play";
-    //     if (video1.currentTime < video2.currentTime) {
-    //       video1.pause();
-    //       video1.currentTime = 0;
-    //       video2.currentTime = 0;
-    //       this.changeImgSource();
-    //     } else {
-    //       video1.pause();
-    //       video1.currentTime = 0;
-    //       video2.currentTime = 0;
-    //       this.changeImgSource();
-    //     }
-    //   };
-    //   video1.addEventListener("ended", pauseAndPlayVideo());
-    //   video2.addEventListener("ended", pauseAndPlayVideo());
-    // },
     zoomIn() {
       this.zoom += 0.1;
       this.updateVideoStyle();
@@ -463,13 +442,11 @@ export default {
     changeVideoButton() {
       var video1 = document.getElementById('videoNoartifact');
       if (this.isVideoPlaying == false) {
-        // this.playVideos();
         video1.play();
         this.isVideoPlaying = true;
       } else {
         video1.pause();
         this.isVideoPlaying = false;
-        // this.pauseVideos();
       }
       this.changeImgSource();
     },
