@@ -791,6 +791,7 @@
 }
 
 .imageBox {
+  display: contents;
   overflow: hidden;
   border: grey 1px solid;
 }
