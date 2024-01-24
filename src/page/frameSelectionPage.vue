@@ -172,11 +172,11 @@ export default {
       var video = document.getElementById('videoNoartifact');
       video.addEventListener("loadeddata", (event) => {
         console.log(event.target.currentTime);
-        this.videoCurrentTime = (Math.round(event.target.currentTime * 100)).toFixed(2);
+        this.videoCurrentTime = (Math.round(event.target.currentTime * 100) / 100).toFixed(2);
         this.videoDuration = event.target.duration.toFixed(2);
       });
       video.addEventListener("timeupdate", (event) => {
-        this.videoCurrentTime = (Math.round(event.target.currentTime * 100)).toFixed(2);
+        this.videoCurrentTime = (Math.round(event.target.currentTime * 100) / 100).toFixed(2);
       })
       // this.videoCurrentTime = video1.currentTime;
       // this.currentTime = video1.currentTime;
