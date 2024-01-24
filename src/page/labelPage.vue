@@ -657,6 +657,7 @@ export default {
       console.log("index: " + this.patchIndex);
       this.userLabeling[this.patchIndex] = num;
       this.changeNextPatchImage();
+      this.isPressed = this.userLabeling[this.patchIndex];
     },
 
     changeNextPatchImage() {
