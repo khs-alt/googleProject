@@ -108,7 +108,7 @@
                 <div class="selected-patch-image"
                   :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
                   <img :src="serveOriginalImage()" class="selected-patch"
-                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="original">
+                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }" alt="original">
                 </div>
                 <label class="textLabel">original</label>
               </div>
@@ -116,7 +116,7 @@
                 <div class="selected-patch-image"
                   :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
                   <img :src="serveArtifactImage()" class="selected-patch"
-                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="denoised">
+                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }" alt="denoised">
                 </div>
                 <label class="textLabel">denoised</label>
               </div>
@@ -124,7 +124,7 @@
                 <div class="selected-patch-image"
                   :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
                   <img :src="serveDifferenceImage()" class="selected-patch"
-                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }" alt="difference">
+                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }" alt="difference">
                 </div>
                 <label class="textLabel">difference</label>
               </div>
