@@ -199,12 +199,12 @@ export default {
           }
         })
         .then((response) => {
-          this.videoIndex = response.video_list;
+          this.videoIndex = response.data.video_list;
           this.currentPage = this.videoIndex[this.videoNameIndex];
           console.log("[getVideoIndex] videoIndex: ", this.videoIndex);
-          this.originalVideoNameList = response.original_video_list;
-          this.artifactVideoNameList = response.artifact_video_list;
-          this.videoFrameList = response.video_frame_list;
+          this.originalVideoNameList = response.data.original_video_list;
+          this.artifactVideoNameList = response.data.artifact_video_list;
+          this.videoFrameList = response.data.video_frame_list;
         })
         .catch((error) => {
           console.log(error);
