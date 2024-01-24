@@ -72,7 +72,7 @@
               </div>
               <div class="imageBox" style="width: imageWidth; height: imageHeight;">
                 <img :src="serveOriginalImage()" ref="img"
-                  :style="{ ...imageStyles, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
+                  :style="{ ...imageStyles, transform: 'scale(' + zoom + ')', width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" />
                 <div class="currentBorder"
                   :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
@@ -254,6 +254,8 @@ export default {
     this.getUserLabelingList();
     //this.preloadImage();
     window.addEventListener('resize', this.resizeImage);
+    document.addEventListener('mousemove', this.handleDragging);
+    document.addEventListener('mouseup', this.handleDragEnd);
   },
 
   unmounted() {
@@ -263,19 +265,19 @@ export default {
   methods: {
     zoomIn() {
       this.zoom += 0.1;
-      this.updateVideoStyle();
+      this.updateImageStyle();
     },
     zoomOut() {
       if (this.zoom >= this.minZoom + 0.1) {
         this.zoom -= 0.1;
-        this.updateVideoStyle();
+        this.updateImageStyle();
       }
     },
     setZoomCenter() {
       // 가운데를 기준으로 줌 센터를 고정합니다.
       this.zoomCenterX = 50;
       this.zoomCenterY = 50;
-      this.updateVideoStyle();
+      this.updateImageStyle();
     },
     handleWheel(event) {
       if (event.deltaY < 0) {
@@ -305,13 +307,13 @@ export default {
         this.dragStartX = event.clientX;
         this.dragStartY = event.clientY;
 
-        this.updateVideoStyle();
+        this.updateImageStyle();
       }
     },
     handleDragEnd() {
       this.dragging = false;
     },
-    updateVideoStyle() {
+    updateImageStyle() {
       const scale = `scale(${this.zoom})`;
       const translate = `translate(${this.offsetX}px, ${this.offsetY}px)`;
 
