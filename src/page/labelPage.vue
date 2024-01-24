@@ -71,7 +71,7 @@
                 </div>
               </div>
               <img :src="serveOriginalImage()" ref="img"
-                :style="{ width: resizeWidth + 'px', height: resizeHeight + 'px' }" class="imageStyle" />
+                :style="{ width: imageWidth + 'px', height: imageHeight + 'px' }" class="imageStyle" />
               <div class="currentBorder"
                 :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
               </div>
