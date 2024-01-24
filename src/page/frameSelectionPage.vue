@@ -89,6 +89,8 @@
         </div>
       </div>
     </div>
+
+    <div>{{ currentPage }}</div>
     <div class="footer">
       <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
       <p>help@pilab.smu.ac.kr</p>
@@ -202,14 +204,6 @@ export default {
           this.originalVideoNameList = response.originalVideoNameList;
           this.artifactVideoNameList = response.artifactVideoNameList;
           this.videoFrameList = response.videoFrameList;
-
-          this.$router.push({
-            path: '/label/admin',
-            query: {
-              currentPage: this.currentPage,
-              testcode: this.testCode,
-            }
-          })
         })
         .catch((error) => {
           console.log(error);
