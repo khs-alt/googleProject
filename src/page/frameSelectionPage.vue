@@ -180,14 +180,14 @@ export default {
         this.videoCurrentTime = (Math.round(event.target.currentTime * 100) / 100).toFixed(2);
         this.videoDuration = event.target.duration.toFixed(2);
         const currentVideoFrameRate = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100).toFixed(2);
-        this.totalFrameLength = (Math.round((this.videoDuration / currentVideoFrameRate) * 100) / 100).toFixed(2);
-        this.currentFrame = (Math.round((this.videoCurrentTime / currentVideoFrameRate) * 100) / 100);
+        this.totalFrameLength = (Math.round((this.videoDuration / currentVideoFrameRate) * 100) / 100).toFixed(0);
+        this.currentFrame = (Math.round((this.videoCurrentTime / currentVideoFrameRate) * 100) / 100).toFixed(0);
       });
       video.addEventListener("timeupdate", (event) => {
         this.videoCurrentTime = (Math.round(event.target.currentTime * 100) / 100).toFixed(2);
         const currentVideoFrameRate = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100).toFixed(2);
-        this.totalFrameLength = (Math.round((this.videoDuration / currentVideoFrameRate) * 100) / 100);
-        this.currentFrame = (Math.round((this.videoCurrentTime / currentVideoFrameRate) * 100) / 100);
+        this.totalFrameLength = (Math.round((this.videoDuration / currentVideoFrameRate) * 100) / 100).toFixed(0);
+        this.currentFrame = (Math.round((this.videoCurrentTime / currentVideoFrameRate) * 100) / 100).toFixed(0);
       })
       // this.videoCurrentTime = video1.currentTime;
       // this.currentTime = video1.currentTime;
