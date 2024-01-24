@@ -107,7 +107,7 @@ export default {
     return {
       // testcode: this.$route.params.testcode,
       testcode: history.state.testcode,
-      videoButtonText: "Stop",
+      videoButtonText: "Play",
       baseUrl: process.env.BASE_URL + "api/",
       leftVideoUrl: "",
       rightVideoUrl: "",
@@ -481,10 +481,13 @@ export default {
 
     // Play/Stop 및 text 변경 버튼
     async changeVideoButton() {
+      var video1 = document.getElementById('videoNoartifact');
       if (this.videoButtonText == "Play") {
         // this.playVideos();
+        video1.play();
         this.videoButtonText = "Stop";
       } else {
+        video1.pause();
         this.videoButtonText = "Play";
         // this.pauseVideos();
       }
