@@ -277,8 +277,8 @@ export default {
     },
     setZoomCenter() {
       // 가운데를 기준으로 줌 센터를 고정합니다.
-      this.zoomCenterX = 50;
-      this.zoomCenterY = 50;
+      this.zoomCenterX = this.leftValue;
+      this.zoomCenterY = this.topValue;
       this.updateImageStyle();
     },
     handleWheel(event) {
