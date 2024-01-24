@@ -13,6 +13,10 @@
     </div>
     <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px; margin-bottom: 8px;">
       <p style="font-size: 24px; margin-top: 10px; margin-bottom:4px">{{ this.testcode }}</p>
+      <div>
+        <!-- 현재 비디오 시간 -->
+        <div>{{ this.videoCurrentTime }} / {{ this.videoDuration }}</div>
+      </div>
       <div class="video-container">
         <div class="videoPlayer">
           <div id="video-margin" style="display: flex; max-height: 60%;">
@@ -168,25 +172,15 @@ export default {
       var video = document.getElementById('videoNoartifact');
       video.addEventListener("loadeddata", (event) => {
         console.log(event.target.currentTime);
-        this.videoCurrentTime = event.target.currentTime.toFixed(2);
+        this.videoCurrentTime = (Math.round(event.target.currentTime * 100)).toFixed(2);
         this.videoDuration = event.target.duration.toFixed(2);
       });
       video.addEventListener("timeupdate", (event) => {
-        this.videoCurrentTime = event.target.currentTime.toFixed(2);
+        this.videoCurrentTime = (Math.round(event.target.currentTime * 100)).toFixed(2);
       })
       // this.videoCurrentTime = video1.currentTime;
       // this.currentTime = video1.currentTime;
       // this.videoDuration = video1.duration;
-    },
-    async postVideoFrameTime() {
-      axios
-        .post(this.baseUrl + "admin/postVideoFrameTime", {
-          videoIndex: this.currentPage,
-          videoIndexCurrentTime: this.videoCurrentTime
-        })
-        .then((response) => {
-          console.log(response);
-        })
     },
     getVideoIndex() {
       axios
@@ -284,6 +278,7 @@ export default {
       video1.pause();
       video1.currentTime = 0;
       video2.currentTime = 0;
+      this.isVideoPlaying = false;
     },
     goToEnd() {
       var video1 = document.getElementById('videoNoartifact');
@@ -292,6 +287,7 @@ export default {
       const temp = video1.duration - (1 / videoFrame) * 2;
       video1.currentTime = temp;
       video2.currentTime = temp;
+      this.isVideoPlaying = false;
     },
     changeImgSource() {
       if (this.isVideoPlaying == true) {
@@ -414,7 +410,6 @@ export default {
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
     },
-
     addEventVideoPlay() {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
@@ -437,7 +432,6 @@ export default {
         video1.play();
       })
     },
-
     // Play/Stop 및 text 변경 버튼
     changeVideoButton() {
       var video1 = document.getElementById('videoNoartifact');
@@ -454,33 +448,40 @@ export default {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
 
-      // videoFrame을 하나로 통일 했음
-      const videoFrame = (1 / this.videoFrameList[this.videoNameIndex]);
+      const videoFrame = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100).toFixed(2);
+      const video1CurrentTime = (Math.round((1 / video1.currentTime) * 100) / 100).toFixed(2);
+      const video2CurrentTime = (Math.round((1 / video2.currentTime) * 100) / 100).toFixed(2);
+
       if (videoFrame != 0) {
         if (videoFrame) {
-          if (video1.currentTime - videoFrame <= 0 || video2.currentTime - videoFrame <= 0) {
+          if (video1CurrentTime - videoFrame * 2 <= 0 || video2CurrentTime - videoFrame * 2 <= 0) {
             return;
           }
-          video1.currentTime -= videoFrame;
-          video2.currentTime -= videoFrame;
+          video1.currentTime = video1CurrentTime - videoFrame;
+          video2.currentTime = video2CurrentTime - videoFrame;
         }
       }
+      console.log("[seekForward] video1.currentTime: ", video1.currentTime);
+      console.log("[seekForward] video2.currentTime: ", video2.currentTime);
     },
     async seekForward() {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
+      const video1CurrentTime = (Math.round((1 / video1.currentTime) * 100) / 100).toFixed(2);
+      const video2CurrentTime = (Math.round((1 / video2.currentTime) * 100) / 100).toFixed(2);
 
-      // videoFrame을 하나로 통일 했음
-      const videoFrame = (1 / this.videoFrameList[this.videoNameIndex]);
+      const videoFrame = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100).toFixed(2);
       if (videoFrame != 0) {
         if (videoFrame) {
-          if (video1.currentTime - videoFrame * 3 >= video1.duration || video2.currentTime - videoFrame * 3 >= video1.duration) {
+          if (video1CurrentTime + videoFrame * 2 >= video1.duration || video2CurrentTime + videoFrame * 2 >= video1.duration) {
             return;
           }
-          video1.currentTime += videoFrame;
-          video2.currentTime += videoFrame;
+          video1.currentTime = video1CurrentTime + videoFrame;
+          video2.currentTime = video2CurrentTime + videoFrame;
         }
       }
+      console.log("[seekForward] video1.currentTime: ", video1.currentTime);
+      console.log("[seekForward] video2.currentTime: ", video2.currentTime);
     },
   }
 }
