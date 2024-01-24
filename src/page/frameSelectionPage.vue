@@ -199,7 +199,7 @@ export default {
           }
         })
         .then((response) => {
-          this.videoIndex = response.videoIndex;
+          this.videoIndex = response.data.videoIndex;
           this.currentPage = this.videoIndex[this.videoNameIndex];
           console.log("[getVideoIndex] videoIndex: ", this.videoIndex);
           this.originalVideoNameList = response.originalVideoNameList;
