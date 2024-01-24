@@ -73,7 +73,8 @@
               <div class="imageBox" style="width: imageWidth; height: imageHeight;">
                 <img :src="serveOriginalImage()" ref="img"
                   :style="{ ...imageStyles, transform: 'scale(' + zoom + ')', width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
-                  class="imageStyle" />
+                  class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
+                  @mouseup="handleDragEnd" @mousemove="handleDragging" />
                 <div class="currentBorder"
                   :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
                 </div>
@@ -97,7 +98,8 @@
               <div class="imageBox" style="width: imageWidth; height: imageHeight;">
                 <img :src="serveArtifactImage()" ref="img"
                   :style="{ width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
-                  class="imageStyle" />
+                  class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
+                  @mouseup="handleDragEnd" @mousemove="handleDragging" />
                 <div class="currentBorder"
                   :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue + 'px', top: topValue + 'px' }">
                 </div>
