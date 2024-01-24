@@ -217,7 +217,6 @@ export default {
 
   mounted() {
     window.addEventListener('keydown', this.keydown);
-    window.addEventListener('resize', this.resizeImage);
     this.getImageIndexCurrentPage();
     this.getUserLabeling();
     this.getImageNameList();
@@ -229,7 +228,6 @@ export default {
 
   unmounted() {
     window.removeEventListener('keydown', this.keydown);
-    window.removeEventListener('resize', this.resizeImage);
   },
 
   methods: {
@@ -556,20 +554,14 @@ export default {
       });
     },
 
-    resizeImage(e) {
-      this.resizeWidth = e.innerWidth / 2;
-      this.resizeHeight = e.innerHeight / 2;
+    // resizeImage 함수
+    resizeImage() {
+      console.log(this.imageWidth, this.imageHeight)
+      if(this.imageWidth)
+      this.resizeWidth = this.imageWidth * 0.8;
+      this.resizeHeight = this.imageHeight * 0.8;
       this.borderBoxResize = this.borderBox * 2;
-    }
-
-    // // resizeImage 함수
-    // resizeImage() {
-    //   console.log(this.imageWidth, this.imageHeight)
-    //   if(this.imageWidth)
-    //   this.resizeWidth = this.imageWidth * 0.8;
-    //   this.resizeHeight = this.imageHeight * 0.8;
-    //   this.borderBoxResize = this.borderBox * 2;
-    // },
+    },
 
     // progress bar의 개수를 구하는 함수
     // countProgressBar() {
