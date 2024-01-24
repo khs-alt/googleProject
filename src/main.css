@@ -788,6 +788,7 @@
   display: flex;
   width: fit-content;
   height: fit-content;
+  overflow: hidden;
 }
 
 .imageBox {
