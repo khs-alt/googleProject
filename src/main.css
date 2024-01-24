@@ -245,6 +245,11 @@
   font-weight: 400;
   box-shadow: rgb(146 153 184 / 8%) 0px 4px 16px;
 }
+
+.btn-style:focus {
+  outline: none;
+}
+
 .signup-btn-style {
   appearance: none;
   text-align: left;
