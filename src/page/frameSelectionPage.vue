@@ -209,6 +209,7 @@ export default {
         .catch((error) => {
           console.log(error);
         })
+      console.log("[getVideoIndex] outside videoIndex: ", this.videoIndex);
     },
     // frame을 선택하면 백엔드로 요청을 보내는 함수
     async selectArtifactFrame() {
