@@ -205,10 +205,11 @@ export default {
     // frame을 선택하면 백엔드로 요청을 보내는 함수
     async selectArtifactFrame() {
       var video = document.getElementById("videoNoartifact");
-      this.selectedVideoTime = video.currentTime;
+      this.selectedVideoTime = (Math.round(video.currentTime * 100) / 100).toFixed(2);
+      let tempCurrentVideo = parseInt(this.currentPage)
       axios
         .post(this.baseUrl + "admin/postVideoFrameTime", {
-          videoIndex: this.videoIndex,
+          videoIndex: tempCurrentVideo,
           selectedVideoTime: this.selectedVideoTime
         })
         .then((response) => {
