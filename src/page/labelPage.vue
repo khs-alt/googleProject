@@ -656,8 +656,10 @@ export default {
     labeling(num) {
       console.log("index: " + this.patchIndex);
       this.userLabeling[this.patchIndex] = num;
-      this.changeNextPatchImage();
       this.isPressed = this.userLabeling[this.patchIndex];
+      setTimeout(() => {
+        this.changeNextPatchImage()
+      }, 1000);
     },
 
     changeNextPatchImage() {
