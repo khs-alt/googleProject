@@ -107,7 +107,7 @@ export default {
     return {
       // testcode: this.$route.params.testcode,
       testcode: history.state.testcode,
-      videoButtonText: "Play",
+      isVideoPlaying: false,
       baseUrl: process.env.BASE_URL + "api/",
       leftVideoUrl: "",
       rightVideoUrl: "",
@@ -297,7 +297,7 @@ export default {
       video2.currentTime = temp;
     },
     changeImgSource() {
-      if (this.videoButtonText != "Play") {
+      if (this.isVideoPlaying == true) {
         this.imgSrc = require("../images/play_icon/iconmonstr-media-control-5-240.png")
       } else {
         this.imgSrc = require("../images/play_icon/iconmonstr-media-control-48-240.png")
@@ -397,7 +397,7 @@ export default {
       return String(this.baseUrl + "postvideo/artifact/" + this.currentPage)
     },
     changeNextVideo() {
-      if (this.videoButtonText == 'Stop') {
+      if (this.isVideoPlaying == true) {
         this.changeVideoButton();
       }
       this.userScoring = this.clickedButton
@@ -428,7 +428,7 @@ export default {
       }
     },
     changeBackVideo() {
-      if (this.videoButtonText == 'Stop') {
+      if (this.isVideoPlaying == true) {
         this.changeVideoButton();
       }
       this.userScoring = this.clickedButton
@@ -480,15 +480,15 @@ export default {
     },
 
     // Play/Stop 및 text 변경 버튼
-    async changeVideoButton() {
+    changeVideoButton() {
       var video1 = document.getElementById('videoNoartifact');
-      if (this.videoButtonText == "Play") {
+      if (this.isVideoPlaying == false) {
         // this.playVideos();
         video1.play();
-        this.videoButtonText = "Stop";
+        this.isVideoPlaying = true;
       } else {
         video1.pause();
-        this.videoButtonText = "Play";
+        this.isVideoPlaying = false;
         // this.pauseVideos();
       }
       this.changeImgSource();
