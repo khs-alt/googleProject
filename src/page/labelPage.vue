@@ -708,10 +708,10 @@ export default {
       } else if (i > this.patchRow - 1) { //v 방향
         this.i = 0;
       }
-      this.rightValue = this.j * this.borderBox * this.zoom; //patch 이미지의 위치값
-      this.bottomValue = this.i * this.borderBox * this.zoom; //patch 이미지의 위치값
-      this.leftValue = this.j * this.borderBoxResize * this.zoom; //borderBox의 위치값
-      this.topValue = this.i * this.borderBoxResize * this.zoom;  //borderBox의 위치값
+      this.rightValue = this.j * this.borderBox; //patch 이미지의 위치값
+      this.bottomValue = this.i * this.borderBox; //patch 이미지의 위치값
+      this.leftValue = this.j * this.borderBoxResize; //borderBox의 위치값
+      this.topValue = this.i * this.borderBoxResize;  //borderBox의 위치값
       this.patchIndex = this.j + (this.i * this.patchColumn); //patch 이미지의 인덱스
     },
 
