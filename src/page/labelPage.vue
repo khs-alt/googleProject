@@ -838,6 +838,7 @@ export default {
         this.setProgressBar();
         this.checkProgressBar();
         this.getUserLabelingList();
+        this.resetZoomAndOffset();
         this.$router.push({
           query: {
             userName: this.currentUser,
@@ -845,7 +846,6 @@ export default {
             testcode: this.testCode
           }
         });
-        this.resetZoomAndOffset();
       }
     },
 
@@ -867,6 +867,7 @@ export default {
         this.setProgressBar();
         this.checkProgressBar();
         this.getUserLabelingList();
+        this.resetZoomAndOffset();
         this.$router.push({
           query: {
             userName: this.currentUser,
@@ -874,7 +875,6 @@ export default {
             testcode: this.testCode
           }
         });
-        this.resetZoomAndOffset();
       }
     },
 
