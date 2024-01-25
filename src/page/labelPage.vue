@@ -329,7 +329,7 @@ export default {
     updateImageStyle() {
       let img = this.$refs.img;
       const imgNaturalWidth = img.naturalWidth;
-      let currentWidth = img.width;
+      let currentWidth = img.width * this.zoom;
       console.log(currentWidth, imgNaturalWidth);
       this.borderBoxResize = ((this.borderBox * currentWidth) / imgNaturalWidth) * this.zoom;
       console.log("borderBoxResize: " + this.borderBoxResize);
