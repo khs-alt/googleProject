@@ -267,13 +267,13 @@ export default {
   methods: {
     
     zoomIn() {
-      this.zoom += 0.1;
+      this.zoom += 0.2;
       this.updateImageStyle();
     },
 
     zoomOut() {
       if (this.zoom >= this.minZoom + 0.1) {
-        this.zoom -= 0.1;
+        this.zoom -= 0.2;
         this.updateImageStyle();
       }
     },
