@@ -614,17 +614,10 @@ export default {
         //Backend에서 들어간 iamge_id의 다음 id를 가져오는 기능이 내장됨
         //따라서 그 다음 image_id값에 접근함
         .then((response) => {
-          if (this.userLabelingList[this.imageIndex] == true) { //r
-            console.log("[getUserLabeling] axios get label image success\n");
-            console.log("[getUserLabeling] patch data\n" + response.data.patch)
-            this.userLabeling = response.data.patch;
-            this.isPressed = this.userLabeling[this.patchIndex];
-            return;
-          }
-          else {
-            this.userLabeling = [];
-            this.isPressed = this.userLabeling[this.patchIndex];
-          }
+          console.log("[getUserLabeling] axios get label image success\n");
+          console.log("[getUserLabeling] patch data\n" + response.data.patch)
+          this.userLabeling = response.data.patch;
+          this.isPressed = this.userLabeling[this.patchIndex]; 
           this.checkProgressBar();
         })
         .catch((error) => {
