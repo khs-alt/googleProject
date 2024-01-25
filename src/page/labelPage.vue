@@ -282,8 +282,8 @@ export default {
       // 가운데를 기준으로 줌 센터를 고정합니다.
       console.log("[setZoomCenter] leftValue: " + this.leftValue);
       console.log("[setZoomCenter] topValue: " + this.topValue);
-      this.zoomCenterX = this.leftValue;
-      this.zoomCenterY = this.topValue;
+      // this.zoomCenterX = this.leftValue;
+      // this.zoomCenterY = this.topValue;
       this.updateImageStyle();
     },
 
