@@ -311,7 +311,8 @@ export default {
         const adjustedX = (event.clientX - this.dragStartX) / this.zoom;
         const adjustedY = (event.clientY - this.dragStartY) / this.zoom;
 
-        console.log(adjustedX, adjustedY);
+        console.log("event: ", event.clientX, event.clientY);
+        console.log("adjusted: ", adjustedX, adjustedY);
 
         this.offsetX += adjustedX;
         this.offsetY += adjustedY;
@@ -320,7 +321,7 @@ export default {
         this.dragStartX = event.clientX;
         this.dragStartY = event.clientY;
 
-        console.log(this.dragStartX, this.dragStartY);
+        console.log("dragStart: ", this.dragStartX, this.dragStartY);
 
         this.updateImageStyle();
       }
