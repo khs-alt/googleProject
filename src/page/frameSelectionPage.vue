@@ -461,8 +461,8 @@ export default {
       const video2 = this.$refs.videoYesartifact;
 
       const videoFrame = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100).toFixed(2);
-      const video1CurrentTime = (Math.round((1 / video1.currentTime) * 100) / 100).toFixed(2);
-      const video2CurrentTime = (Math.round((1 / video2.currentTime) * 100) / 100).toFixed(2);
+      const video1CurrentTime = (Math.round((video1.currentTime) * 100) / 100).toFixed(2);
+      const video2CurrentTime = (Math.round((video2.currentTime) * 100) / 100).toFixed(2);
 
       if (videoFrame != 0) {
         if (videoFrame) {
@@ -480,8 +480,8 @@ export default {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
       const videoFrame = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100).toFixed(2);
-      const video1CurrentTime = (Math.round((1 / video1.currentTime) * 100) / 100).toFixed(2);
-      const video2CurrentTime = (Math.round((1 / video2.currentTime) * 100) / 100).toFixed(2);
+      const video1CurrentTime = (Math.round((video1.currentTime) * 100) / 100).toFixed(2);
+      const video2CurrentTime = (Math.round((video2.currentTime) * 100) / 100).toFixed(2);
 
       if (videoFrame != 0) {
         if (videoFrame) {
