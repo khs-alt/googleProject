@@ -249,8 +249,8 @@ export default {
   mounted() {
     window.addEventListener('keydown', this.keydown);
     this.getImageIndexCurrentPage();
-    this.getUserLabeling();
     this.getImageNameList();
+    this.getUserLabeling();
     this.checkProgressBar();
     this.setProgressBar();
     this.getUserLabelingList();
