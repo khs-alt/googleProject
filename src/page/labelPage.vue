@@ -72,7 +72,7 @@
                   </div>
                 </div>
                 <img :src="serveOriginalImage()" ref="img"
-                  :style="{ ...imageStyles, transform: 'scale(' + zoom + ')', width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
+                  :style="{ ...imageStyles, transform: 'scale(' + zoom + ')', position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
                 <div class="currentBorder"
@@ -332,7 +332,7 @@ export default {
       let img = this.$refs.img;
       const imgNaturalWidth = img.naturalWidth;
       let currentWidth = img.width;
-      console.log(currentWidth, imgNaturalWidth);
+      // console.log(currentWidth, imgNaturalWidth);
       this.borderBoxResize = ((this.borderBox * currentWidth) / imgNaturalWidth);
 
       const scale = `scale(${this.zoom})`;
