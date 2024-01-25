@@ -567,6 +567,7 @@ export default {
           this.imageIndexList = response.data.image_list;
           this.imageOriginalNameList = response.data.original_list;
           this.imageArtifactNameList = response.data.artifact_list;
+          this.findIndex();
           this.checkProgressBar();
           // this.removeSuffix();
         })
@@ -604,7 +605,6 @@ export default {
 
     //라벨링 여부에 따라 userLabeling 가져오는 함수
     getUserLabeling() {
-      this.findIndex();
       console.log("[getUserLabeling] get current page is " + this.currentPage)
       console.log("[getUserLabeling] imageIndex is " + this.imageIndex);
       let temp = parseInt(this.currentPage);
@@ -886,6 +886,7 @@ export default {
       }
       console.log("[findIndex] index is " + this.imageIndex);
       this.currentPage = this.imageIndexList[this.imageIndex];
+      this.getUserLabeling();
     },
   }
 }
