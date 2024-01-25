@@ -280,6 +280,8 @@ export default {
 
     setZoomCenter() {
       // 가운데를 기준으로 줌 센터를 고정합니다.
+      this.leftValue = this.j * this.borderBoxResize * this.zoom; //borderBox의 위치값
+      this.topValue = this.i * this.borderBoxResize * this.zoom;  //borderBox의 위치값
       this.zoomCenterX = this.leftValue;
       this.zoomCenterY = this.topValue;
       this.updateImageStyle();
@@ -332,7 +334,6 @@ export default {
       let currentWidth = img.width;
       console.log(currentWidth, imgNaturalWidth);
       this.borderBoxResize = ((this.borderBox * currentWidth) / imgNaturalWidth);
-      console.log("borderBoxResize: " + this.borderBoxResize);
 
       const scale = `scale(${this.zoom})`;
       const translate = `translate(${this.offsetX}px, ${this.offsetY}px)`;
@@ -352,7 +353,6 @@ export default {
 
     setProgressBar() {
       this.progressBarLength = Math.ceil(this.imageIndexList.length / 100);
-      console.log("[setProgressBar] progressBarLength: " + this.progressBarLength);
       this.progressBarList = [];
       for (var i = 0; i < this.progressBarLength; i++) {
         if (i == this.progressBarLength - 1) {
@@ -361,7 +361,6 @@ export default {
           this.progressBarList.push(100);
         }
       }
-      // console.log("[setProgressBar] progressBarList: " + this.progressBarList);
       this.checkProgressBar();
     },
 
@@ -370,15 +369,12 @@ export default {
     },
 
     toggleProgressModal(index) {
-      //console.log(this.progressBarList[index]);
       this.progressModal = !this.progressModal;
       this.progressModalPage = index;
     },
 
     checkProgressBar() {
-      // console.log("[checkProgressBar] imageIndexList.length: " + this.imageIndexList.length);
       for (let i = 0; i < this.progressBarLength; i++) {
-        // console.log("[checkProgressBar] progressCount: " + this.progressBarCount[i]);
         this.userLabelingCount = 0;
         this.progressBarCount[i] = 0;
         for (let j = 0; j < this.progressBarList[i]; j++) {
@@ -395,9 +391,6 @@ export default {
     getProgressBarClass(index) {
       const progress = this.progressBarCount[index]; //한 것 개수
       const total = this.progressBarList[index]; //전체 개수
-      // console.log("[getProgressBarClass] progress: " + progress);
-      // console.log("[getProgressBarClass] total: " + total);
-      // console.log("[getProgressBarClass] progressbarcount: " + this.progressBarCount);
 
       if (progress == total) {
         return 'progressBar-item'; // 다 했을 때
@@ -597,15 +590,12 @@ export default {
 
     //사용자의 전체 레이블링 데이터 가져오는 함수
     getUserLabelingList() {
-      console.log("getUserLabelingList")
       axios
         .post(this.baseUrl + "getUserLabelingList", {
           user_id: this.currentUser,
           testcode: this.testCode,
         })
         .then((response) => {
-          console.log("[getAllUserLabeling] axios get all userlabeling success\n");
-          console.log("[getAllUserLabeling] response.data.userLabelingList\n" + response.data.userLabelingList)
           this.userLabelingList = response.data.userLabelingList;
           this.setProgressBar();
         })
@@ -627,7 +617,6 @@ export default {
         //Backend에서 들어간 iamge_id의 다음 id를 가져오는 기능이 내장됨
         //따라서 그 다음 image_id값에 접근함
         .then((response) => {
-          console.log("[getUserLabeling] response data" + response.data)
           if (this.userLabelingList[this.imageIndex] == true) { //r
             console.log("[getUserLabeling] axios get label image success\n");
             console.log("[getUserLabeling] patch data\n" + response.data.patch)
