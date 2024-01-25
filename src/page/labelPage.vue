@@ -265,11 +265,6 @@ export default {
   },
 
   methods: {
-    resetZoomAndOffset() {
-      this.zoom = this.minZoom;
-      this.offsetX = 0;
-      this.offsetY = 0;
-    },
     zoomIn() {
       this.zoom += 0.2;
       this.updateImageStyle();
