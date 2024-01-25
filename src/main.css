@@ -858,6 +858,7 @@
 }
 .imageStyle {
   /* position: absolute; */
+  position: relative;
   margin: 2px;
 }
 .tagWrapper {
