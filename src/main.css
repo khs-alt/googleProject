@@ -857,7 +857,7 @@
   display: inline-block;
 }
 .imageStyle {
-  position: absolute;
+  /* position: absolute; */
   margin: 2px;
 }
 .tagWrapper {
