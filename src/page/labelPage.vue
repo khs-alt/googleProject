@@ -280,8 +280,10 @@ export default {
 
     setZoomCenter() {
       // 패치를 기준으로 줌 센터를 고정합니다.
-      this.zoomCenterX = this.j * this.borderBoxResize * this.zoom;
-      this.zoomCenterY = this.i * this.borderBoxResize * this.zoom;
+      // this.zoomCenterX = this.j * this.borderBoxResize * this.zoom;
+      // this.zoomCenterY = this.i * this.borderBoxResize * this.zoom;
+      this.zoomCenterX = this.j * this.borderBoxResize;
+      this.zoomCenterY = this.i * this.borderBoxResize;
       this.updateImageStyle();
     },
 
