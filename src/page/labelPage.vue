@@ -267,13 +267,13 @@ export default {
   methods: {
 
     zoomIn() {
-      this.zoom += 0.4;
+      this.zoom += 0.3;
       this.updateImageStyle();
     },
 
     zoomOut() {
-      if (this.zoom >= this.minZoom + 0.4) {
-        this.zoom -= 0.4;
+      if (this.zoom >= this.minZoom + 0.3) {
+        this.zoom -= 0.3;
         this.updateImageStyle();
       }
     },
@@ -335,7 +335,7 @@ export default {
         transform: `${scale} ${translate}`,
         transformOrigin: `${this.zoomCenterX}px ${this.zoomCenterY}px`,
       }
-      this.setPatch(this.i, this.j);
+      // this.setPatch(this.i, this.j);
     },
 
     resetZoomAndOffset() {
