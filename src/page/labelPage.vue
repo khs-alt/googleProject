@@ -244,7 +244,7 @@ export default {
   },
 
   created() {
-    this.getImageIndexCurrentPage
+    this.getImageIndexCurrentPage();
   },
 
   mounted() {
