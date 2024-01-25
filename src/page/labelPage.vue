@@ -340,7 +340,8 @@ export default {
 
       this.imageStyles = {
         transform: `${scale} ${translate}`,
-        transformOrigin: `${this.zoomCenterX}px ${this.zoomCenterY}px`,
+        // TODO: 여기를 %로 수정하면 drag가 동작하지 않을까?
+        transformOrigin: `${this.zoomCenterX}% ${this.zoomCenterY}%`,
       }
       this.setPatch(this.i, this.j);
     },
