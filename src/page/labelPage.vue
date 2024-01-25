@@ -834,6 +834,7 @@ export default {
         this.checkProgressBar();
         this.getUserLabelingList();
         this.resetZoomAndOffset();
+        this.updateImageStyle();
         this.$router.push({
           query: {
             userName: this.currentUser,
@@ -863,6 +864,7 @@ export default {
         this.checkProgressBar();
         this.getUserLabelingList();
         this.resetZoomAndOffset();
+        this.updateImageStyle();
         this.$router.push({
           query: {
             userName: this.currentUser,
