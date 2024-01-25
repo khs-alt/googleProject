@@ -335,6 +335,7 @@ export default {
         transform: `${scale} ${translate}`,
         transformOrigin: `${this.zoomCenterX}px ${this.zoomCenterY}px`,
       }
+      this.setPatch(this.i, this.j);
     },
 
     resetZoomAndOffset() {
