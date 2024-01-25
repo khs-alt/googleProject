@@ -244,12 +244,12 @@ export default {
   },
 
   created() {
-    this.getImageIndexCurrentPage();
+    this.getImageIndexCurrentPage
   },
 
   mounted() {
     window.addEventListener('keydown', this.keydown);
-    // this.getImageIndexCurrentPage();
+    this.getImageIndexCurrentPage();
     this.getUserLabeling();
     this.getImageNameList();
     this.checkProgressBar();
