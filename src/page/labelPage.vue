@@ -279,11 +279,9 @@ export default {
     },
 
     setZoomCenter() {
-      // 가운데를 기준으로 줌 센터를 고정합니다.
-      this.leftValue = this.j * this.borderBoxResize * this.zoom; //borderBox의 위치값
-      this.topValue = this.i * this.borderBoxResize * this.zoom;  //borderBox의 위치값
-      this.zoomCenterX = this.leftValue;
-      this.zoomCenterY = this.topValue;
+      // 패치를 기준으로 줌 센터를 고정합니다.
+      this.zoomCenterX = this.j * this.borderBoxResize * this.zoom;
+      this.zoomCenterY = this.i * this.borderBoxResize * this.zoom;
       this.updateImageStyle();
     },
 
