@@ -345,7 +345,7 @@ export default {
       this.imageStyles = {
         transform: `${scale} ${translate}`,
         transformOrigin: `${this.zoomCenterX}px ${this.zoomCenterY}px`,
-      }
+      };
 
       console.log("imageStyles: ", this.imageStyles);
 
