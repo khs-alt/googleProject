@@ -272,7 +272,7 @@ export default {
     },
 
     zoomOut() {
-      if (this.zoom >= this.minZoom + 0.1) {
+      if (this.zoom >= this.minZoom + 0.4) {
         this.zoom -= 0.4;
         this.updateImageStyle();
       }
