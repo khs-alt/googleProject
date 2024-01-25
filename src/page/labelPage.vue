@@ -328,7 +328,7 @@ export default {
 
     updateImageStyle() {
       const borderWidth = document.querySelector('.currentBorder');
-      this.borderBoxResize = borderWidth.offsetWidth;
+      this.borderBoxResize = borderWidth.offsetWidth * this.zoom;
       console.log("borderBoxResize: " + this.borderBoxResize);
 
       const scale = `scale(${this.zoom})`;
