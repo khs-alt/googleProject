@@ -833,8 +833,6 @@ export default {
         this.setProgressBar();
         this.checkProgressBar();
         this.getUserLabelingList();
-        this.resetZoomAndOffset();
-        this.updateImageStyle();
         this.$router.push({
           query: {
             userName: this.currentUser,
@@ -842,6 +840,8 @@ export default {
             testcode: this.testCode
           }
         });
+        this.resetZoomAndOffset();
+        this.updateImageStyle();
       }
     },
 
@@ -863,8 +863,6 @@ export default {
         this.setProgressBar();
         this.checkProgressBar();
         this.getUserLabelingList();
-        this.resetZoomAndOffset();
-        this.updateImageStyle();
         this.$router.push({
           query: {
             userName: this.currentUser,
@@ -872,6 +870,8 @@ export default {
             testcode: this.testCode
           }
         });
+        this.resetZoomAndOffset();
+        this.updateImageStyle();
       }
     },
 
