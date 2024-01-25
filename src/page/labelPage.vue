@@ -605,6 +605,7 @@ export default {
 
     //라벨링 여부에 따라 userLabeling 가져오는 함수
     getUserLabeling() {
+      this.findIndex();
       console.log("[getUserLabeling] get current page is " + this.currentPage)
       let temp = parseInt(this.currentPage);
       axios
