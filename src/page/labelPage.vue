@@ -305,7 +305,7 @@ export default {
     },
 
     handleDragging(event) {
-      // event.preventDefault()
+      event.preventDefault()
       if (this.dragging) {
         // Zoom level에 따라 드래그 속도 조정
         const adjustedX = (event.clientX - this.dragStartX) / this.zoom;
@@ -335,7 +335,6 @@ export default {
       let img = this.$refs.img;
       const imgNaturalWidth = img.naturalWidth;
       let currentWidth = img.width;
-      // console.log(currentWidth, imgNaturalWidth);
       this.borderBoxResize = ((this.borderBox * currentWidth) / imgNaturalWidth);
 
       const scale = `scale(${this.zoom})`;
