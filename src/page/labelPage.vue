@@ -25,7 +25,7 @@
         <div style="display: flex; flex-wrap: wrap;">
           <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
               style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
-              :class="userLabelingList[progressModalPage * 100 + i - 1] == true  ? 'clicked-btn-style' : 'btn-style'"
+              :class="userLabelingList[progressModalPage * 100 + i - 1] == true ? 'clicked-btn-style' : 'btn-style'"
               @click="changePage(progressModalPage * 100 + i)">{{ progressModalPage * 100 + i }}</button></div>
         </div>
         <div class="btncontainer">
@@ -265,7 +265,7 @@ export default {
   },
 
   methods: {
-    
+
     zoomIn() {
       this.zoom += 0.4;
       this.updateImageStyle();
@@ -707,10 +707,10 @@ export default {
       } else if (i > this.patchRow - 1) { //v 방향
         this.i = 0;
       }
-      this.rightValue = this.j * this.borderBox; //patch 이미지의 위치값
-      this.bottomValue = this.i * this.borderBox; //patch 이미지의 위치값
-      this.leftValue = this.j * this.borderBoxResize; //borderBox의 위치값
-      this.topValue = this.i * this.borderBoxResize;  //borderBox의 위치값
+      this.rightValue = this.j * this.borderBox * this.zoom; //patch 이미지의 위치값
+      this.bottomValue = this.i * this.borderBox * this.zoom; //patch 이미지의 위치값
+      this.leftValue = this.j * this.borderBoxResize * this.zoom; //borderBox의 위치값
+      this.topValue = this.i * this.borderBoxResize * this.zoom;  //borderBox의 위치값
       this.patchIndex = this.j + (this.i * this.patchColumn); //patch 이미지의 인덱스
     },
 
