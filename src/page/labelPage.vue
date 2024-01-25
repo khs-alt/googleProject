@@ -65,7 +65,7 @@
                   <div v-for="j in patchColumn" :key="j">
                     <div
                       :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
-                      :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
+                      :style="{ width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: (j - 1) * borderBoxResize + 'px', top: (i - 1) * borderBoxResize + 'px' }"
                       v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
                       {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
                     </div>
