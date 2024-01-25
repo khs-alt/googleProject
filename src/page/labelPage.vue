@@ -346,6 +346,9 @@ export default {
         transform: `${scale} ${translate}`,
         transformOrigin: `${this.zoomCenterX}px ${this.zoomCenterY}px`,
       }
+
+      console.log("imageStyles: ", this.imageStyles);
+      
       this.setPatch(this.i, this.j);
     },
 
