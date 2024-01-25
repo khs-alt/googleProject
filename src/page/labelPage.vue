@@ -886,7 +886,6 @@ export default {
       }
       console.log("[findIndex] index is " + this.imageIndex);
       this.currentPage = this.imageIndexList[this.imageIndex];
-      this.getUserLabeling();
     },
   }
 }
