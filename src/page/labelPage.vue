@@ -299,20 +299,18 @@ export default {
     },
 
     handleDragStart(event) {
+      event.preventDefault()
       this.dragging = true;
       this.dragStartX = event.clientX;
       this.dragStartY = event.clientY;
     },
 
     handleDragging(event) {
-      // event.preventDefault()
+      event.preventDefault()
       if (this.dragging) {
         // Zoom level에 따라 드래그 속도 조정
         const adjustedX = (event.clientX - this.dragStartX) / this.zoom;
         const adjustedY = (event.clientY - this.dragStartY) / this.zoom;
-
-        console.log("event: ", event.clientX, event.clientY);
-        console.log("adjusted: ", adjustedX, adjustedY);
 
         this.offsetX += adjustedX;
         this.offsetY += adjustedY;
@@ -320,8 +318,6 @@ export default {
         // 초기 드래그 위치 업데이트
         this.dragStartX = event.clientX;
         this.dragStartY = event.clientY;
-
-        console.log("dragStart: ", this.dragStartX, this.dragStartY);
 
         this.updateImageStyle();
       }
@@ -339,15 +335,11 @@ export default {
 
       const scale = `scale(${this.zoom})`;
       const translate = `translate(${this.offsetX}px, ${this.offsetY}px)`;
-      console.log("translate: ", translate);
 
       this.imageStyles = {
         transform: `${scale} ${translate}`,
         transformOrigin: `${this.zoomCenterX}px ${this.zoomCenterY}px`,
       };
-
-      console.log("imageStyles: ", this.imageStyles);
-
       this.setPatch(this.i, this.j);
     },
 
