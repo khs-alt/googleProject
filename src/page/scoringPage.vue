@@ -215,7 +215,7 @@ export default {
       currentUser: this.$route.query.userName,
       testCode: this.$route.query.testcode,
       // Stop/Play 로 현재 비디오 상태 체크
-      videoButtonText: "Stop",
+      isVideoPlaying: false,
       baseUrl: process.env.BASE_URL + "api/",
       isMouseOverMinus: false,
       isMouseOverPlus: false,
@@ -551,10 +551,6 @@ export default {
       video1.currentTime = 0;
       video2.currentTime = 0;
       video3.currentTime = 0;
-      console.log("goToBegin");
-      console.log("video1: " + video1.currentTime);
-      console.log("video2: " + video2.currentTime);
-      console.log("video3: " + video3.currentTime);
     },
     goToEnd() {
       var video1 = document.getElementById("videoNoartifact");
@@ -567,13 +563,9 @@ export default {
       video1.currentTime = temp;
       video2.currentTime = temp;
       video3.currentTime = temp;
-      console.log("goToEnd");
-      console.log("video1: " + video1.currentTime);
-      console.log("video2: " + video2.currentTime);
-      console.log("video3: " + video3.currentTime);
     },
     changeImgSource() {
-      if (this.videoButtonText != "Play") {
+      if (this.isVideoPlaying) {
         this.imgSrc = require("../images/play_icon/iconmonstr-media-control-5-240.png");
       } else {
         this.imgSrc = require("../images/play_icon/iconmonstr-media-control-48-240.png");
@@ -585,7 +577,6 @@ export default {
       var toggleVideo = document.getElementById("toggleVideo");
       // 비디오가 end 되면 실행
       const pauseAndPlayVideo = () => {
-        // this.videoButtonText = "Play";
         if (video1.currentTime < video2.currentTime) {
           video1.pause();
           video2.pause();
@@ -744,7 +735,7 @@ export default {
     },
     // 다음 비디오로 넘어가는 함수
     async changeNextVideo() {
-      if (this.videoButtonText == "Stop") {
+      if (this.isVideoPlaying) {
         this.changeVideoButton();
       }
       this.userScoring = this.clickedButton;
@@ -798,7 +789,7 @@ export default {
       }
     },
     changeBackVideo() {
-      if (this.videoButtonText == "Stop") {
+      if (this.isVideoPlaying) {
         this.changeVideoButton();
       }
       this.userScoring = this.clickedButton;
@@ -909,10 +900,10 @@ export default {
       video1.addEventListener("pause", () => {
         document.getElementById("videoYesartifact").pause();
         document.getElementById("toggleVideo").pause();
-        var temp = video2.currentTime;
+        var temp = +(video2.currentTime).toFixed(2);
         video1.currentTime = temp;
-        toggleVideo.currentTime = temp;
         video2.currentTime = temp;
+        toggleVideo.currentTime = temp;
       });
       video1.addEventListener("ended", () => {
         video1.currentTime = 0;
@@ -921,34 +912,18 @@ export default {
         video1.play();
       });
     },
-    // video 2개 동시에 Stop 시키는 method
-    // pauseVideos() {
-    //   var video1 = document.getElementById('videoNoartifact');
-    //   var video2 = document.getElementById('videoYesartifact');
-    //   var toggleVideo = document.getElementById('toggleVideo');
-
-    //   if (video1 && video2 && toggleVideo) {
-    //     var temp = video2.currentTime;
-    //     video1.currentTime = temp;
-    //     toggleVideo.currentTime = temp;
-    //     video1.pause();
-    //   }
-    // },
     // Play/Stop 및 text 변경 버튼
     changeVideoButton() {
       console.log(
-        "[changeVideoButton]: current videoButtonText: " + this.videoButtonText
+        "[changeVideoButton]: current isVideoPlaying: " + this.isVideoPlaying
       );
-      if (this.videoButtonText == "Play") {
-        // this.playVideos();
-        let orignalVideo = document.getElementById("videoNoartifact");
+      let orignalVideo = document.getElementById("videoNoartifact");
+      if (this.isVideoPlaying == false) {
         orignalVideo.play();
-        this.videoButtonText = "Stop";
+        this.isVideoPlaying = true;
       } else {
-        let orignalVideo = document.getElementById("videoNoartifact");
         orignalVideo.pause();
-        this.videoButtonText = "Play";
-        // this.pauseVideos();
+        this.isVideoPlaying = false;
       }
       this.changeImgSource();
     },
@@ -956,27 +931,22 @@ export default {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
       const video3 = document.getElementById("toggleVideo");
-      const originalFrame =
-        1 / this.originalVideoFrameList[this.videoNameIndex];
-      const artifactFrame =
-        1 / this.artifactVideoFrameList[this.videoNameIndex];
-      console.log("originalFrame: " + originalFrame);
-      console.log("artifactFrame: " + artifactFrame);
+      const originalFrame = (Math.round((1 / this.originalVideoFrameList[this.videoNameIndex]) * 100) / 100);
+      const artifactFrame = (Math.round((1 / this.artifactVideoFrameList[this.videoNameIndex]) * 100) / 100);
+
+      const video1CurrentTime = (Math.round((video1.currentTime) * 100) / 100);
+      const video2CurrentTime = (Math.round((video2.currentTime) * 100) / 100);
 
       if (originalFrame != 0 && artifactFrame != 0) {
         // const halfOriginalFrame = (originalFrame) / 2;
         // const halfArtifactFrame = (artifactFrame) / 2;
         if (video1 && video2) {
-          if (
-            video1.currentTime - originalFrame <= 0 ||
-            video2.currentTime - artifactFrame <= 0 ||
-            video3.currentTime <= 0
-          ) {
+          if (video1CurrentTime - originalFrame <= 0 || video2CurrentTime - artifactFrame <= 0 || video3.currentTime <= 0) {
             return;
           }
-          video1.currentTime -= originalFrame;
-          video2.currentTime -= artifactFrame;
-          video3.currentTime -= artifactFrame;
+          video1.currentTime = +(video1.currentTime - parseFloat(originalFrame)).toFixed(2);
+          video2.currentTime = +(video2.currentTime - parseFloat(artifactFrame)).toFixed(2);
+          video3.currentTime = +(video3.currentTime - parseFloat(artifactFrame)).toFixed(2);
         }
       }
     },
@@ -984,37 +954,23 @@ export default {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
       const video3 = document.getElementById("toggleVideo");
-      const originalFrame =
-        1 / this.originalVideoFrameList[this.videoNameIndex];
-      const artifactFrame =
-        1 / this.artifactVideoFrameList[this.videoNameIndex];
-      console.log("originalFrame: " + originalFrame);
-      console.log("artifactFrame: " + artifactFrame);
+
+      const originalFrame = (Math.round((1 / this.originalVideoFrameList[this.videoNameIndex]) * 100) / 100);
+      const artifactFrame = (Math.round((1 / this.artifactVideoFrameList[this.videoNameIndex]) * 100) / 100);
+
+      const video1CurrentTime = (Math.round((video1.currentTime) * 100) / 100);
+      const video2CurrentTime = (Math.round((video2.currentTime) * 100) / 100);
 
       if (originalFrame != 0 && artifactFrame != 0) {
-        const halfOriginalFrame = originalFrame / 2;
-        const halfArtifactFrame = artifactFrame / 2;
+        // const halfOriginalFrame = originalFrame / 2;
+        // const halfArtifactFrame = artifactFrame / 2;
         if (video1 && video2) {
-          if (video1.currentTime == 0 || video2.currentTime == 0) {
-            video1.currentTime = halfOriginalFrame + originalFrame;
-            video2.currentTime = halfArtifactFrame + artifactFrame;
-            video3.currentTime = halfArtifactFrame + artifactFrame;
-          } else {
-            // 마지막 프레임을 버림
-            if (
-              video1.currentTime + originalFrame * 3 >= video1.duration ||
-              video2.currentTime + artifactFrame * 3 >= video2.duration ||
-              video3.currentTime + artifactFrame * 3 >= video3.duration ||
-              video1.ended ||
-              video2.ended ||
-              video3.ended
-            ) {
-              return;
-            }
-            video1.currentTime += originalFrame;
-            video2.currentTime += artifactFrame;
-            video3.currentTime += artifactFrame;
+          if (video1CurrentTime + originalFrame * 2 >= video1.duration || video2CurrentTime + artifactFrame * 2 >= video2.duration) {
+            return;
           }
+          video1.currentTime = +(video1.currentTime + parseFloat(originalFrame)).toFixed(2);
+          video2.currentTime = +(video2.currentTime + parseFloat(artifactFrame)).toFixed(2);
+          video3.currentTime = +(video3.currentTime + parseFloat(artifactFrame)).toFixed(2);
         }
       }
     },
