@@ -299,14 +299,12 @@ export default {
     },
 
     handleDragStart(event) {
-      console.log("drag start");
       this.dragging = true;
       this.dragStartX = event.clientX;
       this.dragStartY = event.clientY;
     },
 
     handleDragging(event) {
-      console.log("dragging");
         event.preventDefault()
       if (this.dragging) {
         // Zoom level에 따라 드래그 속도 조정
@@ -321,6 +319,8 @@ export default {
         // 초기 드래그 위치 업데이트
         this.dragStartX = event.clientX;
         this.dragStartY = event.clientY;
+
+        console.log(this.dragStartX, this.dragStartY);
 
         this.updateImageStyle();
       }
