@@ -296,7 +296,7 @@ export default {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
       const videoFrame = this.videoFrameList[this.videoNameIndex];
-      const temp = video1.duration - (1 / videoFrame);
+      const temp = +(video1.duration - (1 / videoFrame)).toFixed(2);
       video1.currentTime = temp;
       video2.currentTime = temp;
       this.isVideoPlaying = false;
