@@ -434,7 +434,7 @@ export default {
       });
       video1.addEventListener("pause", () => {
         document.getElementById('videoYesartifact').pause();
-        var temp = video2.currentTime;
+        let temp = + (video2.currentTime).toFixed(2);
         video1.currentTime = temp;
         video2.currentTime = temp;
       })
