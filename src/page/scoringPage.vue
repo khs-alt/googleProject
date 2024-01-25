@@ -555,7 +555,7 @@ export default {
       var video2 = document.getElementById("videoYesartifact");
       var video3 = document.getElementById("toggleVideo");
       const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
-      const temp = +(video1.duration - (1 / originalFrame)).toFixed(2);
+      const temp = +(video1.duration - (1 / originalFrame) * 2).toFixed(2);
       video1.pause();
       video1.currentTime = temp;
       video2.currentTime = temp;
