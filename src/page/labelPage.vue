@@ -340,6 +340,7 @@ export default {
 
       const scale = `scale(${this.zoom})`;
       const translate = `translate(${this.offsetX}px, ${this.offsetY}px)`;
+      console.log("translate: ", translate);
 
       this.imageStyles = {
         transform: `${scale} ${translate}`,
