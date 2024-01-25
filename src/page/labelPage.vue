@@ -563,7 +563,7 @@ export default {
         })
         .then((response) => {
           console.log("[getImageNameList] axios get image list success\n");
-          //console.log("[getImageNameList] response.data.image_list\n" + response.data.image_list)
+          console.log("[getImageNameList] response.data.image_list\n" + response.data.image_list)
           this.imageIndexList = response.data.image_list;
           this.imageOriginalNameList = response.data.original_list;
           this.imageArtifactNameList = response.data.artifact_list;
@@ -594,7 +594,6 @@ export default {
         })
         .then((response) => {
           this.userLabelingList = response.data.userLabelingList;
-          console.log("[getUserLabelingList]: " + this.userLabelingList);
           this.setProgressBar();
         })
         .catch((error) => {
@@ -606,7 +605,6 @@ export default {
     //라벨링 여부에 따라 userLabeling 가져오는 함수
     getUserLabeling() {
       console.log("[getUserLabeling] get current page is " + this.currentPage)
-      console.log("[getUserLabeling] imageIndex is " + this.imageIndex);
       let temp = parseInt(this.currentPage);
       axios
         .post(this.baseUrl + "getUserImageScore", {
