@@ -764,7 +764,7 @@ export default {
       this.isPressed = this.userLabeling[this.patchIndex];
       setTimeout(() => {
         this.changeNextPatchImage()
-      }, 500); //0.5초 후에 다음 patch로 넘어감
+      }, 100); //0.5초 후에 다음 patch로 넘어감
     },
 
     changeNextPatchImage() {
