@@ -25,7 +25,7 @@
         <div style="display: flex; flex-wrap: wrap;">
           <div v-for="i in progressBarList[progressModalPage]" :key="i"><button
               style="margin: 2px; width: 40px; height: 30px; font-size: large; padding-top: 1px; display: flex; justify-content: center;"
-              :class="userLabelingList[progressModalPage * 100 + i - 1][0] >= 0 ? 'clicked-btn-style' : 'btn-style'"
+              :class="userLabelingList[progressModalPage * 100 + i - 1] == true  ? 'clicked-btn-style' : 'btn-style'"
               @click="changePage(progressModalPage * 100 + i)">{{ progressModalPage * 100 + i }}</button></div>
         </div>
         <div class="btncontainer">
@@ -265,16 +265,19 @@ export default {
   },
 
   methods: {
+    
     zoomIn() {
       this.zoom += 0.1;
       this.updateImageStyle();
     },
+
     zoomOut() {
       if (this.zoom >= this.minZoom + 0.1) {
         this.zoom -= 0.1;
         this.updateImageStyle();
       }
     },
+
     setZoomCenter() {
       // 가운데를 기준으로 줌 센터를 고정합니다.
       console.log("[setZoomCenter] leftValue: " + this.leftValue);
@@ -283,6 +286,7 @@ export default {
       this.zoomCenterY = this.topValue;
       this.updateImageStyle();
     },
+
     handleWheel(event) {
       if (event.deltaY < 0) {
         this.zoomIn();
@@ -293,11 +297,14 @@ export default {
       this.setZoomCenter(event);
       event.preventDefault();
     },
+
     handleDragStart(event) {
+      console.log("drag start");
       this.dragging = true;
       this.dragStartX = event.clientX;
       this.dragStartY = event.clientY;
     },
+
     handleDragging(event) {
       if (this.dragging) {
         // Zoom level에 따라 드래그 속도 조정
@@ -314,23 +321,27 @@ export default {
         this.updateImageStyle();
       }
     },
+
     handleDragEnd() {
       this.dragging = false;
     },
+
     updateImageStyle() {
       const scale = `scale(${this.zoom})`;
       const translate = `translate(${this.offsetX}px, ${this.offsetY}px)`;
 
-      this.videoStyles = {
+      this.imageStyles = {
         transform: `${scale} ${translate}`,
         transformOrigin: `${this.zoomCenterX}px ${this.zoomCenterY}px`,
       }
     },
+
     resetZoomAndOffset() {
       this.zoom = this.minZoom;
       this.offsetX = 0;
       this.offsetY = 0;
     },
+
     setProgressBar() {
       this.progressBarLength = Math.ceil(this.imageIndexList.length / 100);
       console.log("[setProgressBar] progressBarLength: " + this.progressBarLength);
@@ -363,7 +374,7 @@ export default {
         this.userLabelingCount = 0;
         this.progressBarCount[i] = 0;
         for (let j = 0; j < this.progressBarList[i]; j++) {
-          if (this.userLabelingList[(i * 100) + j][0] >= 0) {
+          if (this.userLabelingList[(i * 100) + j] == true) {
             this.progressBarCount[i]++;
           }
           else this.userLabelingCount++;
@@ -609,7 +620,7 @@ export default {
         //따라서 그 다음 image_id값에 접근함
         .then((response) => {
           console.log("[getUserLabeling] response data" + response.data)
-          if (response.data.patch[0] != -1) { //r
+          if (this.userLabelingList[this.currentPage] == true) { //r
             console.log("[getUserLabeling] axios get label image success\n");
             console.log("[getUserLabeling] patch data\n" + response.data.patch)
             this.userLabeling = response.data.patch;
