@@ -306,10 +306,13 @@ export default {
     },
 
     handleDragging(event) {
+      console.log("dragging");
       if (this.dragging) {
         // Zoom level에 따라 드래그 속도 조정
         const adjustedX = (event.clientX - this.dragStartX) / this.zoom;
         const adjustedY = (event.clientY - this.dragStartY) / this.zoom;
+
+        console.log(adjustedX, adjustedY);
 
         //event.preventDefault()
 
