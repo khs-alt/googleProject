@@ -304,7 +304,6 @@ export default {
   },
   created() { },
   mounted() {
-    this.changeVideoButton();
     this.getVideoIndexCurrentPage();
     this.addEventVideoPlay();
     this.isVideoPaused();
