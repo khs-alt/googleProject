@@ -621,7 +621,7 @@ export default {
         //따라서 그 다음 image_id값에 접근함
         .then((response) => {
           console.log("[getUserLabeling] response data" + response.data)
-          if (this.userLabelingList[this.currentPage] == true) { //r
+          if (this.userLabelingList[response.data.image_id] == true) { //r
             console.log("[getUserLabeling] axios get label image success\n");
             console.log("[getUserLabeling] patch data\n" + response.data.patch)
             this.userLabeling = response.data.patch;
