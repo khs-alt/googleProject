@@ -605,6 +605,7 @@ export default {
     //라벨링 여부에 따라 userLabeling 가져오는 함수
     getUserLabeling() {
       console.log("[getUserLabeling] get current page is " + this.currentPage)
+      console.log("[getUserLabeling] imageIndex is " + this.imageIndex);
       let temp = parseInt(this.currentPage);
       axios
         .post(this.baseUrl + "getUserImageScore", {
