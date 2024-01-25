@@ -267,13 +267,13 @@ export default {
   methods: {
     
     zoomIn() {
-      this.zoom += 0.2;
+      this.zoom += 0.4;
       this.updateImageStyle();
     },
 
     zoomOut() {
       if (this.zoom >= this.minZoom + 0.1) {
-        this.zoom -= 0.2;
+        this.zoom -= 0.4;
         this.updateImageStyle();
       }
     },
@@ -306,6 +306,7 @@ export default {
     },
 
     handleDragging(event) {
+      event.preventDefault()
       if (this.dragging) {
         // Zoom level에 따라 드래그 속도 조정
         const adjustedX = (event.clientX - this.dragStartX) / this.zoom;
