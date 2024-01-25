@@ -280,8 +280,6 @@ export default {
 
     setZoomCenter() {
       // 가운데를 기준으로 줌 센터를 고정합니다.
-      console.log("[setZoomCenter] leftValue: " + this.leftValue);
-      console.log("[setZoomCenter] topValue: " + this.topValue);
       this.zoomCenterX = this.leftValue;
       this.zoomCenterY = this.topValue;
       this.updateImageStyle();
@@ -306,11 +304,12 @@ export default {
     },
 
     handleDragging(event) {
-      event.preventDefault()
       if (this.dragging) {
         // Zoom level에 따라 드래그 속도 조정
         const adjustedX = (event.clientX - this.dragStartX) / this.zoom;
         const adjustedY = (event.clientY - this.dragStartY) / this.zoom;
+
+        event.preventDefault()
 
         this.offsetX += adjustedX;
         this.offsetY += adjustedY;
@@ -328,6 +327,11 @@ export default {
     },
 
     updateImageStyle() {
+      let img = this.$refs.img;
+      const imgNaturalWidth = img.naturalWidth;
+      let currentWidth = img.width;
+      this.borderBoxResize = (this.borderBox * currentWidth) / imgNaturalWidth;
+      console.log("borderBoxResize: " + this.borderBoxResize);
       const scale = `scale(${this.zoom})`;
       const translate = `translate(${this.offsetX}px, ${this.offsetY}px)`;
 
