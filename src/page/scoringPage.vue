@@ -849,8 +849,8 @@ export default {
         .then((res) => {
           //after post we have to init data form userScoring and currentPage
           this.userScoring = 0;
-          this.resetZoomAndOffset();
-          this.updateVideoStyle();
+          // this.resetZoomAndOffset();
+          // this.updateVideoStyle();
           console.log("[toggleButton]: " + res.data);
         })
         .catch((error) => {
