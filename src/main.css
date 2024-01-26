@@ -320,6 +320,11 @@
   font-weight: 400;
   box-shadow: rgb(146 153 184 / 8%) 0px 4px 16px;
 }
+
+.clicked-btn-style:focus {
+  outline: none;
+}
+
 .home-main-content {
   min-height: calc(100% - 100px);
   padding: 18px 10px 80px 10px;
