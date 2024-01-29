@@ -186,8 +186,14 @@ export default {
     isVideoFrameSelected() {
       let currentVideoTime = this.currentVideoTime;
       if (this.selectedVideoTimeList.includes(currentVideoTime)) {
+        console.log("[isVideoFrameSelected] true");
+        console.log("[isVideoFrameSelected] selectedVideoTimeList: ", this.selectedVideoTimeList);
+        console.log("[isVideoFrameSelected] currentVideoTime: ", currentVideoTime);
         return true;
       } else {
+        console.log("[isVideoFrameSelected] false");
+        console.log("[isVideoFrameSelected] selectedVideoTimeList: ", this.selectedVideoTimeList);
+        console.log("[isVideoFrameSelected] currentVideoTime: ", currentVideoTime);
         return false;
       }
     },
