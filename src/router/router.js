@@ -3,7 +3,7 @@ import homePage from "../page/homePage";
 import ScoringPage from "../page/scoringPage";
 import Label from "../page/labelPage";
 import signUp from "../page/signUpPage";
-import admin from "../page/adminPage";
+import admin from "../page/adminLoginPage";
 import adminUploadPage from "../page/uploadPage";
 import adminImageUploadPage from "../page/uploadImagePage";
 import testcodePage from "../page/testcodePage";

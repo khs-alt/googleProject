@@ -2,116 +2,111 @@
   <div class="body-style">
     <div class="menu">
       <div class="menu-header" style="display: flex;">
-        <div class="menu-content" style="justify-content: space-between;">
-          <div>
-            <a href="/label/admin/imageupload/">
-              <button class="signup-btn-style">Image Upload</button>
-            </a>
-          </div>
-          <div>
-            <a href="/label/">
-              <button class="signup-btn-style">Home</button>
-            </a>
-            <a href="/label/signup/">
-              <button class="signup-btn-style">Sign up</button>
-            </a>
-            <a href="/label/admin/">
-              <button class="signup-btn-style">Admin</button>
-            </a>
-            <a href="/label/admin/testcode">
-              <button class="signup-btn-style">Test Code</button>
-            </a>
-            <a href="/label/admin/inputtestcode" style="margin-right: 0px;">
-              <button class="signup-btn-style">Video Frame Selection</button>
-            </a>
-          </div>
+        <div class="menu-content" style="justify-content: end;">
+          <a href="/label/">
+            <button class="signup-btn-style">Home</button>
+          </a>
+          <a href="/label/admin/main">
+            <button class="signup-btn-style">Admin</button>
+          </a>
         </div>
       </div>
     </div>
   </div>
-  <div class="home-main-content" style="display:inline-block; width:100vw">
+  <div class="home-main-content-admin">
     <div style="display:flex">
-      <div style="border-bottom: 1px black soild; ">
-        Admin Category
-      </div>
-      <div style="display: inline-block;">
-
-      <div style="display:list-item">
-        <div>
-          Video
-        </div>
-      </div>
-    </div>
-
-    </div>
-    <div style=" width: 80vw; margin-left: auto; margin-right: auto; display: flex;">
-      <!-- original video -->
-      <div class="file-upload-left-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
-        @drop="onOriginalDrop">
-        <div @click="onOriginalClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
-          Drag & Drop Original Videos
-          <!-- 업로드된 리스트 -->
-          <!-- TODO: 업로드된 리스트 안 쪽에 좀 더 깔끔하게 UI 만들기 -->
-          <div class="scrollingUploadedData">
-            <div class="file-upload-list">
-              <div class="file-upload-list__item" v-for="originalFile in originalFileList" :key="originalFile">
-                <div class="file-upload-list__item__data-name">{{ originalFile.name }}</div>
-              </div>
+      <div style="display:inline-block; text-align: left; margin-left: 2vw;">
+        <h5>
+          Admin Index
+        </h5>
+        <div style="display: inline-block;">
+          <div>
+            <div>Video</div>
+            <div>
+              <li><a href="/label/admin/testcode">Video Testcode</a></li>
+              <li><a href="/label/admin/upload">Video Upload</a></li>
+            </div>
+            <div>Image</div>
+            <div>
+              <li><a href="/label/admin/imagetestcode">Image Testcode</a></li>
+              <li><a href="/label/admin/imageupload">Image Upload</a></li>
+            </div>
+            <div>Frame Selection</div>
+            <div>
+              <li><a href="/label/admin/inputtestcode">Video Frame Selection</a></li>
             </div>
           </div>
         </div>
-        <button class="btn-style" style=" padding: 10px; font-weight: 400; margin-top: 30px;"
-          @click="originalHandleRemove(index)">
-          삭제
-        </button>
       </div>
-      <input type="file" ref="originalFileInput" class="file-upload-input" @change="onOriginalFileChange" multiple>
-
-      <!-- artifact video -->
-      <div class="file-upload-right-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
-        @drop="onArtifactDrop">
-        <div @click="onArtifactClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
-          Drag & Drop Artifact Videos
-          <!-- 업로드된 리스트 -->
-          <div class="scrollingUploadedData">
-            <div class="file-upload-list">
-              <div class="file-upload-list__item" v-for="artifactFile in artifactFileList" :key="artifactFile">
-                <div class="file-upload-list__item__data-name">{{ artifactFile.name }}</div>
+      <div style=" width: 80vw; margin-left: auto; margin-right: auto; ">
+        <h4 style="margin-bottom: 2vh;">Video Upload Page</h4>
+        <!-- original video -->
+        <div class="file-upload-left-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
+          @drop="onOriginalDrop">
+          <div @click="onOriginalClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
+            Drag & Drop Original Videos
+            <!-- 업로드된 리스트 -->
+            <!-- TODO: 업로드된 리스트 안 쪽에 좀 더 깔끔하게 UI 만들기 -->
+            <div class="scrollingUploadedData">
+              <div class="file-upload-list">
+                <div class="file-upload-list__item" v-for="originalFile in originalFileList" :key="originalFile">
+                  <div class="file-upload-list__item__data-name">{{ originalFile.name }}</div>
+                </div>
               </div>
             </div>
           </div>
+          <button class="btn-style" style=" padding: 10px; font-weight: 400; margin-top: 30px;"
+            @click="originalHandleRemove(index)">
+            삭제
+          </button>
         </div>
-        <input type="file" ref="artifactFileInput" class="file-upload-input" @change="onArtifactFileChange" multiple>
-        <button class="btn-style" style="padding: 10px; font-weight: 400; margin-top: 30px;"
-          @click="artifactHandleRemove(index)">
-          삭제
-        </button>
-      </div>
+        <input type="file" ref="originalFileInput" class="file-upload-input" @change="onOriginalFileChange" multiple>
 
-      <!-- diff video -->
-      <div class="file-upload-right-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
-        @drop="onDiffDrop">
-        <div @click="onDiffClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
-          Drag & Drop Diff Videos
-          <!-- 업로드된 리스트 -->
-          <div class="scrollingUploadedData">
-            <div class="file-upload-list">
-              <div class="file-upload-list__item" v-for="diffFile in diffFileList" :key="diffFile">
-                <div class="file-upload-list__item__data-name">{{ diffFile.name }}</div>
+        <!-- artifact video -->
+        <div class="file-upload-right-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
+          @drop="onArtifactDrop">
+          <div @click="onArtifactClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
+            Drag & Drop Artifact Videos
+            <!-- 업로드된 리스트 -->
+            <div class="scrollingUploadedData">
+              <div class="file-upload-list">
+                <div class="file-upload-list__item" v-for="artifactFile in artifactFileList" :key="artifactFile">
+                  <div class="file-upload-list__item__data-name">{{ artifactFile.name }}</div>
+                </div>
               </div>
             </div>
           </div>
+          <input type="file" ref="artifactFileInput" class="file-upload-input" @change="onArtifactFileChange" multiple>
+          <button class="btn-style" style="padding: 10px; font-weight: 400; margin-top: 30px;"
+            @click="artifactHandleRemove(index)">
+            삭제
+          </button>
         </div>
-        <input type="file" ref="diffFileInput" class="file-upload-input" @change="onDiffFileChange" multiple>
-        <button class="btn-style" style="padding: 10px; font-weight: 400; margin-top: 30px;"
-          @click="diffHandleRemove(index)">
-          삭제
-        </button>
+
+        <!-- diff video -->
+        <div class="file-upload-right-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
+          @drop="onDiffDrop">
+          <div @click="onDiffClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
+            Drag & Drop Diff Videos
+            <!-- 업로드된 리스트 -->
+            <div class="scrollingUploadedData">
+              <div class="file-upload-list">
+                <div class="file-upload-list__item" v-for="diffFile in diffFileList" :key="diffFile">
+                  <div class="file-upload-list__item__data-name">{{ diffFile.name }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <input type="file" ref="diffFileInput" class="file-upload-input" @change="onDiffFileChange" multiple>
+          <button class="btn-style" style="padding: 10px; font-weight: 400; margin-top: 30px;"
+            @click="diffHandleRemove(index)">
+            삭제
+          </button>
+        </div>
       </div>
     </div>
-
     <!-- 태그 -->
-    <div class="tagWrapper">
+    <div class="tagWrapper" style="margin-top: 4vh;">
       <div style="width: 100%;">
         <div>
           <div>
