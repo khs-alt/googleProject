@@ -119,7 +119,7 @@
           <div class="patch-container">
             <div class="patchName">
               <div class="selected-patch-image"
-                :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
+                :style="{ width: (borderBox) + 'px', height: (borderBox * 2) + 'px' }">
                 <img :src="serveOriginalImage()" class="selected-patch"
                   :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
                   alt="original">
@@ -128,7 +128,7 @@
             </div>
             <div class="patchName">
               <div class="selected-patch-image"
-                :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
+                :style="{ width: (borderBox) + 'px', height: (borderBox * 2) + 'px' }">
                 <img :src="serveArtifactImage()" class="selected-patch"
                   :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
                   alt="denoised">
@@ -137,7 +137,7 @@
             </div>
             <div class="patchName">
               <div class="selected-patch-image"
-                :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
+                :style="{ width: (borderBox) + 'px', height: (borderBox * 2) + 'px' }">
                 <img :src="serveDifferenceImage()" class="selected-patch"
                   :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
                   alt="difference">
@@ -201,7 +201,7 @@ export default {
       imageOriginalNameList: [],
       imageArtifactNameList: [],
       // borderBox: 224, //Patch 이미지의 크기
-      borderBox: 56, //240122 수정
+      borderBox: 224, //240122 수정
       borderBoxResize: 0, //축소된 patch 이미지의 크기
       leftValue: 0, //borderBox의 left값
       topValue: 0,  //borderBox의 top값
