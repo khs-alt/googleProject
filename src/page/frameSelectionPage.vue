@@ -177,7 +177,6 @@ export default {
     this.getSelectedFrameList();
   },
   computed: {
-    // TODO: 주석 풀기 
     currentPageIndex() {
       return parseInt(this.videoNameIndex) + 1;
     },

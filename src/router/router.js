@@ -10,6 +10,7 @@ import testcodePage from "../page/testcodePage";
 import imagetestcodePage from "../page/imagetestcodePage";
 import frameSelectionPage from "../page/frameSelectionPage";
 import inputTestcodePage from "../page/inputTestcodePage";
+import adminMainPage from "../page/adminMainPage";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -49,6 +50,11 @@ const router = createRouter({
       path: "/label/admin/inputtestcode",
       name: "inputTestcodePage",
       component: inputTestcodePage,
+    },
+    {
+      path: "/label/admin/main",
+      name: "adminMainPage",
+      component: adminMainPage,
     },
   ],
 });
