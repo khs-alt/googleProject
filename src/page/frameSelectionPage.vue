@@ -15,10 +15,17 @@
       <p style="font-size: 24px; margin-top: 10px; margin-bottom:4px">{{ this.testcode }}</p>
       <div>
         <!-- 현재 비디오 시간 -->
-        <div>Time : {{ this.videoCurrentTime }} / {{ this.videoDuration }}</div>
+        <div>
+          Time : {{ this.videoCurrentTime }} / {{ this.videoDuration }}
+        </div>
       </div>
       <div>
-        <div>Frame : {{ this.currentFrame }} / {{ this.totalFrameLength }}</div>
+        <div>
+          Frame : {{ this.currentFrame }} / {{ this.totalFrameLength }}
+        </div>
+        <div>
+          selected frame {{ this.selectedVideoTimeList.length }} framse out of {{ this.totalFrameLength }} per video
+        </div>
       </div>
       <div class="video-container">
         <div class="videoPlayer">
@@ -87,8 +94,7 @@
               style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
               @click="[changeBackVideo()]">prev</button>
             <button v-on="click" class="btn-style"
-              style="font-size: x-large; width: 100px; height: 40px; padding-top: 0px;"
-              @click="selectArtifactFrame()">check</button>
+              style="font-size: x-large; width: 100px; height: 40px; padding-top: 0px;" @click="">check</button>
             <button v-on="click" class="btn-style"
               style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
               @click="[changeNextVideo()]">next</button>
@@ -147,6 +153,7 @@ export default {
       // tempVideo: require("./original.mp4"),
       // tempVideo2: require("./denoise.mp4"),
       selectedVideoTime: 0.00,
+      selectedVideoTimeList: [],
       currentPage: 0,
       totalFrameLength: 0,
       currentFrame: 0,
@@ -173,6 +180,10 @@ export default {
     },
   },
   methods: {
+    addVideoFrame() {
+      this.selectedVideoTimeList.push(this.videoCurrentTime);
+ㅁㄴㅇㄹ
+    },
     addEventVideoCurrentTime() {
       var video = document.getElementById('videoNoartifact');
       video.addEventListener("loadeddata", (event) => {
@@ -216,6 +227,7 @@ export default {
     // frame을 선택하면 백엔드로 요청을 보내는 함수
     async selectArtifactFrame() {
       var video = document.getElementById("videoNoartifact");
+      // TODO: selectedVideoTimeList 로 백엔드 보내주기 
       this.selectedVideoTime = (Math.round(video.currentTime * 100) / 100).toFixed(2);
       let tempCurrentVideo = parseInt(this.currentPage)
       axios
@@ -226,16 +238,6 @@ export default {
         .then((response) => {
           console.log(response);
         })
-    },
-    async getVideoHeight() {
-      var video1 = document.getElementById('videoNoartifact');
-      const temp = video1.style.height;
-      var video1Height = document.getElementById('left-video-cover');
-      var video2Height = document.getElementById('right-video-cover');
-      var video3Height = document.getElementById('toggleVideo');
-      video1Height.style.height = temp;
-      video2Height.style.height = temp;
-      video3Height.style.height = temp;
     },
     //키보드 이벤트 함수
     keydown(e) {
