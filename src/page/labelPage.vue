@@ -110,56 +110,59 @@
           <div style="clear:both;"></div>
         </div>
         <div class="patchbtncontainer">
-          <div>
-            <div class="patch-container">
-              <div class="patchName">
-                <div class="selected-patch-image"
-                  :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
-                  <img :src="serveOriginalImage()" class="selected-patch"
-                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
-                    alt="original">
-                </div>
-                <label class="textLabel">original</label>
-              </div>
-              <div class="patchName">
-                <div class="selected-patch-image"
-                  :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
-                  <img :src="serveArtifactImage()" class="selected-patch"
-                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
-                    alt="denoised">
-                </div>
-                <label class="textLabel">denoised</label>
-              </div>
-              <div class="patchName">
-                <div class="selected-patch-image"
-                  :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
-                  <img :src="serveDifferenceImage()" class="selected-patch"
-                    :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
-                    alt="difference">
-                </div>
-                <label class="textLabel">difference</label>
-              </div>
+          <div class="scoreCnt">
+            <div v-for="a in scoreCnt.length" :key="a">
+              <h4>{{ a - 1 }}</h4>
+              <span>{{ scoreCnt[a - 1] }}</span>
             </div>
           </div>
-          <div class="btncontainer">
-            <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="btn-style"
-              style="width: 50px; height: 40px; padding-top: 1px; font-size: x-large;"
-              :class="{ 'clicked-btn-style': this.isPressed == a - 1 }">{{ buttonString[a - 1] }}</button>
-          </div>
-          <div class="btncontainer">
-            <button class="btn-style" @click="changePreviousPage()">{{ buttonString[6] }}</button>
-            <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageIndexList.length }}</span>
-            <button class="btn-style" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
-          </div>
+          <div class="patch-container">
+            <div class="patchName">
+              <div class="selected-patch-image"
+                :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
+                <img :src="serveOriginalImage()" class="selected-patch"
+                  :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
+                  alt="original">
+              </div>
+              <label class="textLabel">original</label>
+            </div>
+            <div class="patchName">
+              <div class="selected-patch-image"
+                :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
+                <img :src="serveArtifactImage()" class="selected-patch"
+                  :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
+                  alt="denoised">
+              </div>
+              <label class="textLabel">denoised</label>
+            </div>
+            <div class="patchName">
+              <div class="selected-patch-image"
+                :style="{ width: (borderBox * 2) + 'px', height: (borderBox * 2) + 'px' }">
+                <img :src="serveDifferenceImage()" class="selected-patch"
+                  :style="{ width: (imageWidth * 2) + 'px', height: (imageHeight * 2) + 'px', right: rightValue * 2 + 'px', bottom: bottomValue * 2 + 'px' }"
+                  alt="difference">
+              </div>
+              <label class="textLabel">difference</label>
+            </div>
+        </div>
+        <div class="btncontainer">
+          <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="btn-style"
+            style="width: 50px; height: 40px; padding-top: 1px; font-size: x-large;"
+            :class="{ 'clicked-btn-style': this.isPressed == a - 1 }">{{ buttonString[a - 1] }}</button>
+        </div>
+        <div class="btncontainer">
+          <button class="btn-style" @click="changePreviousPage()">{{ buttonString[6] }}</button>
+          <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageIndexList.length }}</span>
+          <button class="btn-style" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
         </div>
       </div>
     </div>
-    <div class="footer">
-      <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
-      <p>help@pilab.smu.ac.kr</p>
-    </div>
   </div>
-</template>
+  <div class="footer">
+    <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
+    <p>help@pilab.smu.ac.kr</p>
+  </div>
+</div></template>
 
 <script>
 import axios from 'axios'
@@ -182,6 +185,7 @@ export default {
       imgSrc: [require("../images/score1_original.png"), require("../images/score1_denoised.png"), require("../images/score2_original.png"), require("../images/score2_denoised.png"), require("../images/score3_original.png"), require("../images/score3_denoised.png"), require("../images/score4_original.png"), require("../images/score4_denoised.png"), require("../images/score5_original.png"), require("../images/score5_denoised.png")],
       index: 0,
       imageIndex: 0,
+      scoreCnt: [0, 0, 0, 0, 0, 0],
       currentUser: this.$route.query.userName,
       testCode: this.$route.query.testcode,
       currentPage: parseInt(this.$route.query.currentPage),
@@ -540,8 +544,8 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          alert("login failed")
-          this.$router.push(process.env.BASE_URL);
+          // alert("login failed")
+          // this.$router.push(process.env.BASE_URL);
         })
     },
     makeImageTemplete() {
@@ -617,7 +621,7 @@ export default {
           console.log("[getUserLabeling] axios get label image success\n");
           console.log("[getUserLabeling] patch data\n" + response.data.patch)
           this.userLabeling = response.data.patch;
-          this.isPressed = this.userLabeling[this.patchIndex]; 
+          this.isPressed = this.userLabeling[this.patchIndex];
           this.checkProgressBar();
         })
         .catch((error) => {

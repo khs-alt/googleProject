@@ -353,6 +353,15 @@
   color: #fff;
   border: 1px solid #007bff;
 }
+
+.scoreCnt{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
 .labeled-border {
   display: flex;
   position: absolute;
