@@ -14,8 +14,11 @@
     </div>
   </div>
   <div class="home-main-content-admin" style="padding-bottom: 0; margin: 0 0 0 0">
+    <div>
+      <h4>Video Testcode Page</h4>
+    </div>
     <div style="display: flex; margin-left: 2vw;">
-      <div style="display:inline-block; text-align: left;">
+      <div style="display:inline-block; text-align: left; min-width: 15vw;">
         <h5>
           Admin Index
         </h5>

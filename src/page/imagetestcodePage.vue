@@ -14,8 +14,11 @@
     </div>
   </div>
   <div class="home-main-content-admin" style="padding-bottom: 0; margin: 0 0 0 0">
+    <div>
+      <h4>Image Testcode Page</h4>
+    </div>
     <div style="display: flex; margin-left: 2vw;">
-      <div style="display:inline-block; text-align: left;">
+      <div style="display:inline-block; text-align: left; min-width: 15vw;">
         <h5>
           Admin Index
         </h5>
@@ -39,32 +42,33 @@
         </div>
       </div>
       <div style="display: inline-block;">
-        <div class="wrapping">
-          <div class="container">
-            <div>
-              <h3>Tag</h3>
-              <div class="tagWrapper">
-                <div>
-                  <button @click="selectAllTags(); getImageListFromTag()" ref="selectAllBtn"
-                    class="btn-style">All</button>
-                  <button v-for="(item, index) in tag" :key="index" ref="tag"
-                    :class="{ 'btn-style': !clickedTagBtn.includes(item), 'clicked-btn-style': clickedTagBtn.includes(item) }"
-                    @click="clickTagBtn(index); getImageListFromTag()" @mouseover="mouseOver(index)"
-                    @mouseout="mouseOut(index)">
-                    {{ item }}
-                  </button>
+        <div>
+          <div class="wrapping">
+            <div class="container">
+              <div>
+                <h3>Tag</h3>
+                <div class="tagWrapper">
+                  <div>
+                    <button @click="selectAllTags(); getImageListFromTag()" ref="selectAllBtn"
+                      class="btn-style">All</button>
+                    <button v-for="(item, index) in tag" :key="index" ref="tag"
+                      :class="{ 'btn-style': !clickedTagBtn.includes(item), 'clicked-btn-style': clickedTagBtn.includes(item) }"
+                      @click="clickTagBtn(index); getImageListFromTag()" @mouseover="mouseOver(index)"
+                      @mouseout="mouseOut(index)">
+                      {{ item }}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
+            <button @click="generateTestcode" class="btn-style"> TestCode Generation </button>
           </div>
-          <button @click="generateTestcode" class="btn-style"> TestCode Generation </button>
-        </div>
-        <div style="width: 800px; margin-left: auto; margin-right: auto;">
-          <h3 style="margin-top: 10px;">TestCode</h3>
-          <div style="display: flex; flex-direction: column;">
-            <div style="margin-left: auto; margin-right: auto; display: flex; flex-direction: column;">
-              <div style="display: flex; flex-direction: column; gap: 10px;">
-                <!-- <div v-for="(tagItem, index) in existTestcode.tags" :key="tagItem"
+          <div style="width: 800px; margin-left: auto; margin-right: auto;">
+            <h3 style="margin-top: 10px;">TestCode</h3>
+            <div style="display: flex; flex-direction: column;">
+              <div style="margin-left: auto; margin-right: auto; display: flex; flex-direction: column;">
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                  <!-- <div v-for="(tagItem, index) in existTestcode.tags" :key="tagItem"
                             style="display: flex; justify-content: space-between;">
                             <div
                                 style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex; justify-content: space-between;">
@@ -76,21 +80,22 @@
                                 <div>{{ tagItem }}</div>
                             </div>
                         </div> -->
-                <div v-for="(tagItem, index) in existTestcode.tags" :key="tagItem"
-                  style="display: flex; justify-content: space-between;">
-                  <div
-                    style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex; justify-content: space-between;">
-                    <!-- TODO: 눌리면 class="clicked-btn-style" 안눌리면 class="btn-style" -->
-                    <button @click="clickTestcodeBtn(existTestcode.testcode[index])"
-                      :class="['btn-style', { 'clicked-btn-style': clickedTestcodeBtn.includes(existTestcode.testcode[index]) }]"
-                      style="margin-right: 10px;">{{ existTestcode.testcode[index] }}</button>
+                  <div v-for="(tagItem, index) in existTestcode.tags" :key="tagItem"
+                    style="display: flex; justify-content: space-between;">
+                    <div
+                      style="margin-top: 10px; margin-left: 1px; margin-right: 1px; display: flex; justify-content: space-between;">
+                      <!-- TODO: 눌리면 class="clicked-btn-style" 안눌리면 class="btn-style" -->
+                      <button @click="clickTestcodeBtn(existTestcode.testcode[index])"
+                        :class="['btn-style', { 'clicked-btn-style': clickedTestcodeBtn.includes(existTestcode.testcode[index]) }]"
+                        style="margin-right: 10px;">{{ existTestcode.testcode[index] }}</button>
 
-                    <div style="margin-right: 10px;">:</div>
-                    <div>{{ tagItem }}</div>
+                      <div style="margin-right: 10px;">:</div>
+                      <div>{{ tagItem }}</div>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <button class="btn-style" @click="clickExport">Export</button>
+                  <div>
+                    <button class="btn-style" @click="clickExport">Export</button>
+                  </div>
                 </div>
               </div>
             </div>
