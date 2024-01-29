@@ -184,8 +184,7 @@ export default {
   },
   methods: {
     isVideoFrameSelected() {
-      var video = document.getElementById('videoNoartifact');
-      let currentVideoTime = (Math.round(video.currentTime * 100) / 100).toFixed(2);
+      let currentVideoTime = this.currentVideoTime;
       if (this.selectedVideoTimeList.includes(currentVideoTime)) {
         return true;
       } else {
