@@ -209,6 +209,7 @@ export default {
         // video frame이 이미 선택되있는 상태에서 클릭하면 video frame을 제거합니다.
         this.selectedVideoTimeList.splice(this.selectedVideoTimeList.indexOf(this.videoCurrentTime), 1);
       }
+      this.isVideoFrameSelected();
     },
     addEventVideoCurrentTime() {
       var video = document.getElementById('videoNoartifact');
