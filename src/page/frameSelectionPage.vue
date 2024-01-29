@@ -93,8 +93,9 @@
             <button v-on="click" class="btn-style"
               style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
               @click="[changeBackVideo()]">prev</button>
-            <button v-on="click" class="btn-style"
-              style="font-size: x-large; width: 100px; height: 40px; padding-top: 0px;" @click="">check</button>
+            <button v-on="click" :class="{ 'clicked-btn-style': isVideoSelected, 'btn-style': !isVideoSelected }"
+              style="font-size: x-large; width: 100px; height: 40px; padding-top: 0px;"
+              @click="addVideoFrame()">check</button>
             <button v-on="click" class="btn-style"
               style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
               @click="[changeNextVideo()]">next</button>
@@ -172,6 +173,7 @@ export default {
     document.addEventListener('mouseup', this.handleDragEnd);
     window.addEventListener("keydown", this.keydown);
     this.addEventVideoCurrentTime();
+    this.getSelectedFrameList();
   },
   computed: {
     // TODO: 주석 풀기 
@@ -180,9 +182,33 @@ export default {
     },
   },
   methods: {
+    isVideoSelected() {
+      let currentVideoTime = (Math.round(video.currentTime * 100) / 100).toFixed(2);
+      if (this.selectedVideoTimeList.includes(currentVideoTime)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    getSelectedFrameList() {
+      axios
+        .get(this.baseUrl + "admin/getSelectedFrameList", {
+          params: {
+            video_index: this.videoIndex[this.videoNameIndex]
+          }
+        })
+        .then((response) => {
+          this.selectedVideoTimeList = response.data.selected_video_frame_time_list;
+        })
+    },
     addVideoFrame() {
-      this.selectedVideoTimeList.push(this.videoCurrentTime);
-ㅁㄴㅇㄹ
+      let currentVideoTime = (Math.round(video.currentTime * 100) / 100).toFixed(2);
+      if (!this.selectedVideoTimeList.includes(currentVideoTime)) {
+        this.selectedVideoTimeList.push(currentVideoTime);
+      } else {
+        // video frame이 이미 선택되있는 상태에서 클릭하면 video frame을 제거합니다.
+        this.selectedVideoTimeList.splice(this.selectedVideoTimeList.indexOf(currentVideoTime), 1);
+      }
     },
     addEventVideoCurrentTime() {
       var video = document.getElementById('videoNoartifact');
@@ -225,18 +251,16 @@ export default {
       console.log("[getVideoIndex] outside videoIndex: ", this.videoIndex);
     },
     // frame을 선택하면 백엔드로 요청을 보내는 함수
-    async selectArtifactFrame() {
-      var video = document.getElementById("videoNoartifact");
-      // TODO: selectedVideoTimeList 로 백엔드 보내주기 
-      this.selectedVideoTime = (Math.round(video.currentTime * 100) / 100).toFixed(2);
+    async postVideoFrameTimeList() {
       let tempCurrentVideo = parseInt(this.currentPage)
       axios
         .post(this.baseUrl + "admin/postVideoFrameTime", {
           videoIndex: tempCurrentVideo,
-          selectedVideoTime: this.selectedVideoTime
+          selectedVideoTime: this.selectedVideoTimeList
         })
         .then((response) => {
-          console.log(response);
+          console.log("[selectedArtifactFrame] response: " + response);
+          this.selectedVideoTimeList = [];
         })
     },
     //키보드 이벤트 함수
@@ -256,7 +280,6 @@ export default {
         // 비디오 frmae 선택 
         // case 'Enter':
         //   e.preventDefault();
-        //   this.selectArtifactFrame();
         //   break;
         case 'ArrowLeft':
           e.preventDefault();
@@ -394,14 +417,16 @@ export default {
       if (this.isToggled) {
         this.toggleVideo()
       }
+      // post frame time list 
+      this.postVideoFrameTimeList();
 
       if (this.currentPage == this.videoIndex[this.videoIndex.length - 1]) {
         alert("This is the last page of this test code. Thank you!");
-        return;
       } else {
         this.videoNameIndex += 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
+      this.getSelectedFrameList();
     },
     changeBackVideo() {
       if (this.isVideoPlaying == true) {
@@ -416,13 +441,17 @@ export default {
       var videoEelement2 = document.getElementById('videoYesartifact');
       videoEelement1.style.transform = "scale(1)";
       videoEelement2.style.transform = "scale(1)";
+
+      // post frame time list 
+      this.postVideoFrameTimeList();
+
       if (this.currentPage == this.videoIndex[0]) {
         alert("This is the first page of this test code.");
-        return;
       } else {
         this.videoNameIndex -= 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
+      this.getSelectedFrameList();
     },
     addEventVideoPlay() {
       var video1 = document.getElementById('videoNoartifact');
