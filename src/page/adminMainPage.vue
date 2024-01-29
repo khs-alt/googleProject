@@ -81,9 +81,8 @@ export default {
       baseUrl: process.env.BASE_URL + "admin/",
       userId: '',
       password: '',
-      isVideoCategoryToggled: false,
-      isImageCategoryToggled: false,
-      isVideoFrameSelectionToggled: false,
+      isVideoCategoryToggled: true,
+      isImageCategoryToggled: true,
       videoToggleIcon: ["▶", "▼"],
       imageToggleIcon: ["▶", "▼"],
     }
