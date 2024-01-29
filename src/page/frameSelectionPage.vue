@@ -204,13 +204,11 @@ export default {
         })
     },
     addVideoFrame() {
-      var video = document.getElementById('videoNoartifact');
-      let currentVideoTime = (Math.round(video.currentTime * 100) / 100).toFixed(2);
-      if (!this.selectedVideoTimeList.includes(currentVideoTime)) {
-        this.selectedVideoTimeList.push(currentVideoTime);
+      if (!this.selectedVideoTimeList.includes(this.videoCurrentTime)) {
+        this.selectedVideoTimeList.push(this.videoCurrentTime);
       } else {
         // video frame이 이미 선택되있는 상태에서 클릭하면 video frame을 제거합니다.
-        this.selectedVideoTimeList.splice(this.selectedVideoTimeList.indexOf(currentVideoTime), 1);
+        this.selectedVideoTimeList.splice(this.selectedVideoTimeList.indexOf(this.videoCurrentTime), 1);
       }
     },
     addEventVideoCurrentTime() {
