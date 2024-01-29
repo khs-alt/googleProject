@@ -90,7 +90,7 @@ export default {
           .then(res => {
             if (res.data == "yes") {
               this.currentUser = this.userId
-              this.$router.push(process.env.BASE_URL + 'admin/upload/')
+              this.$router.push(process.env.BASE_URL + 'admin/main/')
             } else {
               alert("login failed");
               return;
