@@ -93,7 +93,8 @@
             <button v-on="click" class="btn-style"
               style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
               @click="[changeBackVideo()]">prev</button>
-            <button v-on="click" :class="{ 'clicked-btn-style': isVideoSelected, 'btn-style': !isVideoSelected }"
+            <button v-on="click"
+              :class="{ 'clicked-btn-style': this.isVideoFrameSelected(), 'btn-style': !this.isVideoFrameSelected() }"
               style="font-size: x-large; width: 100px; height: 40px; padding-top: 0px;"
               @click="addVideoFrame()">check</button>
             <button v-on="click" class="btn-style"
@@ -182,7 +183,8 @@ export default {
     },
   },
   methods: {
-    isVideoSelected() {
+    isVideoFrameSelected() {
+      var video = document.getElementById('videoNoartifact');
       let currentVideoTime = (Math.round(video.currentTime * 100) / 100).toFixed(2);
       if (this.selectedVideoTimeList.includes(currentVideoTime)) {
         return true;
@@ -202,6 +204,7 @@ export default {
         })
     },
     addVideoFrame() {
+      var video = document.getElementById('videoNoartifact');
       let currentVideoTime = (Math.round(video.currentTime * 100) / 100).toFixed(2);
       if (!this.selectedVideoTimeList.includes(currentVideoTime)) {
         this.selectedVideoTimeList.push(currentVideoTime);
