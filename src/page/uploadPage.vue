@@ -38,110 +38,113 @@
           </div>
         </div>
       </div>
-      <div style=" width: 80vw; margin-left: auto; margin-right: auto; ">
+      <div class="upload-btn-container" style=" width: 80vw; margin-left: auto; margin-right: auto; ">
         <h4 style="margin-bottom: 2vh;">Video Upload Page</h4>
         <!-- original video -->
-        <div class="file-upload-left-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
-          @drop="onOriginalDrop">
-          <div @click="onOriginalClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
-            Drag & Drop Original Videos
-            <!-- 업로드된 리스트 -->
-            <!-- TODO: 업로드된 리스트 안 쪽에 좀 더 깔끔하게 UI 만들기 -->
-            <div class="scrollingUploadedData">
-              <div class="file-upload-list">
-                <div class="file-upload-list__item" v-for="originalFile in originalFileList" :key="originalFile">
-                  <div class="file-upload-list__item__data-name">{{ originalFile.name }}</div>
+        <div class="file-upload-container">
+          <div class="file-upload-left-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
+            @drop="onOriginalDrop">
+            <div @click="onOriginalClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
+              Drag & Drop Original Videos
+              <!-- 업로드된 리스트 -->
+              <!-- TODO: 업로드된 리스트 안 쪽에 좀 더 깔끔하게 UI 만들기 -->
+              <div class="scrollingUploadedData">
+                <div class="file-upload-list">
+                  <div class="file-upload-list__item" v-for="originalFile in originalFileList" :key="originalFile">
+                    <div class="file-upload-list__item__data-name">{{ originalFile.name }}</div>
+                  </div>
                 </div>
               </div>
             </div>
+            <button class="btn-style" style=" padding: 10px; font-weight: 400; margin-top: 30px;"
+              @click="originalHandleRemove(index)">
+              삭제
+            </button>
           </div>
-          <button class="btn-style" style=" padding: 10px; font-weight: 400; margin-top: 30px;"
-            @click="originalHandleRemove(index)">
-            삭제
-          </button>
-        </div>
-        <input type="file" ref="originalFileInput" class="file-upload-input" @change="onOriginalFileChange" multiple>
+          <input type="file" ref="originalFileInput" class="file-upload-input" @change="onOriginalFileChange" multiple>
 
-        <!-- artifact video -->
-        <div class="file-upload-right-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
-          @drop="onArtifactDrop">
-          <div @click="onArtifactClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
-            Drag & Drop Artifact Videos
-            <!-- 업로드된 리스트 -->
-            <div class="scrollingUploadedData">
-              <div class="file-upload-list">
-                <div class="file-upload-list__item" v-for="artifactFile in artifactFileList" :key="artifactFile">
-                  <div class="file-upload-list__item__data-name">{{ artifactFile.name }}</div>
+          <!-- artifact video -->
+          <div class="file-upload-right-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
+            @drop="onArtifactDrop">
+            <div @click="onArtifactClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
+              Drag & Drop Artifact Videos
+              <!-- 업로드된 리스트 -->
+              <div class="scrollingUploadedData">
+                <div class="file-upload-list">
+                  <div class="file-upload-list__item" v-for="artifactFile in artifactFileList" :key="artifactFile">
+                    <div class="file-upload-list__item__data-name">{{ artifactFile.name }}</div>
+                  </div>
                 </div>
               </div>
             </div>
+            <input type="file" ref="artifactFileInput" class="file-upload-input" @change="onArtifactFileChange" multiple>
+            <button class="btn-style" style="padding: 10px; font-weight: 400; margin-top: 30px;"
+              @click="artifactHandleRemove(index)">
+              삭제
+            </button>
           </div>
-          <input type="file" ref="artifactFileInput" class="file-upload-input" @change="onArtifactFileChange" multiple>
-          <button class="btn-style" style="padding: 10px; font-weight: 400; margin-top: 30px;"
-            @click="artifactHandleRemove(index)">
-            삭제
-          </button>
-        </div>
 
-        <!-- diff video -->
-        <div class="file-upload-right-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
-          @drop="onDiffDrop">
-          <div @click="onDiffClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
-            Drag & Drop Diff Videos
-            <!-- 업로드된 리스트 -->
-            <div class="scrollingUploadedData">
-              <div class="file-upload-list">
-                <div class="file-upload-list__item" v-for="diffFile in diffFileList" :key="diffFile">
-                  <div class="file-upload-list__item__data-name">{{ diffFile.name }}</div>
+          <!-- diff video -->
+          <div class="file-upload-right-container" @dragenter="onDragenter" @dragover="onDragover" @dragleave="onDragover"
+            @drop="onDiffDrop">
+            <div @click="onDiffClick" class="file-upload" :class="isDragged ? 'dragged' : ''">
+              Drag & Drop Diff Videos
+              <!-- 업로드된 리스트 -->
+              <div class="scrollingUploadedData">
+                <div class="file-upload-list">
+                  <div class="file-upload-list__item" v-for="diffFile in diffFileList" :key="diffFile">
+                    <div class="file-upload-list__item__data-name">{{ diffFile.name }}</div>
+                  </div>
                 </div>
               </div>
             </div>
+            <input type="file" ref="diffFileInput" class="file-upload-input" @change="onDiffFileChange" multiple>
+            <button class="btn-style" style="padding: 10px; font-weight: 400; margin-top: 30px;"
+              @click="diffHandleRemove(index)">
+              삭제
+            </button>
           </div>
-          <input type="file" ref="diffFileInput" class="file-upload-input" @change="onDiffFileChange" multiple>
-          <button class="btn-style" style="padding: 10px; font-weight: 400; margin-top: 30px;"
-            @click="diffHandleRemove(index)">
-            삭제
-          </button>
         </div>
-      </div>
-    </div>
-    <!-- 태그 -->
-    <div class="tagWrapper" style="margin-top: 4vh;">
-      <div style="width: 100%;">
-        <div>
-          <div>
-            <div style="margin-bottom: 5px;">
-              <div class="width-style" style="display: flex; margin-left: 10px;">Tag</div>
-            </div>
-            <div style="display: flex;">
-              <button v-for="(item, index) in tag" :key="index" ref="tag" class="btn-style" @click="clickTagBtn(index)">{{
-                item }}</button>
-            </div>
-          </div>
-          <div style="display: flex; margin-top: 10px;">
-            <input type="text" v-model="tagInput" class="home-input-style"
-              style="border-radius: 0.75rem; width: 350px; display: flex; margin-left: 5px;" placeholder="Add Tag">
-            <button class="btn-style" style="font-size:medium; width: 80px; height: 24; margin-top: 0;"
-              @click="addTag">Add</button>
-            <button class="btn-style" style="font-size:medium; width: 80px; height: 24; margin-top: 0;"
-              @click="deleteTag">Delete</button>
-          </div>
-          <div style="display: flex; margin-top: 10px;">
-          </div>
-          <div style="display: flex;">
-            <div v-for="(item, index) in clickTagBtn" :key="index">{{ item }}</div>
-          </div>
-          <div style="style=display: flex;">
-            <div class="width-style" style="display: flex; margin-left: 10px; margin-top: 15px;">Upload Options
-            </div>
-            <div style="display: flex;" role="group" aria-label="Basic checkbox toggle button group">
-              <button v-for="(item, index) in uploadOptions" :key="index" ref="uploadOptions"
-                :class="{ 'clicked-btn-style': activeButtonIndex === index, 'btn-style': activeButtonIndex !== index }"
-                @click="clickUploadOptions(index)">{{ item }}</button>
-              <button @click="uploadFiles" class="btn-style"
-                style="background-color: #3182F6; color: white; margin-left: auto;">
-                Data Upload
-              </button>
+        <!-- 태그 -->
+        <div class="tagWrapper" style="margin-top: 4vh;">
+          <div style="width: 100%;">
+            <div>
+              <div>
+                <div style="margin-bottom: 5px;">
+                  <div class="width-style" style="display: flex; margin-left: 10px;">Tag</div>
+                </div>
+                <div style="display: flex;">
+                  <button v-for="(item, index) in tag" :key="index" ref="tag" class="btn-style"
+                    @click="clickTagBtn(index)">{{
+                      item }}</button>
+                </div>
+              </div>
+              <div style="display: flex; margin-top: 10px;">
+                <input type="text" v-model="tagInput" class="home-input-style"
+                  style="border-radius: 0.75rem; width: 350px; display: flex; margin-left: 5px;" placeholder="Add Tag">
+                <button class="btn-style" style="font-size:medium; width: 80px; height: 24; margin-top: 0;"
+                  @click="addTag">Add</button>
+                <button class="btn-style" style="font-size:medium; width: 80px; height: 24; margin-top: 0;"
+                  @click="deleteTag">Delete</button>
+              </div>
+              <div style="display: flex; margin-top: 10px;">
+              </div>
+              <div style="display: flex;">
+                <div v-for="(item, index) in clickTagBtn" :key="index">{{ item }}</div>
+              </div>
+              <div style="style=display: flex;">
+                <div class="width-style" style="display: flex; margin-left: 10px; margin-top: 15px;">Upload Options
+                </div>
+                <div style="display: flex;" role="group" aria-label="Basic checkbox toggle button group">
+                  <button v-for="(item, index) in uploadOptions" :key="index" ref="uploadOptions"
+                    :class="{ 'clicked-btn-style': activeButtonIndex === index, 'btn-style': activeButtonIndex !== index }"
+                    @click="clickUploadOptions(index)">{{ item }}</button>
+                  <button @click="uploadFiles" class="btn-style"
+                    style="background-color: #3182F6; color: white; margin-left: auto;">
+                    Data Upload
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

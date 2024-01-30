@@ -1,10 +1,11 @@
 .home-main-content-admin {
-  min-height: calc(100% - 200px);
+  /* min-height: calc(100% - 200px); */
+  height: fit-content;
   padding: 18px 10px 50px 10px;
   background-color: #e9e9e9;
   font-weight: 400;
   font-family: "Open Sans", sans-serif;
-  height: 82vh;
+  /* height: 82vh; */
   display: inline-block;
   width: 100vw;
 }
@@ -960,6 +961,17 @@
   border: 1px dashed powderblue;
   opacity: 0.6;
 }
+
+.upload-btn-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.file-upload-container {
+  display: flex;
+  flex-direction: row;
+}
+
 .file-upload-left-container {
   display: inline-block;
   height: 400px;
