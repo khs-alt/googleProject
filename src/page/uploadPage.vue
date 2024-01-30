@@ -106,7 +106,7 @@
           </div>
         </div>
         <!-- 태그 -->
-        <div class="tagWrapper" style="margin-top: 4vh;">
+        <div class="tagWrapper" style="padding-top: 5vh;">
           <div style="width: 100%;">
             <div>
               <div>
@@ -150,7 +150,6 @@
         </div>
       </div>
     </div>
-
   </div>
   <div class="footer">
     <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
