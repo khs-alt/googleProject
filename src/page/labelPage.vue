@@ -36,13 +36,13 @@
     <div class="modal-wrap" v-show="openModal"> <!--사용법-->
       <div class="modal-container" style="width: fit-content;">
         <h3>{{ modalTitle[modalPage] }}</h3>
-        <div :class="modalPage >= 2 ? 'exampleScore' : ''">
+        <div :class="modalPage >= 3 ? 'exampleScore' : ''">
           <div v-for="i in modalContent[modalPage]" :key="i">
-            <div v-if="modalPage < 2">
+            <div v-if="modalPage < 3">
               <p>{{ i }}</p>
             </div>
             <div v-else>
-              <img :src="helpPageImageNum((modalPage - 2) * 2)" style="width: 400px; height: 300px;">
+              <img :src="helpPageImageNum((modalPage - 3) * 2)" style="width: 400px; height: 300px;">
               <p>{{ i }}</p>
             </div>
           </div>
@@ -111,15 +111,25 @@
         </div>
         <div class="patchbtncontainer">
           <div class="scoreCnt">
-            <div v-for="a in scoreCnt.length" :key="a">
-              <h4>{{ a - 1 }}</h4>
-              <span>{{ scoreCnt[a - 1] }}</span>
-            </div>
+            <table class="cnt-table">
+              <thead>
+                <tr>
+                  <th style="border: 1px black solid;" colspan="6">Your labeling</th>
+                </tr>
+                <tr>
+                  <th style="border: 1px black solid;" v-for="a in scoreCnt.length" :key="a">{{ a - 1 }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="border: 1px black solid;" v-for="a in scoreCnt.length" :key="a">{{ scoreCnt[a - 1] }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <div class="patch-container">
             <div class="patchName">
-              <div class="selected-patch-image"
-                :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
                 <img :src="serveOriginalImage()" class="selected-patch"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="original">
@@ -127,8 +137,7 @@
               <label class="textLabel">original</label>
             </div>
             <div class="patchName">
-              <div class="selected-patch-image"
-                :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
                 <img :src="serveArtifactImage()" class="selected-patch"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="denoised">
@@ -136,33 +145,33 @@
               <label class="textLabel">denoised</label>
             </div>
             <div class="patchName">
-              <div class="selected-patch-image"
-                :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
                 <img :src="serveDifferenceImage()" class="selected-patch"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="difference">
               </div>
               <label class="textLabel">difference</label>
             </div>
-        </div>
-        <div class="btncontainer">
-          <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="btn-style"
-            style="width: 50px; height: 40px; padding-top: 1px; font-size: x-large;"
-            :class="{ 'clicked-btn-style': this.isPressed == a - 1 }">{{ buttonString[a - 1] }}</button>
-        </div>
-        <div class="btncontainer">
-          <button class="btn-style" @click="changePreviousPage()">{{ buttonString[6] }}</button>
-          <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageIndexList.length }}</span>
-          <button class="btn-style" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
+          </div>
+          <div class="btncontainer">
+            <button v-for="  a   in   6  " :key="a" @click="labeling(a - 1)" class="btn-style"
+              style="width: 50px; height: 40px; padding-top: 1px; font-size: x-large;"
+              :class="{ 'clicked-btn-style': this.isPressed == a - 1 }">{{ buttonString[a - 1] }}</button>
+          </div>
+          <div class="btncontainer">
+            <button class="btn-style" @click="changePreviousPage()">{{ buttonString[6] }}</button>
+            <span style="margin: 0 10px;">{{ imageIndex + 1 }} / {{ imageIndexList.length }}</span>
+            <button class="btn-style" @click="changeNextPage()">{{ buttonString[this.pageState] }}</button>
+          </div>
         </div>
       </div>
     </div>
+    <div class="footer">
+      <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
+      <p>help@pilab.smu.ac.kr</p>
+    </div>
   </div>
-  <div class="footer">
-    <p>Copyright © 2024 Pi:Lab, SMU. All rights reserved.</p>
-    <p>help@pilab.smu.ac.kr</p>
-  </div>
-</div></template>
+</template>
 
 <script>
 import axios from 'axios'
@@ -180,8 +189,8 @@ export default {
       progressBarCount: [0,], //progress bar 내용의 한 거 개수
       modalPage: 0,
       helpPageImage: false,
-      modalTitle: ["How To Use", "Examples of score 0", "Examples of score 1", "Examples of score 2", "Examples of score 3", "Examples of score 4", "Examples of score 5"],
-      modalContent: [["1. Use the arrow keys to move the patch image.", "2. Press the number keys to score the patch image.", "3. Press the Prev button to go back to the previous image.", "4. Press the Next button to go to the next image.", "5. Press the Submit button to submit the score."], ["When the original and denoised images look almost same", "or you cannot feel any perceptually image quality degradation."], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"]],
+      modalTitle: ["Guide", "How To Use", "Examples of score 0", "Examples of score 1", "Examples of score 2", "Examples of score 3", "Examples of score 4", "Examples of score 5"],
+      modalContent: [["Label patches what you want to label", "Balance among classes 0, 1, 2, 3, 4, 5"], ["1. Use the arrow keys to move the patch image.", "2. Press the number keys to score the patch image.", "3. Press the Prev button to go back to the previous image.", "4. Press the Next button to go to the next image.", "5. Press the Submit button to submit the score."], ["When the original and denoised images look almost same", "or you cannot feel any perceptually image quality degradation."], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"], ["original", "denosied"]],
       imgSrc: [require("../images/score1_original.png"), require("../images/score1_denoised.png"), require("../images/score2_original.png"), require("../images/score2_denoised.png"), require("../images/score3_original.png"), require("../images/score3_denoised.png"), require("../images/score4_original.png"), require("../images/score4_denoised.png"), require("../images/score5_original.png"), require("../images/score5_denoised.png")],
       index: 0,
       imageIndex: 0,
@@ -269,6 +278,23 @@ export default {
   },
 
   methods: {
+
+    getScoreCnt() {
+      axios
+        .post(this.baseUrl + "getScoreCnt", {
+          user_id: this.currentUser,
+          testcode: this.testCode,
+        })
+        .then((response) => {
+          console.log("[getScoreCnt] axios get score count success\n");
+          console.log("[getScoreCnt] scoreCnt: " + response.data.score_cnt)
+          this.scoreCnt = response.data.score_cnt;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+
     zoomIn() {
       this.zoom += 0.2;
       this.updateImageStyle();
@@ -544,8 +570,8 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          alert("login failed")
-          this.$router.push(process.env.BASE_URL);
+          // alert("login failed")
+          // this.$router.push(process.env.BASE_URL);
         })
     },
     makeImageTemplete() {
@@ -558,7 +584,6 @@ export default {
         });
     },
 
-    //TODO: nameList를 가져오는 함수
     getImageNameList() {
       axios
         .post(this.baseUrl + "imageNameList", {

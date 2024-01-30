@@ -354,12 +354,36 @@
   border: 1px solid #007bff;
 }
 
-.scoreCnt{
+/* .scoreCnt{
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
   margin-bottom: 10px;
+} */
+
+.scoreCnt{
+  color: #000;
+  font-size: 12px;
+  width: fit-content;
+  height: auto;
+  text-align: center;
+  margin-bottom: 20px;
+  border-radius: 1rem;
+  background-color: white;
+}
+
+.cnt-table {
+  border-collapse: collapse;
+  border-style: hidden;
+}
+
+.cnt-table th {
+  padding: 5px;
+}
+
+.cnt-table td {
+  padding: 5px;
 }
 
 .labeled-border {
