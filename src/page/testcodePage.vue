@@ -49,7 +49,7 @@
               <div class="tagWrapper">
                 <div>
                   <button @click="selectAllTags(); getVideoListFromTag()" ref="selectAllBtn"
-                    :class="{ 'clicked-btn-style': this.isSelectedAll, 'btn-style': this.isSelectedAll }">All</button>
+                    :class="{ 'clicked-btn-style': this.isSelectedAll, 'btn-style': !this.isSelectedAll }">All</button>
                   <button v-for="(item, index) in tag" :key="index" ref="tag"
                     :class="{ 'btn-style': !clickedTagBtn.includes(item), 'clicked-btn-style': clickedTagBtn.includes(item) }"
                     @click="clickTagBtn(index); getVideoListFromTag()" @mouseover="mouseOver(index)"
