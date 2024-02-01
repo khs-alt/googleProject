@@ -160,16 +160,7 @@ export default {
         this.clickedTestcodeBtn = testcodeName;
       }
       const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
-      if (testcodeIndex != -1) {
-        this.clickedTagBtn = [];
-        this.isClicked = this.tag.map(() => false);
-        for (var i = 0; i < this.existTestcode.tags[testcodeIndex].length; i++) {
-          const tagIndex = this.tag.indexOf(this.existTestcode.tags[testcodeIndex][i]);
-          this.isClicked[tagIndex] = true;
-          this.clickedTagBtn.push(this.existTestcode.tags[testcodeIndex][i]);
-        }
-        this.getVideoListFromTag();
-      }
+      console.log("tags: " + this.existTestcode.tags[testcodeIndex]);
     },
     async getVideoListFromTag() {
       this.videoFromTag = [];
