@@ -167,7 +167,7 @@ export default {
       //   }
       // }
       if (testcodeIndex !== -1) {
-        const tags = this.existTestcode[testcodeIndex].tags;
+        const tags = this.existTestcode.tags[testcodeIndex];
         tags.forEach(tag => {
           const tagIndex = this.tag.findIndex(item => item === tag);
           if (tagIndex !== -1) {
