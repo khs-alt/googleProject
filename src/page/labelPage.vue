@@ -267,6 +267,7 @@ export default {
     this.checkProgressBar();
     this.setProgressBar();
     this.getUserLabelingList();
+    this.getScoreCnt();
     //this.preloadImage();
     window.addEventListener('resize', this.resizeImage);
     document.addEventListener('mousemove', this.handleDragging);
@@ -478,6 +479,7 @@ export default {
       this.setProgressBar();
       this.checkProgressBar();
       this.getUserLabelingList();
+      this.getScoreCnt();
     },
 
     serveOriginalImage() {
@@ -855,6 +857,7 @@ export default {
         this.setProgressBar();
         this.checkProgressBar();
         this.getUserLabelingList();
+        this.getScoreCnt();
         this.$router.push({
           query: {
             userName: this.currentUser,
@@ -885,6 +888,7 @@ export default {
         this.setProgressBar();
         this.checkProgressBar();
         this.getUserLabelingList();
+        this.getScoreCnt();
         this.$router.push({
           query: {
             userName: this.currentUser,
