@@ -118,7 +118,7 @@ export default {
       existTestcode: [],
       // click된 video list 
       videoFromTag: [],
-      isTestcodeClicked
+      isTestcodeClicked: false,
     }
   },
   mounted() {
@@ -165,7 +165,7 @@ export default {
         this.isTestcodeClicked = true;
         this.clickedTestcodeBtn = testcodeName;
 
-        for (var i = 0; i < tagList.length; i++) {
+        for (let i = 0; i < tagList.length; i++) {
           const index = this.tag.indexOf(tagList[i]);
           const tagName = this.tag[index];
           this.clickedTagBtn.push(tagName);
@@ -183,7 +183,7 @@ export default {
         this.clickedTestcodeBtn = testcodeName;
         this.isTestcodeClicked = true;
 
-        for (var i = 0; i < tagList.length; i++) {
+        for (let i = 0; i < tagList.length; i++) {
           const index = this.tag.indexOf(tagList[i]);
           const tagName = this.tag[index];
           this.clickedTagBtn.push(tagName);
