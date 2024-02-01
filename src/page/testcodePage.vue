@@ -159,11 +159,21 @@ export default {
         this.isTestcodeClicked = true;
         this.clickedTestcodeBtn = testcodeName;
       }
+
       const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
+      // if (testcodeIndex !== -1) {
+      //   for (var i = 0; i < this.tag.length; i++) {
+      //     this.clickTagBtn(i);
+      //   }
+      // }
       if (testcodeIndex !== -1) {
-        for (var i = 0; i < this.tag.length; i++) {
-          this.clickTagBtn(i);
-        }
+        const tags = this.existTestcode[testcodeIndex].tags;
+        tags.forEach(tag => {
+          const tagIndex = this.tag.findIndex(item => item === tag);
+          if (tagIndex !== -1) {
+            this.clickTagBtn(tagIndex);
+          }
+        });
       }
       this.getVideoListFromTag();
     },
@@ -283,7 +293,7 @@ export default {
         })
     },
     clickTagBtn(index) {
-      if (this.isTestcodeClicked && this.clickedTestcodeBtn != "") {
+      if (this.isTestcodeClicked) {
         this.isTestcodeClicked = false;
         this.clickedTestcodeBtn = "";
       }
