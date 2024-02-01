@@ -161,12 +161,7 @@ export default {
         })
     },
     clickTestcodeBtn(testcodeName) {
-      if (this.clickedTestcodeBtn == testcodeName) {
-        this.clickedTestcodeBtn = "";
-      } else {
-        this.isTestcodeClicked = true;
-        this.clickedTestcodeBtn = testcodeName;
-      }
+
       const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
       console.log("tags: " + this.existTestcode.tags[testcodeIndex]);
       var tagList = this.existTestcode.tags[testcodeIndex].split(", ");
@@ -200,6 +195,12 @@ export default {
         }
       }
       console.log("indexList: " + indexList);
+      if (this.clickedTestcodeBtn == testcodeName) {
+        this.clickedTestcodeBtn = "";
+      } else {
+        this.isTestcodeClicked = true;
+        this.clickedTestcodeBtn = testcodeName;
+      }
       this.getVideoListFromTag();
     },
     async getVideoListFromTag() {
