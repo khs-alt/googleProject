@@ -168,7 +168,7 @@ export default {
         const index = this.tag.indexOf(tagList[i]);
         if (index !== -1) {
           indexList.push(index);
-          this.clickTagBtn(indexList);
+          this.clickTagBtn(index);
         }
       }
       console.log("indexList: " + indexList);
