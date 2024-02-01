@@ -222,7 +222,6 @@ export default {
       if (this.clickedTagBtn.length === this.tag.length) { // 이미 모든 태그가 선택되었을 경우
         this.clickedTagBtn = [];
         this.isClicked = this.tag.map(() => false);
-        //console.log("clicked tag button: " + this.isClicked);
         this.$refs.tag.forEach((btn) => {
           btn.className = 'btn-style';
         });
@@ -230,7 +229,6 @@ export default {
       } else { // 그렇지 않은 경우
         this.clickedTagBtn = [...this.tag];
         this.isClicked = this.tag.map(() => true);
-        //console.log("clicked tag button: " + this.isClicked);
         this.$refs.tag.forEach((btn) => {
           btn.className = 'clicked-btn-style';
         });

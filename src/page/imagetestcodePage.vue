@@ -91,7 +91,7 @@
       </div>
       <div style="margin-top: 20px; overflow: auto;">
         <h3>Image List</h3>
-        <div v-for="item in videoFromTag" :key="item">
+        <div v-for="item in imageFromTag" :key="item">
           {{ item }}
         </div>
       </div>
@@ -117,7 +117,7 @@ export default {
       testcode: '',
       existTestcode: [],
       // click된 video list 
-      videoFromTag: [],
+      imageFromTag: [],
       isTestcodeClicked: false,
     }
   },
@@ -193,11 +193,9 @@ export default {
       this.getImageListFromTag();
     },
     async getImageListFromTag() {
-      //console.log("get video list from\n tag: ", this.clickedTagBtn);
-      this.videoFromTag = [];
+      this.imageFromTag = [];
 
       if (this.clickedTagBtn.length === 0) {
-        //console.log("There are no clicked tags");
         return;
       }
       await axios
@@ -207,8 +205,7 @@ export default {
           }
         })
         .then((response) => {
-          //console.log("get video list from tag: " + response.data);
-          this.videoFromTag = response.data;
+          this.imageFromTag = response.data;
         })
         .catch((error) => {
           console.log(error);
@@ -222,7 +219,6 @@ export default {
       if (this.clickedTagBtn.length === this.tag.length) { // 이미 모든 태그가 선택되었을 경우
         this.clickedTagBtn = [];
         this.isClicked = this.tag.map(() => false);
-        //console.log("clicked tag button: " + this.isClicked);
         this.$refs.tag.forEach((btn) => {
           btn.className = 'btn-style';
         });
@@ -230,7 +226,6 @@ export default {
       } else { // 그렇지 않은 경우
         this.clickedTagBtn = [...this.tag];
         this.isClicked = this.tag.map(() => true);
-        //console.log("clicked tag button: " + this.isClicked);
         this.$refs.tag.forEach((btn) => {
           btn.className = 'clicked-btn-style';
         });
@@ -311,11 +306,15 @@ export default {
         })
     },
     clickTagBtn(index) {
+      const tagName = this.tag[index];
+
+      // testcode가 눌러진 상태에서 tag를 누른 경우
       if (this.isTestcodeClicked) {
         this.isTestcodeClicked = false;
         this.clickedTestcodeBtn = "";
       }
-      const tagName = this.tag[index];
+
+      // 이미 눌러진 tag가 눌러진 경우
       if (this.isClicked[index] == true) {
         for (var i = 0; i < this.clickedTagBtn.length; i++) {
           if (this.clickedTagBtn[i] == tagName) {
@@ -326,6 +325,7 @@ export default {
           }
         }
       } else {
+        // 눌러진 tag가 아닌 경우
         this.isClicked[index] = !this.isClicked[index];
         this.clickedTagBtn.push(tagName);
       }
