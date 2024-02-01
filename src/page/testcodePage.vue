@@ -49,7 +49,7 @@
               <div class="tagWrapper">
                 <div>
                   <button @click="selectAllTags(); getVideoListFromTag()" ref="selectAllBtn"
-                    :class="{ 'clicked-btn-style': this.isSelectedAll, 'btn-style': !this.isSelectedAll }">All</button>
+                    :class="{ 'clicked-btn-style': this.isTagsSelectedAll, 'btn-style': !this.isTagsSelectedAll }">All</button>
                   <button v-for="(item, index) in tag" :key="index" ref="tag"
                     :class="{ 'btn-style': !clickedTagBtn.includes(item), 'clicked-btn-style': clickedTagBtn.includes(item) }"
                     @click="clickTagBtn(index); getVideoListFromTag()" @mouseover="mouseOver(index)"
@@ -131,6 +131,13 @@ export default {
 
     // TODO: 클릭은 되는데 videoList가 안 옴
     // TODO: tsetcode 버튼을 누르고 그냥 tag 버튼을 누르면 뻑 남
+    isTagsSelectedAll() {
+      if (this.tag.length == this.clickTagBtn.length) {
+        return true;
+      } else {
+        return false
+      }
+    },
     clickExport() {
       console.log("clicked testcode: " + this.clickedTestcodeBtn);
       axios
