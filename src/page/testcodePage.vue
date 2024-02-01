@@ -189,6 +189,7 @@ export default {
         }
       }
       console.log("indexList: " + indexList);
+      this.getVideoListFromTag();
     },
     async getVideoListFromTag() {
       this.videoFromTag = [];
