@@ -159,7 +159,7 @@ export default {
         this.isTestcodeClicked = true;
         this.clickedTestcodeBtn = testcodeName;
       }
-      
+      // TODO: 
       const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
       if (testcodeIndex !== -1) {
         for (var i = 0; i < this.tag.length; i++) {
@@ -250,8 +250,9 @@ export default {
           this.existTestcode = response.data;
           for (var i = 0; i < this.existTestcode.tags.length; i++) {
             this.existTestcode.tags[i] = this.existTestcode.tags[i].replace(/,/g, ', ')
+            console.log("exist testcode tags: ", this.existTestcode.tags[i]);
           }
-          //console.log("exist testcode tags: ", this.existTestcode.tags);
+          console.log("exist testcode tags: ", this.existTestcode.tags);
         })
         .catch((error) => {
           console.log(error);
