@@ -109,7 +109,6 @@ export default {
   data() {
     return {
       isClicked: [],
-      menuBar: ['Home'],
       baseUrl: process.env.BASE_URL + "api/",
       tag: [],
       clickedTagBtn: [],
@@ -119,7 +118,6 @@ export default {
       // click된 video list 
       videoFromTag: [],
       isTestcodeClicked: false,
-      tagLengthOfTestcode: 0,
     }
   },
   mounted() {
@@ -127,11 +125,6 @@ export default {
     this.getTestcodeWithTag();
   },
   methods: {
-    // TODO: tag를 누르면 거기에 있는 data list 이름이 보이게 만들기
-    // ex) ALL 누르면 모든 비디오 영상이 나오고, bright 누르면 bright태그에 있는 모든 영상 리스트 보여주기 
-
-    // TODO: 클릭은 되는데 videoList가 안 옴
-    // TODO: tsetcode 버튼을 누르고 그냥 tag 버튼을 누르면 뻑 남
     isTagsSelectedAll() {
       if (this.tag.length == this.clickedTagBtn.length) {
         return true;
@@ -322,10 +315,9 @@ export default {
         this.clickedTestcodeBtn = "";
       }
       const tagName = this.tag[index];
-      //console.log("index: ", index)
       if (this.isClicked[index] == true) {
         for (var i = 0; i < this.clickedTagBtn.length; i++) {
-          if (this.clickedTagBtn[i] === tagName) {
+          if (this.clickedTagBtn[i] == tagName) {
             this.clickedTagBtn.splice(i, 1);
             this.isClicked[index] = !this.isClicked[index];
             i--;
