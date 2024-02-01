@@ -203,6 +203,7 @@ export default {
           }
         }
       }
+      this.getVideoListFromTag();
     },
     async getVideoListFromTag() {
       this.videoFromTag = [];
