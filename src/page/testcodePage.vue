@@ -159,21 +159,12 @@ export default {
         this.isTestcodeClicked = true;
         this.clickedTestcodeBtn = testcodeName;
       }
-
+      
       const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
-      // if (testcodeIndex !== -1) {
-      //   for (var i = 0; i < this.tag.length; i++) {
-      //     this.clickTagBtn(i);
-      //   }
-      // }
       if (testcodeIndex !== -1) {
-        const tags = this.existTestcode.tags[testcodeIndex];
-        tags.forEach(tag => {
-          const tagIndex = this.tag.findIndex(item => item === tag);
-          if (tagIndex !== -1) {
-            this.clickTagBtn(tagIndex);
-          }
-        });
+        for (var i = 0; i < this.tag.length; i++) {
+          this.clickTagBtn(i);
+        }
       }
       this.getVideoListFromTag();
     },
