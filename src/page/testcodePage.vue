@@ -178,9 +178,17 @@ export default {
         if (index !== -1) {
           indexList.push(index);
           if (this.isClicked[index] == true) {
+            // 만약에 내가 누른 testcode 버튼을 다시 누른다면 clickedTagBtn리스트를 초기화하고 isClicked를 false로 만들어준다.
+            if (this.clickedTestcodeBtn == testcodeName) {
+              this.clickedTagBtn.splice(i, 1);
+              this.isClicked[index] = !this.isClicked[index];
+              this.clickedTagBtn = [];
+              break;
+            }
             for (var j = 0; j < this.clickedTagBtn.length; j++) {
               if (this.clickedTagBtn[j] == tagName) {
-                this.isClicked[index] = true;
+                this.clickedTagBtn.splice(j, 1);
+                this.isClicked[index] = !this.isClicked[index];
                 j--;
                 break;
               }
