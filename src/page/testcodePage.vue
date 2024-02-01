@@ -182,9 +182,6 @@ export default {
             this.isClicked[index] = !this.isClicked[index];
             this.clickedTagBtn.push(tagName);
           }
-          if (this.clickedTagBtn.length == this.tag.length) {
-            this.isSelectedAll = true;
-          }
           // this.clickTagBtn(index);
         }
       }
