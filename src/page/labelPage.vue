@@ -786,6 +786,7 @@ export default {
       console.log("index: " + this.patchIndex);
       this.userLabeling[this.patchIndex] = num;
       this.isPressed = this.userLabeling[this.patchIndex];
+      this.ScoreCnt();
       setTimeout(() => {
         this.changeNextPatchImage()
       }, 100); //0.5초 후에 다음 patch로 넘어감
