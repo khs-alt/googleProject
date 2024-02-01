@@ -153,6 +153,10 @@ export default {
       if (this.clickedTestcodeBtn == "") {
         this.clickedTestcodeBtn = testcodeName;
       }
+      if (this.clickedTestcodeBtn == testcodeName) {
+        this.clickedTestcodeBtn = "";
+        return;
+      }
       const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
       if (testcodeIndex !== -1) {
         for (var i = 0; i < this.tag.length; i++) {
