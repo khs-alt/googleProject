@@ -161,6 +161,17 @@ export default {
       }
       const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
       console.log("tags: " + this.existTestcode.tags[testcodeIndex]);
+      var tagList = this.existTestcode.tags[testcodeIndex].split(", ");
+      console.log("tagList: " + tagList);
+      const indexList = [];
+      for (let i = 0; i < tagList.length; i++) {
+        const index = this.tag.indexOf(tagList[i]);
+        if (index !== -1) {
+          indexList.push(index);
+          this.clickTagBtn(indexList);
+        }
+      }
+      console.log("indexList: " + indexList);
     },
     async getVideoListFromTag() {
       this.videoFromTag = [];
