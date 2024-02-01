@@ -302,7 +302,7 @@ export default {
       if (this.isClicked[index] == true) {
         for (var i = 0; i < this.clickedTagBtn.length; i++) {
           if (this.clickedTagBtn[i] === tagName) {
-            this.$refs.tag[index].className = 'btn-style';
+            // this.$refs.tag[index].className = 'btn-style';
             this.clickedTagBtn.splice(i, 1);
             this.isClicked[index] = !this.isClicked[index];
             i--;
@@ -312,7 +312,7 @@ export default {
         }
       } else {
         // this.$refs['clickedTagBtn'+ index].className = 'btn btn-outline-primary';
-        this.$refs.tag[index].className = 'clicked-btn-style';
+        // this.$refs.tag[index].className = 'clicked-btn-style';
         this.isClicked[index] = !this.isClicked[index];
         this.clickedTagBtn.push(tagName);
         //console.log("added tag:", tagName);
