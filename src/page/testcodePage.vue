@@ -201,6 +201,7 @@ export default {
             this.clickedTagBtn.push(tagName);
           }
         }
+        console.log("[clickTestcodeBtn] isTestcodeClicked: " + this.isTestcodeClicked);
       }
       console.log("indexList: " + indexList);
       this.getVideoListFromTag();
@@ -340,6 +341,7 @@ export default {
         this.isClicked[index] = !this.isClicked[index];
         this.clickedTagBtn.push(tagName);
       }
+      console.log("[clickTagBtn] isTestcodeClicked: " + this.isTestcodeClicked);
     },
   },
 }
