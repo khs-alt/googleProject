@@ -287,6 +287,9 @@ export default {
         this.isTestcodeClicked = false;
         this.clickedTestcodeBtn = "";
       }
+      if (this.isSelectedAll) {
+        this.isSelectedAll = false;
+      }
       const tagName = this.tag[index];
       //console.log("index: ", index)
       if (this.isClicked[index] == true) {
