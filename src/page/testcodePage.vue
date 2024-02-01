@@ -117,7 +117,6 @@ export default {
       // click된 video list 
       videoFromTag: [],
       isTestcodeClicked: false,
-      isSelectedAll: false,
       tagLengthOfTestcode: 0,
     }
   },
@@ -237,7 +236,6 @@ export default {
         });
         this.$refs.selectAllBtn.className = 'clicked-btn-style';
       }
-      this.isSelectedAll = !this.isSelectedAll;
     },
     // 마우스가 버튼 위에 올라갔을 때
     mouseOver(index) {
@@ -316,9 +314,6 @@ export default {
         this.isTestcodeClicked = false;
         this.clickedTestcodeBtn = "";
       }
-      if (this.isSelectedAll) {
-        this.isSelectedAll = false;
-      }
       const tagName = this.tag[index];
       //console.log("index: ", index)
       if (this.isClicked[index] == true) {
@@ -333,9 +328,6 @@ export default {
       } else {
         this.isClicked[index] = !this.isClicked[index];
         this.clickedTagBtn.push(tagName);
-      }
-      if (this.clickedTagBtn.length == this.tag.length) {
-        this.isSelectedAll = true;
       }
     },
   },
