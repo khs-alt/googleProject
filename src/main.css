@@ -393,7 +393,7 @@
   border: 1px solid red;
   color: red; /*점수 글씨색*/
   /* text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white; */
-  -webkit-text-stroke: #fff 0.5px;
+  -webkit-text-stroke: #fff 0.2px;
   z-index: 1;
   font-size: 12px;
   align-items: center;
@@ -407,9 +407,10 @@
   border: 1px solid green;
   color: green; /*점수 글씨색*/
   /* text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white; */
-  -webkit-text-stroke: #fff 0.5px;
+  -webkit-text-stroke: #fff 0.2px;
   z-index: 1;
   font-size: 12px;
+  font-weight: bold;
   align-items: center;
   justify-content: center;
 }
