@@ -165,19 +165,20 @@ export default {
       console.log("tags: " + this.existTestcode.tags[testcodeIndex]);
       var tagList = this.existTestcode.tags[testcodeIndex].split(", ");
       console.log("tagList: " + tagList);
-      const indexList = [];
+      // testcode를 누르면 tag를 무조건 초기화하고 진행
+      this.clickedTagBtn = [];
+      this.isClicked = [];
 
       // testcode이 안눌러진 경우
       if (!this.isTestcodeClicked) {
         this.isTestcodeClicked = true;
         this.clickedTestcodeBtn = testcodeName;
+
         for (var i = 0; i < tagList.length; i++) {
           const index = this.tag.indexOf(tagList[i]);
           const tagName = this.tag[index];
-          if (!this.clickedTagBtn.includes(tagName)) {
-            this.clickedTagBtn.push(tagName);
-            this.isClicked[index] = true;
-          }
+          this.clickedTagBtn.push(tagName);
+          this.isClicked[index] = true;
         }
       }
       // tescode가 눌러진 경우
@@ -185,22 +186,17 @@ export default {
       else if (this.clickedTestcodeBtn == testcodeName) {
         this.clickedTestcodeBtn = "";
         this.isTestcodeClicked = false;
-        this.isClicked = [];
-        this.clickedTagBtn = [];
       }
       // 눌러진 상태에서 다른 testcode를 누른 경우
       else {
         this.clickedTestcodeBtn = testcodeName;
         this.isTestcodeClicked = true;
-        this.isClicked = [];
-        this.clickedTagBtn = [];
+
         for (var i = 0; i < tagList.length; i++) {
           const index = this.tag.indexOf(tagList[i]);
           const tagName = this.tag[index];
-          if (!this.clickedTagBtn.includes(tagName)) {
-            this.clickedTagBtn.push(tagName);
-            this.isClicked[index] = true;
-          }
+          this.clickedTagBtn.push(tagName);
+          this.isClicked[index] = true;
         }
       }
       this.getVideoListFromTag();
