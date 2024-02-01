@@ -310,6 +310,9 @@ export default {
         this.clickedTagBtn.push(tagName);
         //console.log("added tag:", tagName);
       }
+      if (this.clickedTagBtn.length == this.tag.length) {
+        this.isSelectedAll = true;
+      }
     },
   },
 }
