@@ -784,9 +784,12 @@ export default {
     // 점수 부여 및 다음 Patch 이미지로 변경
     labeling(num) {
       console.log("index: " + this.patchIndex);
+      if(this.userLabeling[this.patchIndex] != -1) {
+        this.scoreCnt[this.userLabeling[this.patchIndex]]--;
+      }
       this.userLabeling[this.patchIndex] = num;
       this.isPressed = this.userLabeling[this.patchIndex];
-      this.getScoreCnt();
+      this.scoreCnt[num]++;
       setTimeout(() => {
         this.changeNextPatchImage()
       }, 100); //0.5초 후에 다음 patch로 넘어감
