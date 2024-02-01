@@ -166,9 +166,26 @@ export default {
       const indexList = [];
       for (let i = 0; i < tagList.length; i++) {
         const index = this.tag.indexOf(tagList[i]);
+        const tagName = this.tag[index];
         if (index !== -1) {
           indexList.push(index);
-          this.clickTagBtn(index);
+          if (this.isClicked[index] == true) {
+            for (var j = 0; j < this.clickedTagBtn.length; j++) {
+              if (this.clickedTagBtn[j] == tagName) {
+                this.clickedTagBtn.splice(j, 1);
+                this.isClicked[index] = !this.isClicked[index];
+                j--;
+                break;
+              }
+            }
+          } else {
+            this.isClicked[index] = !this.isClicked[index];
+            this.clickedTagBtn.push(tagName);
+          }
+          if (this.clickedTagBtn.length == this.tag.length) {
+            this.isSelectedAll = true;
+          }
+          // this.clickTagBtn(index);
         }
       }
       console.log("indexList: " + indexList);
@@ -302,20 +319,15 @@ export default {
       if (this.isClicked[index] == true) {
         for (var i = 0; i < this.clickedTagBtn.length; i++) {
           if (this.clickedTagBtn[i] === tagName) {
-            // this.$refs.tag[index].className = 'btn-style';
             this.clickedTagBtn.splice(i, 1);
             this.isClicked[index] = !this.isClicked[index];
             i--;
-            //console.log("removed tag:", tagName);
             break;
           }
         }
       } else {
-        // this.$refs['clickedTagBtn'+ index].className = 'btn btn-outline-primary';
-        // this.$refs.tag[index].className = 'clicked-btn-style';
         this.isClicked[index] = !this.isClicked[index];
         this.clickedTagBtn.push(tagName);
-        //console.log("added tag:", tagName);
       }
       if (this.clickedTagBtn.length == this.tag.length) {
         this.isSelectedAll = true;
