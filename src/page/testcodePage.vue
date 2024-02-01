@@ -133,7 +133,7 @@ export default {
     // TODO: 클릭은 되는데 videoList가 안 옴
     // TODO: tsetcode 버튼을 누르고 그냥 tag 버튼을 누르면 뻑 남
     isTagsSelectedAll() {
-      if (this.tag.length == this.clickTagBtn.length) {
+      if (this.tag.length == this.clickedTagBtn.length) {
         return true;
       } else {
         return false
