@@ -161,7 +161,10 @@ export default {
         })
     },
     clickTestcodeBtn(testcodeName) {
-      if (this.clickedTestcodeBtn == testcodeName) {
+      if (!this.isTestcodeClicked) {
+        this.isTestcodeClicked = true;
+        this.clickedTestcodeBtn = testcodeName;
+      } else if (this.clickedTestcodeBtn == testcodeName) {
         this.clickedTestcodeBtn = "";
       } else {
         this.isTestcodeClicked = true;
