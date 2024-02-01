@@ -180,8 +180,7 @@ export default {
           if (this.isClicked[index] == true) {
             for (var j = 0; j < this.clickedTagBtn.length; j++) {
               if (this.clickedTagBtn[j] == tagName) {
-                this.clickedTagBtn.splice(j, 1);
-                this.isClicked[index] = !this.isClicked[index];
+                this.isClicked[index] = true;
                 j--;
                 break;
               }
@@ -190,7 +189,6 @@ export default {
             this.isClicked[index] = !this.isClicked[index];
             this.clickedTagBtn.push(tagName);
           }
-          // this.clickTagBtn(index);
         }
       }
       console.log("indexList: " + indexList);
