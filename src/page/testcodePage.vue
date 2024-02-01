@@ -117,6 +117,8 @@ export default {
       // click된 video list 
       videoFromTag: [],
       isTestcodeClicked: false,
+      isSelectedAll: false,
+      tagLengthOfTestcode: 0,
     }
   },
   mounted() {
@@ -222,11 +224,6 @@ export default {
         this.$refs.tag[index].className = 'btn-style';
       }
     },
-    navigateTo(item) {
-      if (item === 'Home') {
-        this.$router.push('/');
-      }
-    },
     // tag 가져오는 method
     async getTag() {
       await axios
@@ -285,12 +282,12 @@ export default {
         })
     },
     clickTagBtn(index) {
-      const tagName = this.tag[index];
-      //console.log("index: ", index)
-      if (this.isTestcodeClicked) {
+      if (this.isTestcodeClicked && this.clickedTestcodeBtn != "") {
         this.isTestcodeClicked = false;
         this.clickedTestcodeBtn = "";
       }
+      const tagName = this.tag[index];
+      //console.log("index: ", index)
       if (this.isClicked[index] == true) {
         for (var i = 0; i < this.clickedTagBtn.length; i++) {
           if (this.clickedTagBtn[i] === tagName) {
