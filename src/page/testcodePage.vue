@@ -154,6 +154,7 @@ export default {
       if (this.clickedTestcodeBtn == testcodeName) {
         this.clickedTestcodeBtn = "";
       } else {
+        this.isTestcodeClicked = true;
         this.clickedTestcodeBtn = testcodeName;
       }
       const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
