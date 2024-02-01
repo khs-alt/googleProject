@@ -150,7 +150,9 @@ export default {
         })
     },
     clickTestcodeBtn(testcodeName) {
-      if (this.clickedTestcodeBtn == "") {
+      if (this.clickedTestcodeBtn == testcodeName) {
+        this.clickedTestcodeBtn = "";
+      } else {
         this.clickedTestcodeBtn = testcodeName;
       }
       const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
