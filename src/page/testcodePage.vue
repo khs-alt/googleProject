@@ -159,165 +159,167 @@ export default {
         this.isTestcodeClicked = true;
         this.clickedTestcodeBtn = testcodeName;
       }
-      // TODO: 
       const testcodeIndex = this.existTestcode.testcode.indexOf(testcodeName);
-      if (testcodeIndex !== -1) {
-        for (var i = 0; i < this.tag.length; i++) {
-          this.clickTagBtn(i);
-        }
-      }
-      this.getVideoListFromTag();
-    },
-    async getVideoListFromTag() {
-      this.videoFromTag = [];
-      if (this.clickedTagBtn.length === 0) {
-        //console.log("There are no clicked tags");
-        return;
-      }
-      await axios
-        .get(this.baseUrl + 'getVideoListFromTag', {
-          params: {
-            tag: this.clickedTagBtn
-          }
-        })
-        .then((response) => {
-          // console.log("get video list from tag: " + response.data);
-          this.videoFromTag = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
-    selectAllTags() {
-      if (this.tag.length === 0) {
-        alert("There is no tag");
-        return;
-      }
-      if (this.clickedTagBtn.length === this.tag.length) { // 이미 모든 태그가 선택되었을 경우
+      if (testcodeIndex != -1) {
         this.clickedTagBtn = [];
         this.isClicked = this.tag.map(() => false);
-        //console.log("clicked tag button: " + this.isClicked);
-        this.$refs.tag.forEach((btn) => {
-          btn.className = 'btn-style';
-        });
-        this.$refs.selectAllBtn.className = 'btn-style';
-      } else { // 그렇지 않은 경우
-        this.clickedTagBtn = [...this.tag];
-        this.isClicked = this.tag.map(() => true);
-        //console.log("clicked tag button: " + this.isClicked);
-        this.$refs.tag.forEach((btn) => {
-          btn.className = 'clicked-btn-style';
-        });
-        this.$refs.selectAllBtn.className = 'clicked-btn-style';
-      }
-      this.isSelectedAll = !this.isSelectedAll;
-    },
-    // 마우스가 버튼 위에 올라갔을 때
-    mouseOver(index) {
-      const tagName = this.tag[index];
-      if (!this.clickedTagBtn.includes(tagName)) {
-        this.$refs.tag[index].className = 'clicked-btn-style';
-      }
-    },
-    // 마우스가 버튼에서 나갔을 때
-    mouseOut(index) {
-      const tagName = this.tag[index];
-      if (!this.clickedTagBtn.includes(tagName)) {
-        this.$refs.tag[index].className = 'btn-style';
-      }
-    },
+        for (var i = 0; i < this.existTestcode.tags[testcodeIndex].length; i++) {
+          const tagIndex = this.tag.indexOf(this.existTestcode.tags[testcodeIndex][i]);
+          this.isClicked[tagIndex] = true;
+          this.clickedTagBtn.push(this.existTestcode.tags[testcodeIndex][i]);
+        }
+        this.getVideoListFromTag();
+      },
+    async getVideoListFromTag() {
+        this.videoFromTag = [];
+        if (this.clickedTagBtn.length === 0) {
+          //console.log("There are no clicked tags");
+          return;
+        }
+        await axios
+          .get(this.baseUrl + 'getVideoListFromTag', {
+            params: {
+              tag: this.clickedTagBtn
+            }
+          })
+          .then((response) => {
+            // console.log("get video list from tag: " + response.data);
+            this.videoFromTag = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+      },
+      selectAllTags() {
+        if (this.tag.length === 0) {
+          alert("There is no tag");
+          return;
+        }
+        if (this.clickedTagBtn.length === this.tag.length) { // 이미 모든 태그가 선택되었을 경우
+          this.clickedTagBtn = [];
+          this.isClicked = this.tag.map(() => false);
+          //console.log("clicked tag button: " + this.isClicked);
+          this.$refs.tag.forEach((btn) => {
+            btn.className = 'btn-style';
+          });
+          this.$refs.selectAllBtn.className = 'btn-style';
+        } else { // 그렇지 않은 경우
+          this.clickedTagBtn = [...this.tag];
+          this.isClicked = this.tag.map(() => true);
+          //console.log("clicked tag button: " + this.isClicked);
+          this.$refs.tag.forEach((btn) => {
+            btn.className = 'clicked-btn-style';
+          });
+          this.$refs.selectAllBtn.className = 'clicked-btn-style';
+        }
+        this.isSelectedAll = !this.isSelectedAll;
+      },
+      // 마우스가 버튼 위에 올라갔을 때
+      mouseOver(index) {
+        const tagName = this.tag[index];
+        if (!this.clickedTagBtn.includes(tagName)) {
+          this.$refs.tag[index].className = 'clicked-btn-style';
+        }
+      },
+      // 마우스가 버튼에서 나갔을 때
+      mouseOut(index) {
+        const tagName = this.tag[index];
+        if (!this.clickedTagBtn.includes(tagName)) {
+          this.$refs.tag[index].className = 'btn-style';
+        }
+      },
     // tag 가져오는 method
     async getTag() {
-      await axios
-        .get(this.baseUrl + 'getTag')
-        .then((response) => {
-          //console.log(response.data);
-          this.tag = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
+        await axios
+          .get(this.baseUrl + 'getTag')
+          .then((response) => {
+            //console.log(response.data);
+            this.tag = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+      },
     //     ressult := struct {
     // 	TestCode []string `json:"testcode"`
     // 	Tags     []string `json:"tags"`
     // }
     async getTestcodeWithTag() {
-      await axios
-        .get(this.baseUrl + 'getTestcodeWithTag')
-        .then((response) => {
-          //console.log(response.data);
-          this.existTestcode = response.data;
-          for (var i = 0; i < this.existTestcode.tags.length; i++) {
-            this.existTestcode.tags[i] = this.existTestcode.tags[i].replace(/,/g, ', ')
-            console.log("exist testcode tags: ", this.existTestcode.tags[i]);
-          }
-          console.log("exist testcode tags: ", this.existTestcode.tags);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
+        await axios
+          .get(this.baseUrl + 'getTestcodeWithTag')
+          .then((response) => {
+            //console.log(response.data);
+            this.existTestcode = response.data;
+            for (var i = 0; i < this.existTestcode.tags.length; i++) {
+              this.existTestcode.tags[i] = this.existTestcode.tags[i].replace(/,/g, ', ')
+              console.log("exist testcode tags: ", this.existTestcode.tags[i]);
+            }
+            console.log("exist testcode tags: ", this.existTestcode.tags);
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+      },
     async generateTestcode() {
-      if (this.clickedTagBtn == 0) {
-        alert("Please choose tag");
-        return;
-      }
-      await axios
-        .post(this.baseUrl + 'generateTestcode', {
-          tags: this.clickedTagBtn
-        })
-        .then((response) => {
-          //console.log(response.data);
-          // response가 -1 이면 이미 존재하는 testcode 
-          if (response == -1) {
-            //console.log("Aleread existing testcode");
-            alert("Aleread existing testcode");
-            return;
-          }
-          this.testcode = response.data;
-          alert("Generated testcode: " + this.testcode);
-          this.getTag();
-          this.getTestcodeWithTag();
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
-    clickTagBtn(index) {
-      if (this.isTestcodeClicked) {
-        this.isTestcodeClicked = false;
-        this.clickedTestcodeBtn = "";
-      }
-      if (this.isSelectedAll) {
-        this.isSelectedAll = false;
-      }
-      const tagName = this.tag[index];
-      //console.log("index: ", index)
-      if (this.isClicked[index] == true) {
-        for (var i = 0; i < this.clickedTagBtn.length; i++) {
-          if (this.clickedTagBtn[i] === tagName) {
-            this.$refs.tag[index].className = 'btn-style';
-            this.clickedTagBtn.splice(i, 1);
-            this.isClicked[index] = !this.isClicked[index];
-            i--;
-            //console.log("removed tag:", tagName);
-            break;
-          }
+        if (this.clickedTagBtn == 0) {
+          alert("Please choose tag");
+          return;
         }
-      } else {
-        // this.$refs['clickedTagBtn'+ index].className = 'btn btn-outline-primary';
-        this.$refs.tag[index].className = 'clicked-btn-style';
-        this.isClicked[index] = !this.isClicked[index];
-        this.clickedTagBtn.push(tagName);
-        //console.log("added tag:", tagName);
-      }
-      if (this.clickedTagBtn.length == this.tag.length) {
-        this.isSelectedAll = true;
-      }
+        await axios
+          .post(this.baseUrl + 'generateTestcode', {
+            tags: this.clickedTagBtn
+          })
+          .then((response) => {
+            //console.log(response.data);
+            // response가 -1 이면 이미 존재하는 testcode 
+            if (response == -1) {
+              //console.log("Aleread existing testcode");
+              alert("Aleread existing testcode");
+              return;
+            }
+            this.testcode = response.data;
+            alert("Generated testcode: " + this.testcode);
+            this.getTag();
+            this.getTestcodeWithTag();
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+      },
+      clickTagBtn(index) {
+        if (this.isTestcodeClicked) {
+          this.isTestcodeClicked = false;
+          this.clickedTestcodeBtn = "";
+        }
+        if (this.isSelectedAll) {
+          this.isSelectedAll = false;
+        }
+        const tagName = this.tag[index];
+        //console.log("index: ", index)
+        if (this.isClicked[index] == true) {
+          for (var i = 0; i < this.clickedTagBtn.length; i++) {
+            if (this.clickedTagBtn[i] === tagName) {
+              this.$refs.tag[index].className = 'btn-style';
+              this.clickedTagBtn.splice(i, 1);
+              this.isClicked[index] = !this.isClicked[index];
+              i--;
+              //console.log("removed tag:", tagName);
+              break;
+            }
+          }
+        } else {
+          // this.$refs['clickedTagBtn'+ index].className = 'btn btn-outline-primary';
+          this.$refs.tag[index].className = 'clicked-btn-style';
+          this.isClicked[index] = !this.isClicked[index];
+          this.clickedTagBtn.push(tagName);
+          //console.log("added tag:", tagName);
+        }
+        if (this.clickedTagBtn.length == this.tag.length) {
+          this.isSelectedAll = true;
+        }
+      },
     },
-  },
-}
+  }
 </script>
 
 <style lang="scss">
