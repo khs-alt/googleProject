@@ -50,7 +50,7 @@
                 <h3>Tag</h3>
                 <div class="tagWrapper">
                   <div>
-                    <button @click="selectAllTags(); getVideoListFromTag()" ref="selectAllBtn"
+                    <button @click="selectAllTags(); getImageListFromTag()" ref="selectAllBtn"
                       :class="{ 'clicked-btn-style': this.isTagsSelectedAll() == true, 'btn-style': this.isTagsSelectedAll() == false }">All</button>
                     <button v-for="(item, index) in tag" :key="index" ref="tag"
                       :class="{ 'btn-style': !clickedTagBtn.includes(item), 'clicked-btn-style': clickedTagBtn.includes(item) }"
