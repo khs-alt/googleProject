@@ -86,6 +86,8 @@
           </div>
         </div>
       </div>
+      <div>tag: {{ tag }}</div>
+      <div>clickedTagBtn: {{ clickedTagBtn }}</div>
       <div style="margin-top: 20px; overflow: auto;">
         <h3>Video List</h3>
         <div v-for="item in videoFromTag" :key="item">
