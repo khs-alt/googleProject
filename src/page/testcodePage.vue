@@ -49,7 +49,7 @@
               <div class="tagWrapper">
                 <div>
                   <button @click="selectAllTags(); getVideoListFromTag()" ref="selectAllBtn"
-                    class="btn-style">All</button>
+                    :class="{ 'clicked-btn-style': this.isSelectedAll, 'btn-style': this.isSelectedAll }">All</button>
                   <button v-for="(item, index) in tag" :key="index" ref="tag"
                     :class="{ 'btn-style': !clickedTagBtn.includes(item), 'clicked-btn-style': clickedTagBtn.includes(item) }"
                     @click="clickTagBtn(index); getVideoListFromTag()" @mouseover="mouseOver(index)"
@@ -209,6 +209,7 @@ export default {
         });
         this.$refs.selectAllBtn.className = 'clicked-btn-style';
       }
+      this.isSelectedAll = !this.isSelectedAll;
     },
     // 마우스가 버튼 위에 올라갔을 때
     mouseOver(index) {
