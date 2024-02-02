@@ -203,11 +203,12 @@ export default {
         })
     },
     addVideoFrame() {
+      // 지금 선택된 video frame이 selectedVideoTimeList에 없으면 추가
       if (!this.selectedVideoTimeList.includes(this.videoCurrentTime)) {
         this.selectedVideoTimeList.push(this.videoCurrentTime);
         console.log("[addVideoFrame] selectedVideoTimeList: ", this.selectedVideoTimeList)
       } else {
-        // video frame이 이미 선택되있는 상태에서 클릭하면 video frame을 제거합니다.
+        // video frame이 이미 선택되있는 상태에서 클릭하면 video frame을 제거
         this.selectedVideoTimeList.splice(this.selectedVideoTimeList.indexOf(this.videoCurrentTime), 1);
         console.log("[addVideoFrame] selectedVideoTimeList: ", this.selectedVideoTimeList)
       }
@@ -429,7 +430,7 @@ export default {
         this.videoNameIndex += 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
-      this.getSelectedFrameList();
+      // this.getSelectedFrameList();
     },
     changeBackVideo() {
       if (this.isVideoPlaying == true) {
@@ -454,7 +455,7 @@ export default {
         this.videoNameIndex -= 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
-      this.getSelectedFrameList();
+      // this.getSelectedFrameList();
     },
     addEventVideoPlay() {
       var video1 = document.getElementById('videoNoartifact');
