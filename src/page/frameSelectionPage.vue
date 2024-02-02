@@ -157,7 +157,7 @@ export default {
       // tempVideo2: require("./denoise.mp4"),
       selectedVideoTime: 0.00,
       selectedVideoTimeList: [],
-      currentPage: 0,
+      currentPage: 1,
       totalFrameLength: 0,
       currentFrame: 0,
     }
@@ -194,7 +194,7 @@ export default {
       axios
         .get(this.baseUrl + "admin/getSelectedFrameList", {
           params: {
-            video_index: this.videoIndex[this.videoNameIndex]
+            video_index: this.currentPage
           }
         })
         .then((response) => {
