@@ -190,7 +190,7 @@ export default {
         return false;
       }
     },
-    getSelectedFrameList() {
+    async getSelectedFrameList() {
       axios
         .get(this.baseUrl + "admin/getSelectedFrameList", {
           params: {
@@ -199,6 +199,7 @@ export default {
         })
         .then((response) => {
           this.selectedVideoTimeList = response.data.selected_video_frame_time_list;
+          console.log("[getSelectedFrameList] response: ", response.data.selected_video_frame_time_list)
           console.log("[getSelectedFrameList] selectedVideoTimeList: ", this.selectedVideoTimeList);
         })
     },
@@ -430,7 +431,7 @@ export default {
         this.videoNameIndex += 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
-      // this.getSelectedFrameList();
+      this.getSelectedFrameList();
     },
     changeBackVideo() {
       if (this.isVideoPlaying == true) {
@@ -455,7 +456,7 @@ export default {
         this.videoNameIndex -= 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
-      // this.getSelectedFrameList();
+      this.getSelectedFrameList();
     },
     addEventVideoPlay() {
       var video1 = document.getElementById('videoNoartifact');
