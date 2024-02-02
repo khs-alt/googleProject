@@ -184,14 +184,8 @@ export default {
   methods: {
     isVideoFrameSelected() {
       if (this.selectedVideoTimeList.includes(this.videoCurrentTime)) {
-        console.log("[isVideoFrameSelected] true");
-        console.log("[isVideoFrameSelected] selectedVideoTimeList: ", this.selectedVideoTimeList);
-        console.log("[isVideoFrameSelected] videoCurrentTime: ", this.videoCurrentTime);
         return true;
       } else {
-        console.log("[isVideoFrameSelected] false");
-        console.log("[isVideoFrameSelected] selectedVideoTimeList: ", this.selectedVideoTimeList);
-        console.log("[isVideoFrameSelected] videoCurrentTime: ", this.videoCurrentTime);
         return false;
       }
     },
@@ -204,14 +198,17 @@ export default {
         })
         .then((response) => {
           this.selectedVideoTimeList = response.data.selected_video_frame_time_list;
+          console.log("[getSelectedFrameList] selectedVideoTimeList: ", this.selectedVideoTimeList);
         })
     },
     addVideoFrame() {
       if (!this.selectedVideoTimeList.includes(this.videoCurrentTime)) {
         this.selectedVideoTimeList.push(this.videoCurrentTime);
+        console.log("[addVideoFrame] selectedVideoTimeList: ", this.selectedVideoTimeList)
       } else {
         // video frame이 이미 선택되있는 상태에서 클릭하면 video frame을 제거합니다.
         this.selectedVideoTimeList.splice(this.selectedVideoTimeList.indexOf(this.videoCurrentTime), 1);
+        console.log("[addVideoFrame] selectedVideoTimeList: ", this.selectedVideoTimeList)
       }
       this.isVideoFrameSelected();
     },
