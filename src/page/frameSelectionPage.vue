@@ -167,13 +167,14 @@ export default {
     // console.log($route.params.name);
   },
   mounted() {
-    this.getVideoIndex();
-    // this.changeVideoButton();
     this.addEventVideoPlay();
-    // this.isVideoPaused();
     document.addEventListener('mousemove', this.handleDragging);
     document.addEventListener('mouseup', this.handleDragEnd);
     window.addEventListener("keydown", this.keydown);
+    this.getVideoIndex();
+    // this.changeVideoButton();
+    // this.isVideoPaused();
+
     this.addEventVideoCurrentTime();
     this.getSelectedFrameList();
   },
@@ -191,7 +192,7 @@ export default {
       }
     },
     async getSelectedFrameList() {
-      axios
+      await axios
         .get(this.baseUrl + "admin/getSelectedFrameList", {
           params: {
             video_index: this.currentPage
@@ -258,7 +259,7 @@ export default {
     // frame을 선택하면 백엔드로 요청을 보내는 함수
     async postVideoFrameTimeList() {
       let tempCurrentVideo = parseInt(this.currentPage)
-      axios
+      await axios
         .post(this.baseUrl + "admin/postVideoFrameTime", {
           videoIndex: tempCurrentVideo,
           selectedVideoTime: this.selectedVideoTimeList
