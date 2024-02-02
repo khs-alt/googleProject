@@ -259,7 +259,7 @@ export default {
     // frame을 선택하면 백엔드로 요청을 보내는 함수
     async postVideoFrameTimeList() {
       let tempCurrentVideo = parseInt(this.currentPage)
-      axios
+      await axios
         .post(this.baseUrl + "admin/postVideoFrameTime", {
           videoIndex: tempCurrentVideo,
           selectedVideoTime: this.selectedVideoTimeList
