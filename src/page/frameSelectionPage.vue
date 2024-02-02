@@ -264,7 +264,7 @@ export default {
           selectedVideoTime: this.selectedVideoTimeList
         })
         .then((response) => {
-          console.log("[selectedArtifactFrame] response: " + response);
+          console.log("[postVideoFrameTimeList] response: " + response.data);
           this.selectedVideoTimeList = [];
         })
     },
@@ -431,6 +431,7 @@ export default {
         this.videoNameIndex += 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
+
       this.getSelectedFrameList();
     },
     changeBackVideo() {
@@ -456,6 +457,7 @@ export default {
         this.videoNameIndex -= 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
+
       this.getSelectedFrameList();
     },
     addEventVideoPlay() {
