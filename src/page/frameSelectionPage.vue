@@ -266,7 +266,7 @@ export default {
         })
         .then((response) => {
           console.log("[postVideoFrameTimeList] response: " + response.data);
-          this.selectedVideoTimeList = [];
+          //this.selectedVideoTimeList = [];
         })
     },
     //키보드 이벤트 함수
