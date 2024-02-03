@@ -262,6 +262,7 @@ export default {
       await axios
         .post(this.baseUrl + "admin/postVideoFrameTime", {
           videoIndex: tempCurrentVideo,
+          videoFrame: this.currentFrame,
           selectedVideoTime: this.selectedVideoTimeList
         })
         .then((response) => {
