@@ -35,16 +35,16 @@
               <div id="left-video-cover">
                 <div style="display: flex;">
                   <!-- TODO: -->
-                  <!-- <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
+                  <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
                     controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()" @wheel="handleWheel"
                     @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
                     @mousemove="handleDragging" preload="auto">
-                  </video> -->
-                  <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
+                  </video>
+                  <!-- <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
                     controlsList="nodownload" key="videoNoartifact" :src="tempVideo" @wheel="handleWheel"
                     @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
                     @mousemove="handleDragging" preload="auto">
-                  </video>
+                  </video> -->
                 </div>
               </div>
               <div>
@@ -57,16 +57,16 @@
             <div style="margin: 15px;">
               <div id="right-video-cover">
                 <!-- TODO: -->
-                <!-- <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
+                <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
                   ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="rightArtifactVideo()"
                   @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
                   @mousemove="handleDragging" preload="auto">
-                </video> -->
-                <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
+                </video>
+                <!-- <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
                   ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="tempVideo2"
                   @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
                   @mousemove="handleDragging" preload="auto">
-                </video>
+                </video> -->
               </div>
               <div>
                 <div style="margin-top: 8px; font-size: 14px;">{{
@@ -78,15 +78,14 @@
             <div style="margin: 15px;">
               <div id="right-video-cover">
                 <!-- TODO: -->
-                <!-- <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
-                  ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="diffVideo()"
-                  @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                  @mousemove="handleDragging" preload="auto">
-                </video> -->
                 <video id="diffVideo" :style="videoStyles" :class="video - style" class="video-style" ref="diffVideo"
-                  controlsList="nodownload" key="diffVideo" :src="tempVideo2" @wheel="handleWheel" @click="setZoomCenter"
+                  controlsList="nodownload" key="diffVideo" :src="diffVideo()" @wheel="handleWheel" @click="setZoomCenter"
                   @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging" preload="auto">
                 </video>
+                <!-- <video id="diffVideo" :style="videoStyles" :class="video - style" class="video-style" ref="diffVideo"
+                  controlsList="nodownload" key="diffVideo" :src="tempVideo2" @wheel="handleWheel" @click="setZoomCenter"
+                  @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging" preload="auto">
+                </video> -->
               </div>
               <div>
                 <div style="margin-top: 8px; font-size: 14px;">{{
@@ -174,7 +173,7 @@ export default {
       artifactVideoNameList: [],
       diffVideoNameList: [],
       videoNameIndex: 0,
-      videoFrameList: [],
+      videoFrameList: [30],
       // originalVideoFrameList: [],
       // artifactVideoFrameList: [],
       dragging: false,
@@ -188,8 +187,8 @@ export default {
       videoOriginalWidth: 0,
       videoCurrentTime: 0.00,
       videoDuration: 0.00,
-      tempVideo: require("./original.mp4"),
-      tempVideo2: require("./denoise.mp4"),
+      // tempVideo: require("./original.mp4"),
+      // tempVideo2: require("./denoise.mp4"),
       selectedVideoTime: 0.00,
       selectedVideoTimeList: [],
       selectedVideoFrameList: [],
@@ -358,18 +357,23 @@ export default {
     goToBegin() {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
+      var video3 = document.getElementById('diffVideo');
+
       video1.pause();
       video1.currentTime = 0;
       video2.currentTime = 0;
+      video3.currentTime = 0;
       this.isVideoPlaying = false;
     },
     goToEnd() {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
+      var video3 = document.getElementById('diffVideo');
       const videoFrame = this.videoFrameList[this.videoNameIndex];
       const temp = +(video1.duration - (1 / videoFrame)).toFixed(2);
       video1.currentTime = temp;
       video2.currentTime = temp;
+      video3.currentTime = temp;
       this.isVideoPlaying = false;
     },
     changeImgSource() {
