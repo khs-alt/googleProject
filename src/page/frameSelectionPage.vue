@@ -301,7 +301,7 @@ export default {
         this.videoCurrentTime = event.target.currentTime
         const currentVideoFrameRate = (1 / this.videoFrameList[this.videoNameIndex])
         this.totalFrameLength = (Math.round((this.videoDuration / currentVideoFrameRate) * 100) / 100).toFixed(0);
-        this.currentFrame = ~~((this.videoCurrentTime - this.halfVideoFrameRate) / currentVideoFrameRate)
+        this.currentFrame = ~~((this.videoCurrentTime + this.halfVideoFrameRate) / currentVideoFrameRate)
       })
       // this.videoCurrentTime = video1.currentTime;
       // this.currentTime = video1.currentTime;
