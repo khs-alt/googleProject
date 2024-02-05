@@ -35,9 +35,9 @@
               <div id="left-video-cover">
                 <div style="display: flex;">
                   <!-- TODO: -->
-                  <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
-                    controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()" @wheel="handleWheel"
-                    @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
+                  <video @loadedmetadata="setInitialTime" id="videoNoartifact" :style="videoStyles" class="video-style"
+                    ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()"
+                    @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
                     @mousemove="handleDragging" preload="auto">
                   </video>
                   <!-- <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
@@ -57,10 +57,10 @@
             <div style="margin: 15px;">
               <div id="right-video-cover">
                 <!-- TODO: -->
-                <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
-                  ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="rightArtifactVideo()"
-                  @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                  @mousemove="handleDragging" preload="auto">
+                <video @loadedmetadata="setInitialTime" id="videoYesartifact" :style="videoStyles" :class="video - style"
+                  class="video-style" ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact"
+                  :src="rightArtifactVideo()" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
+                  @mouseup="handleDragEnd" @mousemove="handleDragging" preload="auto">
                 </video>
                 <!-- <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
                   ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="tempVideo2"
@@ -78,9 +78,10 @@
             <div style="margin: 15px;">
               <div id="right-video-cover">
                 <!-- TODO: -->
-                <video id="diffVideo" :style="videoStyles" :class="video - style" class="video-style" ref="diffVideo"
-                  controlsList="nodownload" key="diffVideo" :src="diffVideo()" @wheel="handleWheel" @click="setZoomCenter"
-                  @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging" preload="auto">
+                <video @loadedmetadata="setInitialTime" id="diffVideo" :style="videoStyles" :class="video - style"
+                  class="video-style" ref="diffVideo" controlsList="nodownload" key="diffVideo" :src="diffVideo()"
+                  @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
+                  @mousemove="handleDragging" preload="auto">
                 </video>
                 <!-- <video id="diffVideo" :style="videoStyles" :class="video - style" class="video-style" ref="diffVideo"
                   controlsList="nodownload" key="diffVideo" :src="tempVideo2" @wheel="handleWheel" @click="setZoomCenter"
@@ -221,6 +222,16 @@ export default {
     },
   },
   methods: {
+    setInitialTime() {
+      const video1 = this.$refs.videoNoartifact;
+      const video2 = this.$refs.videoYesartifact;
+      const video3 = this.$refs.diffVideo;
+
+      // 비디오의 currentTime을 halfVideoFrameRate 값으로 설정
+      video1.currentTime = this.halfVideoFrameRate;
+      video2.currentTime = this.halfVideoFrameRate;
+      video3.currentTime = this.halfVideoFrameRate;
+    },
     isVideoFrameSelected() {
       if (this.selectedVideoTimeList.includes(this.videoCurrentTime)) {
         return true;
@@ -266,9 +277,6 @@ export default {
         this.currentFrame = ~~((this.videoCurrentTime - this.halfVideoFrameRate) / currentVideoFrameRate)
       });
       video.addEventListener("timeupdate", (event) => {
-        if (video.currentTime == 0) {
-          video.currentTime = this.halfVideoFrameRate;
-        }
         this.videoCurrentTime = (Math.round(event.target.currentTime * 100) / 100).toFixed(2);
         const currentVideoFrameRate = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100).toFixed(2);
         this.totalFrameLength = (Math.round((this.videoDuration / currentVideoFrameRate) * 100) / 100).toFixed(0);
