@@ -31,10 +31,17 @@
         <div class="videoPlayer">
           <div id="video-margin" style="display: flex; max-height: 60%;">
             <div style="margin: 15px;">
+              <!-- original video  -->
               <div id="left-video-cover">
                 <div style="display: flex;">
-                  <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
+                  <!-- TODO: -->
+                  <!-- <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
                     controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()" @wheel="handleWheel"
+                    @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
+                    @mousemove="handleDragging" preload="auto">
+                  </video> -->
+                  <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
+                    controlsList="nodownload" key="videoNoartifact" :src="tempVideo" @wheel="handleWheel"
                     @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
                     @mousemove="handleDragging" preload="auto">
                   </video>
@@ -46,10 +53,17 @@
                 </div>
               </div>
             </div>
+            <!-- artifact video -->
             <div style="margin: 15px;">
               <div id="right-video-cover">
-                <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
+                <!-- TODO: -->
+                <!-- <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
                   ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="rightArtifactVideo()"
+                  @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
+                  @mousemove="handleDragging" preload="auto">
+                </video> -->
+                <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
+                  ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="tempVideo2"
                   @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
                   @mousemove="handleDragging" preload="auto">
                 </video>
@@ -57,6 +71,26 @@
               <div>
                 <div style="margin-top: 8px; font-size: 14px;">{{
                   this.artifactVideoNameList[videoNameIndex] }}
+                </div>
+              </div>
+            </div>
+            <!-- diff video -->
+            <div style="margin: 15px;">
+              <div id="right-video-cover">
+                <!-- TODO: -->
+                <!-- <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
+                  ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="diffVideo()"
+                  @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
+                  @mousemove="handleDragging" preload="auto">
+                </video> -->
+                <video id="diffVideo" :style="videoStyles" :class="video - style" class="video-style" ref="diffVideo"
+                  controlsList="nodownload" key="diffVideo" :src="tempVideo2" @wheel="handleWheel" @click="setZoomCenter"
+                  @mousedown="handleDragStart" @mouseup="handleDragEnd" @mousemove="handleDragging" preload="auto">
+                </video>
+              </div>
+              <div>
+                <div style="margin-top: 8px; font-size: 14px;">{{
+                  this.diffVideoNameList[videoNameIndex] }}
                 </div>
               </div>
             </div>
@@ -101,7 +135,7 @@
               style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
               @click="[changeNextVideo()]">next</button>
           </div>
-          <div>{{ this.selectedVideoTimeList }}</div>
+          <!-- <div>{{ this.selectedVideoTimeList }}</div> -->
         </div>
       </div>
     </div>
@@ -138,6 +172,7 @@ export default {
       videoList: [],
       originalVideoNameList: [],
       artifactVideoNameList: [],
+      diffVideoNameList: [],
       videoNameIndex: 0,
       videoFrameList: [],
       // originalVideoFrameList: [],
@@ -153,10 +188,11 @@ export default {
       videoOriginalWidth: 0,
       videoCurrentTime: 0.00,
       videoDuration: 0.00,
-      // tempVideo: require("./original.mp4"),
-      // tempVideo2: require("./denoise.mp4"),
+      tempVideo: require("./original.mp4"),
+      tempVideo2: require("./denoise.mp4"),
       selectedVideoTime: 0.00,
       selectedVideoTimeList: [],
+      selectedVideoFrameList: [],
       currentPage: 1,
       totalFrameLength: 0,
       currentFrame: 0,
@@ -208,10 +244,12 @@ export default {
       // 지금 선택된 video frame이 selectedVideoTimeList에 없으면 추가
       if (!this.selectedVideoTimeList.includes(this.videoCurrentTime)) {
         this.selectedVideoTimeList.push(this.videoCurrentTime);
+        this.selectedVideoFrameList.push(this.currentFrame);
         console.log("[addVideoFrame] selectedVideoTimeList: ", this.selectedVideoTimeList)
       } else {
         // video frame이 이미 선택되있는 상태에서 클릭하면 video frame을 제거
         this.selectedVideoTimeList.splice(this.selectedVideoTimeList.indexOf(this.videoCurrentTime), 1);
+        this.selectedVideoFrameList.splice(this.selectedVideoFrameList.indexOf(this.currentFrame), 1);
         console.log("[addVideoFrame] selectedVideoTimeList: ", this.selectedVideoTimeList)
       }
       this.isVideoFrameSelected();
@@ -249,6 +287,7 @@ export default {
           console.log("[getVideoIndex] videoIndex: ", this.videoIndex);
           this.originalVideoNameList = response.data.original_video_list;
           this.artifactVideoNameList = response.data.artifact_video_list;
+          this.diffVideoNameList = response.data.diff_video_list;
           this.videoFrameList = response.data.video_frame_list;
         })
         .catch((error) => {
@@ -262,7 +301,7 @@ export default {
       await axios
         .post(this.baseUrl + "admin/postVideoFrameTime", {
           videoIndex: tempCurrentVideo,
-          videoFrame: this.currentFrame,
+          videoFrame: this.videoFrameList,
           selectedVideoTime: this.selectedVideoTimeList
         })
         .then((response) => {
@@ -410,6 +449,9 @@ export default {
     rightArtifactVideo() {
       return String(this.baseUrl + "postvideo/artifact/" + this.currentPage)
     },
+    diffVideo() {
+      return String(this.baseUrl + "postvideo/diff/" + this.currentPage)
+    },
     changeNextVideo() {
       if (this.isVideoPlaying == true) {
         this.changeVideoButton();
@@ -465,22 +507,29 @@ export default {
     addEventVideoPlay() {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
+      var video3 = document.getElementById('diffVideo');
+
       var video2_currentTime = video2.currentTime;
       video1.currentTime = video2_currentTime;
       video2.currentTime = video2_currentTime;
+      video3.currentTime = video2_currentTime;
 
       video1.addEventListener("play", () => {
         document.getElementById('videoYesartifact').play();
+        document.getElementById('diffVideo').play();
       });
       video1.addEventListener("pause", () => {
         document.getElementById('videoYesartifact').pause();
+        document.getElementById('diffVideo').pause();
         let temp = + (video2.currentTime).toFixed(2);
         video1.currentTime = temp;
         video2.currentTime = temp;
+        video3.currentTime = temp;
       })
       video1.addEventListener("ended", () => {
         video1.currentTime = 0;
         video2.currentTime = 0;
+        video3.currentTime = 0;
         video1.play();
       })
     },
@@ -499,37 +548,47 @@ export default {
     async seekBackward() {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
+      const video3 = this.$refs.diffVideo;
 
       const videoFrame = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100);
       const video1CurrentTime = (Math.round((video1.currentTime) * 100) / 100);
       const video2CurrentTime = (Math.round((video2.currentTime) * 100) / 100);
+      const video3CurrentTime = (Math.round((video3.currentTime) * 100) / 100);
 
       if (videoFrame != 0) {
         if (videoFrame) {
-          if (video1CurrentTime - videoFrame <= 0 || video2CurrentTime - videoFrame <= 0) {
+          if (video1CurrentTime - videoFrame <= 0 || video2CurrentTime - videoFrame <= 0 || video3CurrentTime - videoFrame <= 0) {
+            video1.currentTime = 0;
+            video2.currentTime = 0;
+            video3.currentTime = 0;
             return;
           }
           video1.currentTime = +(video1.currentTime - parseFloat(videoFrame)).toFixed(2);
           video2.currentTime = +(video2.currentTime - parseFloat(videoFrame)).toFixed(2);
+          video3.currentTime = +(video3.currentTime - parseFloat(videoFrame)).toFixed(2);
         }
       }
       console.log("[seekForward] video1.currentTime: ", video1.currentTime);
       console.log("[seekForward] video2.currentTime: ", video2.currentTime);
+
     },
     async seekForward() {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
+      const video3 = this.$refs.diffVideo;
       const videoFrame = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100);
       const video1CurrentTime = (Math.round((video1.currentTime) * 100) / 100);
       const video2CurrentTime = (Math.round((video2.currentTime) * 100) / 100);
+      const video3CurrentTime = (Math.round((video3.currentTime) * 100) / 100);
 
       if (videoFrame != 0) {
         if (videoFrame) {
-          if (video1CurrentTime + videoFrame * 2 >= video1.duration || video2CurrentTime + videoFrame * 2 >= video1.duration) {
+          if (video1CurrentTime + videoFrame * 2 >= video1.duration || video2CurrentTime + videoFrame * 2 >= video1.duration || video3CurrentTime + videoFrame * 2 >= video1.duration) {
             return;
           }
           video1.currentTime = +(video1.currentTime + parseFloat(videoFrame)).toFixed(2);
           video2.currentTime = +(video2.currentTime + parseFloat(videoFrame)).toFixed(2);
+          video3.currentTime = +(video3.currentTime + parseFloat(videoFrame)).toFixed(2);
         }
       }
       console.log("[seekForward] video1CurrentTime: ", video1CurrentTime);
