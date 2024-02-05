@@ -249,8 +249,8 @@ export default {
         console.log("[addVideoFrame] selectedVideoTimeList: ", this.selectedVideoTimeList)
       } else {
         // video frame이 이미 선택되있는 상태에서 클릭하면 video frame을 제거
-        this.selectedVideoTimeList.splice(this.selectedVideoTimeList.indexOf(this.videoCurrentTime), 1);
-        this.selectedVideoFrameList.splice(this.selectedVideoFrameList.indexOf(this.currentFrame), 1);
+        this.selectedVideoTimeList.splice(this.selectedVideoTimeList.indexOf(String(this.videoCurrentTime)), 1);
+        this.selectedVideoFrameList.splice(this.selectedVideoFrameList.indexOf(String(this.currentFrame)), 1);
         console.log("[addVideoFrame] selectedVideoTimeList: ", this.selectedVideoTimeList)
       }
       this.isVideoFrameSelected();
