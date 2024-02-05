@@ -613,9 +613,6 @@ export default {
         video2.currentTime = t;
         video3.currentTime = t;
       }
-      console.log("[seekForward] video1.currentTime: ", video1.currentTime);
-      console.log("[seekForward] video2.currentTime: ", video2.currentTime);
-      console.log("[seekForward] video3.currentTime: ", video3.currentTime);
     },
     async seekForward() {
       const video1 = this.$refs.videoNoartifact;
@@ -640,11 +637,6 @@ export default {
           video3.currentTime = t;
         }
       }
-      console.log("[seekForward] video1CurrentTime: ", video1CurrentTime);
-      console.log("[seekForward] video2CurrentTime: ", video2CurrentTime);
-      console.log("[seekForward] videoFrame: ", videoFrame);
-      console.log("[seekForward] video1.currentTime: ", video1.currentTime);
-      console.log("[seekForward] video2.currentTime: ", video2.currentTime);
     },
   }
 }
