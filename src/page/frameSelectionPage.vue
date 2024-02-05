@@ -266,6 +266,9 @@ export default {
         this.currentFrame = ~~((this.videoCurrentTime - this.halfVideoFrameRate) / currentVideoFrameRate)
       });
       video.addEventListener("timeupdate", (event) => {
+        if (video.currentTime == 0) {
+          video.currentTime = this.halfVideoFrameRate;
+        }
         this.videoCurrentTime = (Math.round(event.target.currentTime * 100) / 100).toFixed(2);
         const currentVideoFrameRate = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100).toFixed(2);
         this.totalFrameLength = (Math.round((this.videoDuration / currentVideoFrameRate) * 100) / 100).toFixed(0);
