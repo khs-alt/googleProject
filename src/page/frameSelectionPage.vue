@@ -545,7 +545,8 @@ export default {
       video1.addEventListener("pause", () => {
         document.getElementById('videoYesartifact').pause();
         document.getElementById('diffVideo').pause();
-        let temp = + (video2.currentTime).toFixed(2);
+        let T = 1 / this.videoFrameList[this.videoNameIndex]
+        let temp = +(~~(video2.currentTime / T) * T).toFixed(2) + this.halfVideoFrameRate;
         video1.currentTime = temp;
         video2.currentTime = temp;
         video3.currentTime = temp;
