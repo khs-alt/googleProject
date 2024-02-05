@@ -324,21 +324,21 @@ export default {
     // frame을 선택하면 백엔드로 요청을 보내는 함수
     async postVideoFrameTimeList() {
       let tempCurrentVideo = parseInt(this.currentPage)
-      console.log("[postVideoFrameTimeList] selectedVideoFrameList type" + typeof (this.selectedVideoFrameList))
+      console.log("[postVideoFrameTimeList] selectedVideoFrameList type: " + typeof (this.selectedVideoFrameList.indexOf(1))
       console.log("[postVideoFrameTimeList] selectedVideoFrameList: " + this.selectedVideoFrameList)
-      console.log("[postVideoFrameTimeList] selectedVideoTimeList type" + typeof (this.selectedVideoTimeList))
+      console.log("[postVideoFrameTimeList] selectedVideoTimeList type: " + typeof (this.selectedVideoTimeList.indexOf(1))
       console.log("[postVideoFrameTimeList] selectedVideoTimeList: " + this.selectedVideoTimeList)
 
       await axios
-        .post(this.baseUrl + "admin/postVideoFrameTime", {
-          videoIndex: tempCurrentVideo,
-          videoFrame: this.selectedVideoFrameList,
-          selectedVideoTime: this.selectedVideoTimeList
-        })
-        .then((response) => {
-          console.log("[postVideoFrameTimeList] response: " + response.data);
-          //this.selectedVideoTimeList = [];
-        })
+          .post(this.baseUrl + "admin/postVideoFrameTime", {
+            videoIndex: tempCurrentVideo,
+            videoFrame: this.selectedVideoFrameList,
+            selectedVideoTime: this.selectedVideoTimeList
+          })
+          .then((response) => {
+            console.log("[postVideoFrameTimeList] response: " + response.data);
+            //this.selectedVideoTimeList = [];
+          })
     },
     //키보드 이벤트 함수
     keydown(e) {
