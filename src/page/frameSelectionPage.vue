@@ -173,7 +173,7 @@ export default {
       artifactVideoNameList: [],
       diffVideoNameList: [],
       videoNameIndex: 0,
-      videoFrameList: [30],
+      videoFrameList: [],
       // originalVideoFrameList: [],
       // artifactVideoFrameList: [],
       dragging: false,
@@ -187,14 +187,15 @@ export default {
       videoOriginalWidth: 0,
       videoCurrentTime: 0.00,
       videoDuration: 0.00,
-      // tempVideo: require("./original.mp4"),
-      // tempVideo2: require("./denoise.mp4"),
+      tempVideo: require("./original.mp4"),
+      tempVideo2: require("./denoise.mp4"),
       selectedVideoTime: 0.00,
       selectedVideoTimeList: [],
       selectedVideoFrameList: [],
       currentPage: 1,
       totalFrameLength: 0,
       currentFrame: 0,
+      halfVideoFrameRate: 0.01
     }
   },
   created() {
@@ -212,6 +213,7 @@ export default {
 
     this.addEventVideoCurrentTime();
     this.getSelectedFrameList();
+    // this.setHalfVideoFrame();
   },
   computed: {
     currentPageIndex() {
@@ -261,13 +263,13 @@ export default {
         this.videoDuration = event.target.duration.toFixed(2);
         const currentVideoFrameRate = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100).toFixed(2);
         this.totalFrameLength = (Math.round((this.videoDuration / currentVideoFrameRate) * 100) / 100).toFixed(0);
-        this.currentFrame = (Math.round((this.videoCurrentTime / currentVideoFrameRate) * 100) / 100).toFixed(0);
+        this.currentFrame = ~~((this.videoCurrentTime - this.halfVideoFrameRate) / currentVideoFrameRate)
       });
       video.addEventListener("timeupdate", (event) => {
         this.videoCurrentTime = (Math.round(event.target.currentTime * 100) / 100).toFixed(2);
         const currentVideoFrameRate = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100).toFixed(2);
         this.totalFrameLength = (Math.round((this.videoDuration / currentVideoFrameRate) * 100) / 100).toFixed(0);
-        this.currentFrame = (Math.round((this.videoCurrentTime / currentVideoFrameRate) * 100) / 100).toFixed(0);
+        this.currentFrame = ~~((this.videoCurrentTime - this.halfVideoFrameRate) / currentVideoFrameRate)
       })
       // this.videoCurrentTime = video1.currentTime;
       // this.currentTime = video1.currentTime;
@@ -288,6 +290,7 @@ export default {
           this.artifactVideoNameList = response.data.artifact_video_list;
           this.diffVideoNameList = response.data.diff_video_list;
           this.videoFrameList = response.data.video_frame_list;
+          this.setHalfVideoFrame();
         })
         .catch((error) => {
           console.log(error);
@@ -360,17 +363,16 @@ export default {
       var video3 = document.getElementById('diffVideo');
 
       video1.pause();
-      video1.currentTime = 0;
-      video2.currentTime = 0;
-      video3.currentTime = 0;
+      video1.currentTime = this.halfVideoFrameRate;
+      video2.currentTime = this.halfVideoFrameRate;
+      video3.currentTime = this.halfVideoFrameRate;
       this.isVideoPlaying = false;
     },
     goToEnd() {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
       var video3 = document.getElementById('diffVideo');
-      const videoFrame = this.videoFrameList[this.videoNameIndex];
-      const temp = +(video1.duration - (1 / videoFrame)).toFixed(2);
+      const temp = +(video1.duration).toFixed(2);
       video1.currentTime = temp;
       video2.currentTime = temp;
       video3.currentTime = temp;
@@ -479,7 +481,7 @@ export default {
         this.videoNameIndex += 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
-
+      this.setHalfVideoFrame();
       this.getSelectedFrameList();
     },
     changeBackVideo() {
@@ -505,7 +507,7 @@ export default {
         this.videoNameIndex -= 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
-
+      this.setHalfVideoFrame();
       this.getSelectedFrameList();
     },
     addEventVideoPlay() {
@@ -530,12 +532,12 @@ export default {
         video2.currentTime = temp;
         video3.currentTime = temp;
       })
-      video1.addEventListener("ended", () => {
-        video1.currentTime = 0;
-        video2.currentTime = 0;
-        video3.currentTime = 0;
-        video1.play();
-      })
+      // video1.addEventListener("ended", () => {
+      //   video1.currentTime = 0;
+      //   video2.currentTime = 0;
+      //   video3.currentTime = 0;
+      //   video1.play();
+      // })
     },
     // Play/Stop 및 text 변경 버튼
     changeVideoButton() {
@@ -549,6 +551,10 @@ export default {
       }
       this.changeImgSource();
     },
+    setHalfVideoFrame() {
+      // 반내림으로 처리 
+      this.halfVideoFrameRate = (Math.floor(((1 / this.videoFrameList[this.videoNameIndex]) / 2) * 100) / 100);
+    },
     async seekBackward() {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
@@ -560,21 +566,20 @@ export default {
       const video3CurrentTime = (Math.round((video3.currentTime) * 100) / 100);
 
       if (videoFrame != 0) {
-        if (videoFrame) {
-          if (video1CurrentTime - videoFrame <= 0 || video2CurrentTime - videoFrame <= 0 || video3CurrentTime - videoFrame <= 0) {
-            video1.currentTime = 0;
-            video2.currentTime = 0;
-            video3.currentTime = 0;
-            return;
-          }
-          video1.currentTime = +(video1.currentTime - parseFloat(videoFrame)).toFixed(2);
-          video2.currentTime = +(video2.currentTime - parseFloat(videoFrame)).toFixed(2);
-          video3.currentTime = +(video3.currentTime - parseFloat(videoFrame)).toFixed(2);
+        if (video1CurrentTime - videoFrame <= 0 || video2CurrentTime - videoFrame <= 0 || video3CurrentTime - videoFrame <= 0) {
+          video1.currentTime = this.halfVideoFrameRate;
+          video2.currentTime = this.halfVideoFrameRate;
+          video3.currentTime = this.halfVideoFrameRate;
+          return;
         }
+        const t = +Math.round(((~~(video1.currentTime / parseFloat(videoFrame) - 1) * videoFrame) + this.halfVideoFrameRate) * 100) / 100;
+        video1.currentTime = t;
+        video2.currentTime = t;
+        video3.currentTime = t;
       }
       console.log("[seekForward] video1.currentTime: ", video1.currentTime);
       console.log("[seekForward] video2.currentTime: ", video2.currentTime);
-
+      console.log("[seekForward] video3.currentTime: ", video3.currentTime);
     },
     async seekForward() {
       const video1 = this.$refs.videoNoartifact;
@@ -587,12 +592,16 @@ export default {
 
       if (videoFrame != 0) {
         if (videoFrame) {
-          if (video1CurrentTime + videoFrame * 2 >= video1.duration || video2CurrentTime + videoFrame * 2 >= video1.duration || video3CurrentTime + videoFrame * 2 >= video1.duration) {
+          if (video1CurrentTime + videoFrame > video1.duration || video2CurrentTime + videoFrame > video1.duration || video3CurrentTime + videoFrame > video1.duration) {
+            video1.currentTime = video1.duration - this.halfVideoFrameRate;
+            video2.currentTime = video1.duration - this.halfVideoFrameRate;
+            video3.currentTime = video1.duration - this.halfVideoFrameRate;
             return;
           }
-          video1.currentTime = +(video1.currentTime + parseFloat(videoFrame)).toFixed(2);
-          video2.currentTime = +(video2.currentTime + parseFloat(videoFrame)).toFixed(2);
-          video3.currentTime = +(video3.currentTime + parseFloat(videoFrame)).toFixed(2);
+          const t = +Math.round(((~~(video1.currentTime / parseFloat(videoFrame) + 1) * videoFrame) + this.halfVideoFrameRate) * 100) / 100;
+          video1.currentTime = t;
+          video2.currentTime = t;
+          video3.currentTime = t;
         }
       }
       console.log("[seekForward] video1CurrentTime: ", video1CurrentTime);
