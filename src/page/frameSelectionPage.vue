@@ -244,8 +244,8 @@ export default {
     addVideoFrame() {
       // 지금 선택된 video frame이 selectedVideoTimeList에 없으면 추가
       if (!this.selectedVideoTimeList.includes(this.videoCurrentTime)) {
-        this.selectedVideoTimeList.push(this.videoCurrentTime);
-        this.selectedVideoFrameList.push(this.currentFrame);
+        this.selectedVideoTimeList.push(String(this.videoCurrentTime));
+        this.selectedVideoFrameList.push(String(this.currentFrame));
         console.log("[addVideoFrame] selectedVideoTimeList: ", this.selectedVideoTimeList)
       } else {
         // video frame이 이미 선택되있는 상태에서 클릭하면 video frame을 제거
