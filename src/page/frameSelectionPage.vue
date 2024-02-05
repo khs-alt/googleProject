@@ -497,7 +497,7 @@ export default {
         this.videoNameIndex += 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
-      this.selectedVideoFrameList = [];
+      // this.selectedVideoFrameList = [];
       this.setHalfVideoFrame();
       this.getSelectedFrameList();
     },
@@ -524,7 +524,7 @@ export default {
         this.videoNameIndex -= 1
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
-      this.selectedVideoFrameList = [];
+      // this.selectedVideoFrameList = [];
       this.setHalfVideoFrame();
       this.getSelectedFrameList();
     },
