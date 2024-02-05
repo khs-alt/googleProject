@@ -248,6 +248,7 @@ export default {
         })
         .then((response) => {
           this.selectedVideoTimeList = response.data.selected_video_frame_time_list;
+          this.selectedVideoFrameList = response.data.selected_video_frame_list;
           console.log("[getSelectedFrameList] response: ", response.data.selected_video_frame_time_list)
           console.log("[getSelectedFrameList] selectedVideoTimeList: ", this.selectedVideoTimeList);
         })
