@@ -247,8 +247,12 @@ export default {
           }
         })
         .then((response) => {
-          this.selectedVideoTimeList = response.data.selected_video_frame_time_list;
-          this.selectedVideoFrameList = response.data.selected_video_frame_list;
+          if (response.data.selected_video_frame_time_list != null) {
+            this.selectedVideoTimeList = response.data.selected_video_frame_time_list;
+          }
+          if (response.data.selected_video_frame_list != null) {
+            this.selectedVideoFrameList = response.data.selected_video_frame_list;
+          }
           console.log("[getSelectedFrameList] response: ", response.data.selected_video_frame_time_list)
           console.log("[getSelectedFrameList] selectedVideoTimeList: ", this.selectedVideoTimeList);
         })
