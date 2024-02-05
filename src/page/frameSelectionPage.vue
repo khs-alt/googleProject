@@ -234,7 +234,7 @@ export default {
       video3.currentTime = this.halfVideoFrameRate;
     },
     isVideoFrameSelected() {
-      if (this.selectedVideoFrameList.includes(this.currentFrame)) {
+      if (this.selectedVideoFrameList.includes(String(this.currentFrame))) {
         return true;
       } else {
         return false;
