@@ -254,7 +254,9 @@ export default {
             this.selectedVideoFrameList = response.data.selected_video_frame_list;
           }
           console.log("[getSelectedFrameList] response: ", response.data.selected_video_frame_time_list)
-          console.log("[getSelectedFrameList] selectedVideoTimeList: ", this.selectedVideoTimeList);
+          console.log("[getSelectedFrameList] response: ", response.data.selected_video_frame_list)
+          console.log("[getSelectedFrameList]  : ", this.selectedVideoTimeList);
+          console.log("[getSelectedFrameList]  : ", this.selectedVideoFrameList);
         })
     },
     addVideoFrame() {
