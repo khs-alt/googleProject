@@ -258,11 +258,15 @@ export default {
         this.selectedVideoTimeList.push(String(this.videoCurrentTime));
         this.selectedVideoFrameList.push(String(this.currentFrame));
         console.log("[addVideoFrame] selectedVideoTimeList: ", this.selectedVideoTimeList)
+        console.log("[addVideoFrame] selectedVideoFrameList: ", this.selectedVideoFrameList)
+        console.log("[addVideoFrame] currentFrame: ", this.currentFrame)
       } else {
         // video frame이 이미 선택되있는 상태에서 클릭하면 video frame을 제거
         this.selectedVideoTimeList.splice(this.selectedVideoTimeList.indexOf(String(this.videoCurrentTime)), 1);
         this.selectedVideoFrameList.splice(this.selectedVideoFrameList.indexOf(String(this.currentFrame)), 1);
         console.log("[addVideoFrame] selectedVideoTimeList: ", this.selectedVideoTimeList)
+        console.log("[addVideoFrame] selectedVideoFrameList: ", this.selectedVideoFrameList)
+        console.log("[addVideoFrame] currentFrame: ", this.currentFrame)
       }
       this.isVideoFrameSelected();
     },
