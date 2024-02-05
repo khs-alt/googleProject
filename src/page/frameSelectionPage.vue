@@ -174,7 +174,8 @@ export default {
       artifactVideoNameList: [],
       diffVideoNameList: [],
       videoNameIndex: 0,
-      videoFrameList: [],
+      // TODO:
+      videoFrameList: [30],
       // originalVideoFrameList: [],
       // artifactVideoFrameList: [],
       dragging: false,
@@ -188,15 +189,16 @@ export default {
       videoOriginalWidth: 0,
       videoCurrentTime: 0.00,
       videoDuration: 0.00,
-      tempVideo: require("./original.mp4"),
-      tempVideo2: require("./denoise.mp4"),
+      // tempVideo: require("./1.mp4"),
+      // tempVideo2: require("./1.mp4"),
       selectedVideoTime: 0.00,
       selectedVideoTimeList: [],
       selectedVideoFrameList: [],
       currentPage: 1,
       totalFrameLength: 0,
       currentFrame: 0,
-      halfVideoFrameRate: 0.01
+      halfVideoFrameRate: 0.015,
+      T: 0.03,
     }
   },
   created() {
@@ -223,6 +225,9 @@ export default {
     },
   },
   methods: {
+    setT() {
+      this.T = 1 / this.videoFrameList[this.videoNameIndex];
+    },
     setInitialTime() {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
@@ -318,6 +323,7 @@ export default {
           this.diffVideoNameList = response.data.diff_video_list;
           this.videoFrameList = response.data.video_frame_list;
           this.setHalfVideoFrame();
+          this.setT();
         })
         .catch((error) => {
           console.log(error);
@@ -595,10 +601,14 @@ export default {
       const video2 = this.$refs.videoYesartifact;
       const video3 = this.$refs.diffVideo;
 
-      const videoFrame = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100);
-      const video1CurrentTime = (Math.round((video1.currentTime) * 100) / 100);
-      const video2CurrentTime = (Math.round((video2.currentTime) * 100) / 100);
-      const video3CurrentTime = (Math.round((video3.currentTime) * 100) / 100);
+      // const videoFrame = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100);
+      // const video1CurrentTime = (Math.round((video1.currentTime) * 100) / 100);
+      // const video2CurrentTime = (Math.round((video2.currentTime) * 100) / 100);
+      // const video3CurrentTime = (Math.round((video3.currentTime) * 100) / 100);
+      const videoFrame = 1 / this.videoFrameList[this.videoNameIndex];
+      const video1CurrentTime = video1.currentTime;
+      const video2CurrentTime = video2.currentTime;
+      const video3CurrentTime = video3.currentTime;
 
       if (videoFrame != 0) {
         if (video1CurrentTime - videoFrame <= 0 || video2CurrentTime - videoFrame <= 0 || video3CurrentTime - videoFrame <= 0) {
@@ -617,10 +627,14 @@ export default {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
       const video3 = this.$refs.diffVideo;
-      const videoFrame = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100);
-      const video1CurrentTime = (Math.round((video1.currentTime) * 100) / 100);
-      const video2CurrentTime = (Math.round((video2.currentTime) * 100) / 100);
-      const video3CurrentTime = (Math.round((video3.currentTime) * 100) / 100);
+      // const videoFrame = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100);
+      // const video1CurrentTime = (Math.round((video1.currentTime) * 100) / 100);
+      // const video2CurrentTime = (Math.round((video2.currentTime) * 100) / 100);
+      // const video3CurrentTime = (Math.round((video3.currentTime) * 100) / 100);
+      const videoFrame = 1 / this.videoFrameList[this.videoNameIndex];
+      const video1CurrentTime = video1.currentTime;
+      const video2CurrentTime = video2.currentTime;
+      const video3CurrentTime = video3.currentTime;
 
       if (videoFrame != 0) {
         if (videoFrame) {
