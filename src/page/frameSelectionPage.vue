@@ -215,6 +215,7 @@ export default {
     this.addEventVideoCurrentTime();
     this.getSelectedFrameList();
     // this.setHalfVideoFrame();
+    this.isVideoFrameSelected();
   },
   computed: {
     currentPageIndex() {
@@ -233,7 +234,7 @@ export default {
       video3.currentTime = this.halfVideoFrameRate;
     },
     isVideoFrameSelected() {
-      if (this.selectedVideoTimeList.includes(this.videoCurrentTime)) {
+      if (this.selectedVideoFrameList.includes(this.currentFrame)) {
         return true;
       } else {
         return false;
