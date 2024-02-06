@@ -648,6 +648,7 @@ export default {
       const video3CurrentTime = video3.currentTime;
 
       console.log("videoFrame: ", videoFrame);
+      console.log("halfVideoFrameRate: ", this.halfVideoFrameRate);
 
       if (videoFrame != 0) {
         if (videoFrame) {
