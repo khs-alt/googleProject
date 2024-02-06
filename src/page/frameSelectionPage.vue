@@ -277,6 +277,7 @@ export default {
       const videoFrame = String(this.currentFrame)
       var video = document.getElementById('videoNoartifact');
       const t = String(Math.round(((~~(video.currentTime / parseFloat(this.T)) * this.T) + this.halfVideoFrameRate) * 100) / 100);
+      console.log("[addVideoFrame] t: ", t);
 
       if (!this.selectedVideoFrameList.includes(videoFrame)) {
         this.selectedVideoTimeList.push(t);
