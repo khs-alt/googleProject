@@ -340,9 +340,9 @@ export default {
     // frame을 선택하면 백엔드로 요청을 보내는 함수
     async postVideoFrameTimeList() {
       let tempCurrentVideo = parseInt(this.currentPage)
-      console.log("[postVideoFrameTimeList] selectedVideoFrameList type: " + typeof (this.selectedVideoFrameList[0]))
+      // console.log("[postVideoFrameTimeList] selectedVideoFrameList type: " + typeof (this.selectedVideoFrameList[0]))
       console.log("[postVideoFrameTimeList] selectedVideoFrameList: " + this.selectedVideoFrameList)
-      console.log("[postVideoFrameTimeList] selectedVideoTimeList type: " + typeof (this.selectedVideoTimeList[0]))
+      // console.log("[postVideoFrameTimeList] selectedVideoTimeList type: " + typeof (this.selectedVideoTimeList[0]))
       console.log("[postVideoFrameTimeList] selectedVideoTimeList: " + this.selectedVideoTimeList)
       console.table("[postVideoFrameTimeList] selectedVideoTimeList" + this.selectedVideoTimeList)
 
