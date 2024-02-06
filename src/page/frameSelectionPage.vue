@@ -602,7 +602,7 @@ export default {
     },
     setHalfVideoFrame() {
       // 반내림으로 처리 
-      this.halfVideoFrameRate = (Math.floor(((1 / this.videoFrameList[this.videoNameIndex]) / 2) * 100) / 100);
+      this.halfVideoFrameRate = (1 / this.videoFrameList[this.videoNameIndex]) / 2;
     },
     async seekBackward() {
       console.log("seekBackward");
