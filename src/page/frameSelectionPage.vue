@@ -268,6 +268,7 @@ export default {
           console.log("[getSelectedFrameList] response: ", response.data.selected_video_frame_list)
           console.log("[getSelectedFrameList]  : ", this.selectedVideoTimeList);
           console.log("[getSelectedFrameList]  : ", this.selectedVideoFrameList);
+          this.setHalfVideoFrame();
         })
     },
     addVideoFrame() {
@@ -601,7 +602,6 @@ export default {
       this.changeImgSource();
     },
     setHalfVideoFrame() {
-      // 반내림으로 처리 
       this.halfVideoFrameRate = (1 / this.videoFrameList[this.videoNameIndex]) / 2;
     },
     async seekBackward() {
