@@ -269,9 +269,11 @@ export default {
     },
     addVideoFrame() {
       // 지금 선택된 video frame이 selectedVideoTimeList에 없으면 추가
-      const videoTime = String(Math.round(this.videoCurrentTime * 100) / 100)
+      // const videoTime = String(Math.round(this.videoCurrentTime * 100) / 100)
       const videoFrame = String(this.currentFrame)
+      var video = document.getElementById('videoNoartifact');
       const t = (~~(video1.currentTime / parseFloat(this.T) + 1) * this.T) + this.halfVideoFrameRate
+
       if (!this.selectedVideoFrameList.includes(videoFrame)) {
         this.selectedVideoTimeList.push(t);
         this.selectedVideoFrameList.push(videoFrame);
