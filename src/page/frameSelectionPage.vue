@@ -279,7 +279,7 @@ export default {
       // const videoTime = String(Math.round(this.videoCurrentTime * 100) / 100)
       const videoFrame = String(this.currentFrame)
       var video = document.getElementById('videoNoartifact');
-      const t = String(Math.round(((~~(video.currentTime / parseFloat(this.T)) * this.T) + this.halfVideoFrameRate) * 100) / 100);
+      const t = String(Math.round(((~~(video.currentTime / parseFloat(this.T)) * this.T) + this.halfVideoFrameRate) * 1000) / 1000);
       console.log("[addVideoFrame] t: ", t);
 
       if (!this.selectedVideoFrameList.includes(videoFrame)) {
@@ -303,7 +303,7 @@ export default {
       video.addEventListener("loadeddata", (event) => {
         console.log(event.target.currentTime);
         this.videoCurrentTime = event.target.currentTime;
-        this.videoDuration = event.target.duration.toFixed(2);
+        this.videoDuration = event.target.duration.toFixed(3);
         // const currentVideoFrameRate = (1 / this.videoFrameList[this.videoNameIndex])
         this.totalFrameLength = (Math.round(this.videoDuration / this.T));
         this.currentFrame = ~~((this.videoCurrentTime) / this.T)
@@ -582,7 +582,7 @@ export default {
         document.getElementById('videoYesartifact').pause();
         document.getElementById('diffVideo').pause();
         let T = 1 / this.videoFrameList[this.videoNameIndex]
-        let temp = +(~~(video2.currentTime / T) * T).toFixed(2) + this.halfVideoFrameRate;
+        let temp = +(~~(video2.currentTime / T) * T).toFixed(3) + this.halfVideoFrameRate;
         video1.currentTime = temp;
         video2.currentTime = temp;
         video3.currentTime = temp;
