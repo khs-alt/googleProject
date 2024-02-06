@@ -226,6 +226,9 @@ export default {
   methods: {
     setT() {
       this.T = 1 / this.videoFrameList[this.videoNameIndex];
+      this.halfVideoFrameRate = this.T / 2;
+      console.log("[setT] T: ", this.T);
+      console.log("[setT] halfVideoFrameRate: ", this.halfVideoFrameRate);
     },
     setInitialTime() {
       const video1 = this.$refs.videoNoartifact;
@@ -268,7 +271,7 @@ export default {
           console.log("[getSelectedFrameList] response: ", response.data.selected_video_frame_list)
           console.log("[getSelectedFrameList]  : ", this.selectedVideoTimeList);
           console.log("[getSelectedFrameList]  : ", this.selectedVideoFrameList);
-          this.setHalfVideoFrame();
+          // this.setHalfVideoFrame();
         })
     },
     addVideoFrame() {
@@ -299,7 +302,7 @@ export default {
       var video = document.getElementById('videoNoartifact');
       video.addEventListener("loadeddata", (event) => {
         console.log(event.target.currentTime);
-        this.videoCurrentTime = (Math.round(event.target.currentTime * 100) / 100).toFixed(2);
+        this.videoCurrentTime = event.target.currentTime;
         this.videoDuration = event.target.duration.toFixed(2);
         const currentVideoFrameRate = (1 / this.videoFrameList[this.videoNameIndex])
         this.totalFrameLength = (Math.round(this.videoDuration / currentVideoFrameRate));
@@ -330,7 +333,7 @@ export default {
           this.artifactVideoNameList = response.data.artifact_video_list;
           this.diffVideoNameList = response.data.diff_video_list;
           this.videoFrameList = response.data.video_frame_list;
-          this.setHalfVideoFrame();
+          // this.setHalfVideoFrame();
           this.setT();
         })
         .catch((error) => {
@@ -529,8 +532,9 @@ export default {
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
       // this.selectedVideoFrameList = [];
-      this.setHalfVideoFrame();
+      // this.setHalfVideoFrame();
       this.getSelectedFrameList();
+      this.setT();
     },
     changeBackVideo() {
       if (this.isVideoPlaying == true) {
@@ -556,8 +560,9 @@ export default {
         this.currentPage = this.videoIndex[this.videoNameIndex];
       }
       // this.selectedVideoFrameList = [];
-      this.setHalfVideoFrame();
+      // this.setHalfVideoFrame();
       this.getSelectedFrameList();
+      this.setT();
     },
     addEventVideoPlay() {
       var video1 = document.getElementById('videoNoartifact');
