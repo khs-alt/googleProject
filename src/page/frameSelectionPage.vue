@@ -304,15 +304,15 @@ export default {
         console.log(event.target.currentTime);
         this.videoCurrentTime = event.target.currentTime;
         this.videoDuration = event.target.duration.toFixed(2);
-        const currentVideoFrameRate = (1 / this.videoFrameList[this.videoNameIndex])
-        this.totalFrameLength = (Math.round(this.videoDuration / currentVideoFrameRate));
-        this.currentFrame = ~~((this.videoCurrentTime - this.halfVideoFrameRate) / currentVideoFrameRate)
+        // const currentVideoFrameRate = (1 / this.videoFrameList[this.videoNameIndex])
+        this.totalFrameLength = (Math.round(this.videoDuration / this.T));
+        this.currentFrame = ~~((this.videoCurrentTime - this.halfVideoFrameRate) / this.T)
       });
       video.addEventListener("timeupdate", (event) => {
         this.videoCurrentTime = event.target.currentTime
-        const currentVideoFrameRate = (1 / this.videoFrameList[this.videoNameIndex])
-        this.totalFrameLength = (Math.round(this.videoDuration / currentVideoFrameRate));
-        this.currentFrame = ~~((this.videoCurrentTime + this.halfVideoFrameRate) / currentVideoFrameRate)
+        // const currentVideoFrameRate = (1 / this.videoFrameList[this.videoNameIndex])
+        this.totalFrameLength = (Math.round(this.videoDuration / this.T));
+        this.currentFrame = ~~((this.videoCurrentTime + this.halfVideoFrameRate) / this.T)
       })
       // this.videoCurrentTime = video1.currentTime;
       // this.currentTime = video1.currentTime;
