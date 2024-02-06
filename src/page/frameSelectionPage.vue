@@ -344,6 +344,7 @@ export default {
       console.log("[postVideoFrameTimeList] selectedVideoFrameList: " + this.selectedVideoFrameList)
       console.log("[postVideoFrameTimeList] selectedVideoTimeList type: " + typeof (this.selectedVideoTimeList.indexOf(1)))
       console.log("[postVideoFrameTimeList] selectedVideoTimeList: " + this.selectedVideoTimeList)
+      console.table("[postVideoFrameTimeList] selectedVideoTimeList" + this.selectedVideoTimeList)
 
       await axios
         .post(this.baseUrl + "admin/postVideoFrameTime", {
