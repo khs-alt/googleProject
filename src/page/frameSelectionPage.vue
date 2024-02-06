@@ -617,7 +617,7 @@ export default {
           video3.currentTime = this.halfVideoFrameRate;
           return;
         }
-        const t = +Math.round(((~~(video1.currentTime / parseFloat(videoFrame) - 1) * videoFrame) + this.halfVideoFrameRate) * 100) / 100;
+        const t = (~~(video1.currentTime / parseFloat(videoFrame) - 1) * videoFrame) + this.halfVideoFrameRate;
         video1.currentTime = t;
         video2.currentTime = t;
         video3.currentTime = t;
@@ -644,7 +644,7 @@ export default {
             video3.currentTime = video1.duration - this.halfVideoFrameRate;
             return;
           }
-          const t = +Math.round(((~~(video1.currentTime / parseFloat(videoFrame) + 1) * videoFrame) + this.halfVideoFrameRate) * 100) / 100;
+          const t = (~~(video1.currentTime / parseFloat(videoFrame) + 1) * videoFrame) + this.halfVideoFrameRate;
           video1.currentTime = t;
           video2.currentTime = t;
           video3.currentTime = t;
