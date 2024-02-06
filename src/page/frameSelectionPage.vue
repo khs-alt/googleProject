@@ -269,17 +269,18 @@ export default {
     },
     addVideoFrame() {
       // 지금 선택된 video frame이 selectedVideoTimeList에 없으면 추가
-      const videoTime = String(this.videoCurrentTime)
+      const videoTime = String(Math.round(this.videoCurrentTime * 100) / 100)
       const videoFrame = String(this.currentFrame)
+      const t = (~~(video1.currentTime / parseFloat(this.T) + 1) * this.T) + this.halfVideoFrameRate
       if (!this.selectedVideoFrameList.includes(videoFrame)) {
-        this.selectedVideoTimeList.push(videoTime);
+        this.selectedVideoTimeList.push(t);
         this.selectedVideoFrameList.push(videoFrame);
         console.log("[addVideoFrame] selectedVideoTimeList: ", this.selectedVideoTimeList)
         console.log("[addVideoFrame] selectedVideoFrameList: ", this.selectedVideoFrameList)
         console.log("[addVideoFrame] currentFrame: ", this.currentFrame)
       } else {
         // video frame이 이미 선택되있는 상태에서 클릭하면 video frame을 제거
-        this.selectedVideoTimeList.splice(this.selectedVideoTimeList.indexOf(videoTime), 1);
+        this.selectedVideoTimeList.splice(this.selectedVideoTimeList.indexOf(t), 1);
         this.selectedVideoFrameList.splice(this.selectedVideoFrameList.indexOf(videoFrame), 1);
         console.log("[addVideoFrame] selectedVideoTimeList: ", this.selectedVideoTimeList)
         console.log("[addVideoFrame] selectedVideoFrameList: ", this.selectedVideoFrameList)
