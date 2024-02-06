@@ -605,6 +605,7 @@ export default {
       this.halfVideoFrameRate = (Math.floor(((1 / this.videoFrameList[this.videoNameIndex]) / 2) * 100) / 100);
     },
     async seekBackward() {
+      console.log("seekBackward");
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
       const video3 = this.$refs.diffVideo;
@@ -632,6 +633,7 @@ export default {
       }
     },
     async seekForward() {
+      console.log("seekForward");
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
       const video3 = this.$refs.diffVideo;
