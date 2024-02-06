@@ -134,7 +134,8 @@
             <button v-on="click" class="btn-style"
               style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
               @click="[changeNextVideo()]">next</button>
-            <button class="btn-style" v-on="clickVideoFrameExport()">EXPORT</button>
+            <button class="btn-style" style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
+              v-on="clickVideoFrameExport()">EXPORT</button>
           </div>
           <!-- <div>{{ this.selectedVideoTimeList }}</div> -->
         </div>
