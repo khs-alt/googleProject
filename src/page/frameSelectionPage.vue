@@ -658,6 +658,7 @@ export default {
             return;
           }
           const t = (~~(video1.currentTime / parseFloat(videoFrame) + 1) * videoFrame) + this.halfVideoFrameRate;
+          console.log("t: ", t);
           video1.currentTime = t;
           video2.currentTime = t;
           video3.currentTime = t;
