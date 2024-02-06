@@ -134,6 +134,7 @@
             <button v-on="click" class="btn-style"
               style="font-size: x-large; width: 80px; height: 40px; padding-top: 0px;"
               @click="[changeNextVideo()]">next</button>
+            <button class="btn-style" v-on="clickVideoFrameExport()">EXPORT</button>
           </div>
           <!-- <div>{{ this.selectedVideoTimeList }}</div> -->
         </div>
@@ -224,6 +225,22 @@ export default {
     },
   },
   methods: {
+    clickVideoFrameExport() {
+      axios
+        .get(this.baseUrl + 'admin/exportVideoFrame')
+        .then((response) => {
+          console.log("response.data: " + response.data);
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'video_frame_data.csv'); // 다운로드될 파일 이름
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
     setT() {
       this.T = 1 / this.videoFrameList[this.videoNameIndex];
       this.halfVideoFrameRate = this.T / 2;
