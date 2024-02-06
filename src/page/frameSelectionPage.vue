@@ -618,6 +618,7 @@ export default {
       const video1CurrentTime = video1.currentTime;
       const video2CurrentTime = video2.currentTime;
       const video3CurrentTime = video3.currentTime;
+      console.log("videoFrame: ", videoFrame);
 
       if (videoFrame != 0) {
         if (video1CurrentTime - videoFrame <= 0 || video2CurrentTime - videoFrame <= 0 || video3CurrentTime - videoFrame <= 0) {
@@ -645,6 +646,8 @@ export default {
       const video1CurrentTime = video1.currentTime;
       const video2CurrentTime = video2.currentTime;
       const video3CurrentTime = video3.currentTime;
+
+      console.log("videoFrame: ", videoFrame);
 
       if (videoFrame != 0) {
         if (videoFrame) {
