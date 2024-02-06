@@ -174,8 +174,7 @@ export default {
       artifactVideoNameList: [],
       diffVideoNameList: [],
       videoNameIndex: 0,
-      // TODO:
-      videoFrameList: [30],
+      videoFrameList: [],
       // originalVideoFrameList: [],
       // artifactVideoFrameList: [],
       dragging: false,
@@ -652,19 +651,17 @@ export default {
       console.log("halfVideoFrameRate: ", this.halfVideoFrameRate);
 
       if (videoFrame != 0) {
-        if (videoFrame) {
-          if (video1CurrentTime + videoFrame > video1.duration || video2CurrentTime + videoFrame > video1.duration || video3CurrentTime + videoFrame > video1.duration) {
-            video1.currentTime = video1.duration - this.halfVideoFrameRate;
-            video2.currentTime = video1.duration - this.halfVideoFrameRate;
-            video3.currentTime = video1.duration - this.halfVideoFrameRate;
-            return;
-          }
-          const t = (~~(video1.currentTime / parseFloat(videoFrame) + 1) * videoFrame) + this.halfVideoFrameRate;
-          console.log("t: ", t);
-          video1.currentTime = t;
-          video2.currentTime = t;
-          video3.currentTime = t;
+        if (video1CurrentTime + videoFrame > video1.duration || video2CurrentTime + videoFrame > video1.duration || video3CurrentTime + videoFrame > video1.duration) {
+          video1.currentTime = video1.duration - this.halfVideoFrameRate;
+          video2.currentTime = video1.duration - this.halfVideoFrameRate;
+          video3.currentTime = video1.duration - this.halfVideoFrameRate;
+          return;
         }
+        const t = (~~(video1.currentTime / parseFloat(videoFrame) + 1) * videoFrame) + this.halfVideoFrameRate;
+        console.log("t: ", t);
+        video1.currentTime = t;
+        video2.currentTime = t;
+        video3.currentTime = t;
       }
     },
   }
