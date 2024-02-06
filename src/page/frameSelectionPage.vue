@@ -256,9 +256,13 @@ export default {
         .then((response) => {
           if (response.data.selected_video_frame_time_list != null) {
             this.selectedVideoTimeList = response.data.selected_video_frame_time_list;
+          } else if (response.data.selected_video_frame_time_list == null) {
+            this.selectedVideoTimeList = [];
           }
           if (response.data.selected_video_frame_list != null) {
             this.selectedVideoFrameList = response.data.selected_video_frame_list;
+          } else if (response.data.selected_video_frame_list == null) {
+            this.selectedVideoFrameList = [];
           }
           console.log("[getSelectedFrameList] response data: ", response.data)
           console.log("[getSelectedFrameList] response: ", response.data.selected_video_frame_time_list)
