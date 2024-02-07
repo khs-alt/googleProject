@@ -280,8 +280,8 @@ export default {
 
   methods: {
 
-    async getScoreCnt() {
-      await axios
+    getScoreCnt() {
+      axios
         .post(this.baseUrl + "getScoreCnt", {
           user_id: this.currentUser,
           testcode: this.testCode,
