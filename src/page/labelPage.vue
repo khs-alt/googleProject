@@ -267,7 +267,7 @@ export default {
     this.checkProgressBar();
     this.setProgressBar();
     this.getUserLabelingList();
-    this.getScoreCnt();
+    // this.getScoreCnt();
     //this.preloadImage();
     window.addEventListener('resize', this.resizeImage);
     document.addEventListener('mousemove', this.handleDragging);
