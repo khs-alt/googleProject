@@ -819,14 +819,14 @@ export default {
     },
 
     //부여된 점수 back-end로 전송
-    postUserLabeling() {
+    async postUserLabeling() {
       for (let i = 0; i < this.patchLength; i++) {
         if (this.userLabeling[i] == undefined) this.userLabeling[i] = -1;
       }
       console.log(this.userLabeling);
       console.log("[postUserLabeling] current page is " + this.currentPage)
       let temp = parseInt(this.currentPage);
-      axios
+      await axios
         .post(this.baseUrl + "postimagedata", {
           current_user: this.currentUser,
           image_id: temp,
