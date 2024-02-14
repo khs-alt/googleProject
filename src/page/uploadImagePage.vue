@@ -195,7 +195,7 @@ export default {
         alert("Still developed")
       }
     },
-    uploadFiles() {
+    async uploadFiles() {
       if (this.originalFileList.length == 0 || this.artifactFileList.length == 0 || this.diffFileList.length == 0) {
         alert('Please select two video files.');
         //console.log('Please select two video files.');
@@ -257,7 +257,7 @@ export default {
       // video sending method
       if (this.clickedUploadOption == "video") {
         //console.log("video");
-        axios
+        await axios
           .post(this.baseUrl + 'upload/video', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
@@ -277,7 +277,7 @@ export default {
       } else if (this.clickedUploadOption == "image") {
         //console.log("image")
         // image sending method ex)upload/image
-        axios
+        await axios
           .post(this.baseUrl + 'upload/image', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
