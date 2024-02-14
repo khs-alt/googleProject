@@ -819,14 +819,14 @@ export default {
     },
 
     //부여된 점수 back-end로 전송
-    async postUserLabeling() {
+    postUserLabeling() {
       for (let i = 0; i < this.patchLength; i++) {
         if (this.userLabeling[i] == undefined) this.userLabeling[i] = -1;
       }
       console.log(this.userLabeling);
       console.log("[postUserLabeling] current page is " + this.currentPage)
       let temp = parseInt(this.currentPage);
-      await axios
+      axios
         .post(this.baseUrl + "postimagedata", {
           current_user: this.currentUser,
           image_id: temp,
@@ -892,7 +892,6 @@ export default {
         this.setProgressBar();
         this.checkProgressBar();
         this.getUserLabelingList();
-        // this.getScoreCnt();
         this.$router.push({
           query: {
             userName: this.currentUser,
