@@ -280,8 +280,8 @@ export default {
 
   methods: {
 
-    getScoreCnt() {
-      axios
+    async getScoreCnt() {
+      await axios
         .post(this.baseUrl + "getScoreCnt", {
           user_id: this.currentUser,
           testcode: this.testCode,
@@ -527,10 +527,10 @@ export default {
     //   }
     // },
     // Backend에서 patch size(행렬) 가져오는 method
-    getImageIndexCurrentPage() {
+    async getImageIndexCurrentPage() {
       let temp = String(this.currentPage);
       console.log(temp);
-      axios
+      await axios
         .post(this.baseUrl + "getImageIndexCurrentPage", {
           userID: this.currentUser,
           testcode: this.testCode,
@@ -586,8 +586,8 @@ export default {
         });
     },
 
-    getImageNameList() {
-      axios
+    async getImageNameList() {
+      await axios
         .post(this.baseUrl + "imageNameList", {
           user_id: this.currentUser,
           testcode: this.testCode,
@@ -634,10 +634,10 @@ export default {
     },
 
     //라벨링 여부에 따라 userLabeling 가져오는 함수
-    getUserLabeling() {
+    async getUserLabeling() {
       console.log("[getUserLabeling] get current page is " + this.currentPage)
       let temp = parseInt(this.currentPage);
-      axios
+      await axios
         .post(this.baseUrl + "getUserImageScore", {
           current_user: this.currentUser,
           image_id: temp,
