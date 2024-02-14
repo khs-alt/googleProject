@@ -600,7 +600,6 @@ export default {
           this.imageArtifactNameList = response.data.artifact_list;
           this.findIndex();
           this.checkProgressBar();
-          // this.removeSuffix();
         })
         .catch((error) => {
           console.log(error);
@@ -819,7 +818,7 @@ export default {
     },
 
     //부여된 점수 back-end로 전송
-    async postUserLabeling() {
+    async postUserLabeling(num) {
       for (let i = 0; i < this.patchLength; i++) {
         if (this.userLabeling[i] == undefined) this.userLabeling[i] = -1;
       }
@@ -835,6 +834,7 @@ export default {
         })
         .then((response) => {
           console.log("[postUserLabeling] response.data: " + response.data)
+          this.imageIndex += num;
           //사용자가 입력한 데이터가 없을 경우
         })
         .catch((error) => {
@@ -845,12 +845,11 @@ export default {
     changePreviousPage() {
       this.pageState = 7;
       if (this.imageIndex == 0) {
-        this.postUserLabeling();
+        this.postUserLabeling(0);
         alert("this is first image");
       }
       else {
-        this.postUserLabeling();
-        this.imageIndex -= 1;
+        this.postUserLabeling(-1);
         this.i = 0;
         this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
@@ -876,12 +875,11 @@ export default {
 
     async changeNextPage() {
       if (this.imageIndex >= this.imageIndexList.length - 1) {
-        this.postUserLabeling();
+        this.postUserLabeling(0);
         alert("this is last page");
       } else {
         if (this.imageIndex == this.imageIndexList.length - 2) this.pageState = 8;
-        this.postUserLabeling();
-        this.imageIndex += 1;
+        this.postUserLabeling(1);
         this.i = 0;
         this.j = 0;
         this.currentPage = this.imageIndexList[this.imageIndex];
