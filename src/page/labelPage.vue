@@ -280,8 +280,8 @@ export default {
 
   methods: {
 
-    getScoreCnt() {
-      axios
+    async getScoreCnt() {
+      await axios
         .post(this.baseUrl + "getScoreCnt", {
           user_id: this.currentUser,
           testcode: this.testCode,
@@ -527,10 +527,10 @@ export default {
     //   }
     // },
     // Backend에서 patch size(행렬) 가져오는 method
-    getImageIndexCurrentPage() {
+    async getImageIndexCurrentPage() {
       let temp = String(this.currentPage);
       console.log(temp);
-      axios
+      await axios
         .post(this.baseUrl + "getImageIndexCurrentPage", {
           userID: this.currentUser,
           testcode: this.testCode,
@@ -586,8 +586,8 @@ export default {
         });
     },
 
-    getImageNameList() {
-      axios
+    async getImageNameList() {
+      await axios
         .post(this.baseUrl + "imageNameList", {
           user_id: this.currentUser,
           testcode: this.testCode,
@@ -617,8 +617,8 @@ export default {
     },
 
     //사용자의 전체 레이블링 데이터 가져오는 함수
-    getUserLabelingList() {
-      axios
+    async getUserLabelingList() {
+      await axios
         .post(this.baseUrl + "getUserLabelingList", {
           user_id: this.currentUser,
           testcode: this.testCode,
@@ -634,10 +634,10 @@ export default {
     },
 
     //라벨링 여부에 따라 userLabeling 가져오는 함수
-    getUserLabeling() {
+    async getUserLabeling() {
       console.log("[getUserLabeling] get current page is " + this.currentPage)
       let temp = parseInt(this.currentPage);
-      axios
+      await axios
         .post(this.baseUrl + "getUserImageScore", {
           current_user: this.currentUser,
           image_id: temp,
@@ -784,7 +784,7 @@ export default {
     // 점수 부여 및 다음 Patch 이미지로 변경
     labeling(num) {
       console.log("index: " + this.patchIndex);
-      if(this.userLabeling[this.patchIndex] != -1) {
+      if (this.userLabeling[this.patchIndex] != -1) {
         this.scoreCnt[this.userLabeling[this.patchIndex]]--;
       }
       this.userLabeling[this.patchIndex] = num;
@@ -835,7 +835,22 @@ export default {
         })
         .then((response) => {
           console.log("[postUserLabeling] response.data: " + response.data)
-          //사용자가 입력한 데이터가 없을 경우
+          this.imageIndex += num;
+          this.currentPage = this.imageIndexList[this.imageIndex];
+          this.$router.push({
+            query: {
+              userName: this.currentUser,
+              currentPage: this.currentPage,
+              testcode: this.testCode
+            }
+          });
+          this.makeImageTemplete();
+          this.getUserLabeling();
+          this.setProgressBar();
+          this.checkProgressBar();
+          this.getUserLabelingList();
+          this.resetZoomAndOffset();
+          this.updateImageStyle();
         })
         .catch((error) => {
           console.log(error);
@@ -845,11 +860,11 @@ export default {
     changePreviousPage() {
       this.pageState = 7;
       if (this.imageIndex == 0) {
-        this.postUserLabeling();
+        this.postUserLabeling(0);
         alert("this is first image");
       }
       else {
-        this.postUserLabeling();
+        this.postUserLabeling(-1);
         this.imageIndex -= 1;
         this.i = 0;
         this.j = 0;
@@ -876,32 +891,13 @@ export default {
 
     changeNextPage() {
       if (this.imageIndex >= this.imageIndexList.length - 1) {
-        this.postUserLabeling();
+        this.postUserLabeling(0);
         alert("this is last page");
       } else {
         if (this.imageIndex == this.imageIndexList.length - 2) this.pageState = 8;
-        this.postUserLabeling();
-        this.imageIndex += 1;
+        this.postUserLabeling(1);
         this.i = 0;
         this.j = 0;
-        this.currentPage = this.imageIndexList[this.imageIndex];
-        this.$refs.img = this.nextImage;
-        this.makeImageTemplete();
-        this.getUserLabeling();
-        //this.preloadImage();
-        this.setProgressBar();
-        this.checkProgressBar();
-        this.getUserLabelingList();
-        // this.getScoreCnt();
-        this.$router.push({
-          query: {
-            userName: this.currentUser,
-            currentPage: this.currentPage,
-            testcode: this.testCode
-          }
-        });
-        this.resetZoomAndOffset();
-        this.updateImageStyle();
       }
     },
 
