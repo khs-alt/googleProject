@@ -820,7 +820,7 @@ export default {
         this.currentPage = this.videoIndex[this.videoNameIndex];
         this.isPressed = [false, false, false, false, false, false];
         this.$router.push({
-          path: "/label/scoring",
+          path: "/scoring",
           query: {
             currentPage: this.currentPage,
             userName: this.currentUser,
