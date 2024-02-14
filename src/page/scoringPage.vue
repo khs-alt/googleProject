@@ -756,7 +756,7 @@ export default {
         // this.getVideoIndexCurrentPage();
         alert("This is the last page of this test code. Thank you!");
         this.$router.push({
-          path: "/label/scoring",
+          path: "/scoring",
           query: {
             currentPage: this.currentPage,
             userName: this.currentUser,
@@ -773,7 +773,7 @@ export default {
         console.log("[changeNextVideo] currentPage: " + this.currentPage);
         this.isPressed = [false, false, false, false, false, false];
         await this.$router.push({
-          path: "/label/scoring",
+          path: "/scoring",
           query: {
             currentPage: this.currentPage,
             userName: this.currentUser,
