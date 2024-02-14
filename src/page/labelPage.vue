@@ -842,7 +842,7 @@ export default {
         })
     },
 
-    changePreviousPage() {
+    async changePreviousPage() {
       this.pageState = 7;
       if (this.imageIndex == 0) {
         this.postUserLabeling(0);
@@ -861,7 +861,7 @@ export default {
         this.checkProgressBar();
         this.getUserLabelingList();
         // this.getScoreCnt();
-        this.$router.push({
+        await this.$router.push({
           query: {
             userName: this.currentUser,
             currentPage: this.currentPage,
