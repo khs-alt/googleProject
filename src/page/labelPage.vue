@@ -874,7 +874,7 @@ export default {
       }
     },
 
-    changeNextPage() {
+    async changeNextPage() {
       if (this.imageIndex >= this.imageIndexList.length - 1) {
         this.postUserLabeling();
         alert("this is last page");
