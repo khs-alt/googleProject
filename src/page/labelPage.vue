@@ -835,6 +835,14 @@ export default {
         .then((response) => {
           console.log("[postUserLabeling] response.data: " + response.data)
           this.imageIndex += num;
+          this.currentPage = this.imageIndexList[this.imageIndex];
+          this.$router.push({
+          query: {
+            userName: this.currentUser,
+            currentPage: this.currentPage,
+            testcode: this.testCode
+          }
+        });
           //사용자가 입력한 데이터가 없을 경우
         })
         .catch((error) => {
@@ -852,21 +860,11 @@ export default {
         this.postUserLabeling(-1);
         this.i = 0;
         this.j = 0;
-        this.currentPage = this.imageIndexList[this.imageIndex];
         this.makeImageTemplete();
         this.getUserLabeling();
-        //this.preloadImage();
         this.setProgressBar();
         this.checkProgressBar();
         this.getUserLabelingList();
-        // this.getScoreCnt();
-        await this.$router.push({
-          query: {
-            userName: this.currentUser,
-            currentPage: this.currentPage,
-            testcode: this.testCode
-          }
-        });
         this.resetZoomAndOffset();
         this.updateImageStyle();
       }
@@ -881,20 +879,11 @@ export default {
         this.postUserLabeling(1);
         this.i = 0;
         this.j = 0;
-        this.currentPage = this.imageIndexList[this.imageIndex];
         this.makeImageTemplete();
         this.getUserLabeling();
-        //this.preloadImage();
         this.setProgressBar();
         this.checkProgressBar();
         this.getUserLabelingList();
-        await this.$router.push({
-          query: {
-            userName: this.currentUser,
-            currentPage: this.currentPage,
-            testcode: this.testCode
-          }
-        });
         this.resetZoomAndOffset();
         this.updateImageStyle();
       }
