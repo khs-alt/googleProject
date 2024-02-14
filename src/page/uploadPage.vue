@@ -195,7 +195,7 @@ export default {
         alert("Still developed")
       }
     },
-    uploadFiles() {
+    async uploadFiles() {
       if (this.originalFileList.length == 0 || this.artifactFileList.length == 0 || this.diffFileList.length == 0) {
         alert('Please select three video files.');
         return;
@@ -243,7 +243,7 @@ export default {
       // 이 데이터에서 선택된 tag post하는 method
       formData.append("tags", this.clickedTagBtn)
       // video sending method
-      axios
+      await axios
         .post(this.baseUrl + 'upload/video', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
