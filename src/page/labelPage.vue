@@ -617,8 +617,8 @@ export default {
     },
 
     //사용자의 전체 레이블링 데이터 가져오는 함수
-    getUserLabelingList() {
-      axios
+    async getUserLabelingList() {
+    await axios
         .post(this.baseUrl + "getUserLabelingList", {
           user_id: this.currentUser,
           testcode: this.testCode,
@@ -819,14 +819,14 @@ export default {
     },
 
     //부여된 점수 back-end로 전송
-    postUserLabeling() {
+    async postUserLabeling() {
       for (let i = 0; i < this.patchLength; i++) {
         if (this.userLabeling[i] == undefined) this.userLabeling[i] = -1;
       }
       console.log(this.userLabeling);
       console.log("[postUserLabeling] current page is " + this.currentPage)
       let temp = parseInt(this.currentPage);
-      axios
+      await axios
         .post(this.baseUrl + "postimagedata", {
           current_user: this.currentUser,
           image_id: temp,
