@@ -819,7 +819,7 @@ export default {
     },
 
     //부여된 점수 back-end로 전송
-    async postUserLabeling() {
+    async postUserLabeling(num) {
       for (let i = 0; i < this.patchLength; i++) {
         if (this.userLabeling[i] == undefined) this.userLabeling[i] = -1;
       }
