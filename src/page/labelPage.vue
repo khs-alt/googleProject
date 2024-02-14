@@ -617,7 +617,7 @@ export default {
 
     //사용자의 전체 레이블링 데이터 가져오는 함수
     async getUserLabelingList() {
-    await axios
+      await axios
         .post(this.baseUrl + "getUserLabelingList", {
           user_id: this.currentUser,
           testcode: this.testCode,
@@ -783,7 +783,7 @@ export default {
     // 점수 부여 및 다음 Patch 이미지로 변경
     labeling(num) {
       console.log("index: " + this.patchIndex);
-      if(this.userLabeling[this.patchIndex] != -1) {
+      if (this.userLabeling[this.patchIndex] != -1) {
         this.scoreCnt[this.userLabeling[this.patchIndex]]--;
       }
       this.userLabeling[this.patchIndex] = num;
@@ -837,12 +837,19 @@ export default {
           this.imageIndex += num;
           this.currentPage = this.imageIndexList[this.imageIndex];
           this.$router.push({
-          query: {
-            userName: this.currentUser,
-            currentPage: this.currentPage,
-            testcode: this.testCode
-          }
-        });
+            query: {
+              userName: this.currentUser,
+              currentPage: this.currentPage,
+              testcode: this.testCode
+            }
+          });
+          this.makeImageTemplete();
+          this.getUserLabeling();
+          this.setProgressBar();
+          this.checkProgressBar();
+          this.getUserLabelingList();
+          this.resetZoomAndOffset();
+          this.updateImageStyle();
           //사용자가 입력한 데이터가 없을 경우
         })
         .catch((error) => {
@@ -860,13 +867,6 @@ export default {
         this.postUserLabeling(-1);
         this.i = 0;
         this.j = 0;
-        this.makeImageTemplete();
-        this.getUserLabeling();
-        this.setProgressBar();
-        this.checkProgressBar();
-        this.getUserLabelingList();
-        this.resetZoomAndOffset();
-        this.updateImageStyle();
       }
     },
 
@@ -879,13 +879,6 @@ export default {
         this.postUserLabeling(1);
         this.i = 0;
         this.j = 0;
-        this.makeImageTemplete();
-        this.getUserLabeling();
-        this.setProgressBar();
-        this.checkProgressBar();
-        this.getUserLabelingList();
-        this.resetZoomAndOffset();
-        this.updateImageStyle();
       }
     },
 
