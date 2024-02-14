@@ -3,13 +3,13 @@
         <div class="menu">
             <div class="menu-header" style="display: flex;">
                 <div class="menu-content" style="margin-right: 0; justify-content: right;">
-                    <a href="/label/" style="margin-right: 10px;">
+                    <a href="/" style="margin-right: 10px;">
                         <button class="signup-btn-style">Home</button>
                     </a>
-                    <a href="/label/signup/" style="margin-right: 10px;">
+                    <a href="/signup/" style="margin-right: 10px;">
                         <button class="signup-btn-style">Sign Up</button>
                     </a>
-                    <a href="/label/admin/">
+                    <a href="/admin/">
                         <button class="signup-btn-style">Admin</button>
                     </a>
                 </div>
