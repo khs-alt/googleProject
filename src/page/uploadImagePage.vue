@@ -195,7 +195,7 @@ export default {
         alert("Still developed")
       }
     },
-    uploadFiles() {
+    async uploadFiles() {
       if (this.originalFileList.length == 0 || this.artifactFileList.length == 0 || this.diffFileList.length == 0) {
         alert('Please select two video files.');
         //console.log('Please select two video files.');
@@ -213,81 +213,34 @@ export default {
         return;
       }
 
-      var formData = new FormData();
-      //console.log("Created formData");
-
-      // original video formData에 저장
       for (let i = 0; i < this.originalFileList.length; i++) {
+        var formData = new FormData();
+        console.log("Created formData");
+
+        // original video formData에 저장
         formData.append("original", this.originalFileList[i])
-        //console.log("original video");
-        for (let key of formData.keys()) {
-          console.log(key);
-        }
-        for (let value of formData.values()) {
-          console.log(value);
-        }
-      }
-      // artifact video formData에 저장
-      for (let i = 0; i < this.artifactFileList.length; i++) {
+        // artifact video formData에 저장
         formData.append("artifact", this.artifactFileList[i])
-        //console.log("artifact video");
+        // diff video formData에 저장
+        formData.append("diff", this.diffFileList[i])
+
+        // 이 데이터에서 선택된 tag post하는 method
+        formData.append("tags", this.clickedTagBtn)
+
         for (let key of formData.keys()) {
           console.log(key);
         }
         for (let value of formData.values()) {
           console.log(value);
         }
-      }
 
-      // diff video formData에 저장
-      for (let i = 0; i < this.diffFileList.length; i++) {
-        formData.append("diff", this.diffFileList[i]);
-        console.log("diff video name: " + this.diffFileList[i].name);
-        for (let key of formData.keys()) {
-          console.log(key);
-        }
-        for (let value of formData.values()) {
-          console.log(value);
-        }
-      }
-
-      // 이 데이터에서 선택된 tag post하는 method
-      formData.append("tags", this.clickedTagBtn)
-
-      // video sending method
-      if (this.clickedUploadOption == "video") {
-        //console.log("video");
-        axios
-          .post(this.baseUrl + 'upload/video', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          })
-          .then((response) => {
-            alert("Data transfer successful.");
-            this.originalFileList = [];
-            this.artifactFileList = [];
-            this.diffFileList = [];
-            console.log(response.data);
-          })
-          .catch((error) => {
-            alert(error);
-            console.error(error);
-          });
-      } else if (this.clickedUploadOption == "image") {
-        //console.log("image")
-        // image sending method ex)upload/image
-        axios
+        await axios
           .post(this.baseUrl + 'upload/image', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
           })
           .then((response) => {
-            alert("Data transfer successful.");
-            this.originalFileList = [];
-            this.artifactFileList = [];
-            this.diffFileList = [];
             console.log(response.data);
           })
           .catch((error) => {
