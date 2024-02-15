@@ -203,6 +203,7 @@ export default {
       }
 
       if (this.originalFileList.length != this.artifactFileList.length || this.originalFileList.length != this.diffFileList.length) {
+        console.log(this.originalFileList.length, this.artifactFileList.length, this.diffFileList.length)
         alert('Please match the number of original data and artifact data and diff data.');
         return;
       }
