@@ -684,13 +684,14 @@ export default {
     // resizeImage 함수
     resizeImage() {
       console.log(this.imageOriginalNameList[this.imageIndex], this.imageWidth, this.imageHeight)
-      if (this.imageWidth)
-        this.resizeWidth = this.imageWidth * 0.2;
+      //if (this.imageWidth)
+      this.resizeWidth = this.imageWidth * 0.2;
       this.resizeHeight = this.imageHeight * 0.2;
       let img = this.$refs.img;
       const imgNaturalWidth = img.naturalWidth;
       let currentWidth = img.width;
       this.borderBoxResize = (this.borderBox * currentWidth) / imgNaturalWidth;
+      console.log("borderBoxResize: " + this.borderBoxResize);
     },
 
     // progress bar의 개수를 구하는 함수
