@@ -260,13 +260,13 @@ export default {
   mounted() {
     window.addEventListener('keydown', this.keydown);
     this.getImageIndexCurrentPage();
+    this.makeImageTemplete();
     this.getUserLabeling();
     this.getImageNameList();
     this.checkProgressBar();
     this.setProgressBar();
     this.getUserLabelingList();
     this.getScoreCnt();
-    this.makeImageTemplete();
     //this.preloadImage();
     window.addEventListener('resize', this.resizeImage);
     document.addEventListener('mousemove', this.handleDragging);
