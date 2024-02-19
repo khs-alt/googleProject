@@ -683,7 +683,7 @@ export default {
 
     // resizeImage 함수
     resizeImage() {
-      console.log(this.imageWidth, this.imageHeight)
+      console.log(this.imageOriginalNameList[this.imageIndex], this.imageWidth, this.imageHeight)
       if (this.imageWidth)
         this.resizeWidth = this.imageWidth * 0.2;
       this.resizeHeight = this.imageHeight * 0.2;
