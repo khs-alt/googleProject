@@ -57,7 +57,7 @@
     <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
       <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
       <div class="labelcontainer">
-        <div :class="this.imageWidth < this.imageHeight ? 'imagecontainer' : 'imagecontainer-column'">
+        <div :class="labelcontainerClass">
           <div class="imageName">
             <div class="images">
               <div class="imageBox" style="width: imageWidth; height: imageHeight;">
@@ -71,7 +71,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveOriginalImage()" ref="img" @load="imageLoaded"
+                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete"
                   :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -96,11 +96,10 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveArtifactImage()" ref="img" @load="imageLoaded"
+                <img :src="serveArtifactImage()" ref="img" @load="makeImageTemplete"
                   :style="{ ...imageStyles, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
-                <div v-if="!isimageLoaded"> ... </div>
                 <div class="currentBorder"
                   :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue * zoom + 'px', top: topValue * zoom + 'px' }">
                 </div>
@@ -180,7 +179,7 @@ export default {
   name: 'scoringPage',
   data() {
     return {
-      isimageLoaded: false,
+      labelcontainerClass: 'imagecontainer',
       originalImageName: null,
       artifactImageName: null,
       openModal: true, //modal창
@@ -281,9 +280,6 @@ export default {
   },
 
   methods: {
-    imageLoaded() {
-      this.isimageLoaded = true;
-    },
 
     async getScoreCnt() {
       await axios
@@ -697,6 +693,8 @@ export default {
       this.resizeHeight = this.imageHeight * 0.2;
       let img = this.$refs.img;
       const imgNaturalWidth = img.naturalWidth;
+      const imgNaturalHeight = img.naturalHeight;
+      this.labelcontainerClass = width < height ? 'imagecontainer' : 'imagecontainer-column';
       let currentWidth = img.width;
       this.borderBoxResize = (this.borderBox * currentWidth) / imgNaturalWidth;
     },
