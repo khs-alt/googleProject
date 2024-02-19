@@ -480,6 +480,7 @@ export default {
       this.checkProgressBar();
       this.getUserLabelingList();
       this.getScoreCnt();
+      this.toggleProgressModal();
     },
 
     serveOriginalImage() {
