@@ -694,7 +694,7 @@ export default {
       let img = this.$refs.img;
       const imgNaturalWidth = img.naturalWidth;
       const imgNaturalHeight = img.naturalHeight;
-      this.labelcontainerClass = width < height ? 'imagecontainer' : 'imagecontainer-column';
+      this.labelcontainerClass = imgNaturalWidth < imgNaturalHeight ? 'imagecontainer' : 'imagecontainer-column';
       let currentWidth = img.width;
       this.borderBoxResize = (this.borderBox * currentWidth) / imgNaturalWidth;
     },
