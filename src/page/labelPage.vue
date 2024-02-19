@@ -850,7 +850,7 @@ export default {
           this.checkProgressBar();
           this.getUserLabelingList();
           this.resetZoomAndOffset();
-          //this.updateImageStyle();
+          this.updateImageStyle();
         })
         .catch((error) => {
           console.log(error);
