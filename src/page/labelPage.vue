@@ -100,6 +100,7 @@
                   :style="{ ...imageStyles, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
+                <div v-if="!isimageLoaded"> ... </div>
                 <div class="currentBorder"
                   :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue * zoom + 'px', top: topValue * zoom + 'px' }">
                 </div>
@@ -179,7 +180,7 @@ export default {
   name: 'scoringPage',
   data() {
     return {
-      imageLoaded: false,
+      isimageLoaded: false,
       originalImageName: null,
       artifactImageName: null,
       openModal: true, //modal창
@@ -281,7 +282,7 @@ export default {
 
   methods: {
     imageLoaded() {
-      this.imageLoaded = true;
+      this.isimageLoaded = true;
     },
 
     async getScoreCnt() {
