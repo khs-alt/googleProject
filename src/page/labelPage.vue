@@ -71,7 +71,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveOriginalImage()" ref="img" @onload="makeImageTemplete"
+                <img :src="serveOriginalImage()" ref="img"
                   :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -686,8 +686,8 @@ export default {
     resizeImage() {
       console.log(this.imageOriginalNameList[this.imageIndex], this.imageWidth, this.imageHeight)
       //if (this.imageWidth)
-      this.resizeWidth = this.imageWidth * 0.2;
-      this.resizeHeight = this.imageHeight * 0.2;
+      //this.resizeWidth = this.imageWidth * 0.2;
+      //this.resizeHeight = this.imageHeight * 0.2;
       let img = this.$refs.img;
       const imgNaturalWidth = img.naturalWidth;
       let currentWidth = img.width;
@@ -850,7 +850,7 @@ export default {
           this.checkProgressBar();
           this.getUserLabelingList();
           this.resetZoomAndOffset();
-          this.updateImageStyle();
+          //this.updateImageStyle();
         })
         .catch((error) => {
           console.log(error);
