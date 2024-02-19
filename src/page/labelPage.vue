@@ -245,11 +245,9 @@ export default {
       isMouseOverMinus: false,
       isMouseOverPlus: false,
       isMouseOverPlay: false,
-      // video의 index list. 안의 값은 순차적이지 않고 비디오들의 고유한 인덱스 값으로 구성
-      videoIndex: [],
       zoom: 1,
       minZoom: 1,
-      // video style을 바꿈으로써 줌과 offset을 조절
+      // image style을 바꿈으로써 줌과 offset을 조절
       imageStyles: {},
       zoomCenterX: 50,
       zoomCenterY: 50,
@@ -262,6 +260,7 @@ export default {
   mounted() {
     window.addEventListener('keydown', this.keydown);
     this.getImageIndexCurrentPage();
+    this.makeImageTemplete();
     this.getUserLabeling();
     this.getImageNameList();
     this.checkProgressBar();
@@ -473,7 +472,7 @@ export default {
       });
       // this.getImageIndexCurrentPage();
       this.getUserLabeling();
-      this.makeImageTemplete();
+      //this.makeImageTemplete();
       this.i = 0;
       this.j = 0;
       this.setProgressBar();
@@ -568,7 +567,7 @@ export default {
               testcode: this.testCode
             }
           });
-          this.makeImageTemplete();
+          //this.makeImageTemplete();
         })
         .catch((error) => {
           console.log(error);
@@ -662,8 +661,6 @@ export default {
       return new Promise((resolve, reject) => {
         let img = new Image();
         img.src = this.serveOriginalImage();
-        img.src = this.serveArtifactImage();
-        img.src = this.serveDifferenceImage();
 
         let self = this;
         img.onload = function () {
@@ -687,14 +684,15 @@ export default {
 
     // resizeImage 함수
     resizeImage() {
-      console.log(this.imageWidth, this.imageHeight)
-      if (this.imageWidth)
-        this.resizeWidth = this.imageWidth * 0.2;
-      this.resizeHeight = this.imageHeight * 0.2;
+      console.log(this.imageOriginalNameList[this.imageIndex], this.imageWidth, this.imageHeight)
+      //if (this.imageWidth)
+      //this.resizeWidth = this.imageWidth * 0.2;
+      //this.resizeHeight = this.imageHeight * 0.2;
       let img = this.$refs.img;
       const imgNaturalWidth = img.naturalWidth;
       let currentWidth = img.width;
       this.borderBoxResize = (this.borderBox * currentWidth) / imgNaturalWidth;
+      console.log("borderBoxResize: " + this.borderBoxResize);
     },
 
     // progress bar의 개수를 구하는 함수
@@ -846,7 +844,7 @@ export default {
               testcode: this.testCode
             }
           });
-          this.makeImageTemplete();
+          //this.makeImageTemplete();
           this.getUserLabeling();
           this.setProgressBar();
           this.checkProgressBar();
@@ -867,27 +865,8 @@ export default {
       }
       else {
         this.postUserLabeling(-1);
-        this.imageIndex -= 1;
         this.i = 0;
         this.j = 0;
-        this.currentPage = this.imageIndexList[this.imageIndex];
-        this.$refs.img = this.prevImage;
-        this.makeImageTemplete();
-        this.getUserLabeling();
-        //this.preloadImage();
-        this.setProgressBar();
-        this.checkProgressBar();
-        this.getUserLabelingList();
-        // this.getScoreCnt();
-        this.$router.push({
-          query: {
-            userName: this.currentUser,
-            currentPage: this.currentPage,
-            testcode: this.testCode
-          }
-        });
-        this.resetZoomAndOffset();
-        this.updateImageStyle();
       }
     },
 
