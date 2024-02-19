@@ -663,7 +663,7 @@ export default {
     getImageSize() {
       return new Promise((resolve, reject) => {
         let img = new Image();
-        img.src = this.serveOriginalImage();
+        img.src = this.serveArtifactImage();
 
         let self = this;
         img.onload = function () {
