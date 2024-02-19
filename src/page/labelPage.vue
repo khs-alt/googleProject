@@ -842,7 +842,7 @@ export default {
               testcode: this.testCode
             }
           });
-          //this.makeImageTemplete();
+          this.makeImageTemplete();
           this.getUserLabeling();
           this.setProgressBar();
           this.checkProgressBar();
