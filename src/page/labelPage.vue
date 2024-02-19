@@ -266,6 +266,7 @@ export default {
     this.setProgressBar();
     this.getUserLabelingList();
     this.getScoreCnt();
+    this.makeImageTemplete();
     //this.preloadImage();
     window.addEventListener('resize', this.resizeImage);
     document.addEventListener('mousemove', this.handleDragging);
@@ -566,7 +567,7 @@ export default {
               testcode: this.testCode
             }
           });
-          this.makeImageTemplete();
+          //this.makeImageTemplete();
         })
         .catch((error) => {
           console.log(error);
