@@ -71,7 +71,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveOriginalImage()" ref="img"
+                <img :src="serveOriginalImage()" ref="img" @load="imageLoaded"
                   :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -96,7 +96,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveArtifactImage()" ref="img"
+                <img :src="serveArtifactImage()" ref="img" @load="imageLoaded"
                   :style="{ ...imageStyles, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -179,6 +179,7 @@ export default {
   name: 'scoringPage',
   data() {
     return {
+      imageLoaded: false,
       originalImageName: null,
       artifactImageName: null,
       openModal: true, //modal창
@@ -279,6 +280,9 @@ export default {
   },
 
   methods: {
+    imageLoaded() {
+      this.imageLoaded = true;
+    },
 
     async getScoreCnt() {
       await axios
