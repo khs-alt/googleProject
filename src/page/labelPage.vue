@@ -792,14 +792,11 @@ export default {
     //부여된 점수 back-end로 전송
     async postUserLabeling(num) {
       for (let i = 0; i < this.patchLength; i++) {
-        if (this.userLabeling[i] == undefined) {
-          this.userLabeling[i] = -1;
-        }
+        if (this.userLabeling[i] == undefined) this.userLabeling[i] = -1;
       }
       console.log(this.userLabeling);
       console.log("[postUserLabeling] current page is " + this.currentPage)
       let temp = parseInt(this.currentPage);
-
       await axios
         .post(this.baseUrl + "postimagedata", {
           current_user: this.currentUser,
@@ -841,24 +838,24 @@ export default {
         this.postUserLabeling(-1);
         this.i = 0;
         this.j = 0;
-        // this.currentPage = this.imageIndexList[this.imageIndex];
-        // this.$refs.img = this.prevImage;
-        // this.makeImageTemplete();
-        // this.getUserLabeling();
+        this.currentPage = this.imageIndexList[this.imageIndex];
+        this.$refs.img = this.prevImage;
+        this.makeImageTemplete();
+        this.getUserLabeling();
         //this.preloadImage();
-        // this.setProgressBar();
-        // this.checkProgressBar();
-        // this.getUserLabelingList();
+        this.setProgressBar();
+        this.checkProgressBar();
+        this.getUserLabelingList();
         // this.getScoreCnt();
-        // this.$router.push({
-        //   query: {
-        //     userName: this.currentUser,
-        //     currentPage: this.currentPage,
-        //     testcode: this.testCode
-        //   }
-        // });
-        // this.resetZoomAndOffset();
-        // this.updateImageStyle();
+        this.$router.push({
+          query: {
+            userName: this.currentUser,
+            currentPage: this.currentPage,
+            testcode: this.testCode
+          }
+        });
+        this.resetZoomAndOffset();
+        this.updateImageStyle();
       }
     },
 
