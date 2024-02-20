@@ -563,7 +563,7 @@ export default {
         })
         .then((response) => {
           console.log("[getImageNameList] axios get image list success\n");
-          console.log("[getImageNameList] response.data.image_list\n" + response.data.image_list)
+          // console.log("[getImageNameList] response.data.image_list\n" + response.data.image_list)
           this.imageIndexList = response.data.image_list;
           this.imageOriginalNameList = response.data.original_list;
           this.imageArtifactNameList = response.data.artifact_list;
@@ -799,7 +799,7 @@ export default {
       console.log(this.userLabeling);
       console.log("[postUserLabeling] current page is " + this.currentPage)
       let temp = parseInt(this.currentPage);
-      
+
       await axios
         .post(this.baseUrl + "postimagedata", {
           current_user: this.currentUser,
