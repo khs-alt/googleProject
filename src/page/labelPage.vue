@@ -484,15 +484,15 @@ export default {
       this.toggleProgressModal();
     },
 
-    async serveOriginalImage() {
+    serveOriginalImage() {
       return String(this.baseUrl + "postimage/original/" + (this.currentPage))
     },
 
-    async serveArtifactImage() {
+    serveArtifactImage() {
       return String(this.baseUrl + "postimage/artifact/" + (this.currentPage))
     },
 
-    async serveDifferenceImage() {
+    serveDifferenceImage() {
       return String(this.baseUrl + "postimage/difference/" + (this.currentPage))
     },
     // Backend에서 patch size(행렬) 가져오는 method
