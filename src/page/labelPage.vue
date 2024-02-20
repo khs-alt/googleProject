@@ -587,7 +587,7 @@ export default {
 
     //사용자의 전체 레이블링 데이터 가져오는 함수
     async getUserLabelingList() {
-      await axios
+      axios
         .post(this.baseUrl + "getUserLabelingList", {
           user_id: this.currentUser,
           testcode: this.testCode,
@@ -665,20 +665,6 @@ export default {
       let currentWidth = img.width;
       this.borderBoxResize = (this.borderBox * currentWidth) / imgNaturalWidth;
     },
-
-    // progress bar의 개수를 구하는 함수
-    // countProgressBar() {
-    //   this.progressBarLength = 0;
-    //   if (this.imageIndexList.length % 100 == 0 ? this.progressBarLength = this.imageIndexList.length / 100 : this.progressBarLength = Math.floor(this.imageIndexList.length / 100) + 1);
-    //   for (let i = 0; i < this.progressBarLength; i++) {
-    //     if (i == this.progressBarLength - 1) {
-    //       this.progressBarList.push(this.imageIndexList.length % 100);
-    //     }
-    //     else {
-    //       this.progressBarList.push(100);
-    //     }
-    //   }
-    // },
 
     //patch 이미지의 위치를 조정하는 함수
     setPatch(i, j) {
