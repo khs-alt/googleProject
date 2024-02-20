@@ -130,7 +130,7 @@
           <div class="patch-container">
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveOriginalImage()" class="selected-patch"
+                <img :src="serveOriginalImage()" decoding="async" class="selected-patch"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="original">
               </div>
@@ -138,7 +138,7 @@
             </div>
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveArtifactImage()" class="selected-patch"
+                <img :src="serveArtifactImage()" decoding="async" class="selected-patch"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="denoised">
               </div>
@@ -146,7 +146,7 @@
             </div>
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveDifferenceImage()" class="selected-patch" @error="handleImageError"
+                <img :src="serveDifferenceImage()" decoding="async" class="selected-patch" @error="handleImageError"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="difference">
               </div>
