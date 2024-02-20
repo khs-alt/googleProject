@@ -71,7 +71,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete"
+                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
                   :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -96,7 +96,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveArtifactImage()" ref="img" @load="makeImageTemplete"
+                <img :src="serveArtifactImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
                   :style="{ ...imageStyles, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -130,7 +130,7 @@
           <div class="patch-container">
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveOriginalImage()" class="selected-patch"
+                <img :src="serveOriginalImage()" decoding="async" class="selected-patch"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="original">
               </div>
@@ -138,7 +138,7 @@
             </div>
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveArtifactImage()" class="selected-patch"
+                <img :src="serveArtifactImage()" decoding="async" class="selected-patch"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="denoised">
               </div>
@@ -146,7 +146,7 @@
             </div>
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveDifferenceImage()" class="selected-patch"
+                <img :src="serveDifferenceImage()" decoding="async" class="selected-patch" @error="handleImageError"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="difference">
               </div>
@@ -280,6 +280,10 @@ export default {
   },
 
   methods: {
+    handleImageError() {
+      console.log("error");
+      this.$router.go(0);
+    },
 
     async getScoreCnt() {
       await axios
@@ -495,39 +499,6 @@ export default {
     serveDifferenceImage() {
       return String(this.baseUrl + "postimage/difference/" + (this.currentPage))
     },
-
-    // async preloadImage() {
-    //   if (this.currentPage === 0) {
-    //     this.nextOriginalImage = new Image();
-    //     this.nextArtifactImage = new Image();
-    //     this.nextDifferenceImage = new Image();
-    //     this.nextOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
-    //     this.nextArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage + 1));
-    //     this.nextDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage + 1));
-    //   }
-    //   else if (this.currentPage === this.imageIndexList.length - 1) {
-    //     this.prevOriginalImage = new Image();
-    //     this.prevArtifactImage = new Image();
-    //     this.prevDifferenceImage = new Image();
-    //     this.prevOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
-    //     this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
-    //     this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
-    //   }
-    //   else {
-    //     this.nextOriginalImage = new Image();
-    //     this.nextArtifactImage = new Image();
-    //     this.nextDifferenceImage = new Image();
-    //     this.nextOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
-    //     this.nextArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage + 1));
-    //     this.nextDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage + 1));
-    //     this.prevOriginalImage = new Image();
-    //     this.prevArtifactImage = new Image();
-    //     this.prevDifferenceImage = new Image();
-    //     this.prevOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
-    //     this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
-    //     this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
-    //   }
-    // },
     // Backend에서 patch size(행렬) 가져오는 method
     async getImageIndexCurrentPage() {
       let temp = String(this.currentPage);
@@ -699,20 +670,6 @@ export default {
       this.borderBoxResize = (this.borderBox * currentWidth) / imgNaturalWidth;
     },
 
-    // progress bar의 개수를 구하는 함수
-    // countProgressBar() {
-    //   this.progressBarLength = 0;
-    //   if (this.imageIndexList.length % 100 == 0 ? this.progressBarLength = this.imageIndexList.length / 100 : this.progressBarLength = Math.floor(this.imageIndexList.length / 100) + 1);
-    //   for (let i = 0; i < this.progressBarLength; i++) {
-    //     if (i == this.progressBarLength - 1) {
-    //       this.progressBarList.push(this.imageIndexList.length % 100);
-    //     }
-    //     else {
-    //       this.progressBarList.push(100);
-    //     }
-    //   }
-    // },
-
     //patch 이미지의 위치를 조정하는 함수
     setPatch(i, j) {
       if (j < 0) { //<-화살표 방향
@@ -841,6 +798,8 @@ export default {
           console.log("[postUserLabeling] response.data: " + response.data)
           this.imageIndex += num;
           this.currentPage = this.imageIndexList[this.imageIndex];
+          this.i = 0;
+          this.j = 0;
           this.$router.push({
             query: {
               userName: this.currentUser,
@@ -869,8 +828,6 @@ export default {
       }
       else {
         this.postUserLabeling(-1);
-        this.i = 0;
-        this.j = 0;
       }
     },
 
@@ -881,8 +838,6 @@ export default {
       } else {
         if (this.imageIndex == this.imageIndexList.length - 2) this.pageState = 8;
         this.postUserLabeling(1);
-        this.i = 0;
-        this.j = 0;
       }
     },
 
