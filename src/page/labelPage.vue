@@ -71,7 +71,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete"
+                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
                   :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -96,7 +96,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveArtifactImage()" ref="img" @load="makeImageTemplete"
+                <img :src="serveArtifactImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
                   :style="{ ...imageStyles, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -146,7 +146,7 @@
             </div>
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveDifferenceImage()" class="selected-patch"
+                <img :src="serveDifferenceImage()" class="selected-patch" @error="handleImageError"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="difference">
               </div>
@@ -280,6 +280,10 @@ export default {
   },
 
   methods: {
+    handleImageError() {
+      console.log("error");
+      this.$router.go(0);
+    },
 
     async getScoreCnt() {
       await axios
@@ -794,6 +798,8 @@ export default {
           console.log("[postUserLabeling] response.data: " + response.data)
           this.imageIndex += num;
           this.currentPage = this.imageIndexList[this.imageIndex];
+          this.i = 0;
+          this.j = 0;
           this.$router.push({
             query: {
               userName: this.currentUser,
@@ -822,26 +828,6 @@ export default {
       }
       else {
         this.postUserLabeling(-1);
-        this.i = 0;
-        this.j = 0;
-        this.currentPage = this.imageIndexList[this.imageIndex];
-        this.$refs.img = this.prevImage;
-        this.makeImageTemplete();
-        this.getUserLabeling();
-        //this.preloadImage();
-        this.setProgressBar();
-        this.checkProgressBar();
-        this.getUserLabelingList();
-        // this.getScoreCnt();
-        this.$router.push({
-          query: {
-            userName: this.currentUser,
-            currentPage: this.currentPage,
-            testcode: this.testCode
-          }
-        });
-        this.resetZoomAndOffset();
-        this.updateImageStyle();
       }
     },
 
@@ -852,8 +838,6 @@ export default {
       } else {
         if (this.imageIndex == this.imageIndexList.length - 2) this.pageState = 8;
         this.postUserLabeling(1);
-        this.i = 0;
-        this.j = 0;
       }
     },
 
