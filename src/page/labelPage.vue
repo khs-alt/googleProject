@@ -799,7 +799,7 @@ export default {
       console.log(this.userLabeling);
       console.log("[postUserLabeling] current page is " + this.currentPage)
       let temp = parseInt(this.currentPage);
-      
+
       await axios
         .post(this.baseUrl + "postimagedata", {
           current_user: this.currentUser,
@@ -818,13 +818,13 @@ export default {
               testcode: this.testCode
             }
           });
-          // this.makeImageTemplete();
-          // this.getUserLabeling();
-          // this.setProgressBar();
-          // this.checkProgressBar();
-          // this.getUserLabelingList();
-          // this.resetZoomAndOffset();
-          // this.updateImageStyle();
+          this.makeImageTemplete();
+          this.getUserLabeling();
+          this.setProgressBar();
+          this.checkProgressBar();
+          this.getUserLabelingList();
+          this.resetZoomAndOffset();
+          this.updateImageStyle();
         })
         .catch((error) => {
           console.log(error);
