@@ -839,7 +839,7 @@ export default {
         this.i = 0;
         this.j = 0;
         // this.currentPage = this.imageIndexList[this.imageIndex];
-        this.$refs.img = this.prevImage;
+        // this.$refs.img = this.prevImage;
         // this.makeImageTemplete();
         // this.getUserLabeling();
         //this.preloadImage();
