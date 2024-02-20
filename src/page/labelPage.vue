@@ -838,24 +838,24 @@ export default {
         this.postUserLabeling(-1);
         this.i = 0;
         this.j = 0;
-        this.currentPage = this.imageIndexList[this.imageIndex];
+        // this.currentPage = this.imageIndexList[this.imageIndex];
         this.$refs.img = this.prevImage;
-        this.makeImageTemplete();
-        this.getUserLabeling();
+        // this.makeImageTemplete();
+        // this.getUserLabeling();
         //this.preloadImage();
-        this.setProgressBar();
-        this.checkProgressBar();
-        this.getUserLabelingList();
+        // this.setProgressBar();
+        // this.checkProgressBar();
+        // this.getUserLabelingList();
         // this.getScoreCnt();
-        this.$router.push({
-          query: {
-            userName: this.currentUser,
-            currentPage: this.currentPage,
-            testcode: this.testCode
-          }
-        });
-        this.resetZoomAndOffset();
-        this.updateImageStyle();
+        // this.$router.push({
+        //   query: {
+        //     userName: this.currentUser,
+        //     currentPage: this.currentPage,
+        //     testcode: this.testCode
+        //   }
+        // });
+        // this.resetZoomAndOffset();
+        // this.updateImageStyle();
       }
     },
 
