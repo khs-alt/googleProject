@@ -322,19 +322,14 @@ export default {
         console.log(event.target.currentTime);
         this.videoCurrentTime = event.target.currentTime;
         this.videoDuration = event.target.duration.toFixed(3);
-        // const currentVideoFrameRate = (1 / this.videoFrameList[this.videoNameIndex])
         this.totalFrameLength = (Math.round(this.videoDuration / this.T));
         this.currentFrame = ~~((this.videoCurrentTime) / this.T)
       });
       video.addEventListener("timeupdate", (event) => {
         this.videoCurrentTime = event.target.currentTime
-        // const currentVideoFrameRate = (1 / this.videoFrameList[this.videoNameIndex])
         this.totalFrameLength = (Math.round(this.videoDuration / this.T));
         this.currentFrame = ~~((this.videoCurrentTime) / this.T)
       })
-      // this.videoCurrentTime = video1.currentTime;
-      // this.currentTime = video1.currentTime;
-      // this.videoDuration = video1.duration;
     },
     getVideoIndex() {
       axios
@@ -376,7 +371,6 @@ export default {
         })
         .then((response) => {
           console.log("[postVideoFrameTimeList] response: " + response.data);
-          //this.selectedVideoTimeList = [];
         })
     },
     //키보드 이벤트 함수
@@ -633,10 +627,6 @@ export default {
       const video2 = this.$refs.videoYesartifact;
       const video3 = this.$refs.diffVideo;
 
-      // const videoFrame = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100);
-      // const video1CurrentTime = (Math.round((video1.currentTime) * 100) / 100);
-      // const video2CurrentTime = (Math.round((video2.currentTime) * 100) / 100);
-      // const video3CurrentTime = (Math.round((video3.currentTime) * 100) / 100);
       const videoFrame = 1 / this.videoFrameList[this.videoNameIndex];
       const video1CurrentTime = video1.currentTime;
       const video2CurrentTime = video2.currentTime;
@@ -661,10 +651,6 @@ export default {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
       const video3 = this.$refs.diffVideo;
-      // const videoFrame = (Math.round((1 / this.videoFrameList[this.videoNameIndex]) * 100) / 100);
-      // const video1CurrentTime = (Math.round((video1.currentTime) * 100) / 100);
-      // const video2CurrentTime = (Math.round((video2.currentTime) * 100) / 100);
-      // const video3CurrentTime = (Math.round((video3.currentTime) * 100) / 100);
       const videoFrame = 1 / this.videoFrameList[this.videoNameIndex];
       const video1CurrentTime = video1.currentTime;
       const video2CurrentTime = video2.currentTime;
