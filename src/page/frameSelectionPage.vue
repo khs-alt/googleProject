@@ -34,7 +34,6 @@
               <!-- original video  -->
               <div id="left-video-cover">
                 <div style="display: flex;">
-                  <!-- TODO: -->
                   <video @loadedmetadata="setInitialTime" id="videoNoartifact" :style="videoStyles" class="video-style"
                     ref="videoNoartifact" controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()"
                     @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
