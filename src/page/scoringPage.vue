@@ -282,6 +282,7 @@ export default {
       currentFrame: 0,
       halfVideoFrameRate: 0.015,
       T: 0.03,
+      isGoToEndClicked: false,
     };
   },
   created() { },
@@ -568,7 +569,7 @@ export default {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
       var video3 = document.getElementById('toggleVideo');
-      const temp = +(video1.duration).toFixed(2) - this.halfVideoFrameRate * 3;
+      const temp = +(video1.duration).toFixed(2) - this.halfVideoFrameRate;
 
       video1.pause();
 
@@ -576,6 +577,7 @@ export default {
       video2.currentTime = temp;
       video3.currentTime = temp;
       this.isVideoPlaying = false;
+      this.isGoToEndClicked = true;
     },
     changeImgSource() {
       if (this.isVideoPlaying) {
@@ -880,6 +882,7 @@ export default {
         document.getElementById('toggleVideo').play();
         this.isVideoPlaying = true;
       });
+
       video1.addEventListener("pause", () => {
         document.getElementById('videoYesartifact').pause();
         document.getElementById('toggleVideo').pause();
@@ -890,7 +893,12 @@ export default {
         video3.currentTime = temp;
         this.isVideoPlaying = false;
       })
+
       video1.addEventListener("ended", () => {
+        if (this.isGoToEndClicked) {
+          this.isGoToEndClicked = false;
+          return;
+        }
         video1.currentTime = 0;
         video2.currentTime = 0;
         video3.currentTime = 0;
