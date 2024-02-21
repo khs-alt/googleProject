@@ -176,7 +176,6 @@
 </template>
 
 <script>
-import { watch } from '@vue/runtime-core';
 import axios from 'axios'
 export default {
   name: 'scoringPage',
@@ -275,17 +274,6 @@ export default {
     window.addEventListener('resize', this.resizeImage);
     document.addEventListener('mousemove', this.handleDragging);
     document.addEventListener('mouseup', this.handleDragEnd);
-  },
-  setup() {
-    watch(this.serveOriginalImage(), () => {
-      this.serveOriginalImage();
-    })
-    watch(this.serveArtifactImage(), () => {
-      this.serveArtifactImage();
-    })
-    watch(this.serveDifferenceImage(), () => {
-      this.serveDifferenceImage();
-    })
   },
   unmounted() {
     window.removeEventListener('keydown', this.keydown);
