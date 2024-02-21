@@ -176,6 +176,7 @@
 </template>
 
 <script>
+import { watch } from '@vue/runtime-core';
 import axios from 'axios'
 export default {
   name: 'scoringPage',
