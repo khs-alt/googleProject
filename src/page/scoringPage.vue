@@ -82,7 +82,7 @@
                   <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
                     controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()" @wheel="handleWheel"
                     @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                    @mousemove="handleDragging" onChange="setVideoPlaygingStatus" preload="auto"></video>
+                    @mousemove="handleDragging" onchange="setVideoPlaygingStatus" preload="auto"></video>
                 </div>
               </div>
               <div>
@@ -878,6 +878,7 @@ export default {
       video1.addEventListener("play", () => {
         document.getElementById('videoYesartifact').play();
         document.getElementById('toggleVideo').play();
+        this.isVideoPlaying = true;
       });
       video1.addEventListener("pause", () => {
         document.getElementById('videoYesartifact').pause();
@@ -887,6 +888,7 @@ export default {
         video1.currentTime = temp;
         video2.currentTime = temp;
         video3.currentTime = temp;
+        this.isVideoPlaying = false;
       })
       video1.addEventListener("ended", () => {
         video1.currentTime = 0;
