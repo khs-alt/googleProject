@@ -75,14 +75,14 @@
                     <video id="toggleVideo" :style="videoStyles" style="position: absolute" class="video-style"
                       ref="toggleVideo" controlsList="nodownload" key="videoDiff" :src="rightArtifactVideo()"
                       @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                      @mousemove="handleDragging" preload="auto"></video>
+                      @mousemove="handleDragging" preload="metadata"></video>
                   </div>
                 </div>
                 <div style="display: flex">
                   <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
                     controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()" @wheel="handleWheel"
                     @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                    @mousemove="handleDragging" onchange="setVideoPlaygingStatus" preload="auto"></video>
+                    @mousemove="handleDragging" onchange="setVideoPlaygingStatus" preload="metadata"></video>
                 </div>
               </div>
               <div>
@@ -96,7 +96,7 @@
                 <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
                   ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="rightArtifactVideo()"
                   @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                  @mousemove="handleDragging" preload="auto"></video>
+                  @mousemove="handleDragging" preload="metadata"></video>
               </div>
               <div>
                 <div class="video-name-style">
