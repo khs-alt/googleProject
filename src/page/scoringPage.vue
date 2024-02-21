@@ -875,29 +875,33 @@ export default {
       // video3.currentTime = video1_currentTime;
 
       video1.addEventListener("play", () => {
-        document.getElementById('videoYesartifact').play();
-        document.getElementById('toggleVideo').play();
-        this.isVideoPlaying = true;
-        this.changeImgSource();
+        if (!this.isVideoPlaying) {
+          document.getElementById('videoYesartifact').play();
+          document.getElementById('toggleVideo').play();
+          this.isVideoPlaying = true;
+          this.changeImgSource();
+        }
       });
 
       video1.addEventListener("pause", () => {
-        document.getElementById('videoYesartifact').pause();
-        document.getElementById('toggleVideo').pause();
-        let T = 1 / this.originalVideoFrameList[this.videoNameIndex]
-        let temp = +(~~((video1.currentTime + this.halfVideoFrameRate) / T) * T) + this.halfVideoFrameRate;
-        // let temp = ~~(video2.currentTime / T) * T + T / 2;
-        console.log("[Video pause] T: " + T);
-        // console.log("[Video pause] temp: " + temp)
-        console.log("[Video pause] currentTime 1: " + video1.currentTime);
-        console.log("[Video pause] currentTime 2: " + video2.currentTime);
-        // video1.currentTime = 71 * T + T / 2 + 0.00833;
-        // video2.currentTime = 71 * T + T / 2;
-        video1.currentTime = temp;
-        video2.currentTime = temp;
-        video3.currentTime = temp;
-        this.isVideoPlaying = false;
-        this.changeImgSource();
+        if (this.isVideoPlaying) {
+          document.getElementById('videoYesartifact').pause();
+          document.getElementById('toggleVideo').pause();
+          let T = 1 / this.originalVideoFrameList[this.videoNameIndex]
+          let temp = +(~~((video1.currentTime + this.halfVideoFrameRate) / T) * T) + this.halfVideoFrameRate;
+          // let temp = ~~(video2.currentTime / T) * T + T / 2;
+          console.log("[Video pause] T: " + T);
+          // console.log("[Video pause] temp: " + temp)
+          console.log("[Video pause] currentTime 1: " + video1.currentTime);
+          console.log("[Video pause] currentTime 2: " + video2.currentTime);
+          // video1.currentTime = 71 * T + T / 2 + 0.00833;
+          // video2.currentTime = 71 * T + T / 2;
+          video1.currentTime = temp;
+          video2.currentTime = temp;
+          video3.currentTime = temp;
+          this.isVideoPlaying = false;
+          this.changeImgSource();
+        }
       })
 
       video1.addEventListener("ended", () => {
