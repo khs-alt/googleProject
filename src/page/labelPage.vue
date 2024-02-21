@@ -664,28 +664,28 @@ export default {
     // 이미지의 사이즈를 구하는 함수
     // getImgaeSize를 Promise를 반환하는 함수로 변경
     getImageSize() {
-      return new Promise((resolve, reject) => {
-        let img = new Image();
-        img.src = this.serveArtifactImage();
 
-        let self = this;
-        img.onload = function () {
-          // 이미지 로딩 완료시 로직
-          self.imageWidth = img.width;
-          self.imageHeight = img.height;
+      let img = new Image();
+      img.src = this.serveArtifactImage();
 
-          self.patchColumn = (Math.floor(self.imageWidth / self.borderBox) + 1);
-          self.patchRow = (Math.floor(self.imageHeight / self.borderBox) + 1);
-          self.patchLength = self.patchColumn * self.patchRow;
-          self.setPatch(self.i, self.j);
+      let self = this;
+      img.onload = function () {
+        // 이미지 로딩 완료시 로직
+        self.imageWidth = img.width;
+        self.imageHeight = img.height;
 
-          resolve(); // Promise가 성공적으로 완료됨
-        };
+        self.patchColumn = (Math.floor(self.imageWidth / self.borderBox) + 1);
+        self.patchRow = (Math.floor(self.imageHeight / self.borderBox) + 1);
+        self.patchLength = self.patchColumn * self.patchRow;
+        self.setPatch(self.i, self.j);
 
-        img.onerror = function () {
-          reject(new Error("이미지 로드 실패")); // 이미지 로드 실패시
-        };
-      });
+        resolve(); // Promise가 성공적으로 완료됨
+      };
+
+      img.onerror = function () {
+        reject(new Error("이미지 로드 실패")); // 이미지 로드 실패시
+      };
+
     },
 
     // resizeImage 함수
