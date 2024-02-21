@@ -310,9 +310,11 @@ export default {
 
       video1.addEventListener('play', () => {
         this.isVideoPlaying = true;
+        this.changeImgSource();
       });
       video1.addEventListener('pause', () => {
         this.isVideoPlaying = false;
+        this.changeImgSource();
       });
     },
     helpPageVideoNum(index) {
@@ -566,7 +568,8 @@ export default {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
       var video3 = document.getElementById('toggleVideo');
-      const temp = +(video1.duration).toFixed(2) - this.halfVideoFrameRate;
+      const temp = +(video1.duration).toFixed(2) - this.currentFrame;
+
       video1.currentTime = temp;
       video2.currentTime = temp;
       video3.currentTime = temp;
