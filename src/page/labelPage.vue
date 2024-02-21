@@ -57,7 +57,7 @@
     <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px;">
       <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
       <div class="labelcontainer">
-        <div :class="labelcontainerClass">
+        <div :class="this.imageWidth < this.imageHeight ? 'imagecontainer' : 'imagecontainer-column'">
           <div class="imageName">
             <div class="images">
               <div class="imageBox" style="width: imageWidth; height: imageHeight;">
@@ -71,7 +71,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
+                <img :src="serveOriginalImage()" ref="img"
                   :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -96,7 +96,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveArtifactImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
+                <img :src="serveArtifactImage()" ref="img"
                   :style="{ ...imageStyles, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -130,7 +130,7 @@
           <div class="patch-container">
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveOriginalImage()" decoding="async" class="selected-patch"
+                <img :src="serveOriginalImage()" class="selected-patch"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="original">
               </div>
@@ -138,7 +138,7 @@
             </div>
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveArtifactImage()" decoding="async" class="selected-patch"
+                <img :src="serveArtifactImage()" class="selected-patch"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="denoised">
               </div>
@@ -146,7 +146,7 @@
             </div>
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveDifferenceImage()" decoding="async" class="selected-patch" @error="handleImageError"
+                <img :src="serveDifferenceImage()" class="selected-patch"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="difference">
               </div>
@@ -179,7 +179,6 @@ export default {
   name: 'scoringPage',
   data() {
     return {
-      labelcontainerClass: 'imagecontainer',
       originalImageName: null,
       artifactImageName: null,
       openModal: true, //modal창
@@ -280,10 +279,6 @@ export default {
   },
 
   methods: {
-    handleImageError() {
-      console.log("error");
-      this.$router.go(0);
-    },
 
     async getScoreCnt() {
       await axios
@@ -485,7 +480,6 @@ export default {
       this.checkProgressBar();
       this.getUserLabelingList();
       this.getScoreCnt();
-      this.toggleProgressModal();
     },
 
     serveOriginalImage() {
@@ -499,11 +493,44 @@ export default {
     serveDifferenceImage() {
       return String(this.baseUrl + "postimage/difference/" + (this.currentPage))
     },
+
+    // async preloadImage() {
+    //   if (this.currentPage === 0) {
+    //     this.nextOriginalImage = new Image();
+    //     this.nextArtifactImage = new Image();
+    //     this.nextDifferenceImage = new Image();
+    //     this.nextOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+    //     this.nextArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage + 1));
+    //     this.nextDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage + 1));
+    //   }
+    //   else if (this.currentPage === this.imageIndexList.length - 1) {
+    //     this.prevOriginalImage = new Image();
+    //     this.prevArtifactImage = new Image();
+    //     this.prevDifferenceImage = new Image();
+    //     this.prevOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+    //     this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
+    //     this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
+    //   }
+    //   else {
+    //     this.nextOriginalImage = new Image();
+    //     this.nextArtifactImage = new Image();
+    //     this.nextDifferenceImage = new Image();
+    //     this.nextOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+    //     this.nextArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage + 1));
+    //     this.nextDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage + 1));
+    //     this.prevOriginalImage = new Image();
+    //     this.prevArtifactImage = new Image();
+    //     this.prevDifferenceImage = new Image();
+    //     this.prevOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+    //     this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
+    //     this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
+    //   }
+    // },
     // Backend에서 patch size(행렬) 가져오는 method
-    async getImageIndexCurrentPage() {
+    getImageIndexCurrentPage() {
       let temp = String(this.currentPage);
       console.log(temp);
-      await axios
+      axios
         .post(this.baseUrl + "getImageIndexCurrentPage", {
           userID: this.currentUser,
           testcode: this.testCode,
@@ -549,8 +576,8 @@ export default {
           this.$router.push(process.env.BASE_URL);
         })
     },
-    makeImageTemplete() {
-      this.getImageSize()
+    async makeImageTemplete() {
+      await this.getImageSize()
         .then(() => {
           this.resizeImage();
         })
@@ -573,7 +600,6 @@ export default {
           this.imageArtifactNameList = response.data.artifact_list;
           this.findIndex();
           this.checkProgressBar();
-          // this.removeSuffix();
         })
         .catch((error) => {
           console.log(error);
@@ -591,7 +617,7 @@ export default {
 
     //사용자의 전체 레이블링 데이터 가져오는 함수
     async getUserLabelingList() {
-      axios
+      await axios
         .post(this.baseUrl + "getUserLabelingList", {
           user_id: this.currentUser,
           testcode: this.testCode,
@@ -634,7 +660,7 @@ export default {
     getImageSize() {
       return new Promise((resolve, reject) => {
         let img = new Image();
-        img.src = this.serveArtifactImage();
+        img.src = this.serveOriginalImage();
 
         let self = this;
         img.onload = function () {
@@ -664,11 +690,23 @@ export default {
       this.resizeHeight = this.imageHeight * 0.2;
       let img = this.$refs.img;
       const imgNaturalWidth = img.naturalWidth;
-      const imgNaturalHeight = img.naturalHeight;
-      this.labelcontainerClass = imgNaturalWidth < imgNaturalHeight ? 'imagecontainer' : 'imagecontainer-column';
       let currentWidth = img.width;
       this.borderBoxResize = (this.borderBox * currentWidth) / imgNaturalWidth;
     },
+
+    // progress bar의 개수를 구하는 함수
+    // countProgressBar() {
+    //   this.progressBarLength = 0;
+    //   if (this.imageIndexList.length % 100 == 0 ? this.progressBarLength = this.imageIndexList.length / 100 : this.progressBarLength = Math.floor(this.imageIndexList.length / 100) + 1);
+    //   for (let i = 0; i < this.progressBarLength; i++) {
+    //     if (i == this.progressBarLength - 1) {
+    //       this.progressBarList.push(this.imageIndexList.length % 100);
+    //     }
+    //     else {
+    //       this.progressBarList.push(100);
+    //     }
+    //   }
+    // },
 
     //patch 이미지의 위치를 조정하는 함수
     setPatch(i, j) {
@@ -798,8 +836,6 @@ export default {
           console.log("[postUserLabeling] response.data: " + response.data)
           this.imageIndex += num;
           this.currentPage = this.imageIndexList[this.imageIndex];
-          this.i = 0;
-          this.j = 0;
           this.$router.push({
             query: {
               userName: this.currentUser,
@@ -811,16 +847,17 @@ export default {
           this.getUserLabeling();
           this.setProgressBar();
           this.checkProgressBar();
-          this.getUserLabelingList();
+          // this.getUserLabelingList();
           this.resetZoomAndOffset();
           this.updateImageStyle();
+          //사용자가 입력한 데이터가 없을 경우
         })
         .catch((error) => {
           console.log(error);
         })
     },
 
-    changePreviousPage() {
+    async changePreviousPage() {
       this.pageState = 7;
       if (this.imageIndex == 0) {
         this.postUserLabeling(0);
@@ -828,16 +865,20 @@ export default {
       }
       else {
         this.postUserLabeling(-1);
+        this.i = 0;
+        this.j = 0;
       }
     },
 
-    changeNextPage() {
+    async changeNextPage() {
       if (this.imageIndex >= this.imageIndexList.length - 1) {
         this.postUserLabeling(0);
         alert("this is last page");
       } else {
         if (this.imageIndex == this.imageIndexList.length - 2) this.pageState = 8;
         this.postUserLabeling(1);
+        this.i = 0;
+        this.j = 0;
       }
     },
 
