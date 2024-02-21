@@ -82,7 +82,7 @@
                   <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
                     controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()" @wheel="handleWheel"
                     @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                    @mousemove="handleDragging" onchange="setVideoPlaygingStatus" preload="metadata"></video>
+                    @mousemove="handleDragging" preload="metadata"></video>
                 </div>
               </div>
               <div>
@@ -306,18 +306,6 @@ export default {
     },
   },
   methods: {
-    setVideoPlaygingStatus() {
-      var video1 = document.getElementById('videoNoartifact');
-
-      video1.addEventListener('play', () => {
-        this.isVideoPlaying = true;
-        this.changeImgSource();
-      });
-      video1.addEventListener('pause', () => {
-        this.isVideoPlaying = false;
-        this.changeImgSource();
-      });
-    },
     helpPageVideoNum(index) {
       this.helpPageVideo = !this.helpPageVideo;
       if (this.helpPageVideo == false) {
@@ -916,13 +904,27 @@ export default {
       );
       let orignalVideo = document.getElementById("videoNoartifact");
       if (this.isVideoPlaying == false) {
-        orignalVideo.play();
-        this.isVideoPlaying = true;
-      } else {
-        orignalVideo.pause();
-        this.isVideoPlaying = false;
+        var playPromise = orignalVideo.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(_ => {
+              // Automatic playback started!
+              // Show playing UI.
+              // We can now safely pause video...
+              video.pause();
+            })
+            .catch(error => {
+              this.isVideoPlaying = true;
+              console.log("[changeVideoButton] error: ", error);
+              // Auto-play was prevented
+              // Show paused UI.
+            });
+        } else {
+          orignalVideo.pause();
+          this.isVideoPlaying = false;
+        }
+        this.changeImgSource();
       }
-      this.changeImgSource();
     },
     async seekBackward() {
       console.log("seekBackward");
