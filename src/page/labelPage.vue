@@ -72,9 +72,9 @@
                   </div>
                 </div>
                 <img :src="serveOriginalImage()" ref="img" :style="{
-                  ...imageStyles, position: absolute,
-                  width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto
-                }" class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
+                                  ...imageStyles, position: absolute,
+                                  width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto
+                                }" class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" rel="preload" />
                 <div class="currentBorder"
                   :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue * zoom + 'px', top: topValue * this.zoom + 'px' }">
@@ -98,9 +98,9 @@
                   </div>
                 </div>
                 <img :src="serveArtifactImage()" ref="img2" :style="{
-                  ...imageStyles,
-                  width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto
-                }" class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
+                                  ...imageStyles,
+                                  width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto
+                                }" class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" rel="preload" />
                 <div class="currentBorder"
                   :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue * zoom + 'px', top: topValue * zoom + 'px' }">
@@ -466,7 +466,7 @@ export default {
       this.isPressed = [false, false, false, false, false, false]
 
       await this.$router.push({
-        path: '/label/label',
+        path: '/label',
         query: {
           currentPage: this.currentPage,
           userName: this.currentUser,
