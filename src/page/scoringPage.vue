@@ -911,10 +911,10 @@ export default {
               // Automatic playback started!
               // Show playing UI.
               // We can now safely pause video...
+              this.isVideoPlaying = true;
               console.log("playing");
             })
             .catch(error => {
-              this.isVideoPlaying = true;
               console.log("[changeVideoButton] error: ", error);
               // Auto-play was prevented
               // Show paused UI.
