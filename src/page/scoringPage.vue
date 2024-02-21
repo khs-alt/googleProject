@@ -288,8 +288,6 @@ export default {
   mounted() {
     this.addEventVideoPlay();
     this.getVideoIndexCurrentPage();
-    this.addEventVideoCurrentTime();
-
     this.isVideoPaused();
     this.checkProgressBar();
     // this.getVideoCurrentTime();
@@ -297,11 +295,9 @@ export default {
     document.addEventListener("mouseup", this.handleDragEnd);
     window.addEventListener("keydown", this.keydown);
     // this.preloadNextVideo();
+    this.addEventVideoCurrentTime();
     this.setProgressBar();
     this.getUserScoringList();
-  },
-  setup() {
-    console.log("setup");
   },
   computed: {
     currentPageIndex() {
@@ -311,7 +307,7 @@ export default {
   methods: {
     helpPageVideoNum(index) {
       this.helpPageVideo = !this.helpPageVideo;
-      if (this.helpPageVideo === false) {
+      if (this.helpPageVideo == false) {
         return this.videoSrc[index + 1];
       }
       return this.videoSrc[index];
@@ -859,10 +855,10 @@ export default {
       var video2 = document.getElementById('videoYesartifact');
       var video3 = document.getElementById('diffVideo');
 
-      var video1_currentTime = video1.currentTime;
-      video1.currentTime = video1_currentTime;
-      video2.currentTime = video1_currentTime;
-      video3.currentTime = video1_currentTime;
+      // var video1_currentTime = video1.currentTime;
+      // video1.currentTime = video1_currentTime;
+      // video2.currentTime = video1_currentTime;
+      // video3.currentTime = video1_currentTime;
 
       video1.addEventListener("play", () => {
         document.getElementById('videoYesartifact').play();
