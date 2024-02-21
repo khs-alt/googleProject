@@ -907,11 +907,11 @@ export default {
         var playPromise = orignalVideo.play();
         if (playPromise !== undefined) {
           playPromise
-            .then(_ => {
+            .then(() => {
               // Automatic playback started!
               // Show playing UI.
               // We can now safely pause video...
-              video.pause();
+              orignalVideo.pause();
             })
             .catch(error => {
               this.isVideoPlaying = true;
