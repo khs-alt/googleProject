@@ -920,9 +920,9 @@ export default {
               // Show paused UI.
             });
         } else {
-          var playPromise = orignalVideo.pause();
-          if (playPromise !== undefined) {
-            playPromise
+          var pausePromise = orignalVideo.pause();
+          if (pausePromise !== undefined) {
+            pausePromise
               .then(() => {
                 // Automatic playback started!
                 // Show playing UI.
