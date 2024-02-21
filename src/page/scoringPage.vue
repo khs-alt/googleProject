@@ -49,7 +49,29 @@
         </div>
       </div>
     </div>
-
+    <div class="modal-wrap" v-show="openModal">
+      <!--사용법-->
+      <div class="modal-container" style="width: fit-content">
+        <h3>{{ modalTitle[modalPage] }}</h3>
+        <div :class="modalPage >= 2 ? 'exampleScore' : ''">
+          <div v-for="i in modalContent[modalPage]" :key="i">
+            <div v-if="modalPage < 2">
+              <p>{{ i }}</p>
+            </div>
+            <div v-else>
+              <video autoplay loop :src="helpPageVideoNum((modalPage - 2) * 2)"
+                style="width: 80%; max-height: 400px"></video>
+              <p>{{ i }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="btncontainer">
+          <button class="btn-style" @click="changeModal(0)">&lt;</button>
+          <button class="btn-style" @click="toggleHelpModal()">Close</button>
+          <button class="btn-style" @click="changeModal(1)">></button>
+        </div>
+      </div>
+    </div>
     <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px; margin-bottom: 8px">
       <p class="web-service-title">Video Ghosting Artifact Scoring System</p>
       <div style="display: flex">
@@ -75,14 +97,14 @@
                     <video id="toggleVideo" :style="videoStyles" style="position: absolute" class="video-style"
                       ref="toggleVideo" controlsList="nodownload" key="videoDiff" :src="rightArtifactVideo()"
                       @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                      @mousemove="handleDragging" preload="metadata"></video>
+                      @mousemove="handleDragging" onChange="isVideoPaused" preload="auto"></video>
                   </div>
                 </div>
                 <div style="display: flex">
                   <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
                     controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()" @wheel="handleWheel"
                     @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                    @mousemove="handleDragging" preload="metadata"></video>
+                    @mousemove="handleDragging" onChange="isVideoPaused" preload="auto"></video>
                 </div>
               </div>
               <div>
@@ -96,7 +118,7 @@
                 <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
                   ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="rightArtifactVideo()"
                   @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                  @mousemove="handleDragging" preload="metadata"></video>
+                  @mousemove="handleDragging" onChange="isVideoPaused" preload="auto"></video>
               </div>
               <div>
                 <div class="video-name-style">
@@ -278,27 +300,25 @@ export default {
         require("../videos/denoised_build_log_p64_0.5.mp4"),
       ],
       currentProgress: 0,
-      totalFrameLength: 0,
-      currentFrame: 0,
-      halfVideoFrameRate: 0.015,
-      T: 0.03,
-      isGoToEndClicked: false,
     };
   },
   created() { },
   mounted() {
-    this.addEventVideoPlay();
     this.getVideoIndexCurrentPage();
-    // this.isVideoPaused();
+    this.addEventVideoPlay();
+    this.isVideoPaused();
     this.checkProgressBar();
     // this.getVideoCurrentTime();
     document.addEventListener("mousemove", this.handleDragging);
     document.addEventListener("mouseup", this.handleDragEnd);
     window.addEventListener("keydown", this.keydown);
-    // this.preloadNextVideo();
     this.addEventVideoCurrentTime();
+    // this.preloadNextVideo();
     this.setProgressBar();
     this.getUserScoringList();
+  },
+  setup() {
+    console.log("setup");
   },
   computed: {
     currentPageIndex() {
@@ -308,26 +328,10 @@ export default {
   methods: {
     helpPageVideoNum(index) {
       this.helpPageVideo = !this.helpPageVideo;
-      if (this.helpPageVideo == false) {
+      if (this.helpPageVideo === false) {
         return this.videoSrc[index + 1];
       }
       return this.videoSrc[index];
-    },
-    setT() {
-      this.T = 1 / this.originalVideoFrameList[this.videoNameIndex];
-      this.halfVideoFrameRate = this.T / 2;
-      console.log("[setT] T: ", this.T);
-      console.log("[setT] halfVideoFrameRate: ", this.halfVideoFrameRate);
-    },
-    setInitialTime() {
-      const video1 = this.$refs.videoNoartifact;
-      const video2 = this.$refs.videoYesartifact;
-      const video3 = this.$refs.toggleVideo;
-
-      // 비디오의 currentTime을 halfVideoFrameRate 값으로 설정
-      video1.currentTime = this.halfVideoFrameRate;
-      video2.currentTime = this.halfVideoFrameRate;
-      video3.currentTime = this.halfVideoFrameRate;
     },
     // user가 scoring 한 비디오 list를 전부 받아오는 함수
     // scoring 하지 않았으면 -1 값이 들어옴
@@ -348,14 +352,6 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-    },
-    isVideoFrameSelected() {
-      const temp = String(this.currentFrame);
-      if (this.selectedVideoFrameList.includes(temp)) {
-        return true;
-      } else {
-        return false;
-      }
     },
     checkProgressBar() {
       for (let i = 0; i < this.progressBarLength; i++) {
@@ -427,8 +423,12 @@ export default {
       this.checkProgressBar();
     },
     setProgressBar() {
+      // this.videoIndex.length = 452;
       this.progressBarLength = Math.ceil(this.videoIndex.length / 100);
       console.log("progressBarLength: " + this.progressBarLength);
+      // if(this.progressBarLength == 0) {
+      //     this.progressBarLength = 1;
+      // }
       this.progressBarList = [];
       for (var i = 0; i < this.progressBarLength; i++) {
         if (i == this.progressBarLength - 1) {
@@ -442,34 +442,25 @@ export default {
       }
     },
     addEventVideoCurrentTime() {
-      var video = document.getElementById('videoNoartifact');
-      var video2 = document.getElementById('videoYesartifact');
-      var video3 = document.getElementById('toggleVideo');
-
+      var video = document.getElementById("videoNoartifact");
       video.addEventListener("loadeddata", (event) => {
         console.log(event.target.currentTime);
-        this.videoCurrentTime = event.target.currentTime;
-        this.videoDuration = event.target.duration.toFixed(3);
-        this.totalFrameLength = (Math.round(this.videoDuration / this.T));
-        this.currentFrame = ~~((this.videoCurrentTime) / this.T)
-        video.currentTime = this.halfVideoFrameRate;
-        video2.currentTime = this.halfVideoFrameRate;
-        video3.currentTime = this.halfVideoFrameRate;
+        this.videoCurrentTime = event.target.currentTime.toFixed(2);
+        this.videoDuration = event.target.duration.toFixed(2);
       });
-
       video.addEventListener("timeupdate", (event) => {
-        this.videoCurrentTime = event.target.currentTime
-        this.totalFrameLength = (Math.round(this.videoDuration / this.T));
-        this.currentFrame = ~~((this.videoCurrentTime) / this.T)
-      })
+        this.videoCurrentTime = event.target.currentTime.toFixed(2);
+      });
+      // this.videoCurrentTime = video1.currentTime;
+      // this.currentTime = video1.currentTime;
+      // this.videoDuration = video1.duration;
     },
     async getVideoHeight() {
       var video1 = document.getElementById("videoNoartifact");
+      const temp = video1.style.height;
       var video1Height = document.getElementById("left-video-cover");
       var video2Height = document.getElementById("right-video-cover");
       var video3Height = document.getElementById("toggleVideo");
-
-      const temp = video1.style.height;
       video1Height.style.height = temp;
       video2Height.style.height = temp;
       video3Height.style.height = temp;
@@ -551,30 +542,24 @@ export default {
         });
     },
     goToBegin() {
-      var video1 = document.getElementById('videoNoartifact');
-      var video2 = document.getElementById('videoYesartifact');
-      var video3 = document.getElementById('toggleVideo');
-
+      var video1 = document.getElementById("videoNoartifact");
+      var video2 = document.getElementById("videoYesartifact");
+      var video3 = document.getElementById("toggleVideo");
       video1.pause();
-      video1.currentTime = this.halfVideoFrameRate;
-      video2.currentTime = this.halfVideoFrameRate;
-      video3.currentTime = this.halfVideoFrameRate;
-      this.isVideoPlaying = false;
+      video1.currentTime = 0;
+      video2.currentTime = 0;
+      video3.currentTime = 0;
     },
     goToEnd() {
-      var video1 = document.getElementById('videoNoartifact');
-      var video2 = document.getElementById('videoYesartifact');
-      var video3 = document.getElementById('toggleVideo');
-      const temp = +(video1.duration).toFixed(2);
-
+      var video1 = document.getElementById("videoNoartifact");
+      var video2 = document.getElementById("videoYesartifact");
+      var video3 = document.getElementById("toggleVideo");
+      const originalFrame = this.originalVideoFrameList[this.videoNameIndex];
+      const temp = +(video1.duration - (1 / originalFrame) * 2).toFixed(2);
       video1.pause();
-
       video1.currentTime = temp;
       video2.currentTime = temp;
       video3.currentTime = temp;
-      this.isVideoPlaying = false;
-      this.changeImgSource();
-      this.isGoToEndClicked = true;
     },
     changeImgSource() {
       if (this.isVideoPlaying) {
@@ -583,21 +568,33 @@ export default {
         this.imgSrc = require("../images/play_icon/iconmonstr-media-control-48-240.png");
       }
     },
-    // isVideoPaused() {
-    //   var video1 = document.getElementById("videoNoartifact");
-    //   var video2 = document.getElementById("videoYesartifact");
-    //   var toggleVideo = document.getElementById("toggleVideo");
-    //   // 비디오가 end 되면 실행
-    //   const pauseAndPlayVideo = () => {
-    //     video1.pause();
-    //     video1.currentTime = this.halfVideoFrameRate;
-    //     video2.currentTime = this.halfVideoFrameRate;
-    //     toggleVideo.currentTime = this.halfVideoFrameRate;
-    //     this.changeImgSource();
-    //   };
-    //   video1.addEventListener("ended", pauseAndPlayVideo());
-    //   video2.addEventListener("ended", pauseAndPlayVideo());
-    // },
+    isVideoPaused() {
+      var video1 = document.getElementById("videoNoartifact");
+      var video2 = document.getElementById("videoYesartifact");
+      var toggleVideo = document.getElementById("toggleVideo");
+      // 비디오가 end 되면 실행
+      const pauseAndPlayVideo = () => {
+        if (video1.currentTime < video2.currentTime) {
+          video1.pause();
+          video2.pause();
+          toggleVideo.pause();
+          video1.currentTime = 0;
+          video2.currentTime = 0;
+          toggleVideo.currentTime = 0;
+          this.changeImgSource();
+        } else {
+          video1.pause();
+          video2.pause();
+          toggleVideo.pause();
+          video1.currentTime = 0;
+          video2.currentTime = 0;
+          toggleVideo.currentTime = 0;
+          this.changeImgSource();
+        }
+      };
+      video1.addEventListener("ended", pauseAndPlayVideo());
+      video2.addEventListener("ended", pauseAndPlayVideo());
+    },
     zoomIn() {
       this.zoom += 0.1;
       this.updateVideoStyle();
@@ -740,10 +737,8 @@ export default {
       }
       this.userScoring = this.clickedButton;
       console.log("[changeNextVideo] user scoring: ", this.userScoring);
-
       // zomm = 1, offset = 0으로 초기화
       this.resetZoomAndOffset();
-
       // 바뀐 zoom과 offset을 적용
       this.updateVideoStyle();
       var videoEelement1 = document.getElementById("videoNoartifact");
@@ -805,7 +800,6 @@ export default {
       var videoEelement2 = document.getElementById("videoYesartifact");
       videoEelement1.style.transform = "scale(1)";
       videoEelement2.style.transform = "scale(1)";
-
       // 첫번째 비디오인 경우
       if (this.currentPage == this.videoIndex[0]) {
         alert("This is the first page of this test code.");
@@ -863,122 +857,118 @@ export default {
           console.error(error);
         });
     },
+    // video 2개 동시에 플레이 시키는 method
+    // playVideos() {
+    //   var video1 = document.getElementById('videoNoartifact');
+    //   var video2 = document.getElementById('videoYesartifact');
+    //   var toggleVideo = document.getElementById('toggleVideo');
+    //   const originalFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
+    //   const artifactFrame = 1 / this.artifactVideoFrameList[this.videoNameIndex];
+
+    //   if (video1 && video2 && toggleVideo) {
+    //     // frame * 3 을 하지 않으면 javascript에서 소수점 계산을 잘못하여 에러가 발생
+    //     if (video1.currentTime + originalFrame * 3 >= video1.duration || video2.currentTime + artifactFrame * 3 >= video2.duration
+    //       || toggleVideo.currentTime + artifactFrame * 3 >= toggleVideo.duration || video1.ended || video2.ended || toggleVideo.ended) {
+    //       video1.currentTime = 0;
+    //       video2.currentTime = 0;
+    //       toggleVideo.currentTime = 0;
+    //     }
+    //     // video 시간을 맞추고 play
+    //     const video_current_time = video2.currentTime;
+    //     video1.currentTime = video_current_time;
+    //     toggleVideo.currentTime = video_current_time;
+    //     video1.play();
+    //   }
+    // },
     // original video를 play 하면 artifact video, toggle video도 같이 play 되도록 하는 method
     addEventVideoPlay() {
-      var video1 = document.getElementById('videoNoartifact');
-      var video2 = document.getElementById('videoYesartifact');
-      var video3 = document.getElementById('toggleVideo');
-
-      // var video1_currentTime = video1.currentTime;
-      // video1.currentTime = video1_currentTime;
-      // video2.currentTime = video1_currentTime;
-      // video3.currentTime = video1_currentTime;
+      var video1 = document.getElementById("videoNoartifact");
+      var video2 = document.getElementById("videoYesartifact");
+      var toggleVideo = document.getElementById("toggleVideo");
+      var video2_currentTime = video2.currentTime;
+      video1.currentTime = video2_currentTime;
+      toggleVideo.currentTime = video2_currentTime;
+      video2.currentTime = video2_currentTime;
 
       video1.addEventListener("play", () => {
-        // console.log("[play paused]: " + video1.paused)
-        document.getElementById('videoYesartifact').play();
-        document.getElementById('toggleVideo').play();
-        this.isVideoPlaying = true;
-        this.changeImgSource();
+        document.getElementById("videoYesartifact").play();
+        document.getElementById("toggleVideo").play();
       });
-
-      video1.addEventListener("paused", () => {
-        // console.log("[paused paused]: " + video1.paused)
-        document.getElementById('videoYesartifact').pause();
-        document.getElementById('toggleVideo').pause();
-        let T = 1 / this.originalVideoFrameList[this.videoNameIndex]
-        let temp = +(~~((video1.currentTime + this.halfVideoFrameRate) / T) * T) + this.halfVideoFrameRate;
-        // let temp = ~~(video2.currentTime / T) * T + T / 2;
-        console.log("[Video pause] T: " + T);
-        // console.log("[Video pause] temp: " + temp)
-        console.log("[Video pause] currentTime 1: " + video1.currentTime);
-        console.log("[Video pause] currentTime 2: " + video2.currentTime);
-        // video1.currentTime = 71 * T + T / 2 + 0.00833;
-        // video2.currentTime = 71 * T + T / 2;
+      video1.addEventListener("pause", () => {
+        document.getElementById("videoYesartifact").pause();
+        document.getElementById("toggleVideo").pause();
+        var temp = +(video2.currentTime).toFixed(2);
         video1.currentTime = temp;
         video2.currentTime = temp;
-        video3.currentTime = temp;
-        this.isVideoPlaying = false;
-        this.changeImgSource();
-      })
-
+        toggleVideo.currentTime = temp;
+      });
       video1.addEventListener("ended", () => {
-        if (this.isGoToEndClicked) {
-          this.isGoToEndClicked = false;
-          return;
-        }
         video1.currentTime = 0;
         video2.currentTime = 0;
-        video3.currentTime = 0;
+        toggleVideo.currentTime = 0;
         video1.play();
-      })
+      });
     },
-
     // Play/Stop 및 text 변경 버튼
     changeVideoButton() {
-      console.log("[changeVideoButton]: current isVideoPlaying: " + this.isVideoPlaying);
-      let video1 = document.getElementById("videoNoartifact");
-
+      console.log(
+        "[changeVideoButton]: current isVideoPlaying: " + this.isVideoPlaying
+      );
+      let orignalVideo = document.getElementById("videoNoartifact");
       if (this.isVideoPlaying == false) {
+        orignalVideo.play();
         this.isVideoPlaying = true;
-        video1.play();
       } else {
+        orignalVideo.pause();
         this.isVideoPlaying = false;
-        video1.pause();
       }
       this.changeImgSource();
     },
-
     async seekBackward() {
-      console.log("seekBackward");
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
-      const video3 = this.$refs.toggleVideo;
+      const video3 = document.getElementById("toggleVideo");
+      const originalFrame = (Math.round((1 / this.originalVideoFrameList[this.videoNameIndex]) * 100) / 100);
+      const artifactFrame = (Math.round((1 / this.artifactVideoFrameList[this.videoNameIndex]) * 100) / 100);
 
-      const videoFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
-      const video1CurrentTime = video1.currentTime;
-      const video2CurrentTime = video2.currentTime;
-      const video3CurrentTime = video3.currentTime;
-      console.log("videoFrame: ", videoFrame);
+      const video1CurrentTime = (Math.round((video1.currentTime) * 100) / 100);
+      const video2CurrentTime = (Math.round((video2.currentTime) * 100) / 100);
 
-      if (videoFrame != 0) {
-        if (video1CurrentTime - videoFrame <= 0 || video2CurrentTime - videoFrame <= 0 || video3CurrentTime - videoFrame <= 0) {
-          video1.currentTime = this.halfVideoFrameRate;
-          video2.currentTime = this.halfVideoFrameRate;
-          video3.currentTime = this.halfVideoFrameRate;
-          return;
+      if (originalFrame != 0 && artifactFrame != 0) {
+        // const halfOriginalFrame = (originalFrame) / 2;
+        // const halfArtifactFrame = (artifactFrame) / 2;
+        if (video1 && video2) {
+          if (video1CurrentTime - originalFrame <= 0 || video2CurrentTime - artifactFrame <= 0 || video3.currentTime <= 0) {
+            return;
+          }
+          video1.currentTime = +(video1.currentTime - parseFloat(originalFrame)).toFixed(2);
+          video2.currentTime = +(video2.currentTime - parseFloat(artifactFrame)).toFixed(2);
+          video3.currentTime = +(video3.currentTime - parseFloat(artifactFrame)).toFixed(2);
         }
-        const t = (~~(video1.currentTime / parseFloat(videoFrame) - 1) * videoFrame) + this.halfVideoFrameRate;
-        video1.currentTime = t;
-        video2.currentTime = t;
-        video3.currentTime = t;
       }
     },
     async seekForward() {
-      console.log("seekForward");
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
-      const video3 = this.$refs.toggleVideo;
-      const videoFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
-      const video1CurrentTime = video1.currentTime;
-      const video2CurrentTime = video2.currentTime;
-      const video3CurrentTime = video3.currentTime;
+      const video3 = document.getElementById("toggleVideo");
 
-      console.log("videoFrame: ", videoFrame);
-      console.log("halfVideoFrameRate: ", this.halfVideoFrameRate);
+      const originalFrame = (Math.round((1 / this.originalVideoFrameList[this.videoNameIndex]) * 100) / 100);
+      const artifactFrame = (Math.round((1 / this.artifactVideoFrameList[this.videoNameIndex]) * 100) / 100);
 
-      if (videoFrame != 0) {
-        if (video1CurrentTime + videoFrame > video1.duration || video2CurrentTime + videoFrame > video1.duration || video3CurrentTime + videoFrame > video1.duration) {
-          video1.currentTime = video1.duration - this.halfVideoFrameRate;
-          video2.currentTime = video1.duration - this.halfVideoFrameRate;
-          video3.currentTime = video1.duration - this.halfVideoFrameRate;
-          return;
+      const video1CurrentTime = (Math.round((video1.currentTime) * 100) / 100);
+      const video2CurrentTime = (Math.round((video2.currentTime) * 100) / 100);
+
+      if (originalFrame != 0 && artifactFrame != 0) {
+        // const halfOriginalFrame = originalFrame / 2;
+        // const halfArtifactFrame = artifactFrame / 2;
+        if (video1 && video2) {
+          if (video1CurrentTime + originalFrame * 2 >= video1.duration || video2CurrentTime + artifactFrame * 2 >= video2.duration) {
+            return;
+          }
+          video1.currentTime = +(video1.currentTime + parseFloat(originalFrame)).toFixed(2);
+          video2.currentTime = +(video2.currentTime + parseFloat(artifactFrame)).toFixed(2);
+          video3.currentTime = +(video3.currentTime + parseFloat(artifactFrame)).toFixed(2);
         }
-        const t = (~~(video1.currentTime / parseFloat(videoFrame) + 1) * videoFrame) + this.halfVideoFrameRate;
-        console.log("t: ", t);
-        video1.currentTime = t;
-        video2.currentTime = t;
-        video3.currentTime = t;
       }
     },
   },
