@@ -891,7 +891,7 @@ export default {
         // console.log("[Video pause] temp: " + temp)
         console.log("[Video pause] currentTime 1: " + video1.currentTime);
         console.log("[Video pause] currentTime 2: " + video2.currentTime);
-        video1.currentTime = 71 * T + 0.0013333;
+        video1.currentTime = 71 * T + T / 2 + 0.0013333;
         video2.currentTime = 71 * T + T / 2;
         // video1.currentTime = temp;
         // video2.currentTime = temp;
