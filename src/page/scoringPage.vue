@@ -920,14 +920,15 @@ export default {
       let video1 = document.getElementById("videoNoartifact");
 
       if (this.isVideoPlaying == false) {
-        // this.isVideoPlaying = true;
+        this.isVideoPlaying = true;
         video1.play();
       } else {
-        // this.isVideoPlaying = false;
+        this.isVideoPlaying = false;
         video1.pause();
       }
       this.changeImgSource();
     },
+
     async seekBackward() {
       console.log("seekBackward");
       const video1 = this.$refs.videoNoartifact;
