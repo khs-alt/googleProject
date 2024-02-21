@@ -75,14 +75,14 @@
                     <video id="toggleVideo" :style="videoStyles" style="position: absolute" class="video-style"
                       ref="toggleVideo" controlsList="nodownload" key="videoDiff" :src="rightArtifactVideo()"
                       @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                      @mousemove="handleDragging" onChange="isVideoPaused" preload="auto"></video>
+                      @mousemove="handleDragging" preload="auto"></video>
                   </div>
                 </div>
                 <div style="display: flex">
                   <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
                     controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()" @wheel="handleWheel"
                     @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                    @mousemove="handleDragging" onChange="isVideoPaused" preload="auto"></video>
+                    @mousemove="handleDragging" preload="auto"></video>
                 </div>
               </div>
               <div>
@@ -96,7 +96,7 @@
                 <video id="videoYesartifact" :style="videoStyles" :class="video - style" class="video-style"
                   ref="videoYesartifact" controlsList="nodownload" key="videoYesartifact" :src="rightArtifactVideo()"
                   @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                  @mousemove="handleDragging" onChange="isVideoPaused" preload="auto"></video>
+                  @mousemove="handleDragging" preload="auto"></video>
               </div>
               <div>
                 <div class="video-name-style">
@@ -286,9 +286,10 @@ export default {
   },
   created() { },
   mounted() {
-    this.addEventVideoCurrentTime();
-    this.getVideoIndexCurrentPage();
     this.addEventVideoPlay();
+    this.getVideoIndexCurrentPage();
+    this.addEventVideoCurrentTime();
+
     this.isVideoPaused();
     this.checkProgressBar();
     // this.getVideoCurrentTime();
@@ -572,21 +573,21 @@ export default {
         this.imgSrc = require("../images/play_icon/iconmonstr-media-control-48-240.png");
       }
     },
-    isVideoPaused() {
-      var video1 = document.getElementById("videoNoartifact");
-      var video2 = document.getElementById("videoYesartifact");
-      var toggleVideo = document.getElementById("toggleVideo");
-      // 비디오가 end 되면 실행
-      const pauseAndPlayVideo = () => {
-        video1.pause();
-        video1.currentTime = this.halfVideoFrameRate;
-        video2.currentTime = this.halfVideoFrameRate;
-        toggleVideo.currentTime = this.halfVideoFrameRate;
-        this.changeImgSource();
-      };
-      video1.addEventListener("ended", pauseAndPlayVideo());
-      video2.addEventListener("ended", pauseAndPlayVideo());
-    },
+    // isVideoPaused() {
+    //   var video1 = document.getElementById("videoNoartifact");
+    //   var video2 = document.getElementById("videoYesartifact");
+    //   var toggleVideo = document.getElementById("toggleVideo");
+    //   // 비디오가 end 되면 실행
+    //   const pauseAndPlayVideo = () => {
+    //     video1.pause();
+    //     video1.currentTime = this.halfVideoFrameRate;
+    //     video2.currentTime = this.halfVideoFrameRate;
+    //     toggleVideo.currentTime = this.halfVideoFrameRate;
+    //     this.changeImgSource();
+    //   };
+    //   video1.addEventListener("ended", pauseAndPlayVideo());
+    //   video2.addEventListener("ended", pauseAndPlayVideo());
+    // },
     zoomIn() {
       this.zoom += 0.1;
       this.updateVideoStyle();
