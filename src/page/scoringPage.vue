@@ -556,7 +556,7 @@ export default {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
       var video3 = document.getElementById('toggleVideo');
-      const temp = +(video1.duration).toFixed(2);
+      const temp = +(video1.duration).toFixed(2) - this.halfVideoFrameRate;
       video1.currentTime = temp;
       video2.currentTime = temp;
       video3.currentTime = temp;
@@ -873,12 +873,12 @@ export default {
         video2.currentTime = temp;
         video3.currentTime = temp;
       })
-      // video1.addEventListener("ended", () => {
-      //   video1.currentTime = 0;
-      //   video2.currentTime = 0;
-      //   video3.currentTime = 0;
-      //   video1.play();
-      // })
+      video1.addEventListener("ended", () => {
+        video1.currentTime = 0;
+        video2.currentTime = 0;
+        video3.currentTime = 0;
+        video1.play();
+      })
     },
     // Play/Stop 및 text 변경 버튼
     changeVideoButton() {
