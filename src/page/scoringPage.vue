@@ -920,10 +920,24 @@ export default {
               // Show paused UI.
             });
         } else {
-          orignalVideo.pause();
-          this.isVideoPlaying = false;
+          var playPromise = orignalVideo.pause();
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                // Automatic playback started!
+                // Show playing UI.
+                // We can now safely pause video...
+                this.isVideoPlaying = false;
+                console.log("playing");
+              })
+              .catch(error => {
+                console.log("[changeVideoButton] error: ", error);
+                // Auto-play was prevented
+                // Show paused UI.
+              });
+          }
+          this.changeImgSource();
         }
-        this.changeImgSource();
       }
     },
     async seekBackward() {
