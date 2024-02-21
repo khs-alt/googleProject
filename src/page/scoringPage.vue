@@ -875,7 +875,7 @@ export default {
       // video3.currentTime = video1_currentTime;
 
       video1.addEventListener("play", () => {
-        console.log("[play paused]: " + video1.paused)
+        // console.log("[play paused]: " + video1.paused)
         document.getElementById('videoYesartifact').play();
         document.getElementById('toggleVideo').play();
         this.isVideoPlaying = true;
@@ -883,7 +883,7 @@ export default {
       });
 
       video1.addEventListener("paused", () => {
-        console.log("[paused paused]: " + video1.paused)
+        // console.log("[paused paused]: " + video1.paused)
         document.getElementById('videoYesartifact').pause();
         document.getElementById('toggleVideo').pause();
         let T = 1 / this.originalVideoFrameList[this.videoNameIndex]
