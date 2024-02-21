@@ -443,6 +443,8 @@ export default {
     },
     addEventVideoCurrentTime() {
       var video = document.getElementById('videoNoartifact');
+      var video2 = document.getElementById('videoYesartifact');
+      var video3 = document.getElementById('toggleVideo');
 
       video.addEventListener("loadeddata", (event) => {
         console.log(event.target.currentTime);
@@ -450,6 +452,9 @@ export default {
         this.videoDuration = event.target.duration.toFixed(3);
         this.totalFrameLength = (Math.round(this.videoDuration / this.T));
         this.currentFrame = ~~((this.videoCurrentTime) / this.T)
+        video.currentTime = this.halfVideoFrameRate;
+        video2.currentTime = this.halfVideoFrameRate;
+        video3.currentTime = this.halfVideoFrameRate;
       });
 
       video.addEventListener("timeupdate", (event) => {
