@@ -455,6 +455,7 @@ export default {
     },
     addEventVideoCurrentTime() {
       var video = document.getElementById('videoNoartifact');
+
       video.addEventListener("loadeddata", (event) => {
         console.log(event.target.currentTime);
         this.videoCurrentTime = event.target.currentTime;
@@ -462,6 +463,7 @@ export default {
         this.totalFrameLength = (Math.round(this.videoDuration / this.T));
         this.currentFrame = ~~((this.videoCurrentTime) / this.T)
       });
+
       video.addEventListener("timeupdate", (event) => {
         this.videoCurrentTime = event.target.currentTime
         this.totalFrameLength = (Math.round(this.videoDuration / this.T));
@@ -470,10 +472,11 @@ export default {
     },
     async getVideoHeight() {
       var video1 = document.getElementById("videoNoartifact");
-      const temp = video1.style.height;
       var video1Height = document.getElementById("left-video-cover");
       var video2Height = document.getElementById("right-video-cover");
       var video3Height = document.getElementById("toggleVideo");
+
+      const temp = video1.style.height;
       video1Height.style.height = temp;
       video2Height.style.height = temp;
       video3Height.style.height = temp;
@@ -577,6 +580,7 @@ export default {
       video2.currentTime = temp;
       video3.currentTime = temp;
       this.isVideoPlaying = false;
+      this.changeImgSource();
       this.isGoToEndClicked = true;
     },
     changeImgSource() {
