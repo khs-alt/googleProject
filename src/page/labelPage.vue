@@ -477,7 +477,7 @@ export default {
       var img2 = this.$refs.img2;
       img1.src = this.serveOriginalImage();
       img2.src = this.serveArtifactImage();
-      
+
       // this.getImageIndexCurrentPage();
       this.getUserLabeling();
       this.makeImageTemplete();
@@ -802,6 +802,10 @@ export default {
               testcode: this.testCode
             }
           });
+          var img1 = this.$refs.img;
+          var img2 = this.$refs.img2;
+          img1.src = this.serveOriginalImage();
+          img2.src = this.serveArtifactImage();
           this.makeImageTemplete();
           this.getUserLabeling();
           this.setProgressBar();
