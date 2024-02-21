@@ -82,7 +82,7 @@
                   <video id="videoNoartifact" :style="videoStyles" class="video-style" ref="videoNoartifact"
                     controlsList="nodownload" key="videoNoartifact" :src="leftOriginalVideo()" @wheel="handleWheel"
                     @click="setZoomCenter" @mousedown="handleDragStart" @mouseup="handleDragEnd"
-                    @mousemove="handleDragging" preload="auto"></video>
+                    @mousemove="handleDragging" onChange="setVideoPlaygingStatus" preload="auto"></video>
                 </div>
               </div>
               <div>
@@ -305,6 +305,16 @@ export default {
     },
   },
   methods: {
+    setVideoPlaygingStatus() {
+      var video1 = document.getElementById('videoNoartifact');
+
+      video1.addEventListener('play', () => {
+        this.isVideoPlaying = true;
+      });
+      video1.addEventListener('pause', () => {
+        this.isVideoPlaying = false;
+      });
+    },
     helpPageVideoNum(index) {
       this.helpPageVideo = !this.helpPageVideo;
       if (this.helpPageVideo == false) {
