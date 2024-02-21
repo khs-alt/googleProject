@@ -51,7 +51,7 @@
     </div>
     <div class="modal-wrap" v-show="openModal">
       <!--사용법-->
-      <div class="modal-container" style="width: fit-content">
+      <!-- <div class="modal-container" style="width: fit-content">
         <h3>{{ modalTitle[modalPage] }}</h3>
         <div :class="modalPage >= 2 ? 'exampleScore' : ''">
           <div v-for="i in modalContent[modalPage]" :key="i">
@@ -70,7 +70,7 @@
           <button class="btn-style" @click="toggleHelpModal()">Close</button>
           <button class="btn-style" @click="changeModal(1)">></button>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="home-main-content" style="padding-bottom: 0; padding-top: 10px; margin-bottom: 8px">
       <p class="web-service-title">Video Ghosting Artifact Scoring System</p>
