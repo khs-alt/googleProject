@@ -536,6 +536,7 @@ export default {
     async getImageIndexCurrentPage() {
       let temp = String(this.currentPage);
       console.log(temp);
+
       await axios
         .post(this.baseUrl + "getImageIndexCurrentPage", {
           userID: this.currentUser,
@@ -567,13 +568,14 @@ export default {
           }
 
           console.log("[getImageIndexCurrentPage] before route current page is " + this.currentPage);
-          this.$router.push({
-            query: {
-              userName: this.currentUser,
-              currentPage: this.currentPage,
-              testcode: this.testCode
-            }
-          });
+
+          // this.$router.push({
+          //   query: {
+          //     userName: this.currentUser,
+          //     currentPage: this.currentPage,
+          //     testcode: this.testCode
+          //   }
+          // });
           // this.makeImageTemplete();
         })
         .catch((error) => {
