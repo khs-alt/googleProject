@@ -75,7 +75,7 @@
                   ...imageStyles, position: absolute,
                   width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto
                 }" class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
-                  @mouseup="handleDragEnd" @mousemove="handleDragging" preload="metadata" />
+                  @mouseup="handleDragEnd" @mousemove="handleDragging" rel="preload" />
                 <div class="currentBorder"
                   :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue * zoom + 'px', top: topValue * this.zoom + 'px' }">
                 </div>
@@ -101,7 +101,7 @@
                   ...imageStyles,
                   width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto
                 }" class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
-                  @mouseup="handleDragEnd" @mousemove="handleDragging" preload="metadata" />
+                  @mouseup="handleDragEnd" @mousemove="handleDragging" rel="preload" />
                 <div class="currentBorder"
                   :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue * zoom + 'px', top: topValue * zoom + 'px' }">
                 </div>
