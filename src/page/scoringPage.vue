@@ -283,8 +283,6 @@ export default {
       halfVideoFrameRate: 0.015,
       T: 0.03,
       isGoToEndClicked: false,
-      playPromise: undefined,
-      pausePromise: undefined,
     };
   },
   created() { },
@@ -517,7 +515,6 @@ export default {
       var originalVideoHeader = document.getElementById("videoNoartifact");
       var originalVideoStyle = window.getComputedStyle(originalVideoHeader);
       const leftMargin = originalVideoStyle.getPropertyValue("margin-left");
-
       if (this.isToggled) {
         // originalVideo의 위치와 크기를 가져옵니다.
         const rect = originalVideo.getBoundingClientRect();
@@ -903,33 +900,14 @@ export default {
     // Play/Stop 및 text 변경 버튼
     changeVideoButton() {
       console.log("[changeVideoButton]: current isVideoPlaying: " + this.isVideoPlaying);
-      let originalVideo = document.getElementById("videoNoartifact");
+      let orignalVideo = document.getElementById("videoNoartifact");
 
       if (this.isVideoPlaying == false) {
-        if (this.pausePromise !== undefined) {
-          this.pausePromise
-            .then(() => {
-              this.playPromise = originalVideo.play();
-              this.isVideoPlaying = true;
-            })
-            .catch(error => {
-              console.log("error: ", error);
-            });
-        } else {
-          this.playPromise = originalVideo.play();
-          this.isVideoPlaying = true;
-        }
+        orignalVideo.play();
+        this.isVideoPlaying = true;
       } else {
-        if (this.playPromise !== undefined) {
-          this.playPromise
-            .then(() => {
-              this.pausePromise = originalVideo.pause();
-              this.isVideoPlaying = false;
-            })
-            .catch(error => {
-              console.log("error: ", error);
-            });
-        }
+        orignalVideo.pause();
+        this.isVideoPlaying = false;
       }
       this.changeImgSource();
     },
