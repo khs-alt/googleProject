@@ -71,11 +71,11 @@
                     </div>
                   </div>
                 </div>
-                <img ref="img" :style="{
+                <img :src="serveOriginalImage()" ref="img" :style="{
                   ...imageStyles, position: absolute,
                   width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto
                 }" class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
-                  @mouseup="handleDragEnd" @mousemove="handleDragging" />
+                  @mouseup="handleDragEnd" @mousemove="handleDragging" preload="metadata" />
                 <div class="currentBorder"
                   :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue * zoom + 'px', top: topValue * this.zoom + 'px' }">
                 </div>
@@ -97,11 +97,11 @@
                     </div>
                   </div>
                 </div>
-                <img ref="img2" :style="{
+                <img :src="serveArtifactImage()" ref="img2" :style="{
                   ...imageStyles,
                   width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto
                 }" class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
-                  @mouseup="handleDragEnd" @mousemove="handleDragging" />
+                  @mouseup="handleDragEnd" @mousemove="handleDragging" preload="metadata" />
                 <div class="currentBorder"
                   :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue * zoom + 'px', top: topValue * zoom + 'px' }">
                 </div>
@@ -473,11 +473,6 @@ export default {
           testcode: this.testCode,
         }
       });
-      var img1 = this.$refs.img;
-      var img2 = this.$refs.img2;
-      img1.src = this.serveOriginalImage();
-      img2.src = this.serveArtifactImage();
-
       // this.getImageIndexCurrentPage();
       this.getUserLabeling();
       this.makeImageTemplete();
@@ -802,10 +797,6 @@ export default {
               testcode: this.testCode
             }
           });
-          var img1 = this.$refs.img;
-          var img2 = this.$refs.img2;
-          img1.src = this.serveOriginalImage();
-          img2.src = this.serveArtifactImage();
           this.makeImageTemplete();
           this.getUserLabeling();
           this.setProgressBar();
