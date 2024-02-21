@@ -289,7 +289,7 @@ export default {
   mounted() {
     this.addEventVideoPlay();
     this.getVideoIndexCurrentPage();
-    // this.isVideoPaused();
+    // this.isVideoPaused();₩
     this.checkProgressBar();
     // this.getVideoCurrentTime();
     document.addEventListener("mousemove", this.handleDragging);
