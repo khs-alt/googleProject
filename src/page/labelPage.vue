@@ -71,7 +71,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
+                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplate" @error="handleImageError"
                   :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -96,7 +96,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveArtifactImage()" ref="img2" @load="makeImageTemplete" @error="handleImageError"
+                <img :src="serveArtifactImage()" ref="img2" @load="makeImageTemplate" @error="handleImageError"
                   :style="{ ...imageStyles, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -478,7 +478,7 @@ export default {
       });
       // this.getImageIndexCurrentPage();
       this.getUserLabeling();
-      this.makeImageTemplete();
+      this.makeImageTemplate();
       this.i = 0;
       this.j = 0;
       this.setProgressBar();
@@ -556,8 +556,8 @@ export default {
           }
 
           // currentPage를 받아서 labeling 이미지를 만듦
-          // cuurentPage에 따라 imageID가 달라져서 이를 반영하기 위해 axios를 받은 후에 makeImageTemplete()를 호출함
-          // makeImageTemplete()에서는 labeling 이미지를 만드는 함수임
+          // cuurentPage에 따라 imageID가 달라져서 이를 반영하기 위해 axios를 받은 후에 makeImageTemplate()를 호출함
+          // makeImageTemplate()에서는 labeling 이미지를 만드는 함수임
 
           for (let i = 0; i < this.imageIndexList.length; i++) {
             if (this.imageIndexList[i] == this.currentPage) {
@@ -574,7 +574,7 @@ export default {
               testcode: this.testCode
             }
           });
-          // this.makeImageTemplete();
+          // this.makeImageTemplate();
         })
         .catch((error) => {
           console.log(error);
@@ -582,7 +582,7 @@ export default {
           this.$router.push(process.env.BASE_URL);
         })
     },
-    makeImageTemplete() {
+    makeImageTemplate() {
       this.getImageSize()
       this.resizeImage();
     },
@@ -827,7 +827,7 @@ export default {
               testcode: this.testCode
             }
           });
-          // this.makeImageTemplete();
+          // this.makeImageTemplate();
           this.getUserLabeling();
           this.setProgressBar();
           this.checkProgressBar();
