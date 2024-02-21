@@ -286,6 +286,7 @@ export default {
   },
   created() { },
   mounted() {
+    this.addEventVideoCurrentTime();
     this.getVideoIndexCurrentPage();
     this.addEventVideoPlay();
     this.isVideoPaused();
@@ -294,7 +295,6 @@ export default {
     document.addEventListener("mousemove", this.handleDragging);
     document.addEventListener("mouseup", this.handleDragEnd);
     window.addEventListener("keydown", this.keydown);
-    this.addEventVideoCurrentTime();
     // this.preloadNextVideo();
     this.setProgressBar();
     this.getUserScoringList();
