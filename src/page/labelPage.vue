@@ -71,7 +71,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveOriginalImage()" ref="img" @load="makeImageTempleteOriginal" @error="handleImageError"
+                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
                   :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -488,15 +488,15 @@ export default {
       this.toggleProgressModal();
     },
 
-    serveOriginalImage(num) {
+    serveOriginalImage() {
       return String(this.baseUrl + "postimage/original/" + (this.currentPage))
     },
 
-    serveArtifactImage(num) {
+    serveArtifactImage() {
       return String(this.baseUrl + "postimage/artifact/" + (this.currentPage))
     },
 
-    serveDifferenceImage(num) {
+    serveDifferenceImage() {
       return String(this.baseUrl + "postimage/difference/" + (this.currentPage))
     },
 
@@ -585,39 +585,6 @@ export default {
     makeImageTemplete() {
       this.getImageSize()
       this.resizeImage();
-      // .then(() => {
-      // })
-      // .catch((error) => {
-      //   console.error(error);
-      // });
-    },
-
-    makeImageTempleteOriginal() {
-      this.getImageSizeOriginal()
-      this.resizeImage();
-    },
-
-    getImageSizeOriginal() {
-      let img = new Image();
-      img.src = this.serveOriginalImage();
-
-      let self = this;
-      img.onload = function () {
-        // 이미지 로딩 완료시 로직
-        self.imageWidth = img.width;
-        self.imageHeight = img.height;
-
-        self.patchColumn = (Math.floor(self.imageWidth / self.borderBox) + 1);
-        self.patchRow = (Math.floor(self.imageHeight / self.borderBox) + 1);
-        self.patchLength = self.patchColumn * self.patchRow;
-        self.setPatch(self.i, self.j);
-
-        // resolve(); // Promise가 성공적으로 완료됨
-      };
-
-      img.onerror = function () {
-        reject(new Error("이미지 로드 실패")); // 이미지 로드 실패시
-      };
     },
 
     async getImageNameList() {
@@ -707,10 +674,6 @@ export default {
         self.setPatch(self.i, self.j);
 
         // resolve(); // Promise가 성공적으로 완료됨
-      };
-
-      img.onerror = function () {
-        reject(new Error("이미지 로드 실패")); // 이미지 로드 실패시
       };
     },
 
