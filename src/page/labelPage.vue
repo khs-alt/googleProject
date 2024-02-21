@@ -574,7 +574,7 @@ export default {
               testcode: this.testCode
             }
           });
-          this.makeImageTemplete();
+          // this.makeImageTemplete();
         })
         .catch((error) => {
           console.log(error);
@@ -864,7 +864,7 @@ export default {
               testcode: this.testCode
             }
           });
-          this.makeImageTemplete();
+          // this.makeImageTemplete();
           this.getUserLabeling();
           this.setProgressBar();
           this.checkProgressBar();
