@@ -283,8 +283,8 @@ export default {
       halfVideoFrameRate: 0.015,
       T: 0.03,
       isGoToEndClicked: false,
-      playPromise: null,
-      pausePromise: null,
+      playPromise: undefined,
+      pausePromise: undefined,
     };
   },
   created() { },
@@ -907,10 +907,11 @@ export default {
 
       if (this.isVideoPlaying == false) {
         if (this.pausePromise !== undefined) {
-          this.pausePromise.then(() => {
-            this.playPromise = originalVideo.play();
-            this.isVideoPlaying = true;
-          })
+          this.pausePromise
+            .then(() => {
+              this.playPromise = originalVideo.play();
+              this.isVideoPlaying = true;
+            })
             .catch(error => {
               console.log("error: ", error);
             });
@@ -920,10 +921,11 @@ export default {
         }
       } else {
         if (this.playPromise !== undefined) {
-          this.playPromise.then(() => {
-            this.pausePromise = originalVideo.pause();
-            this.isVideoPlaying = false;
-          })
+          this.playPromise
+            .then(() => {
+              this.pausePromise = originalVideo.pause();
+              this.isVideoPlaying = false;
+            })
             .catch(error => {
               console.log("error: ", error);
             });
