@@ -71,9 +71,10 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveOriginalImage()" ref="img"
-                  :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
-                  class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
+                <img :src="serveOriginalImage()" ref="img" :style="{
+                  ...imageStyles, position: absolute,
+                  width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto
+                }" class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
                 <div class="currentBorder"
                   :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue * zoom + 'px', top: topValue * this.zoom + 'px' }">
@@ -96,9 +97,10 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveArtifactImage()" ref="img"
-                  :style="{ ...imageStyles, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
-                  class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
+                <img :src="serveArtifactImage()" ref="img2" :style="{
+                  ...imageStyles,
+                  width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto
+                }" class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
                 <div class="currentBorder"
                   :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue * zoom + 'px', top: topValue * zoom + 'px' }">
@@ -415,7 +417,7 @@ export default {
       }
     },
 
-    //TODO: progress bar를 진행도에 따라 class를 바꾸는 함수
+    // progress bar를 진행도에 따라 class를 바꾸는 함수
     getProgressBarClass(index) {
       const progress = this.progressBarCount[index]; //한 것 개수
       const total = this.progressBarList[index]; //전체 개수
@@ -463,6 +465,7 @@ export default {
       console.log("[changePage] imageIndex: " + this.imageIndex);
       console.log("[changePage] imageIndexList: " + this.imageIndexList);
       this.isPressed = [false, false, false, false, false, false]
+
       await this.$router.push({
         path: '/label/label',
         query: {
@@ -493,43 +496,10 @@ export default {
     serveDifferenceImage() {
       return String(this.baseUrl + "postimage/difference/" + (this.currentPage))
     },
-
-    // async preloadImage() {
-    //   if (this.currentPage === 0) {
-    //     this.nextOriginalImage = new Image();
-    //     this.nextArtifactImage = new Image();
-    //     this.nextDifferenceImage = new Image();
-    //     this.nextOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
-    //     this.nextArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage + 1));
-    //     this.nextDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage + 1));
-    //   }
-    //   else if (this.currentPage === this.imageIndexList.length - 1) {
-    //     this.prevOriginalImage = new Image();
-    //     this.prevArtifactImage = new Image();
-    //     this.prevDifferenceImage = new Image();
-    //     this.prevOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
-    //     this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
-    //     this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
-    //   }
-    //   else {
-    //     this.nextOriginalImage = new Image();
-    //     this.nextArtifactImage = new Image();
-    //     this.nextDifferenceImage = new Image();
-    //     this.nextOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
-    //     this.nextArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage + 1));
-    //     this.nextDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage + 1));
-    //     this.prevOriginalImage = new Image();
-    //     this.prevArtifactImage = new Image();
-    //     this.prevDifferenceImage = new Image();
-    //     this.prevOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
-    //     this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
-    //     this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
-    //   }
-    // },
     // Backend에서 patch size(행렬) 가져오는 method
     getImageIndexCurrentPage() {
       let temp = String(this.currentPage);
-      console.log(temp);
+
       axios
         .post(this.baseUrl + "getImageIndexCurrentPage", {
           userID: this.currentUser,
@@ -539,6 +509,7 @@ export default {
           console.log("[getImageIndexCurrentPage] response.data.current_page: " + response.data.current_page)
           console.log("[getImageIndexCurrentPage] response.data.image_list.length: " + response.data.image_list.length)
           this.imageIndexList = response.data.image_list;
+
           if (this.currentPage <= 0 || this.currentPage > response.data.image_list.length - 1) {
             this.currentPage = response.data.current_page; //url로 접근하는데 범위 밖일 때
           }
@@ -561,6 +532,7 @@ export default {
           }
 
           console.log("[getImageIndexCurrentPage] before route current page is " + this.currentPage);
+
           this.$router.push({
             query: {
               userName: this.currentUser,
@@ -568,6 +540,7 @@ export default {
               testcode: this.testCode
             }
           });
+
           this.makeImageTemplete();
         })
         .catch((error) => {
@@ -576,8 +549,9 @@ export default {
           this.$router.push(process.env.BASE_URL);
         })
     },
-    async makeImageTemplete() {
-      await this.getImageSize()
+
+    makeImageTemplete() {
+      this.getImageSize()
         .then(() => {
           this.resizeImage();
         })
@@ -606,15 +580,6 @@ export default {
         })
     },
 
-    //홈으로 가게 하는 함수
-    navigateTo(item) {
-      if (item == 'Home') {
-        this.$router.push('/');
-      } else {
-        alert("Still developed")
-      }
-    },
-
     //사용자의 전체 레이블링 데이터 가져오는 함수
     async getUserLabelingList() {
       await axios
@@ -629,13 +594,13 @@ export default {
         .catch((error) => {
           console.log(error);
         })
-
     },
 
     //라벨링 여부에 따라 userLabeling 가져오는 함수
     async getUserLabeling() {
       console.log("[getUserLabeling] get current page is " + this.currentPage)
       let temp = parseInt(this.currentPage);
+
       await axios
         .post(this.baseUrl + "getUserImageScore", {
           current_user: this.currentUser,
@@ -685,28 +650,17 @@ export default {
     // resizeImage 함수
     resizeImage() {
       console.log(this.imageWidth, this.imageHeight)
-      if (this.imageWidth)
+
+      if (this.imageWidth) {
         this.resizeWidth = this.imageWidth * 0.2;
+      }
+
       this.resizeHeight = this.imageHeight * 0.2;
       let img = this.$refs.img;
       const imgNaturalWidth = img.naturalWidth;
       let currentWidth = img.width;
       this.borderBoxResize = (this.borderBox * currentWidth) / imgNaturalWidth;
     },
-
-    // progress bar의 개수를 구하는 함수
-    // countProgressBar() {
-    //   this.progressBarLength = 0;
-    //   if (this.imageIndexList.length % 100 == 0 ? this.progressBarLength = this.imageIndexList.length / 100 : this.progressBarLength = Math.floor(this.imageIndexList.length / 100) + 1);
-    //   for (let i = 0; i < this.progressBarLength; i++) {
-    //     if (i == this.progressBarLength - 1) {
-    //       this.progressBarList.push(this.imageIndexList.length % 100);
-    //     }
-    //     else {
-    //       this.progressBarList.push(100);
-    //     }
-    //   }
-    // },
 
     //patch 이미지의 위치를 조정하는 함수
     setPatch(i, j) {
@@ -825,6 +779,7 @@ export default {
       console.log(this.userLabeling);
       console.log("[postUserLabeling] current page is " + this.currentPage)
       let temp = parseInt(this.currentPage);
+
       await axios
         .post(this.baseUrl + "postimagedata", {
           current_user: this.currentUser,
