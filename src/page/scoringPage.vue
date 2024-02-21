@@ -569,7 +569,7 @@ export default {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
       var video3 = document.getElementById('toggleVideo');
-      const temp = +(video1.duration).toFixed(2) - this.halfVideoFrameRate;
+      const temp = +(video1.duration).toFixed(2);
 
       video1.pause();
 
