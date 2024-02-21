@@ -288,7 +288,7 @@ export default {
   mounted() {
     this.addEventVideoPlay();
     this.getVideoIndexCurrentPage();
-    // this.isVideoPaused();
+    this.isVideoPaused();
     this.checkProgressBar();
     // this.getVideoCurrentTime();
     document.addEventListener("mousemove", this.handleDragging);
@@ -321,7 +321,7 @@ export default {
     setInitialTime() {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
-      const video3 = this.$refs.diffVideo;
+      const video3 = this.$refs.toggleVIdeo;
 
       // 비디오의 currentTime을 halfVideoFrameRate 값으로 설정
       video1.currentTime = this.halfVideoFrameRate;
@@ -544,7 +544,7 @@ export default {
     goToBegin() {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
-      var video3 = document.getElementById('diffVideo');
+      var video3 = document.getElementById('toggleVIdeo');
 
       video1.pause();
       video1.currentTime = this.halfVideoFrameRate;
@@ -555,7 +555,7 @@ export default {
     goToEnd() {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
-      var video3 = document.getElementById('diffVideo');
+      var video3 = document.getElementById('toggleVIdeo');
       const temp = +(video1.duration).toFixed(2);
       video1.currentTime = temp;
       video2.currentTime = temp;
@@ -853,20 +853,20 @@ export default {
     addEventVideoPlay() {
       var video1 = document.getElementById('videoNoartifact');
       var video2 = document.getElementById('videoYesartifact');
-      var video3 = document.getElementById('diffVideo');
+      var video3 = document.getElementById('toggleVIdeo');
 
-      // var video1_currentTime = video1.currentTime;
-      // video1.currentTime = video1_currentTime;
-      // video2.currentTime = video1_currentTime;
-      // video3.currentTime = video1_currentTime;
+      var video1_currentTime = video1.currentTime;
+      video1.currentTime = video1_currentTime;
+      video2.currentTime = video1_currentTime;
+      video3.currentTime = video1_currentTime;
 
       video1.addEventListener("play", () => {
         document.getElementById('videoYesartifact').play();
-        document.getElementById('diffVideo').play();
+        document.getElementById('toggleVIdeo').play();
       });
       video1.addEventListener("pause", () => {
         document.getElementById('videoYesartifact').pause();
-        document.getElementById('diffVideo').pause();
+        document.getElementById('toggleVIdeo').pause();
         let T = 1 / this.videoFrameList[this.videoNameIndex]
         let temp = +(~~(video2.currentTime / T) * T).toFixed(3) + this.halfVideoFrameRate;
         video1.currentTime = temp;
@@ -899,7 +899,7 @@ export default {
       console.log("seekBackward");
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
-      const video3 = this.$refs.diffVideo;
+      const video3 = this.$refs.toggleVIdeo;
 
       const videoFrame = 1 / this.videoFrameList[this.videoNameIndex];
       const video1CurrentTime = video1.currentTime;
@@ -924,7 +924,7 @@ export default {
       console.log("seekForward");
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
-      const video3 = this.$refs.diffVideo;
+      const video3 = this.$refs.toggleVIdeo;
       const videoFrame = 1 / this.videoFrameList[this.videoNameIndex];
       const video1CurrentTime = video1.currentTime;
       const video2CurrentTime = video2.currentTime;
