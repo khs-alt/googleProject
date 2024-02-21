@@ -886,9 +886,9 @@ export default {
         document.getElementById('toggleVideo').pause();
         let T = 1 / this.originalVideoFrameList[this.videoNameIndex]
         let temp = +(~~(video2.currentTime / T) * T).toFixed(3) + this.halfVideoFrameRate;
-        video1.currentTime = temp;
-        video2.currentTime = temp;
-        video3.currentTime = temp;
+        // video1.currentTime = temp;
+        // video2.currentTime = temp;
+        // video3.currentTime = temp;
         this.isVideoPlaying = false;
         this.changeImgSource();
       })
