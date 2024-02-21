@@ -657,13 +657,11 @@ export default {
     },
 
     // 이미지의 사이즈를 구하는 함수
-    // getImgaeSize를 Promise를 반환하는 함수로 변경
     getImageSize() {
-      let img = new Image();
-      img.src = this.serveArtifactImage();
+      let img = this.$refs.img;
 
       let self = this;
-      // 이미지 로딩 완료시 로직
+
       self.imageWidth = img.width;
       self.imageHeight = img.height;
 
@@ -671,8 +669,6 @@ export default {
       self.patchRow = (Math.floor(self.imageHeight / self.borderBox) + 1);
       self.patchLength = self.patchColumn * self.patchRow;
       self.setPatch(self.i, self.j);
-
-      // resolve(); // Promise가 성공적으로 완료됨
     },
 
     // resizeImage 함수
