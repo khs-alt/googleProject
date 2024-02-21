@@ -918,14 +918,14 @@ export default {
     // Play/Stop 및 text 변경 버튼
     changeVideoButton() {
       console.log("[changeVideoButton]: current isVideoPlaying: " + this.isVideoPlaying);
-      let orignalVideo = document.getElementById("videoNoartifact");
+      let video1 = document.getElementById("videoNoartifact");
 
       if (this.isVideoPlaying == false) {
-        orignalVideo.play();
-        this.isVideoPlaying = true;
+        // this.isVideoPlaying = true;
+        video1.play();
       } else {
-        orignalVideo.pause();
-        this.isVideoPlaying = false;
+        // this.isVideoPlaying = false;
+        video1.pause();
       }
       this.changeImgSource();
     },
