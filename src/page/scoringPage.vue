@@ -911,7 +911,7 @@ export default {
               // Automatic playback started!
               // Show playing UI.
               // We can now safely pause video...
-              orignalVideo.pause();
+              console.log("playing");
             })
             .catch(error => {
               this.isVideoPlaying = true;
