@@ -584,12 +584,12 @@ export default {
     },
     makeImageTemplete() {
       this.getImageSize()
-        .then(() => {
-          this.resizeImage();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      this.resizeImage();
+      // .then(() => {
+      // })
+      // .catch((error) => {
+      //   console.error(error);
+      // });
     },
 
     async getImageNameList() {
@@ -664,7 +664,6 @@ export default {
     // 이미지의 사이즈를 구하는 함수
     // getImgaeSize를 Promise를 반환하는 함수로 변경
     getImageSize() {
-
       let img = new Image();
       img.src = this.serveArtifactImage();
 
@@ -691,8 +690,9 @@ export default {
     // resizeImage 함수
     resizeImage() {
       console.log(this.imageWidth, this.imageHeight)
-      if (this.imageWidth)
+      if (this.imageWidth) {
         this.resizeWidth = this.imageWidth * 0.2;
+      }
       this.resizeHeight = this.imageHeight * 0.2;
       let img = this.$refs.img;
       const imgNaturalWidth = img.naturalWidth;
