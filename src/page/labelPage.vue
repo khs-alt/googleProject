@@ -71,7 +71,7 @@
                     </div>
                   </div>
                 </div>
-                <img src="serveOriginalImage()" ref="img" :style="{
+                <img ref="img" :style="{
                   ...imageStyles, position: absolute,
                   width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto
                 }" class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
@@ -97,7 +97,7 @@
                     </div>
                   </div>
                 </div>
-                <img src="serveArtifactImage()" ref="img2" :style="{
+                <img ref="img2" :style="{
                   ...imageStyles,
                   width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto
                 }" class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
@@ -473,6 +473,11 @@ export default {
           testcode: this.testCode,
         }
       });
+      var img1 = this.$refs.img;
+      var img2 = this.$refs.img2;
+      img1.src = this.serveOriginalImage();
+      img2.src = this.serveArtifactImage();
+      
       // this.getImageIndexCurrentPage();
       this.getUserLabeling();
       this.makeImageTemplete();
