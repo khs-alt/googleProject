@@ -515,6 +515,7 @@ export default {
       var originalVideoHeader = document.getElementById("videoNoartifact");
       var originalVideoStyle = window.getComputedStyle(originalVideoHeader);
       const leftMargin = originalVideoStyle.getPropertyValue("margin-left");
+
       if (this.isToggled) {
         // originalVideo의 위치와 크기를 가져옵니다.
         const rect = originalVideo.getBoundingClientRect();
@@ -870,12 +871,20 @@ export default {
       video3.currentTime = video1_currentTime;
 
       video1.addEventListener("play", () => {
+        video1.onload();
+        video2.onload();
+        video3.onload();
+
         document.getElementById('videoYesartifact').play();
         document.getElementById('toggleVideo').play();
         this.isVideoPlaying = true;
       });
 
       video1.addEventListener("pause", () => {
+        video1.onload();
+        video2.onload();
+        video3.onload();
+
         document.getElementById('videoYesartifact').pause();
         document.getElementById('toggleVideo').pause();
         let T = 1 / this.originalVideoFrameList[this.videoNameIndex]
@@ -899,46 +908,17 @@ export default {
     },
     // Play/Stop 및 text 변경 버튼
     changeVideoButton() {
-      console.log(
-        "[changeVideoButton]: current isVideoPlaying: " + this.isVideoPlaying
-      );
+      console.log("[changeVideoButton]: current isVideoPlaying: " + this.isVideoPlaying);
       let orignalVideo = document.getElementById("videoNoartifact");
+
       if (this.isVideoPlaying == false) {
-        var playPromise = orignalVideo.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              // Automatic playback started!
-              // Show playing UI.
-              // We can now safely pause video...
-              this.isVideoPlaying = true;
-              console.log("playing");
-            })
-            .catch(error => {
-              console.log("[changeVideoButton] error: ", error);
-              // Auto-play was prevented
-              // Show paused UI.
-            });
-        } else {
-          var pausePromise = orignalVideo.pause();
-          if (pausePromise !== undefined) {
-            pausePromise
-              .then(() => {
-                // Automatic playback started!
-                // Show playing UI.
-                // We can now safely pause video...
-                this.isVideoPlaying = false;
-                console.log("playing");
-              })
-              .catch(error => {
-                console.log("[changeVideoButton] error: ", error);
-                // Auto-play was prevented
-                // Show paused UI.
-              });
-          }
-          this.changeImgSource();
-        }
+        orignalVideo.play();
+        this.isVideoPlaying = true;
+      } else {
+        orignalVideo.pause();
+        this.isVideoPlaying = false;
       }
+      this.changeImgSource();
     },
     async seekBackward() {
       console.log("seekBackward");
