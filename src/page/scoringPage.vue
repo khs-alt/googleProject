@@ -889,8 +889,8 @@ export default {
         let temp = ~~(video2.currentTime / T) * T + T / 2;
         console.log("[Video pause] T: " + T);
         console.log("[Video pause] temp: " + temp)
-        console.log("[Video pause] currentTime 1" + video1.currentTime);
-        console.log("[Video pause] currentTime 2" + video2.currentTime);
+        console.log("[Video pause] currentTime 1: " + video1.currentTime);
+        console.log("[Video pause] currentTime 2: " + video2.currentTime);
 
         video1.currentTime = temp;
         video2.currentTime = temp;
