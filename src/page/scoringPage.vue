@@ -313,7 +313,7 @@ export default {
       return this.videoSrc[index];
     },
     setT() {
-      this.T = 1 / this.videoFrameList[this.videoNameIndex];
+      this.T = 1 / this.originalVideoFrameList[this.videoNameIndex];
       this.halfVideoFrameRate = this.T / 2;
       console.log("[setT] T: ", this.T);
       console.log("[setT] halfVideoFrameRate: ", this.halfVideoFrameRate);
@@ -901,7 +901,7 @@ export default {
       const video2 = this.$refs.videoYesartifact;
       const video3 = this.$refs.toggleVideo;
 
-      const videoFrame = 1 / this.videoFrameList[this.videoNameIndex];
+      const videoFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
       const video1CurrentTime = video1.currentTime;
       const video2CurrentTime = video2.currentTime;
       const video3CurrentTime = video3.currentTime;
@@ -925,7 +925,7 @@ export default {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
       const video3 = this.$refs.toggleVideo;
-      const videoFrame = 1 / this.videoFrameList[this.videoNameIndex];
+      const videoFrame = 1 / this.originalVideoFrameList[this.videoNameIndex];
       const video1CurrentTime = video1.currentTime;
       const video2CurrentTime = video2.currentTime;
       const video3CurrentTime = video3.currentTime;
