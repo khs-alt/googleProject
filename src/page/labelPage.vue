@@ -657,10 +657,10 @@ export default {
     },
 
     // 이미지의 사이즈를 구하는 함수
-    // getImgaeSize를 Promise를 반환하는 함수로 변경
     getImageSize() {
-      let img = new Image();
-      img.src = this.serveOriginalImage();
+      // let img = new Image();
+      // img.src = this.serveOriginalImage();
+      let img = this.$refs.img;
 
       let self = this;
       self.imageWidth = img.width;
