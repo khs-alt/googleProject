@@ -887,6 +887,9 @@ export default {
         let T = 1 / this.originalVideoFrameList[this.videoNameIndex]
         //let temp = +(~~((video2.currentTime + this.halfVideoFrameRate) / T) * T) + this.halfVideoFrameRate;
         let temp = ~~(video2.currentTime / T) * T + T / 2;
+        console.log("[Video pause] T: " + T);
+        console.log("[Video pause] temp: " + temp)
+
         video1.currentTime = temp;
         video2.currentTime = temp;
         video3.currentTime = temp;
