@@ -873,6 +873,7 @@ export default {
         document.getElementById('videoYesartifact').play();
         document.getElementById('toggleVideo').play();
         this.isVideoPlaying = true;
+        this.changeImgSource();
       });
 
       video1.addEventListener("pause", () => {
@@ -884,6 +885,7 @@ export default {
         video2.currentTime = temp;
         video3.currentTime = temp;
         this.isVideoPlaying = false;
+        this.changeImgSource();
       })
 
       video1.addEventListener("ended", () => {
