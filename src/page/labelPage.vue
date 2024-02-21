@@ -663,7 +663,7 @@ export default {
       img.src = this.serveArtifactImage();
 
       let self = this;
-      img.onload = function () {
+      if (img.onload) {
         // 이미지 로딩 완료시 로직
         self.imageWidth = img.width;
         self.imageHeight = img.height;
