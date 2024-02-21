@@ -584,7 +584,7 @@ export default {
     },
     makeImageTemplete() {
       this.getImageSize()
-      this.resizeImage();
+      // this.resizeImage();
     },
 
     async getImageNameList() {
@@ -670,6 +670,7 @@ export default {
       self.patchRow = (Math.floor(self.imageHeight / self.borderBox) + 1);
       self.patchLength = self.patchColumn * self.patchRow;
       self.setPatch(self.i, self.j);
+      this.resizeImage();
     },
 
     // resizeImage 함수
