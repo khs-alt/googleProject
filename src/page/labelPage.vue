@@ -584,7 +584,7 @@ export default {
     },
     makeImageTemplete() {
       this.getImageSize()
-      // this.resizeImage();
+      this.resizeImage();
     },
 
     async getImageNameList() {
@@ -680,7 +680,7 @@ export default {
         this.resizeWidth = this.imageWidth * 0.2;
       }
       this.resizeHeight = this.imageHeight * 0.2;
-      let img = this.$refs.img;
+      let img = this.$refs.img2;
       const imgNaturalWidth = img.naturalWidth;
       const imgNaturalHeight = img.naturalHeight;
       this.labelcontainerClass = imgNaturalWidth < imgNaturalHeight ? 'imagecontainer' : 'imagecontainer-column';
