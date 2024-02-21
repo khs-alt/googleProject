@@ -71,7 +71,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveOriginalImage()" ref="img" @error="handleImageError"
+                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
                   :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -96,7 +96,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveArtifactImage()" ref="img2" @error="handleImageError"
+                <img :src="serveArtifactImage()" ref="img2" @load="makeImageTemplete" @error="handleImageError"
                   :style="{ ...imageStyles, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -478,7 +478,7 @@ export default {
       });
       // this.getImageIndexCurrentPage();
       this.getUserLabeling();
-      this.makeImageTemplte();
+      this.makeImageTemplete();
       this.i = 0;
       this.j = 0;
       this.setProgressBar();
@@ -556,8 +556,8 @@ export default {
           }
 
           // currentPage를 받아서 labeling 이미지를 만듦
-          // cuurentPage에 따라 imageID가 달라져서 이를 반영하기 위해 axios를 받은 후에 makeImageTemplte()를 호출함
-          // makeImageTemplte()에서는 labeling 이미지를 만드는 함수임
+          // cuurentPage에 따라 imageID가 달라져서 이를 반영하기 위해 axios를 받은 후에 makeImageTemplete()를 호출함
+          // makeImageTemplete()에서는 labeling 이미지를 만드는 함수임
 
           for (let i = 0; i < this.imageIndexList.length; i++) {
             if (this.imageIndexList[i] == this.currentPage) {
@@ -574,7 +574,7 @@ export default {
               testcode: this.testCode
             }
           });
-          // this.makeImageTemplte();
+          // this.makeImageTemplete();
         })
         .catch((error) => {
           console.log(error);
@@ -582,7 +582,7 @@ export default {
           this.$router.push(process.env.BASE_URL);
         })
     },
-    makeImageTemplte() {
+    makeImageTemplete() {
       this.getImageSize()
       this.resizeImage();
     },
@@ -663,18 +663,16 @@ export default {
       img.src = this.serveArtifactImage();
 
       let self = this;
-      img.onload = function () {
-        // 이미지 로딩 완료시 로직
-        self.imageWidth = img.width;
-        self.imageHeight = img.height;
+      // 이미지 로딩 완료시 로직
+      self.imageWidth = img.width;
+      self.imageHeight = img.height;
 
-        self.patchColumn = (Math.floor(self.imageWidth / self.borderBox) + 1);
-        self.patchRow = (Math.floor(self.imageHeight / self.borderBox) + 1);
-        self.patchLength = self.patchColumn * self.patchRow;
-        self.setPatch(self.i, self.j);
+      self.patchColumn = (Math.floor(self.imageWidth / self.borderBox) + 1);
+      self.patchRow = (Math.floor(self.imageHeight / self.borderBox) + 1);
+      self.patchLength = self.patchColumn * self.patchRow;
+      self.setPatch(self.i, self.j);
 
-        // resolve(); // Promise가 성공적으로 완료됨
-      };
+      // resolve(); // Promise가 성공적으로 완료됨
     },
 
     // resizeImage 함수
@@ -827,7 +825,7 @@ export default {
               testcode: this.testCode
             }
           });
-          // this.makeImageTemplte();
+          // this.makeImageTemplete();
           this.getUserLabeling();
           this.setProgressBar();
           this.checkProgressBar();
