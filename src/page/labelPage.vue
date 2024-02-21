@@ -58,30 +58,7 @@
       <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
       <div class="labelcontainer">
         <div :class="labelcontainerClass">
-          <div class="imageName">
-            <div class="images">
-              <div class="imageBox" style="width: imageWidth; height: imageHeight;">
-                <div v-for="i in patchRow" :key="i">
-                  <div v-for="j in patchColumn" :key="j">
-                    <div
-                      :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
-                      :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: ((j - 1) * borderBoxResize * zoom) + 'px', top: ((i - 1) * borderBoxResize * zoom) + 'px' }"
-                      v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
-                      {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
-                    </div>
-                  </div>
-                </div>
-                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
-                  :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
-                  class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
-                  @mouseup="handleDragEnd" @mousemove="handleDragging" />
-                <div class="currentBorder"
-                  :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue * zoom + 'px', top: topValue * this.zoom + 'px' }">
-                </div>
-              </div>
-            </div>
-            <p style="font-size: 14px; margin-top: 10px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
-          </div>
+          <!-- TODO: -->
           <div class="imageName">
             <div class="images">
               <div class="imageBox" style="width: imageWidth; height: imageHeight;">
@@ -107,6 +84,31 @@
             </div>
             <p style="font-size: 14px; margin-top: 10px;">{{ this.imageArtifactNameList[this.imageIndex] }}</p>
           </div>
+          <!-- TODO: -->
+          <div class="imageName">
+            <div class="images">
+              <div class="imageBox" style="width: imageWidth; height: imageHeight;">
+                <div v-for="i in patchRow" :key="i">
+                  <div v-for="j in patchColumn" :key="j">
+                    <div
+                      :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
+                      :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: ((j - 1) * borderBoxResize * zoom) + 'px', top: ((i - 1) * borderBoxResize * zoom) + 'px' }"
+                      v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
+                      {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+                    </div>
+                  </div>
+                </div>
+                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
+                  :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
+                  class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
+                  @mouseup="handleDragEnd" @mousemove="handleDragging" />
+                <div class="currentBorder"
+                  :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue * zoom + 'px', top: topValue * this.zoom + 'px' }">
+                </div>
+              </div>
+            </div>
+            <p style="font-size: 14px; margin-top: 10px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
+          </div>
           <div style="clear:both;"></div>
         </div>
         <div class="patchbtncontainer">
@@ -130,21 +132,20 @@
           <div class="patch-container">
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveArtifactImage()" class="selected-patch" @error="handleImageError"
-                  :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
-                  alt="denoised">
-              </div>
-              <label class="textLabel">denoised</label>
-            </div>
-            <div class="patchName">
-              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
                 <img :src="serveOriginalImage()" class="selected-patch" @error="handleImageError"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="original">
               </div>
               <label class="textLabel">original</label>
             </div>
-
+            <div class="patchName">
+              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+                <img :src="serveArtifactImage()" class="selected-patch" @error="handleImageError"
+                  :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
+                  alt="denoised">
+              </div>
+              <label class="textLabel">denoised</label>
+            </div>
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
                 <img :src="serveDifferenceImage()" class="selected-patch" @error="handleImageError"
@@ -272,7 +273,6 @@ export default {
     this.getScoreCnt();
     //this.preloadImage();
     window.addEventListener('resize', this.resizeImage);
-    // window.addEventListener("load", this.)
     document.addEventListener('mousemove', this.handleDragging);
     document.addEventListener('mouseup', this.handleDragEnd);
   },
