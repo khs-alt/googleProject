@@ -71,8 +71,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveOriginalImage()" id="originalImage" ref="img" @load="makeImageTemplete"
-                  @error="handleImageError"
+                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
                   :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -658,11 +657,12 @@ export default {
     },
 
     // 이미지의 사이즈를 구하는 함수
+    // getImgaeSize를 Promise를 반환하는 함수로 변경
     getImageSize() {
-      var img = document.getElementById("originalImage")
+      let img = new Image();
+      img.src = this.serveOriginalImage();
 
       let self = this;
-
       self.imageWidth = img.width;
       self.imageHeight = img.height;
 
