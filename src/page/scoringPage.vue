@@ -885,7 +885,7 @@ export default {
       });
 
       video1.addEventListener("paused", () => {
-        if (video1.paused) {
+        if (!video1.paused) {
           console.log("[paused paused]: " + video1.paused)
           document.getElementById('videoYesartifact').pause();
           document.getElementById('toggleVideo').pause();
