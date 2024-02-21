@@ -678,7 +678,7 @@ export default {
         self.patchLength = self.patchColumn * self.patchRow;
         self.setPatch(self.i, self.j);
 
-        resolve(); // Promise가 성공적으로 완료됨
+        // resolve(); // Promise가 성공적으로 완료됨
       };
 
       img.onerror = function () {
