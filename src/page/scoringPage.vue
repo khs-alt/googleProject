@@ -871,20 +871,12 @@ export default {
       video3.currentTime = video1_currentTime;
 
       video1.addEventListener("play", () => {
-        video1.onload();
-        video2.onload();
-        video3.onload();
-
         document.getElementById('videoYesartifact').play();
         document.getElementById('toggleVideo').play();
         this.isVideoPlaying = true;
       });
 
       video1.addEventListener("pause", () => {
-        video1.onload();
-        video2.onload();
-        video3.onload();
-
         document.getElementById('videoYesartifact').pause();
         document.getElementById('toggleVideo').pause();
         let T = 1 / this.originalVideoFrameList[this.videoNameIndex]
