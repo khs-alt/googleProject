@@ -660,7 +660,7 @@ export default {
     getImageSize() {
       // let img = new Image();
       // img.src = this.serveOriginalImage();
-      let img = this.$refs.img;
+      let img = this.$refs.img2;
 
       let self = this;
       self.imageWidth = img.width;
@@ -823,7 +823,7 @@ export default {
               testcode: this.testCode
             }
           });
-          // this.makeImageTemplete();
+          this.makeImageTemplete();
           this.getUserLabeling();
           this.setProgressBar();
           this.checkProgressBar();
