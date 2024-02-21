@@ -130,20 +130,21 @@
           <div class="patch-container">
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveOriginalImage()" class="selected-patch" @error="handleImageError"
-                  :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
-                  alt="original">
-              </div>
-              <label class="textLabel">original</label>
-            </div>
-            <div class="patchName">
-              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
                 <img :src="serveArtifactImage()" class="selected-patch" @error="handleImageError"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="denoised">
               </div>
               <label class="textLabel">denoised</label>
             </div>
+            <div class="patchName">
+              <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
+                <img :src="serveOriginalImage()" class="selected-patch" @error="handleImageError"
+                  :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
+                  alt="original">
+              </div>
+              <label class="textLabel">original</label>
+            </div>
+
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
                 <img :src="serveDifferenceImage()" class="selected-patch" @error="handleImageError"
@@ -271,6 +272,7 @@ export default {
     this.getScoreCnt();
     //this.preloadImage();
     window.addEventListener('resize', this.resizeImage);
+    // window.addEventListener("load", this.)
     document.addEventListener('mousemove', this.handleDragging);
     document.addEventListener('mouseup', this.handleDragEnd);
   },
