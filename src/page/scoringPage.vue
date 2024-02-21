@@ -858,10 +858,10 @@ export default {
       var video2 = document.getElementById('videoYesartifact');
       var video3 = document.getElementById('diffVideo');
 
-      var video2_currentTime = video2.currentTime;
-      video1.currentTime = video2_currentTime;
-      video2.currentTime = video2_currentTime;
-      video3.currentTime = video2_currentTime;
+      var video1_currentTime = video1.currentTime;
+      video1.currentTime = video1_currentTime;
+      video2.currentTime = video1_currentTime;
+      video3.currentTime = video1_currentTime;
 
       video1.addEventListener("play", () => {
         document.getElementById('videoYesartifact').play();
