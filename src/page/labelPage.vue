@@ -58,7 +58,30 @@
       <p style="font-size: 24px; margin-top: 10px;">Patch Ghosting Artifact Labeling System</p>
       <div class="labelcontainer">
         <div :class="labelcontainerClass">
-          <!-- TODO: -->
+          <div class="imageName">
+            <div class="images">
+              <div class="imageBox" style="width: imageWidth; height: imageHeight;">
+                <div v-for="i in patchRow" :key="i">
+                  <div v-for="j in patchColumn" :key="j">
+                    <div
+                      :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
+                      :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: ((j - 1) * borderBoxResize * zoom) + 'px', top: ((i - 1) * borderBoxResize * zoom) + 'px' }"
+                      v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
+                      {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
+                    </div>
+                  </div>
+                </div>
+                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
+                  :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
+                  class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
+                  @mouseup="handleDragEnd" @mousemove="handleDragging" />
+                <div class="currentBorder"
+                  :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue * zoom + 'px', top: topValue * this.zoom + 'px' }">
+                </div>
+              </div>
+            </div>
+            <p style="font-size: 14px; margin-top: 10px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
+          </div>
           <div class="imageName">
             <div class="images">
               <div class="imageBox" style="width: imageWidth; height: imageHeight;">
@@ -83,31 +106,6 @@
               </div>
             </div>
             <p style="font-size: 14px; margin-top: 10px;">{{ this.imageArtifactNameList[this.imageIndex] }}</p>
-          </div>
-          <!-- TODO: -->
-          <div class="imageName">
-            <div class="images">
-              <div class="imageBox" style="width: imageWidth; height: imageHeight;">
-                <div v-for="i in patchRow" :key="i">
-                  <div v-for="j in patchColumn" :key="j">
-                    <div
-                      :class="userLabeling[(i - 1) * patchColumn + (j - 1)] == 0 ? 'labeled-border-0' : userLabeling[(i - 1) * patchColumn + (j - 1)] > 0 ? 'labeled-border' : ''"
-                      :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: ((j - 1) * borderBoxResize * zoom) + 'px', top: ((i - 1) * borderBoxResize * zoom) + 'px' }"
-                      v-show="this.userLabeling[(i - 1) * patchColumn + (j - 1)] >= 0">
-                      {{ this.userLabeling[(i - 1) * patchColumn + (j - 1)] }}
-                    </div>
-                  </div>
-                </div>
-                <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
-                  :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
-                  class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
-                  @mouseup="handleDragEnd" @mousemove="handleDragging" />
-                <div class="currentBorder"
-                  :style="{ ...imageStyles, width: borderBoxResize + 'px', height: borderBoxResize + 'px', left: leftValue * zoom + 'px', top: topValue * this.zoom + 'px' }">
-                </div>
-              </div>
-            </div>
-            <p style="font-size: 14px; margin-top: 10px;">{{ this.imageOriginalNameList[this.imageIndex] }}</p>
           </div>
           <div style="clear:both;"></div>
         </div>
@@ -594,6 +592,34 @@ export default {
       // });
     },
 
+    makeImageTempleteOriginal() {
+      this.getImageSizeOriginal()
+      this.resizeImage();
+    },
+
+    getImageSizeOriginal() {
+      let img = new Image();
+      img.src = this.serveOriginalImage();
+
+      let self = this;
+      img.onload = function () {
+        // 이미지 로딩 완료시 로직
+        self.imageWidth = img.width;
+        self.imageHeight = img.height;
+
+        self.patchColumn = (Math.floor(self.imageWidth / self.borderBox) + 1);
+        self.patchRow = (Math.floor(self.imageHeight / self.borderBox) + 1);
+        self.patchLength = self.patchColumn * self.patchRow;
+        self.setPatch(self.i, self.j);
+
+        // resolve(); // Promise가 성공적으로 완료됨
+      };
+
+      img.onerror = function () {
+        reject(new Error("이미지 로드 실패")); // 이미지 로드 실패시
+      };
+    },
+
     async getImageNameList() {
       await axios
         .post(this.baseUrl + "imageNameList", {
@@ -686,7 +712,6 @@ export default {
       img.onerror = function () {
         reject(new Error("이미지 로드 실패")); // 이미지 로드 실패시
       };
-
     },
 
     // resizeImage 함수
