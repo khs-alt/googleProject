@@ -71,7 +71,8 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveOriginalImage()" ref="img" onload="makeImageTempleteOriginal()" @error="handleImageError"
+                <img :src="serveOriginalImage()" ref="img" onload="this.makeImageTempleteOriginal()"
+                  @error="handleImageError"
                   :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -96,7 +97,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveArtifactImage()" ref="img" onload="makeImageTemplete()" @error="handleImageError"
+                <img :src="serveArtifactImage()" ref="img" onload="this.makeImageTemplete()" @error="handleImageError"
                   :style="{ ...imageStyles, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
