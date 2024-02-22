@@ -902,13 +902,14 @@ export default {
       var video3 = document.getElementById('toggleVideo');
 
       video1.addEventListener("play", async () => {
+        console.log("play event isPlayButtonDisabled: " + this.isPlayButtonDisabled);
         if (this.isPlayButtonDisabled) {
           return;
         }
         try {
           await video1.play();
-          video2.play();
-          video3.play();
+          await video2.play();
+          await video3.play();
           this.isVideoPlaying = true;
           this.changeImgSource();
         } catch (error) {
@@ -917,13 +918,14 @@ export default {
       });
 
       video1.addEventListener("pause", async () => {
+        console.log("puse event isPlayButtonDisabled: " + this.isPlayButtonDisabled);
         if (this.isPlayButtonDisabled) {
           return;
         }
         try {
           await video1.pause();
-          video2.pause();
-          video3.pause();
+          await video2.pause();
+          await video3.pause();
           let T = 1 / this.originalVideoFrameList[this.videoNameIndex];
           let temp = +(~~(video2.currentTime / T) * T).toFixed(3) + this.halfVideoFrameRate;
           video1.currentTime = temp;
