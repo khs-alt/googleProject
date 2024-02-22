@@ -175,7 +175,7 @@
       <p>help@pilab.smu.ac.kr</p>
     </div>
   </div>
-  <div v-if="isBlurred" class="overlay"></div>
+  <div v-if="isVideosLoaded()" class="overlay"></div>
 </template>
 
 <script>
@@ -314,9 +314,11 @@ export default {
       var video2 = document.getElementById("videoYesartifact");
       var toggleVideo = document.getElementById("toggleVideo");
 
-      if (video1.readyState === 4 && video2.readyState === 4 && toggleVideo.readyState === 4) {
-        this.isBlurred = false;
+      if (video1.readyState == 4 && video2.readyState == 4 && toggleVideo.readyState == 4) {
+        // this.isBlurred = false;
+        return false;
       }
+      return true;
     },
     helpPageVideoNum(index) {
       this.helpPageVideo = !this.helpPageVideo;
