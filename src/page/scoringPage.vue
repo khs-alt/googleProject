@@ -898,7 +898,7 @@ export default {
         }
         setTimeout(() => {
           this.isPlayButtonDisabled = false;
-        }, 200);
+        }, 40);
 
         video1.currentTime = 0;
         video2.currentTime = 0;
