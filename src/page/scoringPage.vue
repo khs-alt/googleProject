@@ -286,6 +286,7 @@ export default {
       isGoToEndClicked: false,
       isBlurred: true,
       videosLoaded: 0,
+      isPlayButtonDisabled: false,
     };
   },
   created() { },
