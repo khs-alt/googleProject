@@ -907,8 +907,8 @@ export default {
         }
         try {
           await video1.play();
-          await video2.play();
-          await video3.play();
+          video2.play();
+          video3.play();
           this.isVideoPlaying = true;
           this.changeImgSource();
         } catch (error) {
@@ -922,8 +922,8 @@ export default {
         }
         try {
           await video1.pause();
-          await video2.pause();
-          await video3.pause();
+          video2.pause();
+          video3.pause();
           let T = 1 / this.originalVideoFrameList[this.videoNameIndex];
           let temp = +(~~(video2.currentTime / T) * T).toFixed(3) + this.halfVideoFrameRate;
           video1.currentTime = temp;
