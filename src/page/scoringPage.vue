@@ -945,7 +945,7 @@ export default {
           this.isGoToEndClicked = false;
           return;
         }
-        this.isPlayButtonDisabled = true;
+        // this.isPlayButtonDisabled = true;
 
         // setTimeout(async () => {
         //   this.isPlayButtonDisabled = false;
