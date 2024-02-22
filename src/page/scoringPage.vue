@@ -289,27 +289,26 @@ export default {
       isPlayButtonDisabled: false,
     };
   },
-  created() { },
+
   mounted() {
     this.addEventVideoPlay();
     this.getVideoIndexCurrentPage();
-    // this.isVideoPaused();₩
     this.checkProgressBar();
-    // this.getVideoCurrentTime();
     document.addEventListener("mousemove", this.handleDragging);
     document.addEventListener("mouseup", this.handleDragEnd);
     window.addEventListener("keydown", this.keydown);
-    // this.preloadNextVideo();
     this.addEventVideoCurrentTime();
     this.setProgressBar();
     this.getUserScoringList();
     this.initializeVideoLoadCheck();
   },
+
   computed: {
     currentPageIndex() {
       return parseInt(this.videoNameIndex) + 1;
     },
   },
+
   methods: {
     resetBlurr() {
       this.isBlurred = true;
@@ -328,10 +327,12 @@ export default {
         }
       });
     },
+
     videoLoaded() {
       this.videosLoaded += 1;
-      if (this.videosLoaded === 3) { // 모든 비디오가 로드되었는지 확인
-        this.isBlurred = false; // 모든 비디오 로드 완료 시 블러 처리 제거
+      // 모든 비디오가 로드되었는지 확인
+      if (this.videosLoaded === 3) {
+        this.isBlurred = false;
         var video1 = document.getElementById('videoNoartifact');
         var video2 = document.getElementById('videoYesartifact');
         var video3 = document.getElementById('toggleVideo');
@@ -341,6 +342,7 @@ export default {
         video3.currentTime = this.halfVideoFrameRate;
       }
     },
+
     helpPageVideoNum(index) {
       this.helpPageVideo = !this.helpPageVideo;
       if (this.helpPageVideo == false) {
@@ -348,12 +350,14 @@ export default {
       }
       return this.videoSrc[index];
     },
+
     setT() {
       this.T = 1 / this.originalVideoFrameList[this.videoNameIndex];
       this.halfVideoFrameRate = this.T / 2;
       console.log("[setT] T: ", this.T);
       console.log("[setT] halfVideoFrameRate: ", this.halfVideoFrameRate);
     },
+
     setInitialTime() {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
@@ -409,6 +413,7 @@ export default {
     getProgressBarClass(index) {
       const progress = this.progressBarCount[index]; //한 것 개수
       const total = this.progressBarList[index]; //전체 개수
+
       if (progress === total) {
         return "progressBar-item"; // 다 했을 때
       } else if (progress >= total * 0.7) {
@@ -613,21 +618,6 @@ export default {
         this.imgSrc = require("../images/play_icon/iconmonstr-media-control-48-240.png");
       }
     },
-    // isVideoPaused() {
-    //   var video1 = document.getElementById("videoNoartifact");
-    //   var video2 = document.getElementById("videoYesartifact");
-    //   var toggleVideo = document.getElementById("toggleVideo");
-    //   // 비디오가 end 되면 실행
-    //   const pauseAndPlayVideo = () => {
-    //     video1.pause();
-    //     video1.currentTime = this.halfVideoFrameRate;
-    //     video2.currentTime = this.halfVideoFrameRate;
-    //     toggleVideo.currentTime = this.halfVideoFrameRate;
-    //     this.changeImgSource();
-    //   };
-    //   video1.addEventListener("ended", pauseAndPlayVideo());
-    //   video2.addEventListener("ended", pauseAndPlayVideo());
-    // },
     zoomIn() {
       this.zoom += 0.1;
       this.updateVideoStyle();
@@ -751,11 +741,6 @@ export default {
           alert("login failed");
           this.$router.push(process.env.BASE_URL);
         });
-    },
-    navigateTo(item) {
-      if (item === "Home") {
-        this.$router.push("/");
-      }
     },
     leftOriginalVideo() {
       return String(this.baseUrl + "postvideo/original/" + this.currentPage);
@@ -958,15 +943,15 @@ export default {
       });
     },
     // Play/Stop 및 text 변경 버튼
-    changeVideoButton() {
+    async changeVideoButton() {
       console.log("[changeVideoButton]: current isVideoPlaying: " + this.isVideoPlaying);
       let orignalVideo = document.getElementById("videoNoartifact");
 
       if (this.isVideoPlaying == false) {
-        orignalVideo.play();
+        await orignalVideo.play();
         this.isVideoPlaying = true;
       } else {
-        orignalVideo.pause();
+        await orignalVideo.pause();
         this.isVideoPlaying = false;
       }
       this.changeImgSource();
