@@ -175,7 +175,7 @@
       <p>help@pilab.smu.ac.kr</p>
     </div>
   </div>
-  <div v-if="isVideosLoaded()" class="overlay"></div>
+  <div v-if="isBlurred" class="overlay"></div>
 </template>
 
 <script>
@@ -285,6 +285,7 @@ export default {
       T: 0.03,
       isGoToEndClicked: false,
       isBlurred: true,
+      videosLoaded: 0,
     };
   },
   created() { },
@@ -301,7 +302,7 @@ export default {
     this.addEventVideoCurrentTime();
     this.setProgressBar();
     this.getUserScoringList();
-    this.isVideosLoaded();
+    this.initializeVideoLoadCheck();
   },
   computed: {
     currentPageIndex() {
@@ -309,16 +310,24 @@ export default {
     },
   },
   methods: {
-    isVideosLoaded() {
-      var video1 = document.getElementById("videoNoartifact");
-      var video2 = document.getElementById("videoYesartifact");
-      var toggleVideo = document.getElementById("toggleVideo");
+    initializeVideoLoadCheck() {
+      const videos = [
+        document.getElementById("videoNoartifact"),
+        document.getElementById("videoYesartifact"),
+        document.getElementById("toggleVideo"),
+      ];
 
-      if (video1.load() && video2.load() && toggleVideo.load()) {
-        // this.isBlurred = false;
-        return false;
+      videos.forEach((video) => {
+        if (video) {
+          video.addEventListener("loadedmetadata", this.videoLoaded);
+        }
+      });
+    },
+    videoLoaded() {
+      this.videosLoaded += 1;
+      if (this.videosLoaded === 3) { // 모든 비디오가 로드되었는지 확인
+        this.isBlurred = false; // 모든 비디오 로드 완료 시 블러 처리 제거
       }
-      return true;
     },
     helpPageVideoNum(index) {
       this.helpPageVideo = !this.helpPageVideo;
