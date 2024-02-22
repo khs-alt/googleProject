@@ -310,6 +310,10 @@ export default {
     },
   },
   methods: {
+    resetBlurr() {
+      this.isBlurred = true;
+      this.videosLoaded = 0;
+    },
     initializeVideoLoadCheck() {
       const videos = [
         document.getElementById("videoNoartifact"),
@@ -803,6 +807,7 @@ export default {
             testcode: this.testCode,
           },
         });
+        this.resetBlurr();
         this.getUserScoringList();
         this.setProgressBar();
         this.getVideoIndexCurrentPage();
@@ -835,6 +840,7 @@ export default {
             testcode: this.testCode,
           },
         });
+        this.resetBlurr();
         this.getUserScoringList();
         this.getVideoIndexCurrentPage();
         this.setProgressBar();
