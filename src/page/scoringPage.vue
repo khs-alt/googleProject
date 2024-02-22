@@ -890,12 +890,13 @@ export default {
       })
 
       video1.addEventListener("ended", () => {
-        this.isPlayButtonDisabled = true;
 
         if (this.isGoToEndClicked) {
           this.isGoToEndClicked = false;
           return;
         }
+        this.isPlayButtonDisabled = true;
+
         setTimeout(() => {
           this.isPlayButtonDisabled = false;
         }, 40);
