@@ -920,14 +920,10 @@ export default {
       let orignalVideo = document.getElementById("videoNoartifact");
 
       if (this.isVideoPlaying == false) {
-        async () => {
-          orignalVideo.play();
-        }
+        orignalVideo.play();
         this.isVideoPlaying = true;
       } else {
-        async () => {
-          orignalVideo.pause();
-        }
+        orignalVideo.pause();
         this.isVideoPlaying = false;
       }
       this.changeImgSource();
