@@ -947,9 +947,9 @@ export default {
         }
         this.isPlayButtonDisabled = true;
 
-        setTimeout(async () => {
-          this.isPlayButtonDisabled = false;
-        }, 60);
+        // setTimeout(async () => {
+        //   this.isPlayButtonDisabled = false;
+        // }, 60);
 
         video1.currentTime = 0;
         video2.currentTime = 0;
