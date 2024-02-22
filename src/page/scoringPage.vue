@@ -908,17 +908,19 @@ export default {
     },
     // Play/Stop 및 text 변경 버튼
     changeVideoButton() {
-      console.log("[changeVideoButton]: current isVideoPlaying: " + this.isVideoPlaying);
-      let orignalVideo = document.getElementById("videoNoartifact");
+      if (!this.isPlayButtonDisabled) {
+        console.log("[changeVideoButton]: current isVideoPlaying: " + this.isVideoPlaying);
+        let orignalVideo = document.getElementById("videoNoartifact");
 
-      if (this.isVideoPlaying == false) {
-        orignalVideo.play();
-        this.isVideoPlaying = true;
-      } else {
-        orignalVideo.pause();
-        this.isVideoPlaying = false;
+        if (this.isVideoPlaying == false) {
+          orignalVideo.play();
+          this.isVideoPlaying = true;
+        } else {
+          orignalVideo.pause();
+          this.isVideoPlaying = false;
+        }
+        this.changeImgSource();
       }
-      this.changeImgSource();
     },
     async seekBackward() {
       console.log("seekBackward");
