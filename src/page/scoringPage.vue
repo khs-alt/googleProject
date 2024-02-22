@@ -903,7 +903,7 @@ export default {
 
       video1.addEventListener("play", async () => {
         if (this.isPlayButtonDisabled) {
-          video1.pause();
+          await video1.pause();
           return;
         }
         try {
@@ -919,7 +919,7 @@ export default {
 
       video1.addEventListener("pause", async () => {
         if (this.isPlayButtonDisabled) {
-          video1.play();
+          await video1.play();
           return;
         }
         try {
