@@ -301,6 +301,7 @@ export default {
     this.addEventVideoCurrentTime();
     this.setProgressBar();
     this.getUserScoringList();
+    this.isVideosLoaded();
   },
   computed: {
     currentPageIndex() {
