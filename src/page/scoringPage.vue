@@ -865,6 +865,9 @@ export default {
       var video3 = document.getElementById('toggleVideo');
 
       video1.addEventListener("play", async () => {
+        if(this.isPlayButtonDisabled){
+          return;
+        }
         try {
           await video1.play(); // video1이 재생되기를 기다립니다.
           // const video1Time = video1.currentTime;
@@ -880,6 +883,9 @@ export default {
       });
 
       video1.addEventListener("pause", async () => {
+        if(this.isPlayButtonDisabled){
+          return;
+        }
         try {
           await video1.pause();
           await video2.pause();
