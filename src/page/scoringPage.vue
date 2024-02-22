@@ -864,40 +864,55 @@ export default {
       var video2 = document.getElementById('videoYesartifact');
       var video3 = document.getElementById('toggleVideo');
 
-      var video1_currentTime = video1.currentTime;
-      video1.currentTime = video1_currentTime;
-      video2.currentTime = video1_currentTime;
-      video3.currentTime = video1_currentTime;
-
-      video1.addEventListener("play", () => {
-        document.getElementById('videoYesartifact').play();
-        document.getElementById('toggleVideo').play();
-        this.isVideoPlaying = true;
-        this.changeImgSource();
+      video1.addEventListener("play", async () => {
+        try {
+          await video1.play(); // video1이 재생되기를 기다립니다.
+          const video1Time = video1.currentTime;
+          video2.currentTime = video1Time;
+          video3.currentTime = video1Time;
+          await video2.play(); // video2를 재생합니다.
+          await video3.play(); // video3를 재생합니다.
+          this.isVideoPlaying = true;
+          this.changeImgSource();
+        } catch (error) {
+          console.error("Error playing videos:", error);
+        }
       });
 
-      video1.addEventListener("pause", () => {
-        document.getElementById('videoYesartifact').pause();
-        document.getElementById('toggleVideo').pause();
-        let T = 1 / this.originalVideoFrameList[this.videoNameIndex]
-        let temp = +(~~(video2.currentTime / T) * T).toFixed(3) + this.halfVideoFrameRate;
-        video1.currentTime = temp;
-        video2.currentTime = temp;
-        video3.currentTime = temp;
-        this.isVideoPlaying = false;
-        this.changeImgSource();
-      })
+      video1.addEventListener("pause", async () => {
+        try {
+          await video1.pause();
+          await video2.pause();
+          await video3.pause();
+          let T = 1 / this.originalVideoFrameList[this.videoNameIndex];
+          let temp = +(~~(video2.currentTime / T) * T).toFixed(3) + this.halfVideoFrameRate;
+          video1.currentTime = temp;
+          video2.currentTime = temp;
+          video3.currentTime = temp;
+          this.isVideoPlaying = false;
+          this.changeImgSource();
+        }
+        catch (error) {
+          console.error("Error pausing videos:", error);
+        }
+      });
 
       video1.addEventListener("ended", () => {
         if (this.isGoToEndClicked) {
           this.isGoToEndClicked = false;
           return;
         }
+        this.isPlayButtonDisabled = true;
+
+        setTimeout(() => {
+          this.isPlayButtonDisabled = false;
+        }, 40);
+
         video1.currentTime = 0;
         video2.currentTime = 0;
         video3.currentTime = 0;
-        video1.play();
-      })
+        video1.play(); // 여기서도 비동기 처리를 고려할 수 있습니다.
+      });
     },
     // Play/Stop 및 text 변경 버튼
     changeVideoButton() {
