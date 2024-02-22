@@ -173,6 +173,7 @@
       <p>help@pilab.smu.ac.kr</p>
     </div>
   </div>
+  <div v-if="isBlurred" class="overlay"></div>
 </template>
 
 <script>
