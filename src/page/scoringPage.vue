@@ -903,15 +903,13 @@ export default {
 
       video1.addEventListener("play", async () => {
         if (this.isPlayButtonDisabled) {
+          video1.pause();
           return;
         }
         try {
-          await video1.play(); // video1이 재생되기를 기다립니다.
-          // const video1Time = video1.currentTime;
-          // video2.currentTime = video1Time;
-          // video3.currentTime = video1Time;
-          await video2.play(); // video2를 재생합니다.
-          await video3.play(); // video3를 재생합니다.
+          await video1.play();
+          await video2.play();
+          await video3.play();
           this.isVideoPlaying = true;
           this.changeImgSource();
         } catch (error) {
@@ -921,6 +919,7 @@ export default {
 
       video1.addEventListener("pause", async () => {
         if (this.isPlayButtonDisabled) {
+          video1.play();
           return;
         }
         try {
