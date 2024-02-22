@@ -291,8 +291,8 @@ export default {
       const images = [
         document.getElementById("originalImage"),
         document.getElementById("artifactImage"),
-        document.getElementById("originalPatchImage"),
-        document.getElementById("artifactPatchImage"),
+        // document.getElementById("originalPatchImage"),
+        // document.getElementById("artifactPatchImage"),
         document.getElementById("diffPatchImage"),
       ];
 
@@ -306,7 +306,7 @@ export default {
     imageLoaded() {
       this.imageLoaded += 1;
       // 모든 비디오가 로드되었는지 확인
-      if (this.imageLoaded === 5) {
+      if (this.imageLoaded === 3) {
         this.isBlurred = false;
       }
     },
