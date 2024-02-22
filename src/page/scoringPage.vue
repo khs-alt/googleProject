@@ -175,6 +175,7 @@
       <p>help@pilab.smu.ac.kr</p>
     </div>
   </div>
+  <div v-if="isBlurred" class="overlay"></div>
 </template>
 
 <script>
@@ -283,6 +284,7 @@ export default {
       halfVideoFrameRate: 0.015,
       T: 0.03,
       isGoToEndClicked: false,
+      isBlurred: true,
     };
   },
   created() { },
@@ -306,6 +308,15 @@ export default {
     },
   },
   methods: {
+    isVideosLoaded() {
+      var video1 = document.getElementById("videoNoartifact");
+      var video2 = document.getElementById("videoYesartifact");
+      var toggleVideo = document.getElementById("toggleVideo");
+
+      if (video1.readyState === 4 && video2.readyState === 4 && toggleVideo.readyState === 4) {
+        this.isBlurred = false;
+      }
+    },
     helpPageVideoNum(index) {
       this.helpPageVideo = !this.helpPageVideo;
       if (this.helpPageVideo == false) {
@@ -865,7 +876,7 @@ export default {
       var video3 = document.getElementById('toggleVideo');
 
       video1.addEventListener("play", async () => {
-        if(this.isPlayButtonDisabled){
+        if (this.isPlayButtonDisabled) {
           return;
         }
         try {
@@ -883,7 +894,7 @@ export default {
       });
 
       video1.addEventListener("pause", async () => {
-        if(this.isPlayButtonDisabled){
+        if (this.isPlayButtonDisabled) {
           return;
         }
         try {
