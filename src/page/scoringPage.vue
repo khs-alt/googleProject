@@ -921,12 +921,12 @@ export default {
 
       if (this.isVideoPlaying == false) {
         async () => {
-          await orignalVideo.play();
+          orignalVideo.play();
         }
         this.isVideoPlaying = true;
       } else {
         async () => {
-          await orignalVideo.pause();
+          orignalVideo.pause();
         }
         this.isVideoPlaying = false;
       }
