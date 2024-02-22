@@ -866,10 +866,10 @@ export default {
 
       video1.addEventListener("play", async () => {
         try {
-          // await video1.play(); // video1이 재생되기를 기다립니다.
-          const video1Time = video1.currentTime;
-          video2.currentTime = video1Time;
-          video3.currentTime = video1Time;
+          await video1.play(); // video1이 재생되기를 기다립니다.
+          // const video1Time = video1.currentTime;
+          // video2.currentTime = video1Time;
+          // video3.currentTime = video1Time;
           await video2.play(); // video2를 재생합니다.
           await video3.play(); // video3를 재생합니다.
           this.isVideoPlaying = true;
@@ -881,7 +881,7 @@ export default {
 
       video1.addEventListener("pause", async () => {
         try {
-          // await video1.pause();
+          await video1.pause();
           await video2.pause();
           await video3.pause();
           let T = 1 / this.originalVideoFrameList[this.videoNameIndex];
