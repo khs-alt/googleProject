@@ -71,7 +71,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveOriginalImage()" ref="img" :style="{
+                <img :src="serveOriginalImage()" id="originalImage" ref="img" :style="{
                   ...imageStyles, position: absolute,
                   width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto
                 }" class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
@@ -97,7 +97,7 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveArtifactImage()" ref="img2" :style="{
+                <img :src="serveArtifactImage()" id="artifactImage" ref="img2" :style="{
                   ...imageStyles,
                   width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto
                 }" class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
@@ -132,7 +132,7 @@
           <div class="patch-container">
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveOriginalImage()" class="selected-patch"
+                <img :src="serveOriginalImage()" id="originalPatchImage" class="selected-patch"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="original">
               </div>
@@ -140,7 +140,7 @@
             </div>
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveArtifactImage()" class="selected-patch"
+                <img :src="serveArtifactImage()" id="artifactPatchImage" class="selected-patch"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="denoised">
               </div>
@@ -148,7 +148,7 @@
             </div>
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveDifferenceImage()" class="selected-patch"
+                <img :src="serveDifferenceImage()" id="diffPatchImage" class="selected-patch"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="difference">
               </div>
@@ -255,6 +255,7 @@ export default {
       imageStyles: {},
       zoomCenterX: 50,
       zoomCenterY: 50,
+      isBlurred: true,
     }
   },
 
@@ -274,12 +275,40 @@ export default {
     window.addEventListener('resize', this.resizeImage);
     document.addEventListener('mousemove', this.handleDragging);
     document.addEventListener('mouseup', this.handleDragEnd);
+    this.initializeImageLoadCheck();
   },
   unmounted() {
     window.removeEventListener('keydown', this.keydown);
   },
 
   methods: {
+    resetBlurr() {
+      this.isBlurred = true;
+      this.imageLoaded = 0;
+    },
+    initializeImageLoadCheck() {
+      const images = [
+        document.getElementById("originalImage"),
+        document.getElementById("artifactImage"),
+        document.getElementById("originalPatchImage"),
+        document.getElementById("artifactPatchImage"),
+        document.getElementById("diffPatchImage"),
+      ];
+
+      images.forEach((video) => {
+        if (video) {
+          video.addEventListener("loadedmetadata", this.imageLoaded);
+        }
+      });
+    },
+
+    imageLoaded() {
+      this.imageLoaded += 1;
+      // 모든 비디오가 로드되었는지 확인
+      if (this.imageLoaded === 5) {
+        this.isBlurred = false;
+      }
+    },
 
     async getScoreCnt() {
       await axios
@@ -474,6 +503,7 @@ export default {
         }
       });
       // this.getImageIndexCurrentPage();
+      this.resetBlurr();
       this.getUserLabeling();
       this.makeImageTemplete();
       this.i = 0;
@@ -539,7 +569,7 @@ export default {
               testcode: this.testCode
             }
           });
-
+          this.resetBlurr();
           this.makeImageTemplete();
         })
         .catch((error) => {
@@ -797,6 +827,8 @@ export default {
               testcode: this.testCode
             }
           });
+          this.resetBlurr();
+
           this.makeImageTemplete();
           this.getUserLabeling();
           this.setProgressBar();
