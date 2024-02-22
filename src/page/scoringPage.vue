@@ -175,6 +175,7 @@
       <p>help@pilab.smu.ac.kr</p>
     </div>
   </div>
+  <div v-if="isBlurred" class="overlay"></div>
 </template>
 
 <script>
@@ -283,14 +284,15 @@ export default {
       halfVideoFrameRate: 0.015,
       T: 0.03,
       isGoToEndClicked: false,
-      isPlayButtonDisabled: false,
+      isBlurred: true,
+      videosLoaded: 0,
     };
   },
   created() { },
   mounted() {
     this.addEventVideoPlay();
     this.getVideoIndexCurrentPage();
-    // this.isVideoPaused();
+    // this.isVideoPaused();₩
     this.checkProgressBar();
     // this.getVideoCurrentTime();
     document.addEventListener("mousemove", this.handleDragging);
@@ -300,6 +302,7 @@ export default {
     this.addEventVideoCurrentTime();
     this.setProgressBar();
     this.getUserScoringList();
+    this.initializeVideoLoadCheck();
   },
   computed: {
     currentPageIndex() {
@@ -307,6 +310,29 @@ export default {
     },
   },
   methods: {
+    resetBlurr() {
+      this.isBlurred = true;
+      this.videosLoaded = 0;
+    },
+    initializeVideoLoadCheck() {
+      const videos = [
+        document.getElementById("videoNoartifact"),
+        document.getElementById("videoYesartifact"),
+        document.getElementById("toggleVideo"),
+      ];
+
+      videos.forEach((video) => {
+        if (video) {
+          video.addEventListener("loadedmetadata", this.videoLoaded);
+        }
+      });
+    },
+    videoLoaded() {
+      this.videosLoaded += 1;
+      if (this.videosLoaded === 3) { // 모든 비디오가 로드되었는지 확인
+        this.isBlurred = false; // 모든 비디오 로드 완료 시 블러 처리 제거
+      }
+    },
     helpPageVideoNum(index) {
       this.helpPageVideo = !this.helpPageVideo;
       if (this.helpPageVideo == false) {
@@ -781,6 +807,7 @@ export default {
             testcode: this.testCode,
           },
         });
+        this.resetBlurr();
         this.getUserScoringList();
         this.setProgressBar();
         this.getVideoIndexCurrentPage();
@@ -813,6 +840,7 @@ export default {
             testcode: this.testCode,
           },
         });
+        this.resetBlurr();
         this.getUserScoringList();
         this.getVideoIndexCurrentPage();
         this.setProgressBar();
@@ -822,7 +850,7 @@ export default {
         this.currentPage = this.videoIndex[this.videoNameIndex];
         this.isPressed = [false, false, false, false, false, false];
         this.$router.push({
-          path: "/label/scoring",
+          path: "/laebl/scoring",
           query: {
             currentPage: this.currentPage,
             userName: this.currentUser,
@@ -865,32 +893,46 @@ export default {
       var video2 = document.getElementById('videoYesartifact');
       var video3 = document.getElementById('toggleVideo');
 
-      var video1_currentTime = video1.currentTime;
-      video1.currentTime = video1_currentTime;
-      video2.currentTime = video1_currentTime;
-      video3.currentTime = video1_currentTime;
-
-      video1.addEventListener("play", () => {
-        document.getElementById('videoYesartifact').play();
-        document.getElementById('toggleVideo').play();
-        this.isVideoPlaying = true;
-        this.changeImgSource();
+      video1.addEventListener("play", async () => {
+        if (this.isPlayButtonDisabled) {
+          return;
+        }
+        try {
+          await video1.play(); // video1이 재생되기를 기다립니다.
+          // const video1Time = video1.currentTime;
+          // video2.currentTime = video1Time;
+          // video3.currentTime = video1Time;
+          await video2.play(); // video2를 재생합니다.
+          await video3.play(); // video3를 재생합니다.
+          this.isVideoPlaying = true;
+          this.changeImgSource();
+        } catch (error) {
+          console.error("Error playing videos:", error);
+        }
       });
 
-      video1.addEventListener("pause", () => {
-        document.getElementById('videoYesartifact').pause();
-        document.getElementById('toggleVideo').pause();
-        let T = 1 / this.originalVideoFrameList[this.videoNameIndex]
-        let temp = +(~~(video2.currentTime / T) * T).toFixed(3) + this.halfVideoFrameRate;
-        video1.currentTime = temp;
-        video2.currentTime = temp;
-        video3.currentTime = temp;
-        this.isVideoPlaying = false;
-        this.changeImgSource();
-      })
+      video1.addEventListener("pause", async () => {
+        if (this.isPlayButtonDisabled) {
+          return;
+        }
+        try {
+          await video1.pause();
+          await video2.pause();
+          await video3.pause();
+          let T = 1 / this.originalVideoFrameList[this.videoNameIndex];
+          let temp = +(~~(video2.currentTime / T) * T).toFixed(3) + this.halfVideoFrameRate;
+          video1.currentTime = temp;
+          video2.currentTime = temp;
+          video3.currentTime = temp;
+          this.isVideoPlaying = false;
+          this.changeImgSource();
+        }
+        catch (error) {
+          console.error("Error pausing videos:", error);
+        }
+      });
 
       video1.addEventListener("ended", () => {
-
         if (this.isGoToEndClicked) {
           this.isGoToEndClicked = false;
           return;
@@ -904,24 +946,22 @@ export default {
         video1.currentTime = 0;
         video2.currentTime = 0;
         video3.currentTime = 0;
-        video1.play();
-      })
+        video1.play(); // 여기서도 비동기 처리를 고려할 수 있습니다.
+      });
     },
     // Play/Stop 및 text 변경 버튼
     changeVideoButton() {
-      if (!this.isPlayButtonDisabled) {
-        console.log("[changeVideoButton]: current isVideoPlaying: " + this.isVideoPlaying);
-        let orignalVideo = document.getElementById("videoNoartifact");
+      console.log("[changeVideoButton]: current isVideoPlaying: " + this.isVideoPlaying);
+      let orignalVideo = document.getElementById("videoNoartifact");
 
-        if (this.isVideoPlaying == false) {
-          orignalVideo.play();
-          this.isVideoPlaying = true;
-        } else {
-          orignalVideo.pause();
-          this.isVideoPlaying = false;
-        }
-        this.changeImgSource();
+      if (this.isVideoPlaying == false) {
+        orignalVideo.play();
+        this.isVideoPlaying = true;
+      } else {
+        orignalVideo.pause();
+        this.isVideoPlaying = false;
       }
+      this.changeImgSource();
     },
     async seekBackward() {
       console.log("seekBackward");
