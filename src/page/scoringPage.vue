@@ -903,7 +903,6 @@ export default {
 
       video1.addEventListener("play", async () => {
         if (this.isPlayButtonDisabled) {
-          await video1.pause();
           return;
         }
         try {
@@ -919,7 +918,6 @@ export default {
 
       video1.addEventListener("pause", async () => {
         if (this.isPlayButtonDisabled) {
-          await video1.play();
           return;
         }
         try {
@@ -939,7 +937,7 @@ export default {
         }
       });
 
-      video1.addEventListener("ended", () => {
+      video1.addEventListener("ended", async () => {
         if (this.isGoToEndClicked) {
           this.isGoToEndClicked = false;
           return;
@@ -953,7 +951,7 @@ export default {
         video1.currentTime = 0;
         video2.currentTime = 0;
         video3.currentTime = 0;
-        video1.play(); // 여기서도 비동기 처리를 고려할 수 있습니다.
+        await video1.play();
       });
     },
     // Play/Stop 및 text 변경 버튼
