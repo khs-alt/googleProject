@@ -331,6 +331,13 @@ export default {
       this.videosLoaded += 1;
       if (this.videosLoaded === 3) { // 모든 비디오가 로드되었는지 확인
         this.isBlurred = false; // 모든 비디오 로드 완료 시 블러 처리 제거
+        var video1 = document.getElementById('videoNoartifact');
+        var video2 = document.getElementById('videoYesartifact');
+        var video3 = document.getElementById('toggleVideo');
+
+        video1.currentTime = this.halfVideoFrameRate;
+        video2.currentTime = this.halfVideoFrameRate;
+        video3.currentTime = this.halfVideoFrameRate;
       }
     },
     helpPageVideoNum(index) {
