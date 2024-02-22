@@ -283,6 +283,7 @@ export default {
       halfVideoFrameRate: 0.015,
       T: 0.03,
       isGoToEndClicked: false,
+      isPlayButtonDisabled: false,
     };
   },
   created() { },
@@ -889,10 +890,16 @@ export default {
       })
 
       video1.addEventListener("ended", () => {
+        this.isPlayButtonDisabled = true;
+
         if (this.isGoToEndClicked) {
           this.isGoToEndClicked = false;
           return;
         }
+        setTimeout(() => {
+          this.isPlayButtonDisabled = false;
+        }, 300);
+
         video1.currentTime = 0;
         video2.currentTime = 0;
         video3.currentTime = 0;
