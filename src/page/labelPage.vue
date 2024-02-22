@@ -296,9 +296,9 @@ export default {
         document.getElementById("diffPatchImage"),
       ];
 
-      images.forEach((video) => {
-        if (video) {
-          video.addEventListener("loadedmetadata", this.imageLoaded);
+      images.forEach((image) => {
+        if (image) {
+          image.addEventListener("load", this.imageLoaded);
         }
       });
     },
