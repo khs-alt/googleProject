@@ -873,6 +873,7 @@ export default {
     toggleButton(index) {
       this.isPressed = [false, false, false, false, false, false];
       this.isPressed[index] = !this.isPressed[index];
+      console.log("[toggleButton] userScoring: " + this.userScoring);
 
       this.userScoring = index;
       axios
