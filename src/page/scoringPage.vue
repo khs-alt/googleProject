@@ -286,29 +286,29 @@ export default {
       isGoToEndClicked: false,
       isBlurred: true,
       videosLoaded: 0,
+      isPlayButtonDisabled: false,
     };
   },
-  created() { },
+
   mounted() {
     this.addEventVideoPlay();
     this.getVideoIndexCurrentPage();
-    // this.isVideoPaused();₩
     this.checkProgressBar();
-    // this.getVideoCurrentTime();
     document.addEventListener("mousemove", this.handleDragging);
     document.addEventListener("mouseup", this.handleDragEnd);
     window.addEventListener("keydown", this.keydown);
-    // this.preloadNextVideo();
     this.addEventVideoCurrentTime();
     this.setProgressBar();
     this.getUserScoringList();
     this.initializeVideoLoadCheck();
   },
+
   computed: {
     currentPageIndex() {
       return parseInt(this.videoNameIndex) + 1;
     },
   },
+
   methods: {
     resetBlurr() {
       this.isBlurred = true;
@@ -327,12 +327,22 @@ export default {
         }
       });
     },
+
     videoLoaded() {
       this.videosLoaded += 1;
-      if (this.videosLoaded === 3) { // 모든 비디오가 로드되었는지 확인
-        this.isBlurred = false; // 모든 비디오 로드 완료 시 블러 처리 제거
+      // 모든 비디오가 로드되었는지 확인
+      if (this.videosLoaded === 3) {
+        this.isBlurred = false;
+        var video1 = document.getElementById('videoNoartifact');
+        var video2 = document.getElementById('videoYesartifact');
+        var video3 = document.getElementById('toggleVideo');
+
+        video1.currentTime = this.halfVideoFrameRate;
+        video2.currentTime = this.halfVideoFrameRate;
+        video3.currentTime = this.halfVideoFrameRate;
       }
     },
+
     helpPageVideoNum(index) {
       this.helpPageVideo = !this.helpPageVideo;
       if (this.helpPageVideo == false) {
@@ -340,12 +350,14 @@ export default {
       }
       return this.videoSrc[index];
     },
+
     setT() {
       this.T = 1 / this.originalVideoFrameList[this.videoNameIndex];
       this.halfVideoFrameRate = this.T / 2;
       console.log("[setT] T: ", this.T);
       console.log("[setT] halfVideoFrameRate: ", this.halfVideoFrameRate);
     },
+
     setInitialTime() {
       const video1 = this.$refs.videoNoartifact;
       const video2 = this.$refs.videoYesartifact;
@@ -401,6 +413,7 @@ export default {
     getProgressBarClass(index) {
       const progress = this.progressBarCount[index]; //한 것 개수
       const total = this.progressBarList[index]; //전체 개수
+
       if (progress === total) {
         return "progressBar-item"; // 다 했을 때
       } else if (progress >= total * 0.7) {
@@ -605,21 +618,6 @@ export default {
         this.imgSrc = require("../images/play_icon/iconmonstr-media-control-48-240.png");
       }
     },
-    // isVideoPaused() {
-    //   var video1 = document.getElementById("videoNoartifact");
-    //   var video2 = document.getElementById("videoYesartifact");
-    //   var toggleVideo = document.getElementById("toggleVideo");
-    //   // 비디오가 end 되면 실행
-    //   const pauseAndPlayVideo = () => {
-    //     video1.pause();
-    //     video1.currentTime = this.halfVideoFrameRate;
-    //     video2.currentTime = this.halfVideoFrameRate;
-    //     toggleVideo.currentTime = this.halfVideoFrameRate;
-    //     this.changeImgSource();
-    //   };
-    //   video1.addEventListener("ended", pauseAndPlayVideo());
-    //   video2.addEventListener("ended", pauseAndPlayVideo());
-    // },
     zoomIn() {
       this.zoom += 0.1;
       this.updateVideoStyle();
@@ -744,11 +742,6 @@ export default {
           this.$router.push(process.env.BASE_URL);
         });
     },
-    navigateTo(item) {
-      if (item === "Home") {
-        this.$router.push("/");
-      }
-    },
     leftOriginalVideo() {
       return String(this.baseUrl + "postvideo/original/" + this.currentPage);
     },
@@ -783,7 +776,7 @@ export default {
         // this.getVideoIndexCurrentPage();
         alert("This is the last page of this test code. Thank you!");
         this.$router.push({
-          path: "/scoring",
+          path: "/label/scoring",
           query: {
             currentPage: this.currentPage,
             userName: this.currentUser,
@@ -800,7 +793,7 @@ export default {
         console.log("[changeNextVideo] currentPage: " + this.currentPage);
         this.isPressed = [false, false, false, false, false, false];
         await this.$router.push({
-          path: "/scoring",
+          path: "/label/scoring",
           query: {
             currentPage: this.currentPage,
             userName: this.currentUser,
@@ -850,7 +843,7 @@ export default {
         this.currentPage = this.videoIndex[this.videoNameIndex];
         this.isPressed = [false, false, false, false, false, false];
         this.$router.push({
-          path: "/scoring",
+          path: "/label/scoring",
           query: {
             currentPage: this.currentPage,
             userName: this.currentUser,
@@ -866,6 +859,7 @@ export default {
     toggleButton(index) {
       this.isPressed = [false, false, false, false, false, false];
       this.isPressed[index] = !this.isPressed[index];
+      console.log("[toggleButton] userScoring: " + this.userScoring);
 
       this.userScoring = index;
       axios
@@ -894,16 +888,14 @@ export default {
       var video3 = document.getElementById('toggleVideo');
 
       video1.addEventListener("play", async () => {
+        console.log("play event isPlayButtonDisabled: " + this.isPlayButtonDisabled);
         if (this.isPlayButtonDisabled) {
           return;
         }
         try {
-          await video1.play(); // video1이 재생되기를 기다립니다.
-          // const video1Time = video1.currentTime;
-          // video2.currentTime = video1Time;
-          // video3.currentTime = video1Time;
-          await video2.play(); // video2를 재생합니다.
-          await video3.play(); // video3를 재생합니다.
+          await video1.play();
+          await video2.play();
+          await video3.play();
           this.isVideoPlaying = true;
           this.changeImgSource();
         } catch (error) {
@@ -912,6 +904,7 @@ export default {
       });
 
       video1.addEventListener("pause", async () => {
+        console.log("puse event isPlayButtonDisabled: " + this.isPlayButtonDisabled);
         if (this.isPlayButtonDisabled) {
           return;
         }
@@ -932,33 +925,33 @@ export default {
         }
       });
 
-      video1.addEventListener("ended", () => {
+      video1.addEventListener("ended", async () => {
         if (this.isGoToEndClicked) {
           this.isGoToEndClicked = false;
           return;
         }
-        this.isPlayButtonDisabled = true;
+        // this.isPlayButtonDisabled = true;
 
-        setTimeout(() => {
-          this.isPlayButtonDisabled = false;
-        }, 40);
+        // setTimeout(async () => {
+        //   this.isPlayButtonDisabled = false;
+        // }, 60);
 
         video1.currentTime = 0;
         video2.currentTime = 0;
         video3.currentTime = 0;
-        video1.play(); // 여기서도 비동기 처리를 고려할 수 있습니다.
+        await video1.play();
       });
     },
     // Play/Stop 및 text 변경 버튼
-    changeVideoButton() {
+    async changeVideoButton() {
       console.log("[changeVideoButton]: current isVideoPlaying: " + this.isVideoPlaying);
       let orignalVideo = document.getElementById("videoNoartifact");
 
       if (this.isVideoPlaying == false) {
-        orignalVideo.play();
+        await orignalVideo.play();
         this.isVideoPlaying = true;
       } else {
-        orignalVideo.pause();
+        await orignalVideo.pause();
         this.isVideoPlaying = false;
       }
       this.changeImgSource();
