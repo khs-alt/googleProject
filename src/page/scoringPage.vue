@@ -314,7 +314,7 @@ export default {
       var video2 = document.getElementById("videoYesartifact");
       var toggleVideo = document.getElementById("toggleVideo");
 
-      if (video1.onload && video2.onload && toggleVideo.onload) {
+      if (video1.load() && video2.load() && toggleVideo.load()) {
         // this.isBlurred = false;
         return false;
       }
