@@ -236,7 +236,8 @@ export default {
       isPressed: -1, //눌린 점수 체크
       menuBar: 'Home',
       lastPage: false, //마지막 이미지인지 체크
-      baseUrl: process.env.BASE_URL + "api/",
+      // baseUrl: process.env.BASE_URL + "api/",
+      baseUrl: "http://34.64.62.107/label/api/",
       // zoom 관련 변수
       dragging: false,
       dragStartX: 0,
