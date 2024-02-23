@@ -72,6 +72,7 @@
                   </div>
                 </div>
                 <img :src="serveOriginalImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
+                  decoding="async"
                   :style="{ ...imageStyles, position: absolute, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -96,7 +97,8 @@
                     </div>
                   </div>
                 </div>
-                <img :src="serveArtifactImage()" ref="img" @load="makeImageTemplete" @error="handleImageError"
+                <img :src="serveArtifactImage()" ref="img2" @load="makeImageTemplete" @error="handleImageError"
+                  decoding="async"
                   :style="{ ...imageStyles, width: imageHeight > imageWidth ? 35 + 'vh' : auto, height: imageWidth > imageHeight ? 35 + 'vh' : auto }"
                   class="imageStyle" @wheel="handleWheel" @click="setZoomCenter" @mousedown="handleDragStart"
                   @mouseup="handleDragEnd" @mousemove="handleDragging" />
@@ -130,7 +132,7 @@
           <div class="patch-container">
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveOriginalImage()" decoding="async" class="selected-patch"
+                <img :src="serveOriginalImage()" class="selected-patch" @error="handleImageError"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="original">
               </div>
@@ -138,7 +140,7 @@
             </div>
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveArtifactImage()" decoding="async" class="selected-patch"
+                <img :src="serveArtifactImage()" class="selected-patch" @error="handleImageError"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="denoised">
               </div>
@@ -146,7 +148,7 @@
             </div>
             <div class="patchName">
               <div class="selected-patch-image" :style="{ width: borderBox + 'px', height: borderBox + 'px' }">
-                <img :src="serveDifferenceImage()" decoding="async" class="selected-patch" @error="handleImageError"
+                <img :src="serveDifferenceImage()" class="selected-patch" @error="handleImageError"
                   :style="{ width: imageWidth + 'px', height: imageHeight + 'px', right: rightValue + 'px', bottom: bottomValue + 'px' }"
                   alt="difference">
               </div>
@@ -489,20 +491,54 @@ export default {
     },
 
     serveOriginalImage() {
-      return String(this.baseUrl + "postimage/original/" + (this.currentPage))
+      return String("http://34.64.62.107/postimage/original/" + this.currentPage)
     },
 
     serveArtifactImage() {
-      return String(this.baseUrl + "postimage/artifact/" + (this.currentPage))
+      return String("http://34.64.62.107/postimage/artifact/" + this.currentPage)
     },
 
     serveDifferenceImage() {
-      return String(this.baseUrl + "postimage/difference/" + (this.currentPage))
+      return String("http://34.64.62.107/postimage/difference/" + this.currentPage)
+    },
+
+    async preloadImage() {
+      if (this.currentPage === 0) {
+        this.nextOriginalImage = new Image();
+        this.nextArtifactImage = new Image();
+        this.nextDifferenceImage = new Image();
+        this.nextOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+        this.nextArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage + 1));
+        this.nextDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage + 1));
+      }
+      else if (this.currentPage === this.imageIndexList.length - 1) {
+        this.prevOriginalImage = new Image();
+        this.prevArtifactImage = new Image();
+        this.prevDifferenceImage = new Image();
+        this.prevOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+        this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
+        this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
+      }
+      else {
+        this.nextOriginalImage = new Image();
+        this.nextArtifactImage = new Image();
+        this.nextDifferenceImage = new Image();
+        this.nextOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage + 1));
+        this.nextArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage + 1));
+        this.nextDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage + 1));
+        this.prevOriginalImage = new Image();
+        this.prevArtifactImage = new Image();
+        this.prevDifferenceImage = new Image();
+        this.prevOriginalImage.src = String(this.baseUrl + "postimage/original/" + (this.currentPage - 1));
+        this.prevArtifactImage.src = String(this.baseUrl + "postimage/artifact/" + (this.currentPage - 1));
+        this.prevDifferenceImage.src = String(this.baseUrl + "postimage/difference/" + (this.currentPage - 1));
+      }
     },
     // Backend에서 patch size(행렬) 가져오는 method
     async getImageIndexCurrentPage() {
       let temp = String(this.currentPage);
       console.log(temp);
+
       await axios
         .post(this.baseUrl + "getImageIndexCurrentPage", {
           userID: this.currentUser,
@@ -534,14 +570,15 @@ export default {
           }
 
           console.log("[getImageIndexCurrentPage] before route current page is " + this.currentPage);
-          this.$router.push({
-            query: {
-              userName: this.currentUser,
-              currentPage: this.currentPage,
-              testcode: this.testCode
-            }
-          });
-          this.makeImageTemplete();
+
+          // this.$router.push({
+          //   query: {
+          //     userName: this.currentUser,
+          //     currentPage: this.currentPage,
+          //     testcode: this.testCode
+          //   }
+          // });
+          // this.makeImageTemplete();
         })
         .catch((error) => {
           console.log(error);
@@ -551,12 +588,7 @@ export default {
     },
     makeImageTemplete() {
       this.getImageSize()
-        .then(() => {
-          this.resizeImage();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      this.resizeImage();
     },
 
     async getImageNameList() {
@@ -573,7 +605,6 @@ export default {
           this.imageArtifactNameList = response.data.artifact_list;
           this.findIndex();
           this.checkProgressBar();
-          // this.removeSuffix();
         })
         .catch((error) => {
           console.log(error);
@@ -591,7 +622,7 @@ export default {
 
     //사용자의 전체 레이블링 데이터 가져오는 함수
     async getUserLabelingList() {
-      axios
+      await axios
         .post(this.baseUrl + "getUserLabelingList", {
           user_id: this.currentUser,
           testcode: this.testCode,
@@ -630,39 +661,30 @@ export default {
     },
 
     // 이미지의 사이즈를 구하는 함수
-    // getImgaeSize를 Promise를 반환하는 함수로 변경
     getImageSize() {
-      return new Promise((resolve, reject) => {
-        let img = new Image();
-        img.src = this.serveArtifactImage();
+      // let img = new Image();
+      // img.src = this.serveOriginalImage();
+      let img = this.$refs.img2;
 
-        let self = this;
-        img.onload = function () {
-          // 이미지 로딩 완료시 로직
-          self.imageWidth = img.width;
-          self.imageHeight = img.height;
+      let self = this;
+      self.imageWidth = img.width;
+      self.imageHeight = img.height;
 
-          self.patchColumn = (Math.floor(self.imageWidth / self.borderBox) + 1);
-          self.patchRow = (Math.floor(self.imageHeight / self.borderBox) + 1);
-          self.patchLength = self.patchColumn * self.patchRow;
-          self.setPatch(self.i, self.j);
-
-          resolve(); // Promise가 성공적으로 완료됨
-        };
-
-        img.onerror = function () {
-          reject(new Error("이미지 로드 실패")); // 이미지 로드 실패시
-        };
-      });
+      self.patchColumn = (Math.floor(self.imageWidth / self.borderBox) + 1);
+      self.patchRow = (Math.floor(self.imageHeight / self.borderBox) + 1);
+      self.patchLength = self.patchColumn * self.patchRow;
+      self.setPatch(self.i, self.j);
+      this.resizeImage();
     },
 
     // resizeImage 함수
     resizeImage() {
       console.log(this.imageWidth, this.imageHeight)
-      if (this.imageWidth)
+      if (this.imageWidth) {
         this.resizeWidth = this.imageWidth * 0.2;
+      }
       this.resizeHeight = this.imageHeight * 0.2;
-      let img = this.$refs.img;
+      let img = this.$refs.img2;
       const imgNaturalWidth = img.naturalWidth;
       const imgNaturalHeight = img.naturalHeight;
       this.labelcontainerClass = imgNaturalWidth < imgNaturalHeight ? 'imagecontainer' : 'imagecontainer-column';
@@ -798,8 +820,6 @@ export default {
           console.log("[postUserLabeling] response.data: " + response.data)
           this.imageIndex += num;
           this.currentPage = this.imageIndexList[this.imageIndex];
-          this.i = 0;
-          this.j = 0;
           this.$router.push({
             query: {
               userName: this.currentUser,
@@ -828,6 +848,8 @@ export default {
       }
       else {
         this.postUserLabeling(-1);
+        this.i = 0;
+        this.j = 0;
       }
     },
 
@@ -838,6 +860,8 @@ export default {
       } else {
         if (this.imageIndex == this.imageIndexList.length - 2) this.pageState = 8;
         this.postUserLabeling(1);
+        this.i = 0;
+        this.j = 0;
       }
     },
 
