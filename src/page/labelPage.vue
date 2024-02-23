@@ -491,7 +491,7 @@ export default {
     },
 
     serveOriginalImage() {
-      return String("http://34.64.62.107/label//api/postimage/original/" + this.currentPage)
+      return String("http://34.64.62.107/label/api/postimage/original/" + this.currentPage)
     },
 
     serveArtifactImage() {
